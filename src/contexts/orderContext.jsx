@@ -4,7 +4,7 @@ import axios from "../configs/axios";
 export const OrderContext = createContext();
 
 export default function OrderContextProvider({ children }) {
-    const [orderData, setOrderData] = useState(null); // สถานะสำหรับเก็บข้อมูลการสั่งซื้อ
+    const [orderData, setOrderData] = useState(null);
     const [WorkergData, setWorkergData] = useState(null); 
     const [WorkerData, setWorkerData] = useState(null); 
     const [CustomerData, setCustomerData] = useState(null); 
