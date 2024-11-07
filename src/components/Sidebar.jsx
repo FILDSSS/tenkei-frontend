@@ -6,6 +6,7 @@ import {
   HiOutlineClipboardList, HiOutlineLink, HiOutlineFolder, HiOutlinePrinter, HiOutlineCog, 
   HiOutlineCloudUpload, HiOutlineCloudDownload, HiSearch 
 } from "react-icons/hi";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { useAuth } from "../hooks/use-auth";
 
 const menuItems = [
@@ -14,6 +15,7 @@ const menuItems = [
   { icon: HiOutlineUserGroup, label: 'Sub-Con (手配)', to: '/sub-con' },
   { icon: HiOutlineCalendar, label: 'Plan', to: '/plan' },
   { icon: HiOutlineDocumentText, label: 'Process', to: '/process' },
+  { icon: MdOutlineProductionQuantityLimits, label: 'Production', to: '/production' },
   { icon: HiOutlineClipboardList, label: 'QC', to: '/qc' },
   { icon: HiOutlineLink, label: 'Link', to: '/link' },
   { icon: HiOutlineFolder, label: 'Finish', to: '/finish' },
