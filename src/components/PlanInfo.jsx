@@ -1004,7 +1004,7 @@ export default function PlanInfo() {
 
           <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
             <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-28">
-            Connect_Pr_No
+              Connect_Pr_No
             </label>
             <input
               id="Connect_Pr_No"
@@ -1012,14 +1012,28 @@ export default function PlanInfo() {
               onChange={handlePlanInputChange}
               className="bg-[#d0f8ce] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
             />
-              <input
+            <input
               id="Connect_Pr_Abb"
               value={planData?.Connect_Pr_Abb || ""}
               onChange={handlePlanInputChange}
               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
             />
+            <div className="flex gap-2 items-center w-full sm:w-auto">
+              <input
+                id="Outside"
+                checked={planData?.Outside || ""}
+                onChange={handlePlanInputChange}
+                type="checkbox"
+                className="w-6 h-6"
+              />
+              <label
+                htmlFor="Outside"
+                className="whitespace-nowrap text-xs sm:text-xs lg:text-lg"
+              >
+                Outside
+              </label>
+            </div>
           </div>
-
         </div>
       </div>
     </div>
