@@ -307,9 +307,17 @@ export default function OrderInfo() {
         [id]: type === "checkbox" ? checked : value === "" ? null : value,
     }));
 
+
     if (id === "Order_No") {
       searchOrderData(value); 
+      
   }
+  
+  if (id === "Search_Order_No") {
+    searchOrderData(value);
+    setSearchOrderNo (value);
+    
+}
 };
 
   const handleRequestDeliveryChange = (newDeliveryDate) => {
@@ -504,10 +512,10 @@ export default function OrderInfo() {
             Search Order No
           </label>
           <input
-            disabled
+        
             id="Search_Order_No"
             value={searchOrderNo || ""}
-            onChange={(e) => setSearchOrderNo(e.target.value)}
+            onChange={handleInputChange}
             type="text"
             className="bg-[#ccffff] border-2 border-gray-500 rounded-md px-2 w-full"
             placeholder="Search Order Number"

@@ -1,5 +1,5 @@
 import React from 'react';
-import PlanInfo from '../components/PlanInfo';
+import SalesInfo from '../components/SalesInfo';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
 export default function PlanInfoPage() {
@@ -9,10 +9,10 @@ export default function PlanInfoPage() {
     <div className="flex flex-col w-screen mr-2 ml-2">
       <Navbar />
       <div className="flex justify-center items-center py-3">
-        <label className="text-xl font-bold">Plan Info</label>
+        <label className="text-xl font-bold">Sales Info</label>
       </div>
       <hr className="border-y-[1px] border-gray-300" />
-      <PlanInfo />
+      <SalesInfo />
     </div>
   </div>
   )

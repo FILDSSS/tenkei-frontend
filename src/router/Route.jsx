@@ -14,12 +14,6 @@ import ResultInfoPage from "../pages/ResultInfoPage";
 import ProcessG_PlanPage from "../pages/ProcessG_PlanPage"
 import RD_Process_SheetPage from "../pages/reports/RD_Process_SheetPage"
 import DashboardPage from "../pages/DashboardPage"
-import RdProGPlanPage from "../pages/reports/RdProGPlanPage";
-import RdNavPcUpdPage from "../pages/reports/RdNavPcUpdPage";
-import RdOdNoPlanPage from "../pages/reports/RdOdNoPlanPage";
-import TRdOdBacklogPage from "../pages/reports/TRdOdBacklogPage";
-import RdOdFinalPage from "../pages/reports/RdOdFinalPage";
-import RdProgGraphPage from "../pages/reports/RdProgGraphPage";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +23,58 @@ const router = createBrowserRouter([
     {
         path:"/dashboard",
         element:<DashboardPage/>
+    },
+    {
+        path:"/sales-info",
+        element:<SalesInfoPage/>
+    },
+    {
+        path:"/sales",
+        element:<SalesDashboradPage/>
+    },
+    {
+        path:"/sub-con",
+        element:<SubConDashboradPage/>
+    },
+    {
+        path:"/plan",
+        element:<PlanDashboardPage/>
+    },
+    {
+        path:"/process",
+        element:<ProcessDashboardPage/>
+    },
+    {
+        path:"/production",
+        element:<ProductionDashboardPage/>
+    },
+    {
+        path:"/qc",
+        element:<QcDashboardPage/>
+    },
+    {
+        path:"/link",
+        element:<LinkDashborad/>
+    },
+    {
+        path:"/finish",
+        element:<FinishDashboardPage/>
+    },
+    {
+        path:"/print",
+        element:<PrintDashboradPage/>
+    },
+    {
+        path:"/master",
+        element:<MasterDashboardPage/>
+    },
+    {
+        path:"/import",
+        element:<ImportDashboardPage/>
+    },
+    {
+        path:"/export",
+        element:<ExportDashboardPage/>
     },
     {
         path:"/order-list",
