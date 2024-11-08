@@ -41,7 +41,7 @@ export default function RD_NAV_Od_Upd() {
   ];
 
   return (
-    <div className="flex bg-[#E9EFEC] h-full">
+    <div className="flex bg-[#E9EFEC] h-[100vh]">
       <Sidebar />
       <div className="flex flex-col w-screen mr-2 ml-2">
         <Navbar />

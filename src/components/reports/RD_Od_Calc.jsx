@@ -257,8 +257,8 @@ export default function RD_Od_Calc() {
     remark: "",
   };
 
-  return (
-    <div className="flex bg-[#E9EFEC] h-full">
+  return ( 
+    <div className="flex bg-[#E9EFEC] h-[100vh]">
       <Sidebar />
       <div className="flex flex-col w-screen mr-2 ml-2">
         <Navbar />
