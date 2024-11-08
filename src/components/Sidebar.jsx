@@ -4,7 +4,7 @@ import { HiBars3BottomRight, HiMiniArrowLeftOnRectangle } from "react-icons/hi2"
 import { 
   HiHome, HiClipboardCheck, HiOutlineUserGroup, HiOutlineCalendar, HiOutlineDocumentText, 
   HiOutlineClipboardList, HiOutlineLink, HiOutlineFolder, HiOutlinePrinter, HiOutlineCog, 
-  HiOutlineCloudUpload, HiOutlineCloudDownload, HiSearch 
+  HiOutlineCloudUpload, HiOutlineCloudDownload, HiSearch, HiClipboardList   
 } from "react-icons/hi";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { useAuth } from "../hooks/use-auth";
@@ -23,9 +23,9 @@ const menuItems = [
   { icon: HiOutlineCog, label: 'Master', to: '/master' },
   { icon: HiOutlineCloudUpload, label: 'Import', to: '/import' },
   { icon: HiOutlineCloudDownload, label: 'Export', to: '/export' },
-  { icon: HiOutlineCloudDownload, label: 'RD_Pl_Pg_None', to: '/RD_Pl_Pg_None' },
-  { icon: HiOutlineCloudDownload, label: 'RD_Od_Calc', to: '/RD_Od_Calc' },
-  { icon: HiOutlineCloudDownload, label: 'RD_NAV_Od_Upd', to: '/RD_NAV_Od_Upd' },
+  { icon: HiClipboardList , label: 'RD_Pl_Pg_None', to: '/RD_Pl_Pg_None' },
+  { icon: HiClipboardList , label: 'RD_Od_Calc', to: '/RD_Od_Calc' },
+  { icon: HiClipboardList , label: 'RD_NAV_Od_Upd', to: '/RD_NAV_Od_Upd' },
 ];
 
 function Sidebar() {
