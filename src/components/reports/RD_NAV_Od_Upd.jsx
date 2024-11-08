@@ -952,7 +952,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value="CVD TRIPLE"
                             className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
                             disabled
                           />
