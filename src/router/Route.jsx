@@ -14,6 +14,12 @@ import ResultInfoPage from "../pages/ResultInfoPage";
 import ProcessG_PlanPage from "../pages/ProcessG_PlanPage"
 import RD_Process_SheetPage from "../pages/reports/RD_Process_SheetPage"
 import DashboardPage from "../pages/DashboardPage"
+import RdProGPlanPage from "../pages/reports/RdProGPlanPage";
+import RdNavPcUpdPage from "../pages/reports/RdNavPcUpdPage";
+import RdOdNoPlanPage from "../pages/reports/RdOdNoPlanPage";
+import TRdOdBacklogPage from "../pages/reports/TRdOdBacklogPage";
+import RdOdFinalPage from "../pages/reports/RdOdFinalPage";
+import RdProgGraphPage from "../pages/reports/RdProgGraphPage";
 
 const router = createBrowserRouter([
     {
@@ -71,7 +77,40 @@ const router = createBrowserRouter([
     {
         path:"/cost-info",
         element: <CostInfoPage />,
-    }
+    },
+
+    {
+        path:"/rdprogplan",
+        element: <RdProGPlanPage />,
+    },
+
+    {
+        path:"/rdnavpcupd",
+        element: <RdNavPcUpdPage />,
+    },
+
+    {
+        path:"/rdOdnoplan",
+        element: <RdOdNoPlanPage />,
+    },
+
+    {
+        path:"/trdodbacklog",
+        element: <TRdOdBacklogPage />,
+    },
+    {
+        path:"/rdOdfinal",
+        element: <RdOdFinalPage />,
+    },
+    {
+        path:"/rdOdfinal",
+        element: <RdOdFinalPage />,
+    },
+    {
+        path:"/rdproggraph",
+        element: <RdProgGraphPage />,
+    },
+
 
 ]);
 
