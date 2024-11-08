@@ -27,9 +27,6 @@ import PrintDashboradPage from "../pages/PrintDashboradPage";
 import MasterDashboardPage from "../pages/MasterDashboardPage";
 import ImportDashboardPage from "../pages/ImportDashboardPage";
 import ExportDashboardPage from "../pages/ExportDashboardPage";
-import RD_Pl_Pg_NonePage from "../pages/reports/RD_Pl_Pg_NonePage";
-import RD_Od_CalcPage from "../pages/reports/RD_Od_CalcPage";
-import RD_NAV_Od_UpdPage from "../pages/reports/RD_NAV_Od_UpdPage";
 
 const router = createBrowserRouter([
   {
@@ -139,18 +136,6 @@ const router = createBrowserRouter([
   {
     path: "/cost-info",
     element: <CostInfoPage />,
-  },
-  {
-    path: "/RD_Pl_Pg_None",
-    element: <RD_Pl_Pg_NonePage />,
-  },
-  {
-    path: "/RD_Od_Calc",
-    element: <RD_Od_CalcPage />,
-  },
-  {
-    path: "/RD_NAV_Od_Upd",
-    element: <RD_NAV_Od_UpdPage />,
   },
 ]);
 
