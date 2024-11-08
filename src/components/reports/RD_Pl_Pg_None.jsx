@@ -223,7 +223,7 @@ export default function RD_Pl_Pg_None() {
   ];
 
   return (
-    <div className="flex bg-[#E9EFEC] h-fit">
+    <div className="flex bg-[#E9EFEC] h-full">
       <Sidebar />
       <div className="flex flex-col w-screen mr-2 ml-2">
         <Navbar />
