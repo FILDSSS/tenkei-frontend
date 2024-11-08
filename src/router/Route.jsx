@@ -14,6 +14,9 @@ import ResultInfoPage from "../pages/ResultInfoPage";
 import ProcessG_PlanPage from "../pages/ProcessG_PlanPage"
 import RD_Process_SheetPage from "../pages/reports/RD_Process_SheetPage"
 import DashboardPage from "../pages/DashboardPage"
+import RD_Process_Sheet24Page from "../pages/reports/RD_Process_Sheet24Page";
+
+
 
 const router = createBrowserRouter([
     {
@@ -21,60 +24,68 @@ const router = createBrowserRouter([
         element: <LoginPage />,
     },
     {
-        path:"/dashboard",
-        element:<DashboardPage/>
+        path: "/dashboard",
+        element: <DashboardPage />
     },
     {
-        path:"/order-list",
+        path: "/order-list",
         element: <OrderListPage />,
     },
     {
-        path:"/calc-complete",
+        path: "/calc-complete",
         element: <CalcCompletePage />,
     },
     {
-        path:"/cost-list",
+        path: "/cost-list",
         element: <CostListPage />,
     },
     {
-        path:"/order-info",
+        path: "/order-info",
         element: <OrderInfoPage />,
     },
     {
-        path:"/plan-info",
+        path: "/plan-info",
         element: <PlanInfoPage />,
     },
     {
-        path:"/plan-list",
+        path: "/plan-list",
         element: <PlanListPage />,
     },
     {
-        path:"/purchase-info",
+        path: "/purchase-info",
         element: <PurchaseInfoPage />,
     },
     {
-        path:"/purchase-list",
+        path: "/purchase-list",
         element: <PurchaseListPage />,
     },
     {
-        path:"/result-info",
+        path: "/result-info",
         element: <ResultInfoPage />,
     },
     {
-        path:"/processg-plan-list",
+        path: "/processg-plan-list",
         element: <ProcessG_PlanPage />,
     },
     {
-        path:"/reports/RD_Process_SheetPage/:orderNo",
+        path: "/reports/RD_Process_SheetPage/:orderNo",
         element: <RD_Process_SheetPage />,
     },
     {
-        path:"/cost-info",
+        path: "/cost-info",
         element: <CostInfoPage />,
-    }
+    },
+    {
+        path: "/RD_Process_Sheet24",
+        element: <RD_Process_Sheet24Page />,
+    },
+
+
+
+
 
 ]);
 
 export default function Route() {
     return <RouterProvider router={router} />;
-  }
+}
