@@ -14,6 +14,25 @@ import ResultInfoPage from "../pages/ResultInfoPage";
 import ProcessG_PlanPage from "../pages/ProcessG_PlanPage"
 import RD_Process_SheetPage from "../pages/reports/RD_Process_SheetPage"
 import DashboardPage from "../pages/DashboardPage"
+import SalesInfoPage from "../pages/SalesInfoPage"
+import SalesDashboradPage from "../pages/SalesDashboradPage"
+import SubConDashboradPage from "../pages/SubConDashboradPage"
+import PlanDashboardPage from "../pages/PlanDashboardPage"
+import ProcessDashboardPage from "../pages/ProcessDashboardPage"
+import ProductionDashboardPage from "../pages/ProductionDashboardPage"
+import QcDashboardPage from "../pages/QcDashboardPage"
+import LinkDashborad from "../pages/LinkDashborad"
+import FinishDashboardPage from "../pages/FinishDashboardPage"
+import PrintDashboradPage from "../pages/PrintDashboradPage"
+import MasterDashboardPage from "../pages/MasterDashboardPage"
+import ImportDashboardPage from "../pages/ImportDashboardPage"
+import ExportDashboardPage from "../pages/ExportDashboardPage"
+import RdProGPlanPage from "../pages/reports/RdProGPlanPage";
+import RdNavPcUpdPage from "../pages/reports/RdNavPcUpdPage";
+import RdOdNoPlanPage from "../pages/reports/RdOdNoPlanPage";
+import TRdOdBacklogPage from "../pages/reports/TRdOdBacklogPage";
+import RdOdFinalPage from "../pages/reports/RdOdFinalPage";
+import RdProgGraphPage from "../pages/reports/RdProgGraphPage";
 
 const router = createBrowserRouter([
     {
@@ -155,8 +174,7 @@ const router = createBrowserRouter([
     {
         path:"/rdproggraph",
         element: <RdProgGraphPage />,
-    },
-
+    }
 
 ]);
 
