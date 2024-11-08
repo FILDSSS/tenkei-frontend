@@ -21,6 +21,9 @@ const menuItems = [
   { icon: HiOutlineCog, label: 'Master', to: '/master' },
   { icon: HiOutlineCloudUpload, label: 'Import', to: '/import' },
   { icon: HiOutlineCloudDownload, label: 'Export', to: '/export' },
+  { icon: HiOutlineCloudDownload, label: 'RD_Pl_Pg_None', to: '/RD_Pl_Pg_None' },
+  { icon: HiOutlineCloudDownload, label: 'RD_Od_Calc', to: '/RD_Od_Calc' },
+  { icon: HiOutlineCloudDownload, label: 'RD_NAV_Od_Upd', to: '/RD_NAV_Od_Upd' },
 ];
 
 function Sidebar() {
