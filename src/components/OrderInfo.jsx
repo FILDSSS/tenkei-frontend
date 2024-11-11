@@ -2155,7 +2155,7 @@ export default function OrderInfo() {
                             disabled
                             id=""
                             type="text"
-                            className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                            className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-40 ml-11"
                           />
                         </div>
                         <div className="w-1/5">
