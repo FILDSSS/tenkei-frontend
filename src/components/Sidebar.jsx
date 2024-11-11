@@ -23,12 +23,6 @@ const menuItems = [
   { icon: HiOutlineCog, label: 'Master', to: '/master' },
   { icon: HiOutlineCloudUpload, label: 'Import', to: '/import' },
   { icon: HiOutlineCloudDownload, label: 'Export', to: '/export' },
-  { icon: HiOutlineCloudDownload, label: 'rdprogplan', to: '/rdprogplan' },
-  { icon: HiOutlineCloudDownload, label: 'rdnavpcupd', to: '/rdnavpcupd' },
-  { icon: HiOutlineCloudDownload, label: 'rdOdnoplan', to: '/rdOdnoplan' },
-  { icon: HiOutlineCloudDownload, label: 'trdodbacklog', to: '/trdodbacklog' },
-  { icon: HiOutlineCloudDownload, label: 'rdOdfinal', to: '/rdOdfinal' },
-  { icon: HiOutlineCloudDownload, label: 'rdproggraph', to: '/rdproggraph' },
 ];
 
 function Sidebar() {

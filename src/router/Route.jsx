@@ -142,38 +142,6 @@ const router = createBrowserRouter([
     {
         path:"/cost-info",
         element: <CostInfoPage />,
-    },
-
-    {
-        path:"/rdprogplan",
-        element: <RdProGPlanPage />,
-    },
-
-    {
-        path:"/rdnavpcupd",
-        element: <RdNavPcUpdPage />,
-    },
-
-    {
-        path:"/rdOdnoplan",
-        element: <RdOdNoPlanPage />,
-    },
-
-    {
-        path:"/trdodbacklog",
-        element: <TRdOdBacklogPage />,
-    },
-    {
-        path:"/rdOdfinal",
-        element: <RdOdFinalPage />,
-    },
-    {
-        path:"/rdOdfinal",
-        element: <RdOdFinalPage />,
-    },
-    {
-        path:"/rdproggraph",
-        element: <RdProgGraphPage />,
     }
 
 ]);
