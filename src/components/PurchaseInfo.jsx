@@ -1490,11 +1490,13 @@ export default function PurchaseInfo() {
               </div>
               </div>
               <hr />
+            
+              <div className="mx-5 overflow-x-auto">
               <div className="grid grid-cols-12 gap-2 mx-5 py-4">
                 <div>
                   <label className="font-bold">List</label>
                 </div>
-                <div className="col-span-11 grid grid-cols-1 items-center">
+                <div className="col-span-11  items-center ml-10">
                   <div className="flex gap-2 mb-3 items-center justify-between">
                     <div className="flex gap-2 items-center">
                       <label className="font-medium text-xs">Now_Ctl</label>
@@ -1502,7 +1504,7 @@ export default function PurchaseInfo() {
                         <input
                           id="Now_Ctl"
                           type="text"
-                          className="bg-[#cc99ff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          className="bg-[#cc99ff] border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                         />
                       </div>
                     </div>
@@ -1513,7 +1515,7 @@ export default function PurchaseInfo() {
                       <div>
                         <input
                           type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                         />
                       </div>
                     </div>
@@ -1524,11 +1526,11 @@ export default function PurchaseInfo() {
                       <div>
                         <input
                           type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                         />
                       </div>
                     </div>
-                    <div>
+                    <div className="ml-10">
                       <button className="bg-blue-500 hover:bg-blue-700 w-28 h-8 rounded-lg cursor-pointer">
                         <label className="text-white font-medium text-sm cursor-pointer">
                           Chang_View
@@ -1538,7 +1540,6 @@ export default function PurchaseInfo() {
                   </div>
                 </div>
               </div>
-              <div className="mx-5 overflow-x-auto">
                 <table className="border-2 border-black w-full min-w-[1200px] table-fixed text-sm ">
                   <thead>
                     <tr>
