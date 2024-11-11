@@ -75,10 +75,6 @@ const router = createBrowserRouter([
         path: "/cost-info",
         element: <CostInfoPage />,
     },
-    {
-        path: "/RD_Process_Sheet24",
-        element: <RD_Process_Sheet24Page />,
-    },
 
 
 

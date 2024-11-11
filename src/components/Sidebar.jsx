@@ -21,7 +21,6 @@ const menuItems = [
   { icon: HiOutlineCog, label: 'Master', to: '/master' },
   { icon: HiOutlineCloudUpload, label: 'Import', to: '/import' },
   { icon: HiOutlineCloudDownload, label: 'Export', to: '/export' },
-  { icon: HiOutlineCloudDownload, label: 'RD_Process_Sheet24', to: '/RD_Process_Sheet24' },
 ];
 
 function Sidebar() {
