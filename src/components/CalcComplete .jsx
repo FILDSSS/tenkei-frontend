@@ -1,6 +1,8 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import { IoIosArrowRoundForward } from "react-icons/io";
+
 export default function CalcComplete() {
   return (
     <div className="flex bg-[#E9EFEC] h-[100vh]">
@@ -995,6 +997,66 @@ export default function CalcComplete() {
                     type="text"
                     className="bg-[#ffff99] border border-gray-500 rounded-md px-2 w-[263px]"
                   />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white p-3 mt-5">
+              <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+                <div className="grid grid-cols-4 gap-2">
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                    Search <br />
+                    検索 (F1)
+                  </button>
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                    Setting <br />
+                    設定 (F2)
+                  </button>
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                    Show <br />
+                    照会 (F3)
+                  </button>
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                    Target <br />
+                    対象 (F4)
+                  </button>
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                    Product <br />
+                    部門 (F5)
+                  </button>
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                    Calc <br />
+                    生産 (F6)
+                  </button>
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                    List <br />一 覽 (F7)
+                  </button>
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                    Data <br />
+                    データ (F8)
+                  </button>
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                    <label className="flex justify-center items-center">
+                      <IoIosArrowRoundForward className="font-medium text-2xl" />{" "}
+                      CSV{" "}
+                    </label>
+                    (F9)
+                  </button>
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                    (F10)
+                  </button>
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-sm text-white">
+                    Clear <br />
+                    クリア (F11)
+                  </button>
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                    Exit <br />
+                    終了 (F12)
+                  </button>
                 </div>
               </div>
             </div>
