@@ -20,7 +20,8 @@ export default function CalcComplete() {
               </div>
               <input
                 type="text"
-                className="bg-white border border-gray-500 rounded-md px-2 py-1 w-[200px]"
+                className="bg-white border border-gray-500 rounded-md px-2 py-0.5 w-[200px]"
+                name="txtProcessing_Date"
               />
             </div>
 
@@ -31,7 +32,7 @@ export default function CalcComplete() {
                 </label>
                 <input
                   type="text"
-                  className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md px-2 py-1 w-full"
+                  className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-full"
                 />
               </div>
 
@@ -41,7 +42,7 @@ export default function CalcComplete() {
                 </label>
                 <input
                   type="text"
-                  className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-2 py-1 w-full"
+                  className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-full"
                 />
               </div>
 
@@ -51,18 +52,19 @@ export default function CalcComplete() {
                 </label>
                 <input
                   type="text"
-                  className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-2 py-1 w-full"
+                  className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-full"
                 />
               </div>
 
               <div className="flex flex-col items-start">
-                <label className="font-medium text-xs mb-3">
+                <label className="font-medium text-xs mb-2">
                   lblAction_Pd_Calc_Date_LBL
                 </label>
-                <div className="flex gap-2 w-full">
+                <div className="flex w-full">
                   <input
                     type="text"
-                    className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-2 w-1/3"
+                    className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 w-1/3"
+                    name="txtAction_Pd_Calc_Date"
                   />
                   <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-1/3">
                     <option value="1">1</option>
@@ -71,7 +73,12 @@ export default function CalcComplete() {
                   </select>
                   <input
                     type="text"
-                    className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 w-1/3"
+                    className="bg-white border-solid border-2 border-gray-500 rounded-md w-1/3"
+                  />
+                  <input
+                    type="text"
+                    className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md w-full"
+                    name="txtAction_Pd_Calc_Date"
                   />
                 </div>
               </div>
@@ -82,14 +89,16 @@ export default function CalcComplete() {
                 <label className="font-medium text-xs mb-2">Calc Date</label>
                 <input
                   type="text"
-                  className="bg-[#cc99ff] border-solid border-2 border-gray-500 rounded-md px-2 py-1 w-full lg:w-96"
+                  className="bg-[#cc99ff] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-full lg:w-96"
+                  name="txtCalc_Date"
                 />
               </div>
               <div className="flex flex-col items-center">
                 <label className="font-medium text-xs mb-2">Input Date</label>
                 <input
                   type="text"
-                  className="bg-[#cc99ff] border-solid border-2 border-gray-500 rounded-md px-2 py-1 w-full lg:w-96"
+                  className="bg-[#cc99ff] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-full lg:w-96"
+                  name="txtInput_Date"
                 />
               </div>
             </div>
