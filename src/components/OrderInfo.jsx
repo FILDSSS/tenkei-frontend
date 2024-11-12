@@ -9,12 +9,37 @@ import Sidebar from "../components/Sidebar";
 export default function OrderInfo() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [filteredWorkgData, setFilteredWorkgData] = useState([]);
+  const [selectedWorkGName, setSelectedWorkGName] = useState("");
   const { searchOrderNo: initialSearchOrderNo = "" } = location.state || {};
   const [searchOrderNo, setSearchOrderNo] = useState(initialSearchOrderNo);
+  const [remainningQuantity, setRemainningQuantity] = useState("");
+  const [selectedSalesGrpAbb, setSelectedSalesGrpAbb] = useState("");
+  const [selectedSalesPersonAbb, setSelectedSalesPerson] = useState("");
+  const [selectedCustomerAbb, setSelectedCustomerAbb] = useState("");
+  const [selectedCustomerName, setSelectedCustomerName] = useState("");
+  const [request1Name, setRequest1Name] = useState("");
+  const [request2Name, setRequest2Name] = useState("");
+  const [request3Name, setRequest3Name] = useState("");
+  const [quoteName, setQuoteName] = useState("");
+  const [unitName, setUnitName] = useState("");
+  const [itemName, setItemName] = useState("");
+  const [supplyName, setSupplyName] = useState("");
+  const [coatingName, setCoatingName] = useState("");
+  const [targetName, setTargetName] = useState("");
+  const [personName, setPersonName] = useState("");
+  const [PriceName, setPriceName] = useState("");
+  const [regPersonName, setregPersonName] = useState("");
+  const [updPersonName, setupdPersonName] = useState("");
+  const [destinationName, setDestinationName] = useState("");
   const [OrderNo, setOrderNo] = useState("");
   const [autoYearChange, setAutoYearChange] = useState(false);
   const [customerDraw, setCustomerDraw] = useState("");
   const [companyDraw, setCompanyDraw] = useState("");
+  const [DocuName, setDocuName] = useState("");
+  const [SpecificName, setSpecificName] = useState("");
+  const [OdProgressName, setOdProgressName] = useState("");
+  const [DeliveryName, setDeliveryName] = useState("");
 
   const handleAutoYearChange = (event) => {
     setAutoYearChange(event.target.checked);
@@ -31,6 +56,39 @@ export default function OrderInfo() {
     deleteOrder,
     setOrderData,
     createOrder,
+    setWorkergData,
+    setWorkerData,
+    Request1Data,
+    setRequest1Data,
+    Request2Data,
+    setRequest2Data,
+    Request3Data,
+    setRequest3Data,
+    CoatingData,
+    setCoatingData,
+    TargetData,
+    setTargetData,
+    Item1Data,
+    setItem1Data,
+    SupplyData,
+    setSupplyData,
+    UnitData,
+    setUnitData,
+    WorkgData,
+    setWorkgData,
+    setCustomerData,
+    QuoteData,
+    setQuoteData,
+    PriceData,
+    setPriceData,
+    ContractDocuData,
+    setContractDocu,
+    SpecificData,
+    setSpecificData,
+    OdProgressData,
+    setOdProgressData,
+    DeliveryData,
+    setDeliveryData,
   } = useOrder();
 
   // ฟังก์ชันสำหรับตรวจสอบว่าฟิลด์ว่างหรือไม่
@@ -297,19 +355,39 @@ export default function OrderInfo() {
 
   const handleInputChange = (event) => {
     const { id, value, type, checked } = event.target;
-
+    const supplyCD = orderData?.Supply_CD;
     setOrderData((prevOrderData) => ({
       ...prevOrderData,
       [id]: type === "checkbox" ? checked : value === "" ? null : value,
     }));
 
-    if (id === "Order_No") {
-      searchOrderData(value);
+    switch (id) {
+      case "Order_No":
+        searchOrderData(value);
+        break;
+      case "Search_Order_No":
+        searchOrderData(value);
+        setSearchOrderNo(value);
+        break;
+      case "Product_Grp_CD":
+        setOrderData((prevOrderData) => ({
+          ...prevOrderData,
+          Product_Grp_CD: value,
+        }));
+        break;
+      default:
+        break;
     }
-
-    if (id === "Search_Order_No") {
-      searchOrderData(value);
-      setSearchOrderNo(value);
+    if (supplyCD === "0") {
+      if (Array.isArray(WorkgData) && WorkgData.length > 0) {
+        setFilteredWorkgData(WorkgData);
+      }
+    } else if (supplyCD === "1") {
+      if (Array.isArray(CustomerData) && CustomerData.length > 0) {
+        setFilteredWorkgData(CustomerData);
+      }
+    } else {
+      setFilteredWorkgData(WorkgData);
     }
   };
 
@@ -334,6 +412,12 @@ export default function OrderInfo() {
   const handleNAVDeliveryChange = (newNAVDeliveryDate) => {
     handleInputChange({
       target: { id: "NAV_Delivery", value: newNAVDeliveryDate },
+    });
+  };
+
+  const handleProduct_Grp_NameChange = (Product_Grp_Name) => {
+    handleInputChange({
+      target: { id: "Product_Grp_Name", value: Product_Grp_Name },
     });
   };
 
@@ -496,6 +580,233 @@ export default function OrderInfo() {
     }
   }, [orderData?.Quantity]);
 
+  useEffect(() => {
+    if (orderData?.Product_Grp_CD && WorkergData.length > 0) {
+      const selectedGroup = WorkergData.find(
+        (item) => item.WorkG_CD === orderData.Product_Grp_CD
+      );
+      setSelectedWorkGName(selectedGroup ? selectedGroup.WorkG_Name : "");
+    }
+
+    if (orderData?.Sales_Grp_CD && WorkergData.length > 0) {
+      const selectedGroup = WorkergData.find(
+        (item) => item.WorkG_CD === orderData.Sales_Grp_CD
+      );
+      setSelectedSalesGrpAbb(selectedGroup ? selectedGroup.WorkG_Abb : "");
+    }
+
+    if (orderData?.Destination_CD && WorkergData.length > 0) {
+      const selectedGroup = WorkergData.find(
+        (item) => item.WorkG_CD === orderData.Destination_CD
+      );
+      setDestinationName(selectedGroup ? selectedGroup.WorkG_Abb : "");
+    }
+  }, [
+    orderData?.Product_Grp_CD,
+    orderData?.Sales_Grp_CD,
+    orderData?.Destination_CD,
+    WorkergData,
+  ]);
+
+  useEffect(() => {
+    if (orderData?.Sales_Person_CD && WorkerData.length > 0) {
+      const selectedGroup = WorkerData.find(
+        (item) => item.Worker_CD === orderData.Sales_Person_CD
+      );
+      setSelectedSalesPerson(selectedGroup ? selectedGroup.Worker_Abb : "");
+    }
+  }, [orderData?.Sales_Person_CD, WorkerData]);
+
+  useEffect(() => {
+    if (orderData?.Od_Ctl_Person_CD && WorkerData.length > 0) {
+      const selectedGroup = WorkerData.find(
+        (item) => item.Worker_CD === orderData.Od_Ctl_Person_CD
+      );
+      setPersonName(selectedGroup ? selectedGroup.Worker_Name : "");
+    }
+  }, [orderData?.Od_Ctl_Person_CD, WorkerData]);
+
+  useEffect(() => {
+    if (orderData?.Od_Upd_Person_CD && WorkerData.length > 0) {
+      const selectedGroup = WorkerData.find(
+        (item) => item.Worker_CD === orderData.Od_Upd_Person_CD
+      );
+      setupdPersonName(selectedGroup ? selectedGroup.Worker_Name : "");
+    }
+  }, [orderData?.Od_Upd_Person_CD, WorkerData]);
+
+  useEffect(() => {
+    if (orderData?.Od_Reg_Person_CD && WorkerData.length > 0) {
+      const selectedGroup = WorkerData.find(
+        (item) => item.Worker_CD === orderData.Od_Reg_Person_CD
+      );
+      setregPersonName(selectedGroup ? selectedGroup.Worker_Name : "");
+    }
+  }, [orderData?.Od_Reg_Person_CD, WorkerData]);
+
+  useEffect(() => {
+    if (orderData?.Customer_CD && CustomerData.length > 0) {
+      const selectedGroup = CustomerData.find(
+        (item) => item.Customer_CD === orderData.Customer_CD
+      );
+      setSelectedCustomerName(selectedGroup ? selectedGroup.Customer_Name : "");
+      setSelectedCustomerAbb(selectedGroup ? selectedGroup.Customer_Abb : "");
+    }
+
+    if (orderData?.Destination_CD && CustomerData.length > 0) {
+      const selectedGroup = CustomerData.find(
+        (item) => item.Customer_CD === orderData.Destination_CD
+      );
+      setDestinationName(selectedGroup ? selectedGroup.Customer_Abb : "");
+    }
+  }, [orderData?.Customer_CD, orderData?.Destination_CD, CustomerData]);
+
+  useEffect(() => {
+    if (orderData?.Request1_CD && Request1Data.length > 0) {
+      const selectedGroup = Request1Data.find(
+        (item) => item.Request1_CD === orderData.Request1_CD
+      );
+
+      setRequest1Name(selectedGroup ? selectedGroup.Request1_Name : "");
+    }
+  }, [orderData?.Request1_CD, Request1Data]);
+
+  useEffect(() => {
+    if (orderData?.Request2_CD && Request2Data.length > 0) {
+      const selectedGroup = Request2Data.find(
+        (item) => item.Request2_CD === orderData.Request2_CD
+      );
+
+      setRequest2Name(selectedGroup ? selectedGroup.Request2_Name : "");
+    }
+  }, [orderData?.Request2_CD, Request2Data]);
+
+  useEffect(() => {
+    if (orderData?.Request3_CD && Request3Data.length > 0) {
+      const selectedGroup = Request3Data.find(
+        (item) => item.Request3_CD === orderData.Request3_CD
+      );
+
+      setRequest3Name(selectedGroup ? selectedGroup.Request3_Name : "");
+    }
+  }, [orderData?.Request3_CD, Request3Data]);
+
+  useEffect(() => {
+    if (orderData?.Unit_CD && UnitData.length > 0) {
+      const selectedGroup = UnitData.find(
+        (item) => item.Unit_CD === orderData.Unit_CD
+      );
+
+      setUnitName(selectedGroup ? selectedGroup.Unit_Name : "");
+    }
+  }, [orderData?.Unit_CD, UnitData]);
+
+  useEffect(() => {
+    if (orderData?.Item1_CD && Item1Data.length > 0) {
+      const selectedGroup = Item1Data.find(
+        (item) => item.Item1_CD === orderData.Item1_CD
+      );
+
+      setItemName(selectedGroup ? selectedGroup.Item1_Name : "");
+    }
+  }, [orderData?.Item1_CD, Item1Data]);
+
+  useEffect(() => {
+    if (orderData?.Coating_CD && CoatingData.length > 0) {
+      const selectedGroup = CoatingData.find(
+        (item) => item.Coating_CD === orderData.Coating_CD
+      );
+
+      setCoatingName(selectedGroup ? selectedGroup.Coating_Name : "");
+    }
+  }, [orderData?.Coating_CD, CoatingData]);
+
+  useEffect(() => {
+    if (orderData?.Supply_CD && SupplyData.length > 0) {
+      const selectedGroup = SupplyData.find(
+        (item) => item.Supply_CD === orderData.Supply_CD
+      );
+
+      setSupplyName(selectedGroup ? selectedGroup.Supply_Name : "");
+    }
+  }, [orderData?.Supply_CD, SupplyData]);
+
+  useEffect(() => {
+    if (orderData?.Target_CD && TargetData.length > 0) {
+      const selectedGroup = TargetData.find(
+        (item) => item.Target_CD === orderData.Target_CD
+      );
+
+      setTargetName(selectedGroup ? selectedGroup.Target_Name : "");
+    }
+  }, [orderData?.Target_CD, TargetData]);
+
+  useEffect(() => {
+    const quantity = parseFloat(orderData?.Quantity) || 0;
+    const completeQty = parseFloat(orderData?.I_Complete_Qty) || 0;
+    setRemainningQuantity(quantity - completeQty);
+  }, [orderData?.Quantity, orderData?.I_Complete_Qty]);
+
+  useEffect(() => {
+    if (orderData?.Quote_CD && QuoteData.length > 0) {
+      const selectedGroup = QuoteData.find(
+        (item) => item.Od_Quote_CD === orderData.Quote_CD
+      );
+
+      setQuoteName(selectedGroup ? selectedGroup.Od_Quote_Name : "");
+    }
+  }, [orderData?.Quote_CD, QuoteData]);
+
+  useEffect(() => {
+    if (orderData?.Unit_Price && PriceData.length > 0) {
+      const selectedGroup = PriceData.find(
+        (item) => item.Price_CD === orderData.Unit_Price
+      );
+
+      setPriceName(selectedGroup ? selectedGroup.Price_Name : "");
+    }
+  }, [orderData?.Unit_Price, PriceData]);
+
+  useEffect(() => {
+    if (orderData?.Contract_Docu_CD && ContractDocuData.length > 0) {
+      const selectedGroup = ContractDocuData.find(
+        (item) => item.Contract_Docu_CD === orderData.Contract_Docu_CD
+      );
+
+      setDocuName(selectedGroup ? selectedGroup.Contract_Docu_Name : "");
+    }
+  }, [orderData?.Contract_Docu_CD, ContractDocuData]);
+
+  useEffect(() => {
+    if (orderData?.Specific_CD && SpecificData.length > 0) {
+      const selectedGroup = SpecificData.find(
+        (item) => item.Specific_CD === orderData.Specific_CD
+      );
+
+      setSpecificName(selectedGroup ? selectedGroup.Specific_Name : "");
+    }
+  }, [orderData?.Specific_CD, SpecificData]);
+
+  useEffect(() => {
+    if (orderData?.Od_Progress_CD && OdProgressData.length > 0) {
+      const selectedGroup = OdProgressData.find(
+        (item) => item.Od_Progress_CD === orderData.Od_Progress_CD
+      );
+
+      setOdProgressName(selectedGroup ? selectedGroup.Od_Progress_Name : "");
+    }
+  }, [orderData?.Od_Progress_CD, OdProgressData]);
+
+  useEffect(() => {
+    if (orderData?.Delivery_CD && DeliveryData.length > 0) {
+      const selectedGroup = DeliveryData.find(
+        (item) => item.Delivery_CD === orderData.Delivery_CD
+      );
+
+      setDeliveryName(selectedGroup ? selectedGroup.Delivery_Name : "");
+    }
+  }, [orderData?.Delivery_CD, DeliveryData]);
+
   return (
     <div className="flex bg-[#E9EFEC] h-[100vh]">
       <Sidebar />
@@ -505,11 +816,10 @@ export default function OrderInfo() {
           <div className="bg-white grid grid-cols-1">
             <div className="overflow-x-auto">
               <div className="grid  gap-2 mx-5 py-4 min-w-[1000px]">
-              <div className="flex justify-center items-center py-3">
-                    <label className="text-xl font-bold">Order Info</label>
-                  </div>
+                <div className="flex justify-center items-center py-3">
+                  <label className="text-xl font-bold">Order Info</label>
+                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mx-5 py-4">
-                  
                   <div className="flex gap-2 items-center">
                     <label
                       htmlFor="Search_Order_No"
@@ -561,52 +871,30 @@ export default function OrderInfo() {
                     >
                       Production Group
                     </label>
-                    {orderData ? (
-                      <select
-                        id="Product_Grp_CD"
-                        className="border-2 border-gray-500 rounded-md bg-white px-2 w-full"
-                      >
-                        <option value={orderData.Product_Grp_CD}>
-                          {orderData.Product_Grp_CD}
-                        </option>
-                        {Array.isArray(WorkerData) && WorkerData.length > 0 ? (
-                          WorkergData.map((worker) => (
-                            <option
-                              key={worker.WorkG_CD}
-                              value={worker.WorkG_CD}
-                            >
-                              {worker.WorkG_CD}
-                            </option>
-                          ))
-                        ) : (
-                          <option value="">No Worker Groups Available</option> // แสดงข้อความถ้าไม่มีข้อมูล
-                        )}
-                      </select>
-                    ) : (
-                      <select
-                        id="Product_Grp_CD"
-                        value={orderData?.Product_Grp_CD || ""}
-                        onChange={handleInputChange}
-                        className="border-2 border-gray-500 rounded-md bg-white px-2 w-full"
-                      >
-                        {Array.isArray(WorkerData) && WorkerData.length > 0 ? (
-                          WorkergData.map((worker) => (
-                            <option
-                              key={worker.WorkG_CD}
-                              value={worker.WorkG_CD}
-                            >
-                              {worker.WorkG_CD}
-                            </option>
-                          ))
-                        ) : (
-                          <option value="">No Worker Groups Available</option> // แสดงข้อความถ้าไม่มีข้อมูล
-                        )}
-                      </select>
-                    )}
-
+                    <select
+                      id="Product_Grp_CD"
+                      value={orderData?.Product_Grp_CD || ""}
+                      onChange={handleInputChange}
+                      className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-full"
+                    >
+                      <option value={orderData?.Product_Grp_CD || ""}>
+                        {orderData?.Product_Grp_CD || ""}
+                      </option>
+                      {Array.isArray(WorkergData) && WorkergData.length > 0 ? (
+                        WorkergData.map((item, index) => (
+                          <option key={index} value={item.WorkG_CD}>
+                            {item.WorkG_CD}
+                          </option>
+                        ))
+                      ) : (
+                        <option value="">ไม่มีข้อมูล</option>
+                      )}
+                    </select>
                     <input
                       disabled
-                      id="Product_Grp_Input"
+                      id="Product_Grp_Name"
+                      value={selectedWorkGName || ""}
+                      onChange={(event) => setWorkergData(event)}
                       type="text"
                       className="bg-white border-2 border-gray-500 rounded-md px-2 w-full"
                       placeholder="Enter Group"
@@ -1158,59 +1446,44 @@ export default function OrderInfo() {
                             Quantity
                           </label>
                           <div className="w-3/12">
-                            {orderData ? (
-                              <input
-                                disabled
-                                id="Quantity"
-                                value={orderData.Quantity || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                              />
-                            ) : (
-                              <input
-                                disabled
-                                id="Quantity"
-                                value={orderData?.Quantity || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                              />
-                            )}
+                            <input
+                              disabled
+                              id="Quantity"
+                              value={orderData?.Quantity || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                            />
                           </div>
                           <div className="w-2/12">
-                            {orderData ? (
-                              <select
-                                disabled
-                                id="Unit_CD"
-                                value={orderData.Unit_CD || ""}
-                                onChange={handleInputChange}
-                                className="border-gray-500 border-solid border-2 rounded-md bg-white w-full"
-                              >
-                                <option value={orderData.Unit_CD || ""}>
-                                  {orderData.Unit_CD || ""}
-                                </option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                              </select>
-                            ) : (
-                              <select
-                                disabled
-                                id="Unit_CD"
-                                value={orderData?.Unit_CD || ""}
-                                onChange={handleInputChange}
-                                className="border-gray-500 border-solid border-2 rounded-md bg-white w-full"
-                              >
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                              </select>
-                            )}
+                            <select
+                              id="Unit_CD"
+                              value={orderData?.Unit_CD || ""}
+                              onChange={handleInputChange}
+                              className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-full"
+                            >
+                              <option value={orderData?.Unit_CD || ""}>
+                                {orderData?.Unit_CD || ""}
+                              </option>
+                              {Array.isArray(UnitData) &&
+                              UnitData.length > 0 ? (
+                                UnitData.map((item, index) => (
+                                  <option key={index} value={item.Unit_CD}>
+                                    {item.Unit_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
+                            </select>
                           </div>
+
                           <div className="w-3/12">
                             <input
                               disabled
-                              id="Unit_CD_Input"
+                              id="Unit_CD_Name"
+                              value={unitName || ""}
+                              onChange={(event) => setUnitData(event)}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
@@ -1221,21 +1494,13 @@ export default function OrderInfo() {
                             Remaining Qty
                           </label>
                           <div className="w-1/2">
-                            {orderData ? (
-                              <input
-                                disabled
-                                id="Remainning_Quantity"
-                                type="text"
-                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                              />
-                            ) : (
-                              <input
-                                disabled
-                                id=""
-                                type="text"
-                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                              />
-                            )}
+                            <input
+                              disabled
+                              id="Remainning_Quantity"
+                              value={remainningQuantity}
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                            />
                           </div>
                         </div>
                       </div>
@@ -1352,63 +1617,33 @@ export default function OrderInfo() {
                           Sales Group
                         </label>
                         <div className="w-2/5">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Sales_Grp_CD"
-                              value={orderData.Sales_Grp_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value={orderData.Sales_Grp_CD || ""}>
-                                {orderData.Sales_Grp_CD || ""}
-                              </option>
-                              {Array.isArray(WorkerData) &&
-                              WorkerData.length > 0 ? (
-                                WorkergData.map((worker) => (
-                                  <option
-                                    key={worker.WorkG_CD}
-                                    value={worker.WorkG_CD}
-                                  >
-                                    {worker.WorkG_CD}
-                                  </option>
-                                ))
-                              ) : (
-                                <option value="">
-                                  No Worker Groups Available
-                                </option> // แสดงข้อความถ้าไม่มีข้อมูล
-                              )}
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Sales_Grp_CD"
-                              value={orderData?.Sales_Grp_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              {Array.isArray(WorkerData) &&
-                              WorkerData.length > 0 ? (
-                                WorkergData.map((worker) => (
-                                  <option
-                                    key={worker.WorkG_CD}
-                                    value={worker.WorkG_CD}
-                                  >
-                                    {worker.WorkG_CD}
-                                  </option>
-                                ))
-                              ) : (
-                                <option value="">
-                                  No Worker Groups Available
-                                </option> // แสดงข้อความถ้าไม่มีข้อมูล
-                              )}
-                            </select>
-                          )}
+                          <select
+                            id="Sales_Grp_CD"
+                            value={orderData?.Sales_Grp_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-full"
+                          >
+                            <option value={orderData?.Sales_Grp_CD || ""}>
+                              {orderData?.Sales_Grp_CD || ""}
+                            </option>
+                            {Array.isArray(WorkergData) &&
+                            WorkergData.length > 0 ? (
+                              WorkergData.map((item, index) => (
+                                <option key={index} value={item.WorkG_CD}>
+                                  {item.WorkG_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
                         <div className="w-2/5">
                           <input
                             disabled
-                            id="Sales_Grp_CD_Input"
+                            id="Sales_Grp_CD_Name"
+                            value={selectedSalesGrpAbb || ""}
+                            onChange={(event) => setWorkergData(event)}
                             type="text"
                             className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -1419,60 +1654,34 @@ export default function OrderInfo() {
                           Sales Person
                         </label>
                         <div className="w-2/5">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Sales_Person_CD"
-                              value={orderData.Sales_Person_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-white w-full"
-                            >
-                              <option value={orderData.Sales_Person_CD || ""}>
-                                {orderData.Sales_Person_CD || ""}
-                              </option>
-                              {Array.isArray(WorkerData) &&
-                              WorkerData.length > 0 ? (
-                                WorkerData.map((worker) => (
-                                  <option
-                                    key={worker.Worker_CD}
-                                    value={worker.Worker_CD}
-                                  >
-                                    {worker.Worker_CD}{" "}
-                                    {/* หรือใช้ worker.WorkerName ถ้าต้องการแสดงชื่อ */}
-                                  </option>
-                                ))
-                              ) : (
-                                <option value="">No Workers Available</option> // ข้อความเมื่อไม่มีข้อมูล
-                              )}
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Sales_Person_CD"
-                              value={orderData?.Sales_Person_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-white w-full"
-                            >
-                              {Array.isArray(WorkerData) &&
-                              WorkerData.length > 0 ? (
-                                WorkerData.map((worker) => (
-                                  <option
-                                    key={worker.Worker_CD}
-                                    value={worker.Worker_CD}
-                                  >
-                                    {worker.Worker_CD}{" "}
-                                  </option>
-                                ))
-                              ) : (
-                                <option value="">No Workers Available</option> // ข้อความเมื่อไม่มีข้อมูล
-                              )}
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Sales_Person_CD"
+                            value={orderData?.Sales_Person_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-full"
+                          >
+                            <option value={orderData?.Sales_Person_CD || ""}>
+                              {orderData?.Sales_Person_CD || ""}
+                            </option>
+                            {Array.isArray(WorkerData) &&
+                            WorkerData.length > 0 ? (
+                              WorkerData.map((item, index) => (
+                                <option key={index} value={item.Worker_CD}>
+                                  {item.Worker_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
                         <div className="w-2/5">
                           <input
                             disabled
-                            id="Sales_Person_CD_Input"
+                            id="Sales_Person_CD_Name"
+                            value={selectedSalesPersonAbb}
+                            onChange={(event) => setWorkerData(event)}
                             type="text"
                             className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -1483,115 +1692,101 @@ export default function OrderInfo() {
                           Req Category
                         </label>
                         <div className="w-1/12">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Request1_CD"
-                              value={orderData.Request1_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value={orderData.Request1_CD || ""}>
-                                {orderData.Request1_CD || ""}
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Request1_CD"
-                              value={orderData?.Request1_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Request1_CD"
+                            value={orderData?.Request1_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
+                          >
+                            <option value={orderData?.Request1_CD || ""}>
+                              {orderData?.Request1_CD || ""}
+                            </option>
+                            {Array.isArray(Request1Data) &&
+                            Request1Data.length > 0 ? (
+                              Request1Data.map((item, index) => (
+                                <option key={index} value={item.Request1_CD}>
+                                  {item.Request1_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
+
                         <div className="w-2/12">
                           <input
                             disabled
-                            id="Request1_CD_Input"
+                            id="Request1_CD_Name"
+                            value={request1Name}
+                            onChange={(event) => setRequest1Data(event)}
                             type="text"
                             className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
                         </div>
                         <div className="w-1/12">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Request2_CD"
-                              value={orderData.Request2_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
-                            >
-                              <option value={orderData.Request2_CD || ""}>
-                                {orderData.Request2_CD || ""}
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Request2_CD"
-                              value={orderData?.Request2_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
-                            >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Request2_CD"
+                            value={orderData?.Request2_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
+                          >
+                            <option value={orderData?.Request2_CD || ""}>
+                              {orderData?.Request2_CD || ""}
+                            </option>
+                            {Array.isArray(Request2Data) &&
+                            Request2Data.length > 0 ? (
+                              Request2Data.map((item, index) => (
+                                <option key={index} value={item.Request2_CD}>
+                                  {item.Request2_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
                         <div className="w-2/12">
                           <input
                             disabled
-                            id="Request2_CD_Input"
+                            id="Request2_CD_Name"
+                            value={request2Name}
+                            onChange={(event) => setRequest2Data(event)}
                             type="text"
                             className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
                         </div>
                         <div className="w-1/12">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Request3_CD"
-                              value={orderData.Request3_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value={orderData.Request3_CD || ""}>
-                                {orderData.Request3_CD || ""}
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Request3_CD"
-                              value={orderData?.Request3_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Request3_CD"
+                            value={orderData?.Request3_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
+                          >
+                            <option value={orderData?.Request3_CD || ""}>
+                              {orderData?.Request3_CD || ""}
+                            </option>
+                            {Array.isArray(Request3Data) &&
+                            Request3Data.length > 0 ? (
+                              Request3Data.map((item, index) => (
+                                <option key={index} value={item.Request3_CD}>
+                                  {item.Request3_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
                         <div className="w-2/12">
                           <input
                             disabled
-                            id="Request3_CD_Input"
+                            id="Request3_CD_Name"
+                            value={request3Name}
+                            onChange={(event) => setRequest3Data(event)}
                             type="text"
                             className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -1873,38 +2068,35 @@ export default function OrderInfo() {
                             Coating
                           </label>
                           <div className="w-2/6">
-                            {orderData ? (
-                              <select
-                                disabled
-                                id="Coating_CD"
-                                value={orderData.Coating_CD || ""}
-                                onChange={handleInputChange}
-                                className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                              >
-                                <option value={orderData.Coating_CD || ""}>
-                                  {orderData.Coating_CD || ""}
-                                </option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                              </select>
-                            ) : (
-                              <select
-                                disabled
-                                id="Coating_CD"
-                                value={orderData?.Coating_CD || ""}
-                                onChange={handleInputChange}
-                                className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                              >
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                              </select>
-                            )}
+                            <select
+                              disabled
+                              id="Coating_CD"
+                              value={orderData?.Coating_CD || ""}
+                              onChange={handleInputChange}
+                              className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-full"
+                            >
+                              <option value={orderData?.Coating_CD || ""}>
+                                {orderData?.Coating_CD || ""}
+                              </option>
+                              {Array.isArray(CoatingData) &&
+                              CoatingData.length > 0 ? (
+                                CoatingData.map((item, index) => (
+                                  <option key={index} value={item.Coating_CD}>
+                                    {item.Coating_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
+                            </select>
                           </div>
+
                           <div className="w-2/6">
                             <input
                               disabled
                               id="Coating_Name"
+                              value={coatingName || ""}
+                              onChange={(event) => setCoatingData(event)}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
@@ -1995,38 +2187,34 @@ export default function OrderInfo() {
                             CAT
                           </label>
                           <div className="w-2/5">
-                            {orderData ? (
-                              <select
-                                disabled
-                                id="Quote_CD"
-                                value={orderData.Quote_CD || ""}
-                                onChange={handleInputChange}
-                                className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
-                              >
-                                <option value={orderData.Quote_CD || ""}>
-                                  {orderData.Quote_CD || ""}
-                                </option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                              </select>
-                            ) : (
-                              <select
-                                disabled
-                                id="Quote_CD"
-                                value={orderData?.Quote_CD || ""}
-                                onChange={handleInputChange}
-                                className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
-                              >
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                              </select>
-                            )}
+                            <select
+                              id="Quote_CD"
+                              value={orderData?.Quote_CD || ""}
+                              onChange={handleInputChange}
+                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
+                            >
+                              <option value={orderData?.Quote_CD || ""}>
+                                {orderData?.Quote_CD || ""}
+                              </option>
+                              {Array.isArray(QuoteData) &&
+                              QuoteData.length > 0 ? (
+                                QuoteData.map((item, index) => (
+                                  <option key={index} value={item.Od_Quote_CD}>
+                                    {item.Od_Quote_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
+                            </select>
                           </div>
+
                           <div className="w-2/5">
                             <input
                               disabled
-                              id="Quote_CD_Input"
+                              id="Quote_CD_Name"
+                              value={quoteName || ""}
+                              onChange={(event) => setQuoteData(event)}
                               type="text"
                               className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
@@ -2038,39 +2226,34 @@ export default function OrderInfo() {
                           Item
                         </label>
                         <div className="w-2/5">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Item1_CD"
-                              value={orderData.Item1_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-white w-full"
-                            >
-                              <option value={orderData.Item1_CD || ""}>
-                                {orderData.Item1_CD || ""}
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Item1_CD"
-                              value={orderData?.Item1_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-white w-full"
-                            >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          )}
+                          <select
+                            id="Item1_CD"
+                            value={orderData?.Item1_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-full"
+                          >
+                            <option value={orderData?.Item1_CD || ""}>
+                              {orderData?.Item1_CD || ""}
+                            </option>
+                            {Array.isArray(Item1Data) &&
+                            Item1Data.length > 0 ? (
+                              Item1Data.map((item, index) => (
+                                <option key={index} value={item.Item1_CD}>
+                                  {item.Item1_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
+
                         <div className="w-2/5">
                           <input
                             disabled
-                            id="Item1_CD_Input"
+                            id="Item1_CD_Name"
+                            value={itemName || ""}
+                            onChange={(event) => setItem1Data(event)}
                             type="text"
                             className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -2155,7 +2338,7 @@ export default function OrderInfo() {
                             disabled
                             id=""
                             type="text"
-                            className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-40 ml-11"
+                            className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
                         </div>
                         <div className="w-1/5">
@@ -2355,60 +2538,35 @@ export default function OrderInfo() {
                           Customer
                         </label>
                         <div className="w-2/6">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Customer_CD"
-                              value={orderData.Customer_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-white w-full"
-                            >
-                              <option value={orderData.Customer_CD || ""}>
-                                {orderData.Customer_CD || ""}
-                              </option>
-                              {Array.isArray(CustomerData) &&
-                              CustomerData.length > 0 ? (
-                                CustomerData.map((customer) => (
-                                  <option
-                                    key={customer.Customer_CD}
-                                    value={customer.Customer_CD}
-                                  >
-                                    {customer.Customer_CD}
-                                  </option>
-                                ))
-                              ) : (
-                                <option value="">No Customers Available</option> // ข้อความเมื่อไม่มีข้อมูล
-                              )}
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Customer_CD"
-                              value={orderData?.Customer_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-white w-full"
-                            >
-                              {Array.isArray(CustomerData) &&
-                              CustomerData.length > 0 ? (
-                                CustomerData.map((customer) => (
-                                  <option
-                                    key={customer.Customer_CD}
-                                    value={customer.Customer_CD}
-                                  >
-                                    {customer.Customer_CD}
-                                  </option>
-                                ))
-                              ) : (
-                                <option value="">No Customers Available</option> // ข้อความเมื่อไม่มีข้อมูล
-                              )}
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Customer_CD"
+                            value={orderData?.Customer_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-white w-full"
+                          >
+                            <option value={orderData?.Customer_CD || ""}>
+                              {orderData?.Customer_CD || ""}
+                            </option>
+                            {Array.isArray(CustomerData) &&
+                            CustomerData.length > 0 ? (
+                              CustomerData.map((item, index) => (
+                                <option key={index} value={item.Customer_CD}>
+                                  {item.Customer_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
 
                         <div className="w-2/6">
                           <input
                             disabled
-                            id="Customer_CD_Input"
+                            id="Customer_CD_Name"
+                            value={selectedCustomerAbb || ""}
+                            onChange={(event) => setCustomerData(event)}
                             type="text"
                             className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -2421,7 +2579,9 @@ export default function OrderInfo() {
                         <div className="w-4/6">
                           <input
                             disabled
-                            id=""
+                            id="Customer_Name"
+                            value={selectedCustomerName || ""}
+                            onChange={(event) => setCustomerData(event)}
                             type="text"
                             className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -2432,39 +2592,35 @@ export default function OrderInfo() {
                           Delivery Category
                         </label>
                         <div className="w-2/6">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Supply_CD"
-                              value={orderData.Supply_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
-                            >
-                              <option value={orderData.Supply_CD || ""}>
-                                {orderData.Supply_CD || ""}
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Supply_CD"
-                              value={orderData?.Supply_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
-                            >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Supply_CD"
+                            value={orderData?.Supply_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
+                          >
+                            <option value={orderData?.Supply_CD || ""}>
+                              {orderData?.Supply_CD || ""}
+                            </option>
+                            {Array.isArray(SupplyData) &&
+                            SupplyData.length > 0 ? (
+                              SupplyData.map((item, index) => (
+                                <option key={index} value={item.Supply_CD}>
+                                  {item.Supply_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
+
                         <div className="w-2/6">
                           <input
                             disabled
-                            id="Supply_CD_Input"
+                            id="Supply_CD_Name"
+                            value={supplyName || ""}
+                            onChange={(event) => setSupplyData(event)}
                             type="text"
                             className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -2475,39 +2631,46 @@ export default function OrderInfo() {
                           Delivery Destination
                         </label>
                         <div className="w-2/6">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Destination_CD"
-                              value={orderData.Destination_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
-                            >
-                              <option value={orderData.Destination_CD || ""}>
-                                {orderData.Destination_CD || ""}
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Destination_CD"
-                              value={orderData?.Destination_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
-                            >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Destination_CD"
+                            value={orderData?.Destination_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
+                          >
+                            <option value="">
+                              {orderData?.Destination_CD || ""}
+                            </option>
+                            {filteredWorkgData.length > 0 ? (
+                              filteredWorkgData.map((item, index) =>
+                                item.WorkG_CD ? (
+                                  <option
+                                    key={`workg-${index}`}
+                                    value={item.WorkG_CD}
+                                  >
+                                    {item.WorkG_CD}
+                                  </option>
+                                ) : item.Customer_CD ? (
+                                  <option
+                                    key={`customer-${index}`}
+                                    value={item.Customer_CD}
+                                  >
+                                    {item.Customer_CD}
+                                  </option>
+                                ) : null
+                              )
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
+
                         <div className="w-2/6">
                           <input
                             disabled
-                            id="Destination_CD_Input"
+                            id="Destination_CD_Name"
+                            value={destinationName}
+                            onChange={(event) => setWorkgData(event)}
                             type="text"
                             className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -2518,39 +2681,38 @@ export default function OrderInfo() {
                           Contract Document
                         </label>
                         <div className="w-2/6">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Contract_Docu_CD"
-                              value={orderData.Contract_Docu_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
-                            >
-                              <option value={orderData.Contract_Docu_CD || ""}>
-                                {orderData.Contract_Docu_CD || ""}
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Contract_Docu_CD"
-                              value={orderData?.Contract_Docu_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
-                            >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Contract_Docu_CD"
+                            value={orderData?.Contract_Docu_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
+                          >
+                            <option value={orderData?.Contract_Docu_CD || ""}>
+                              {orderData?.Contract_Docu_CD || ""}
+                            </option>
+                            {Array.isArray(ContractDocuData) &&
+                            ContractDocuData.length > 0 ? (
+                              ContractDocuData.map((item, index) => (
+                                <option
+                                  key={index}
+                                  value={item.Contract_Docu_CD}
+                                >
+                                  {item.Contract_Docu_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
+
                         <div className="w-2/6">
                           <input
                             disabled
-                            id="Contract_Docu_CD_Input"
+                            id="Contract_Docu_CD_Name"
+                            value={DocuName || ""}
+                            onChange={(event) => setContractDocu(event)}
                             type="text"
                             className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -2561,38 +2723,36 @@ export default function OrderInfo() {
                           Unit Price
                         </label>
                         <div className="w-2/6">
-                          {orderData ? (
-                            <select
-                              id="Unit_Price"
-                              value={orderData.Unit_Price || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
-                            >
-                              <option value={orderData.Unit_Price || ""}>
-                                {orderData.Unit_Price || ""}
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          ) : (
-                            <select
-                              id="Unit_Price"
-                              value={orderData?.Unit_Price || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
-                            >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Unit_Price"
+                            value={orderData?.Unit_Price || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
+                          >
+                            <option value={orderData?.Unit_Price || ""}>
+                              {orderData?.Unit_Price || ""}
+                            </option>
+                            {Array.isArray(PriceData) &&
+                            PriceData.length > 0 ? (
+                              PriceData.map((item, index) => (
+                                <option key={index} value={item.Price_CD}>
+                                  {item.Price_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
+
                         <div className="w-2/6 flex gap-1">
                           <div className="w-2/5">
                             <input
                               disabled
-                              id="Unit_Price_Input"
+                              id="Price_Name"
+                              value={PriceName || ""}
+                              onChange={(event) => setPriceData(event)}
                               type="text"
                               className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
@@ -2643,39 +2803,35 @@ export default function OrderInfo() {
                           Order Controller Person
                         </label>
                         <div className="w-2/6">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Od_Ctl_Person_CD"
-                              value={orderData.Od_Ctl_Person_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value={orderData.Od_Ctl_Person_CD || ""}>
-                                {orderData.Od_Ctl_Person_CD || ""}
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Od_Ctl_Person_CD"
-                              value={orderData?.Od_Ctl_Person_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Od_Ctl_Person_CD"
+                            value={orderData?.Od_Ctl_Person_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
+                          >
+                            <option value={orderData?.Od_Ctl_Person_CD || ""}>
+                              {orderData?.Od_Ctl_Person_CD || ""}
+                            </option>
+                            {Array.isArray(WorkerData) &&
+                            WorkerData.length > 0 ? (
+                              WorkerData.map((item, index) => (
+                                <option key={index} value={item.Worker_CD}>
+                                  {item.Worker_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
+
                         <div className="w-2/6">
                           <input
                             disabled
-                            id="Od_Ctl_Person_CD_Input"
+                            id="Od_Ctl_Person_CD_Name"
+                            value={personName || ""}
+                            onChange={(event) => setWorkerData(event)}
                             type="text"
                             className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -2686,39 +2842,35 @@ export default function OrderInfo() {
                           Order Register Person
                         </label>
                         <div className="w-2/6">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Od_Reg_Person_CD"
-                              value={orderData.Od_Reg_Person_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value={orderData.Od_Reg_Person_CD || ""}>
-                                {orderData.Od_Reg_Person_CD || ""}
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Od_Reg_Person_CD"
-                              value={orderData?.Od_Reg_Person_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Od_Reg_Person_CD"
+                            value={orderData?.Od_Reg_Person_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
+                          >
+                            <option value={orderData?.Od_Reg_Person_CD || ""}>
+                              {orderData?.Od_Reg_Person_CD || ""}
+                            </option>
+                            {Array.isArray(WorkerData) &&
+                            WorkerData.length > 0 ? (
+                              WorkerData.map((item, index) => (
+                                <option key={index} value={item.Worker_CD}>
+                                  {item.Worker_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
+
                         <div className="w-2/6">
                           <input
                             disabled
-                            id="Od_Reg_Person_CD_Input"
+                            id="Od_Reg_Person_CD_Name"
+                            value={regPersonName || ""}
+                            onChange={(event) => setWorkerData(event)}
                             type="text"
                             className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -2729,39 +2881,35 @@ export default function OrderInfo() {
                           Order Update Person
                         </label>
                         <div className="w-2/6">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Od_Upd_Person_CD"
-                              value={orderData.Od_Upd_Person_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value={orderData.Od_Upd_Person_CD || ""}>
-                                {orderData.Od_Upd_Person_CD || ""}
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Od_Upd_Person_CD"
-                              value={orderData?.Od_Upd_Person_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Od_Upd_Person_CD"
+                            value={orderData?.Od_Upd_Person_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
+                          >
+                            <option value={orderData?.Od_Upd_Person_CD || ""}>
+                              {orderData?.Od_Upd_Person_CD || ""}
+                            </option>
+                            {Array.isArray(WorkerData) &&
+                            WorkerData.length > 0 ? (
+                              WorkerData.map((item, index) => (
+                                <option key={index} value={item.Worker_CD}>
+                                  {item.Worker_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
+
                         <div className="w-2/6">
                           <input
                             disabled
-                            id=""
+                            id="Od_Upd_Person_Name"
+                            value={updPersonName || ""}
+                            onChange={(event) => setWorkerData(event)}
                             type="text"
                             className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -2772,39 +2920,35 @@ export default function OrderInfo() {
                           Specific Item
                         </label>
                         <div className="w-2/6">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Specific_CD"
-                              value={orderData.Specific_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value={orderData.Specific_CD || ""}>
-                                {orderData.Specific_CD || ""}
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Specific_CD"
-                              value={orderData?.Specific_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Specific_CD"
+                            value={orderData?.Specific_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
+                          >
+                            <option value={orderData?.Specific_CD || ""}>
+                              {orderData?.Specific_CD || ""}
+                            </option>
+                            {Array.isArray(SpecificData) &&
+                            SpecificData.length > 0 ? (
+                              SpecificData.map((item, index) => (
+                                <option key={index} value={item.Specific_CD}>
+                                  {item.Specific_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
+
                         <div className="w-2/6">
                           <input
                             disabled
-                            id=""
+                            id="Specific_Name"
+                            value={SpecificName || ""}
+                            onChange={(event) => setSpecificData(event)}
                             type="text"
                             className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -2815,39 +2959,35 @@ export default function OrderInfo() {
                           Order Progress CAT
                         </label>
                         <div className="w-2/6">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Od_Progress_CD"
-                              value={orderData.Od_Progress_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value={orderData.Od_Progress_CD || ""}>
-                                {orderData.Od_Progress_CD || ""}
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Od_Progress_CD"
-                              value={orderData?.Od_Progress_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Od_Progress_CD"
+                            value={orderData?.Od_Progress_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
+                          >
+                            <option value={orderData?.Od_Progress_CD || ""}>
+                              {orderData?.Od_Progress_CD || ""}
+                            </option>
+                            {Array.isArray(OdProgressData) &&
+                            OdProgressData.length > 0 ? (
+                              OdProgressData.map((item, index) => (
+                                <option key={index} value={item.Od_Progress_CD}>
+                                  {item.Od_Progress_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
+
                         <div className="w-2/6">
                           <input
                             disabled
-                            id=""
+                            id="Od_Progress_Name"
+                            value={OdProgressName || ""}
+                            onChange={(event) => setOdProgressData(event)}
                             type="text"
                             className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -2858,39 +2998,35 @@ export default function OrderInfo() {
                           Delivery Date CAT
                         </label>
                         <div className="w-2/6">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Delivery_CD"
-                              value={orderData.Delivery_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value={orderData.Delivery_CD || ""}>
-                                {orderData.Delivery_CD || ""}
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Delivery_CD"
-                              value={orderData?.Delivery_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Delivery_CD"
+                            value={orderData?.Delivery_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
+                          >
+                            <option value={orderData?.Delivery_CD || ""}>
+                              {orderData?.Delivery_CD || ""}
+                            </option>
+                            {Array.isArray(DeliveryData) &&
+                            DeliveryData.length > 0 ? (
+                              DeliveryData.map((item, index) => (
+                                <option key={index} value={item.Delivery_CD}>
+                                  {item.Delivery_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
+
                         <div className="w-2/6">
                           <input
                             disabled
-                            id=""
+                            id="Delivery_Name"
+                            value={DeliveryName || ""}
+                            onChange={(event) => setDeliveryData(event)}
                             type="text"
                             className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -2944,39 +3080,35 @@ export default function OrderInfo() {
                           Target CAT
                         </label>
                         <div className="w-2/6">
-                          {orderData ? (
-                            <select
-                              disabled
-                              id="Target_CD"
-                              value={orderData.Target_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value={orderData.Target_CD || ""}>
-                                {orderData.Target_CD || ""}
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          ) : (
-                            <select
-                              disabled
-                              id="Target_CD"
-                              value={orderData?.Target_CD || ""}
-                              onChange={handleInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                            >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                            </select>
-                          )}
+                          <select
+                            disabled
+                            id="Target_CD"
+                            value={orderData?.Target_CD || ""}
+                            onChange={handleInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
+                          >
+                            <option value={orderData?.Target_CD || ""}>
+                              {orderData?.Target_CD || ""}
+                            </option>
+                            {Array.isArray(TargetData) &&
+                            TargetData.length > 0 ? (
+                              TargetData.map((item, index) => (
+                                <option key={index} value={item.Target_CD}>
+                                  {item.Target_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
                         </div>
+
                         <div className="w-2/6">
                           <input
                             disabled
-                            id=""
+                            id="Target_Name"
+                            value={targetName || ""}
+                            onChange={(event) => setTargetData(event)}
                             type="text"
                             className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
