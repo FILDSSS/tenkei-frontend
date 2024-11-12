@@ -7,6 +7,34 @@ export default function PurchaseContextProvider({ children }) {
 
     const [purchaseData, setPurchaseData] = useState(null); 
     const [selectedPurchaseNo, setSelectedPurchaseNo] = useState(null); 
+    const [poProgress, setpoProgress] = useState(null); 
+    const [inOutside, setInOutside] = useState(null); 
+    const [vendorCat, setVendorCat] = useState(null); 
+
+    const fetchpoProgress = async () => { 
+        try {
+            const response = await axios.get("/pcprogress/fetch-pcprogress"); 
+            setpoProgress(response.data.data.pcprogress); 
+            console.log(response.data.data.pcprogress);
+            return response;
+        } catch (error) {
+            console.error("Error fetching pcprogress data:", error); 
+            throw error; 
+        }
+    };
+
+    const fetchInOutside = async () => { 
+        try {
+            const response = await axios.get("/inoutside/fetch-inoutside"); 
+            setInOutside(response.data.data.outside); 
+            console.log(response.data.data.outside);
+            return response;
+        } catch (error) {
+            console.error("Error fetching inoutside data:", error); 
+            throw error; 
+        }
+    };
+
     const createPurchase = async () => {
         try {
             const response = await axios.post('/procure/add-procure', purchaseData); 
@@ -45,6 +73,26 @@ export default function PurchaseContextProvider({ children }) {
         throw new Error('Failed to update order');
         }
     };
+    const Vendor_CATProcure = async (Vendor_CAT) => {
+        try {
+          const response = await axios.post("/procure/select-vendor", { Vendor_CAT: Vendor_CAT });
+      
+          // ตรวจสอบการตอบกลับจาก API
+          if (response.data && response.data.data) {
+            const data = response.data.data;
+            if (Vendor_CAT === "0") {
+              setVendorCat(data.map(item => ({ ...item, value: item.WorkG_CD, label: item.WorkG_CD })));
+            } else if (Vendor_CAT === "1") {
+              setVendorCat(data.map(item => ({ ...item, value: item.Vendor_CD, label: item.Vendor_CD })));
+            }
+          } else {
+            console.error("No data returned from API");
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          return false;
+        }
+      };
 
     const searchProcureData = async (OdPcLnNo) => {
         try {
@@ -77,8 +125,20 @@ export default function PurchaseContextProvider({ children }) {
         }
     };
 
+    useEffect(() => {
+        fetchpoProgress();
+        fetchInOutside();
+    }, []);
+
     return (
-        <PurchaseContext.Provider value={{setSelectedPurchaseNo, selectedPurchaseNo, purchaseData, setPurchaseData, createPurchase,searchPurchaseData,searchProcureData,editProcure,deleteProcure,}}>
+        <PurchaseContext.Provider value={{setSelectedPurchaseNo, 
+        selectedPurchaseNo, purchaseData, setPurchaseData, 
+        createPurchase,searchPurchaseData,searchProcureData,
+        editProcure,deleteProcure,poProgress, setpoProgress,
+        inOutside,setInOutside,Vendor_CATProcure,
+        vendorCat, setVendorCat,
+
+        }}>
             {children}
         </PurchaseContext.Provider>
     );
