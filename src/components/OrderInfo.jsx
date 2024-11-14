@@ -505,11 +505,10 @@ export default function OrderInfo() {
           <div className="bg-white grid grid-cols-1">
             <div className="overflow-x-auto">
               <div className="grid  gap-2 mx-5 py-4 min-w-[1000px]">
-              <div className="flex justify-center items-center py-3">
-                    <label className="text-xl font-bold">Order Info</label>
-                  </div>
+                <div className="flex justify-center items-center py-3">
+                  <label className="text-xl font-bold">Order Info</label>
+                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mx-5 py-4">
-                  
                   <div className="flex gap-2 items-center">
                     <label
                       htmlFor="Search_Order_No"
