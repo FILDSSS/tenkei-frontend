@@ -27,6 +27,7 @@ import PrintDashboradPage from "../pages/PrintDashboradPage";
 import MasterDashboardPage from "../pages/MasterDashboardPage";
 import ImportDashboardPage from "../pages/ImportDashboardPage";
 import ExportDashboardPage from "../pages/ExportDashboardPage";
+import ResultListPage from "../pages/ResultListPage";
 
 const router = createBrowserRouter([
   {
@@ -137,9 +138,12 @@ const router = createBrowserRouter([
     path: "/cost-info",
     element: <CostInfoPage />,
   },
+  {
+    path: "/result-list",
+    element: <ResultListPage />,
+  },
 ]);
 
 export default function Route() {
   return <RouterProvider router={router} />;
-
 }
