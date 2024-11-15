@@ -8,16 +8,16 @@ const CostInfo = () => {
   const headers = ["CC", "F", "Process", "MA", "Machine", "MA", "Work", "Work"];
 
   // Generate table rows with input fields
-  const rows = Array.from({ length: 11 }, (_, rowIndex) => (
+  const rows = Array.from({ length: 10 }, (_, rowIndex) => (
     <tr
       key={rowIndex}
       className={rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"}
     >
       {headers.map((_, colIndex) => (
         <td key={colIndex} className="px-4 py-2 border border-black text-sm">
-          <input
+          <p
             type="text"
-            className="w-28 p-1 border border-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-28 h-7 p-1"
           />
         </td>
       ))}
