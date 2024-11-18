@@ -1,25 +1,26 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
+import { IoIosArrowRoundForward } from "react-icons/io";
+
 export default function ResultInfo() {
   return (
     <div className="flex bg-[#E9EFEC] h-[100vh]">
       <Sidebar />
       <div className="flex flex-col w-full mr-2 ml-2">
         <Navbar />
-        <div className="flex-1 flex-col overflow-x-auto flex-grow p-2">
-          <div className="bg-white grid grid-cols-1">
-            <div className="overflow-x-auto">
-              <div className="grid  gap-2 mx-5 py-4 min-w-[1000px]">
-                <div>
-                  <div className="flex justify-center items-center py-3">
-                    <label className="text-xl font-bold">Result Info</label>
-                  </div>
-                  <hr />
+        <div className="flex-1 flex-col overflow-x-hidden flex-grow p-2 bg-white mt-2 rounded-md">
+          <div className="grid grid-cols-1">
+            <h1 className="text-2xl font-bold mt-3 text-center">Result Info</h1>
+            <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
+
+            <div>
+              <div className="w-full overflow-x-auto">
+                <div className="min-w-[1600px] w-full">
                   <div className="mx-5 py-4">
                     <div className="grid grid-cols-5 w-full items-center gap-2 mb-3">
                       <div className="flex gap-2 items-center">
-                        <label className="text-xs font-medium w-2/5 text-end mr-5 xl:mr-3">
+                        <label className="text-xs font-medium w-2/5 text-end">
                           Search_Order_No
                         </label>
                         <div className="w-3/5">
@@ -30,11 +31,12 @@ export default function ResultInfo() {
                         </div>
                       </div>
                       <div className="flex gap-2 items-center">
-                        <label className="text-xs font-medium w-2/5 text-end mr-3 xl:mr-0">
+                        <label className="text-xs font-medium w-2/5 text-end">
                           Search_Parts_No
                         </label>
                         <div className="w-3/5">
                           <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full">
+                            <option value=""></option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -42,7 +44,7 @@ export default function ResultInfo() {
                         </div>
                       </div>
                       <div className="flex gap-2 items-center">
-                        <label className="text-xs font-medium w-2/5 text-end mr-5 xl:mr-1">
+                        <label className="text-xs font-medium w-2/5 text-end">
                           Search_OdPtL_No
                         </label>
                         <div className="w-3/5">
@@ -82,11 +84,12 @@ export default function ResultInfo() {
                     </div>
                     <div className="grid grid-cols-5 w-full items-center gap-2 mb-3">
                       <div className="flex gap-2 items-center">
-                        <label className="text-xs font-medium w-2/5 text-end mr-10 lg:mr-10 xl:mr-5">
+                        <label className="text-xs font-medium w-2/5 text-end">
                           Target_ProcessL_Grp
                         </label>
                         <div className="w-3/5">
                           <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full">
+                            <option value=""></option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -94,7 +97,7 @@ export default function ResultInfo() {
                         </div>
                       </div>
                       <div className="flex gap-2 items-center">
-                        <label className="text-xs font-medium w-2/5 text-end mr-8">
+                        <label className="text-xs font-medium w-2/5 text-end">
                           Target_Process_Date
                         </label>
                         <div className="w-3/5 flex justify-between items-center gap-2">
@@ -139,12 +142,13 @@ export default function ResultInfo() {
                       </div>
                     </div>
                     <div className="grid grid-cols-5 items-center gap-2 mb-3">
-                      <div className="flex gap-4 items-center">
+                      <div className="flex gap-2 items-center">
                         <label className="text-xs font-medium w-2/5 text-end">
                           Sort
                         </label>
                         <div className="w-3/5">
                           <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full">
+                            <option value=""></option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -163,7 +167,7 @@ export default function ResultInfo() {
                         </div>
                       </div>
                       <div className="flex justify-center gap-5">
-                        <div className="flex gap-2 items-center ml-9 xl:ml-0">
+                        <div className="flex gap-2 items-center">
                           <input type="checkbox" className="w-6 h-6" />
                           <label className="text-xs font-medium">
                             Color_Separate
@@ -177,7 +181,7 @@ export default function ResultInfo() {
                         </div>
                       </div>
                       <div className="flex gap-2 items-center">
-                        <label className="text-xs font-medium w-2/5 text-end ml-9 xl:ml-0">
+                        <label className="text-xs font-medium w-2/5 text-end">
                           Re_Process
                         </label>
                         <div className="w-3/5">
@@ -200,9 +204,15 @@ export default function ResultInfo() {
                       </div>
                     </div>
                   </div>
-                  <hr />
-                  <div className="grid grid-cols-12 mx-5 py-4">
-                    <div className="flex items-start -ml-9 lg:-ml-6">
+                </div>
+              </div>
+
+              <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
+
+              <div className="w-full overflow-x-auto pr-10">
+                <div className="min-w-[1600px] w-full">
+                  <div className="grid grid-cols-12 mx-5 py-2">
+                    <div className="flex items-start">
                       <label className="text-xs font-bold">
                         Order_Info_Search
                       </label>
@@ -243,7 +253,7 @@ export default function ResultInfo() {
                             </div>
                           </div>
                           <div className="flex gap-2 items-center">
-                            <label className="text-xs font-medium w-2/5 text-end ml-3 xl:ml-0">
+                            <label className="text-xs font-medium w-2/5 text-end">
                               Sales_Person
                             </label>
                             <div className="w-3/5">
@@ -260,6 +270,7 @@ export default function ResultInfo() {
                           </label>
                           <div className="flex gap-2 w-3/5">
                             <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                              <option value=""></option>
                               <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
@@ -347,6 +358,7 @@ export default function ResultInfo() {
                           </label>
                           <div className="w-3/5 flex justify-between gap-2">
                             <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                              <option value=""></option>
                               <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
@@ -422,6 +434,7 @@ export default function ResultInfo() {
                           </label>
                           <div className="w-3/5 flex justify-between gap-2">
                             <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                              <option value=""></option>
                               <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
@@ -486,6 +499,7 @@ export default function ResultInfo() {
                           </label>
                           <div className="w-3/5 flex justify-between gap-2">
                             <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                              <option value=""></option>
                               <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
@@ -550,6 +564,7 @@ export default function ResultInfo() {
                           </label>
                           <div className="w-3/5 flex justify-between gap-2">
                             <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                              <option value=""></option>
                               <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
@@ -563,18 +578,24 @@ export default function ResultInfo() {
                       </div>
                     </div>
                   </div>
-                  <hr />
-                  <div className="grid grid-cols-12 mx-5 py-4">
-                    <div className="flex items-start">
+                </div>
+              </div>
+
+              <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
+
+              <div className="w-full mt-5 overflow-x-auto pr-10">
+                <div className="min-w-[1800px] w-full">
+                  <div className="grid grid-cols-12 py-2">
+                    <div className="flex items-start ml-7">
                       <label className="text-xs font-bold">Parts_Info</label>
                     </div>
-                    <div className="col-span-11 grid grid-cols-1">
+                    <div className="col-span-11 grid grid-cols-1 -ml-1">
                       <div className="grid grid-cols-5 items-center gap-2 mb-3">
                         <div className="flex gap-2">
                           <label className="w-2/5 font-medium text-xs">
                             Parts_No
                           </label>
-                          <div className="w-3/5">
+                          <div className="w-40 -ml-4">
                             <input
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -593,14 +614,14 @@ export default function ResultInfo() {
                               />
                             </div>
                           </div>
-                          <div className="flex justify-center items-center gap-2 ml-4 xl:ml-10">
+                          <div className="flex justify-center items-center gap-2">
                             <input type="checkbox" className="w-6 h-6" />
                             <label className="w-2/5 font-medium text-xs">
                               Pt_Pending
                             </label>
                           </div>
                           <div className="flex justify-between items-center gap-2">
-                            <label className="w-2/5 font-medium text-xs text-end mr-2 xl:mr-0">
+                            <label className="w-2/5 font-medium text-xs text-end">
                               Pl_Req_Person
                             </label>
                             <div className="w-3/5">
@@ -628,7 +649,7 @@ export default function ResultInfo() {
                           <label className="w-2/5 font-medium text-xs">
                             Pt_Name
                           </label>
-                          <div className="w-3/5">
+                          <div className="w-40 -ml-4">
                             <input
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -648,10 +669,16 @@ export default function ResultInfo() {
                             </div>
                           </div>
                           <div className="flex gap-2 items-center">
-                            <label className="text-xs font-medium w-2/5">
+                            <label className="text-xs font-medium ml-5">
                               Pt_Qty
                             </label>
-                            <div className="w-4/5">
+                            <div className="w-24">
+                              <input
+                                type="text"
+                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                              />
+                            </div>
+                            <div className="w-24">
                               <input
                                 type="text"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -663,7 +690,7 @@ export default function ResultInfo() {
                             <label className="text-xs font-medium">Split</label>
                           </div>
                           <div className="flex justify-between gap-1 items-center w-2/12">
-                            <label className="text-xs font-medium w-1/5 -ml-[7px]">
+                            <label className="text-xs font-medium w-1/5">
                               Spare
                             </label>
                             <div className="w-3/5">
@@ -685,7 +712,7 @@ export default function ResultInfo() {
                             </div>
                           </div>
                           <div className="flex justify-between gap-2 items-center w-5/12">
-                            <label className="text-xs font-medium w-4/12 mr-9">
+                            <label className="text-xs font-medium w-4/12">
                               Connect_Od_No
                             </label>
                             <div className="w-7/12">
@@ -702,6 +729,7 @@ export default function ResultInfo() {
                           </label>
                           <div className="flex gap-2 w-3/5">
                             <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff00] w-full">
+                              <option value=""></option>
                               <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
@@ -718,7 +746,7 @@ export default function ResultInfo() {
                           <label className="w-2/5 font-medium text-xs">
                             Parts_Deli
                           </label>
-                          <div className="w-3/5">
+                          <div className="w-40 -ml-4">
                             <input
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -726,22 +754,28 @@ export default function ResultInfo() {
                           </div>
                         </div>
                         <div className="col-span-3 grid grid-cols-2 items-center gap-2">
-                          <div className="flex justify-start items-center gap-2">
+                          <div className="flex justify-start items-center gap-2 ml-32">
                             <label className="font-medium text-xs w-2/12">
                               Pt_Note
                             </label>
-                            <div className="w-7/12">
+                            <div className="w-40">
                               <input
                                 type="text"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
                             </div>
                           </div>
-                          <div className="flex justify-end items-center gap-2">
+                          <div className="flex justify-start items-center gap-2">
                             <label className="font-medium text-xs w-auto">
                               Connect_Pt_No
                             </label>
-                            <div className="w-4/6">
+                            <div className="w-24">
+                              <input
+                                type="text"
+                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                              />
+                            </div>
+                            <div className="w-24">
                               <input
                                 type="text"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -750,11 +784,12 @@ export default function ResultInfo() {
                           </div>
                         </div>
                         <div className="flex gap-2">
-                          <label className="text-xs font-medium w-2/5 text-end items-center">
+                          <label className="text-xs font-medium w-2/5 text-end items-center mt-1">
                             Schedule
                           </label>
                           <div className="flex gap-2 w-3/5">
                             <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                              <option value=""></option>
                               <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
@@ -771,7 +806,7 @@ export default function ResultInfo() {
                           <label className="w-2/5 font-medium text-xs">
                             Plan_Reg
                           </label>
-                          <div className="w-3/5">
+                          <div className="w-40 -ml-4">
                             <input
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -779,26 +814,28 @@ export default function ResultInfo() {
                           </div>
                         </div>
                         <div className="col-span-3 grid grid-cols-2 items-center gap-2">
-                          <div className="flex gap-2 items-center justify-start">
+                          <div className="flex gap-2 items-center justify-start ml-32">
                             <label className="w-2/12 font-medium text-xs">
                               Pt_Info
                             </label>
-                            <div className="w-7/12">
+                            <div className="w-40">
                               <input
                                 type="text"
                                 className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
                             </div>
                           </div>
-                          <div className="flex gap-2 items-center justify-end">
-                            <label className="text-xs font-medium w-auto text-end">
+                          <div className="flex gap-2 items-center justify-start">
+                            <label className="text-xs font-medium w-auto text-start">
                               Connect_Pr_No
                             </label>
-                            <div className="flex gap-2 w-4/6">
+                            <div className="w-24">
                               <input
                                 type="text"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
+                            </div>
+                            <div className="w-24">
                               <input
                                 type="text"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -823,7 +860,7 @@ export default function ResultInfo() {
                           <label className="w-2/5 font-medium text-xs">
                             Plan_Upd
                           </label>
-                          <div className="w-3/5">
+                          <div className="w-40 -ml-4">
                             <input
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -834,7 +871,7 @@ export default function ResultInfo() {
                           <label className="font-medium text-xs">Info</label>
                           <div className="flex gap-1 items-center">
                             <label className="font-medium text-xs">1</label>
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 pr-5">
                               <input
                                 type="text"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -842,7 +879,7 @@ export default function ResultInfo() {
                               <input type="checkbox" className="h-6 w-6" />
                             </div>
                           </div>
-                          <div className="flex gap-1 items-center">
+                          <div className="flex gap-1 items-center pr-5">
                             <label className="font-medium text-xs">2</label>
                             <div className="flex gap-2">
                               <input
@@ -852,7 +889,7 @@ export default function ResultInfo() {
                               <input type="checkbox" className="h-6 w-6" />
                             </div>
                           </div>
-                          <div className="flex gap-1 items-center">
+                          <div className="flex gap-1 items-center pr-5">
                             <label className="font-medium text-xs">3</label>
                             <div className="flex gap-2">
                               <input
@@ -862,7 +899,7 @@ export default function ResultInfo() {
                               <input type="checkbox" className="h-6 w-6" />
                             </div>
                           </div>
-                          <div className="flex gap-1 items-center">
+                          <div className="flex gap-1 items-center pr-5">
                             <label className="font-medium text-xs">4</label>
                             <div className="flex gap-2">
                               <input
@@ -872,7 +909,7 @@ export default function ResultInfo() {
                               <input type="checkbox" className="h-6 w-6" />
                             </div>
                           </div>
-                          <div className="flex gap-1 items-center">
+                          <div className="flex gap-1 items-center pr-5">
                             <label className="font-medium text-xs">5</label>
                             <div className="flex gap-2">
                               <input
@@ -899,16 +936,16 @@ export default function ResultInfo() {
                           <label className="w-2/5 font-medium text-xs">
                             Order_No
                           </label>
-                          <div className="w-3/5">
+                          <div className="w-40 -ml-4">
                             <input
                               type="text"
                               className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           </div>
                         </div>
-                        <div className="col-span-4 flex justify-between items-center gap-2">
+                        <div className="col-span-4 flex items-center gap-2">
                           <div className="flex gap-2 items-center w-2/12">
-                            <label className="font-medium text-xs w-2/5">
+                            <label className="font-medium text-xs">
                               Parts_No
                             </label>
                             <div className="w-3/5">
@@ -919,7 +956,7 @@ export default function ResultInfo() {
                             </div>
                           </div>
                           <div className="flex gap-2 items-center w-2/12">
-                            <label className="font-medium text-xs w-2/5">
+                            <label className="font-medium text-xs">
                               Target_No
                             </label>
                             <div className="w-3/5">
@@ -930,11 +967,12 @@ export default function ResultInfo() {
                             </div>
                           </div>
                           <div className="flex gap-2 items-center w-2/12">
-                            <label className="font-medium text-xs w-2/5">
+                            <label className="font-medium text-xs">
                               MV_Range
                             </label>
                             <div className="w-3/5">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -942,7 +980,7 @@ export default function ResultInfo() {
                             </div>
                           </div>
                           <div className="flex gap-2 items-center w-2/12">
-                            <label className="font-medium text-xs w-3/5">
+                            <label className="font-medium text-xs">
                               Date_Rev_Days
                             </label>
                             <div className="w-2/5">
@@ -952,13 +990,13 @@ export default function ResultInfo() {
                               />
                             </div>
                           </div>
-                          <div className="flex gap-2 items-center">
+                          <div className="flex gap-2 items-center pr-3">
                             <label className="font-medium text-xs">
                               Auto_Finish
                             </label>
                             <input type="checkbox" className="w-6 h-6" />
                           </div>
-                          <div className="flex gap-2 items-center">
+                          <div className="flex gap-2 items-center pr-3">
                             <label className="font-medium text-xs">
                               Plan_Edit
                             </label>
@@ -972,8 +1010,14 @@ export default function ResultInfo() {
                       </div>
                     </div>
                   </div>
-                  <hr />
-                  <div className="grid grid-cols-12 mx-5 py-4">
+                </div>
+              </div>
+
+              <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
+
+              <div className="w-full overflow-x-auto">
+                <div className="min-w-[1600px] w-full">
+                  <div className="grid grid-cols-12 mx-5 pb-7">
                     <div></div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 text-center">
                       <label className="font-medium text-xs">No1</label>
@@ -997,6 +1041,7 @@ export default function ResultInfo() {
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1004,6 +1049,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1011,6 +1057,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1018,6 +1065,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1025,6 +1073,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1032,6 +1081,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1039,6 +1089,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1046,6 +1097,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1053,6 +1105,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1060,6 +1113,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1067,6 +1121,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1074,6 +1129,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1258,7 +1314,7 @@ export default function ResultInfo() {
                         <label className="font-medium text-xs">min/P</label>
                       </div>
                     </div>
-                    <div className="mt-3 -ml-5">
+                    <div className="mt-3">
                       <label className="font-medium text-xs">
                         Plan_Process_Date
                       </label>
@@ -1650,7 +1706,14 @@ export default function ResultInfo() {
                       </div>
                     </div>
                   </div>
-                  <div className="grid grid-cols-12 mx-5 py-4">
+                </div>
+              </div>
+
+              <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
+
+              <div className="w-full overflow-x-auto">
+                <div className="min-w-[1600px] w-full">
+                  <div className="grid grid-cols-12 mx-5 pb-7">
                     <div></div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 text-center">
                       <label className="font-medium text-xs">No13</label>
@@ -1674,6 +1737,7 @@ export default function ResultInfo() {
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1681,6 +1745,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1688,6 +1753,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1695,6 +1761,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1702,6 +1769,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1709,6 +1777,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1716,6 +1785,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1723,6 +1793,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1730,6 +1801,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1737,6 +1809,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1744,6 +1817,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1751,6 +1825,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1935,7 +2010,7 @@ export default function ResultInfo() {
                         <label className="font-medium text-xs">min/P</label>
                       </div>
                     </div>
-                    <div className="mt-3 -ml-5">
+                    <div className="mt-3">
                       <label className="font-medium text-xs">
                         Plan_Process_Date
                       </label>
@@ -2327,7 +2402,14 @@ export default function ResultInfo() {
                       </div>
                     </div>
                   </div>
-                  <div className="grid grid-cols-12 mx-5 py-4">
+                </div>
+              </div>
+
+              <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
+
+              <div className="w-full overflow-x-auto">
+                <div className="min-w-[1600px] w-full">
+                  <div className="grid grid-cols-12 mx-5 pb-7">
                     <div></div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 text-center">
                       <label className="font-medium text-xs">No25</label>
@@ -2351,6 +2433,7 @@ export default function ResultInfo() {
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -2358,6 +2441,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -2365,6 +2449,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -2372,6 +2457,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -2379,6 +2465,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -2386,6 +2473,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -2393,6 +2481,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -2400,6 +2489,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -2407,6 +2497,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -2414,6 +2505,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -2421,6 +2513,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -2428,6 +2521,7 @@ export default function ResultInfo() {
                       </div>
                       <div>
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -2612,7 +2706,7 @@ export default function ResultInfo() {
                         <label className="font-medium text-xs">min/P</label>
                       </div>
                     </div>
-                    <div className="mt-3 -ml-5">
+                    <div className="mt-3">
                       <label className="font-medium text-xs">
                         Plan_Process_Date
                       </label>
@@ -3004,62 +3098,67 @@ export default function ResultInfo() {
                       </div>
                     </div>
                   </div>
-                  <div className="p-3">
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="grid grid-cols-4 gap-2">
-                        <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                          Search <br />
-                          検索 (F1)
-                        </button>
-                        <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                          Edit <br />
-                          編集 (F2)
-                        </button>
-                        <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                          Finish <br />
-                          完了 (F3)
-                        </button>
-                        <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                          PDS <br />
-                          Input (F4)
-                        </button>
-                      </div>
-                      <div className="grid grid-cols-4 gap-2">
-                        <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                          Re WIP <br />
-                          仕戻 (F5)
-                        </button>
-                        <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                          Graph <br />
-                          山積 (F6)
-                        </button>
-                        <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                          List <br />一 覽 (F7)
-                        </button>
-                        <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                          NextParts <br />
-                          別部 (F8)
-                        </button>
-                      </div>
-                      <div className="grid grid-cols-4 gap-2">
-                        <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                          Save <br />
-                          登録 (F9)
-                        </button>
-                        <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                          Next Ml <br />
-                          連番 (F10)
-                        </button>
-                        <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-sm text-white">
-                          NextInput <br />
-                          次へ (F11)
-                        </button>
-                        <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                          Exit <br />
-                          終了 (F12)
-                        </button>
-                      </div>
-                    </div>
+                </div>
+              </div>
+
+              <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
+
+              <div className="bg-white p-3 mt-5">
+                <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-4 gap-2">
+                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                      Search <br />
+                      検索 (F1)
+                    </button>
+                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                      Setting <br />
+                      設定 (F2)
+                    </button>
+                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                      Show <br />
+                      照会 (F3)
+                    </button>
+                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                      Target <br />
+                      対象 (F4)
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-4 gap-2">
+                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                      Product <br />
+                      部門 (F5)
+                    </button>
+                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                      Calc <br />
+                      生産 (F6)
+                    </button>
+                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                      List <br />一 覽 (F7)
+                    </button>
+                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                      Data <br />
+                      データ (F8)
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-4 gap-2">
+                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                      <label className="flex justify-center items-center">
+                        <IoIosArrowRoundForward className="font-medium text-2xl" />
+                        CSV
+                      </label>
+                      (F9)
+                    </button>
+                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                      (F10)
+                    </button>
+                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-sm text-white">
+                      Clear <br />
+                      クリア (F11)
+                    </button>
+                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                      Exit <br />
+                      終了 (F12)
+                    </button>
                   </div>
                 </div>
               </div>

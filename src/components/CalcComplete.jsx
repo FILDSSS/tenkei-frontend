@@ -9,7 +9,7 @@ export default function CalcComplete() {
       <Sidebar />
       <div className="flex flex-col w-screen mr-2 ml-2">
         <Navbar />
-        <div className="flex-1 flex-col overflow-x-auto flex-grow p-2">
+        <div className="flex-1 flex-col overflow-x-auto flex-grow p-2 bg-white">
           <div className="grid grid-cols-1">
             <div className="flex justify-center items-center py-3">
               <label className="text-xl font-bold">Calc Complete</label>
@@ -107,7 +107,7 @@ export default function CalcComplete() {
             </div>
 
             <div className="w-full mt-5 overflow-x-auto">
-              <div className="min-w-[1850px]">
+              <div className="min-w-[1850px] w-full mb-5">
                 {/* Header row */}
                 <div className="flex p-1">
                   <div className="w-[200px] text-center font-medium text-xs">

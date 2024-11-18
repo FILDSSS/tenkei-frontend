@@ -50,1014 +50,2621 @@ export default function PlanInfo() {
     }));
   };
 
+  const rows = [
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+
+    {
+      mp: (
+        <div className="flex space-x-2 w-full">
+          <input
+            type="text"
+            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
+          />
+          <div className="flex flex-col items-end w-full">
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
+            <input
+              type="text"
+              className="border rounded px-2 py-1 text-xs w-20"
+            />
+          </div>
+        </div>
+      ),
+      plan_process: (
+        <div className="">
+          <select className="border rounded px-2 py-1 text-xs  w-full ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+      min: "",
+      mind: "",
+
+      time: (
+        <div className="space-x-2">
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+          <select className="border rounded px-2 py-1 text-xs  w-10 ">
+            <option value=""></option>
+            <option value="part1">Part 1</option>
+            <option value="part2">Part 2</option>
+            <option value="part3">Part 3</option>
+          </select>
+        </div>
+      ),
+
+      plan_date: "",
+      instructions: "",
+      result_date: "",
+      resultmachine: "",
+      result_person: "",
+      resultqty: "",
+      asp: "",
+      bk: "",
+      pi_machine: "",
+      pi_person: "",
+    },
+  ];
+
   return (
     <div className="flex bg-[#E9EFEC] h-[100vh]">
       <Sidebar />
-      <div className="flex flex-col w-screen mr-2 ml-2">
+      <div className="flex flex-col w-full mr-2 ml-2">
         <Navbar />
-        <div className="flex-1 flex-col overflow-x-auto flex-grow p-2">
+        <div className="flex-1 flex-col p-2 overflow-x-auto">
           <div className="bg-white grid grid-cols-1">
-            <div className="overflow-x-auto">
-              <div className="grid  gap-2 mx-5 py-4 min-w-[1000px]">
-                <div className="flex justify-center items-center py-3">
-                  <label className="text-xl font-bold">Plan Info</label>
-                </div>
-                <div className="flex justify-between items-center gap-2 mx-5 py-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 w-full">
-                    {[
-                      {
-                        label: "Search_Order_No",
-                        type: "text",
-                        id: "Search_Order_No",
-                        value: searchOrderNo,
-                        onChange: handleInputChange,
-                      },
-                      {
-                        label: "Search_Parts_No",
-                        type: "select",
-                        id: "Search_Parts_No",
-                      },
-                      {
-                        label: "Search_OdPt_No",
-                        type: "text",
-                        id: "Search_OdPt_No",
-                        disabled: true,
-                      },
-                      {
-                        label: "Order_No",
-                        type: "text",
-                        id: "Order_No",
-                        disabled: true,
-                      },
-                      {
-                        label: "OdPt_No",
-                        type: "text",
-                        id: "OdPt_No",
-                        disabled: true,
-                      },
-                    ].map((field, index) => (
-                      <div
-                        key={index}
-                        className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-1 lg:col-span-1"
-                      >
-                        <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/3 md:w-1/4 lg:w-36">
-                          {field.label}
-                        </label>
-                        <div className="w-full sm:w-2/3 md:w-3/4 lg:w-4/5">
-                          {field.type === "select" ? (
-                            <select
-                              id={field.id}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-full"
-                            >
-                              <option value="">ไม่มีข้อมูล</option>
-                            </select>
-                          ) : (
-                            <input
-                              id={field.id}
-                              type={field.type}
-                              value={field.value}
-                              onChange={field.onChange}
-                              disabled={field.disabled}
-                              className="bg-[#cbfefe] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                            />
-                          )}
-                        </div>
-                      </div>
-                    ))}
-
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <button
-                        type="button"
-                        className="text-white bg-[#D7003A] hover:bg-[#B60032] focus:ring-2 focus:outline-none focus:ring-[#B60032] font-medium rounded-md text-xs px-2 py-1 w-full sm:w-auto"
-                      >
-                        PP
+            <div className="flex justify-center items-center">
+              <h1 className="text-2xl font-bold ">Plan Info</h1>
+            </div>
+            <div className="overflow-x-auto w-full h-full">
+              <div className="flex space-x-4 w-full">
+                {/* ส่วนของ div ซ้าย */}
+                <div className="p-4 space-y-4 min-w-[900px] flex-shrink-0 w-2/3">
+                  <div className="flex items-center space-x-2 justify-start">
+                    <label className="text-xs font-medium">Date:</label>
+                    <input
+                      type="date"
+                      className="border rounded px-2 py-1 text-sm"
+                    />
+                    <div className="inline-flex space-x-0">
+                      <button className="bg-gray-300 px-2 py-1 rounded-l text-xs">
+                        GRA
                       </button>
-                      <button
-                        type="button"
-                        className="text-white bg-[#FFD900] hover:bg-[#E5C700] focus:ring-2 focus:outline-none focus:ring-[#E5C700] font-medium rounded-md text-xs px-2 py-1 w-full sm:w-auto"
-                      >
-                        PD
+                      <button className="bg-gray-300 px-2 py-1 rounded-r text-xs">
+                        List
                       </button>
-                      <button
-                        type="button"
-                        className="text-white bg-[#0073B6] hover:bg-[#005A8D] focus:ring-2 focus:outline-none focus:ring-[#005A8D] font-medium rounded-md text-xs px-2 py-1 w-full sm:w-auto"
-                      >
-                        RD
-                      </button>
-                      <button
-                        type="button"
-                        className="text-white bg-[#D7003A] hover:bg-[#B60032] focus:ring-2 focus:outline-none focus:ring-[#B60032] font-medium rounded-md text-xs px-2 py-1 w-full sm:w-auto"
-                      >
-                        GRAPH
-                      </button>
-                      <button
-                        type="button"
-                        className="text-white bg-[#FFD900] hover:bg-[#E5C700] focus:ring-2 focus:outline-none focus:ring-[#E5C700] font-medium rounded-md text-xs px-2 py-1 w-full sm:w-auto"
-                      >
-                        LIST
-                      </button>
-
-                      <div className="flex gap-2 items-center w-full sm:w-auto">
-                        <input
-                          id="Auto_Year_Change"
-                          checked={autoYearChange}
-                          onChange={() => setAutoYearChange(!autoYearChange)}
-                          type="checkbox"
-                          className="w-6 h-6"
-                        />
-                        <label
-                          htmlFor="Auto_Year_Change"
-                          className="whitespace-nowrap text-xs sm:text-xs lg:text-lg"
-                        >
-                          Auto Year Change Group
-                        </label>
-                      </div>
                     </div>
+                    <div className="flex flex-row space-x-4 min-w-[300px] w-full px-1 py-1">
+                      {/* บรรทัดของ Date */}
+                      <div className="flex items-center space-x-2">
+                        <label className="text-xs font-medium">Date:</label>
+                        <input
+                          type="date"
+                          className="border rounded px-2 py-1 text-xs"
+                        />
+                      </div>
 
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <div className="flex gap-2 items-center w-full sm:w-auto">
-                        <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-1/2">
+                      {/* บรรทัดของ Checkbox */}
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          className="form-checkbox border-gray-400 rounded"
+                        />
+                        <label className="text-xs font-medium">
+                          Auto_Year_Change
+                        </label>
+                      </div>
+
+                      {/* บรรทัดของ Target_PrG */}
+                      <div className="flex items-center space-x-2">
+                        <label className="text-xs font-medium">
                           Target_PrG
                         </label>
-                        <select
-                          id="Target_PrG"
-                          value={planData?.Target_PrG}
-                          onChange={handleInputChange}
-                          className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-full"
-                        >
-                          <option value="">ไม่มีข้อมูล</option>
+                        <select className="border rounded bg-[#ccffff] px-2 py-1 text-xs">
+                          <option value="">Select</option>
                         </select>
                       </div>
-                      <div className="flex gap-2 items-center w-full sm:w-auto">
-                        <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-1/2">
+
+                      {/* บรรทัดของ Target_Date */}
+                      <div className="flex items-center space-x-2">
+                        <label className="text-xs font-medium">
                           Target_Date
                         </label>
                         <input
-                          id="Tg_St_Pl_Date"
-                          className="bg-[#cbfefe] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          type="date"
+                          className="border rounded bg-[#ccffff] px-2 py-1 text-xs"
+                        />
+                        <span className="text-xs font-medium">~</span>
+                        <input
+                          type="date"
+                          className="border rounded bg-[#ccffff] px-2 py-1 text-xs"
                         />
                       </div>
+                    </div>
+                  </div>
 
-                      <label className="whitespace-nowrap text-xs sm:text-xs lg:text-lg">
-                        ～
+                  <div className="flex space-x-4">
+                    <div className="flex items-center space-x-2">
+                      <label className="text-xs font-medium">
+                        Search_Order_No
                       </label>
                       <input
-                        id="Tg_Ed_Pl_Date"
-                        className="bg-[#cbfefe] border-solid border-2 border-gray-500 rounded-md px-1 w-full sm:w-auto"
+                        type="text"
+                        className="border rounded px-2 py-1 text-xs bg-[#ccffff] w-20"
                       />
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full  lg:w-96">
-                        Order_Info
+                    <div className="flex items-center space-x-2">
+                      <label className="text-xs font-medium">
+                        Search_Parts_No
                       </label>
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Od_No
-                      </label>
-                      <input
-                        disabled
-                        id="Od_No"
-                        value={orderData?.Order_No || ""}
-                        onChange={handleInputChange}
-                        className="bg-[#999999] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Product_Grp
-                      </label>
-                      <select
-                        id="Product_Grp_CD"
-                        value={orderData?.Product_Grp_CD || ""}
-                        onChange={handleInputChange}
-                        className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                      >
-                        <option value="">ไม่มีข้อมูล</option>
-                        {Array.isArray(orderData?.Product_Grp_CD) &&
-                          orderData.Product_Grp_CD.map((group, index) => (
-                            <option key={index} value={group.value}>
-                              {group.label}
-                            </option>
-                          ))}
+                      <select className="border rounded px-2 py-1 text-xs bg-[#ccffff] w-18">
+                        <option value="">Select</option>
+                        <option value="part1">Part 1</option>
+                        <option value="part2">Part 2</option>
+                        <option value="part3">Part 3</option>
                       </select>
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Mate1
-                      </label>
-                      <input
-                        disabled
-                        id="Material1"
-                        value={orderData?.Material1 || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <input
-                        disabled
-                        id="H_Treatment1"
-                        value={orderData?.H_Treatment1 || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-26">
-                        PO No
+
+                    <div className="flex items-center space-x-2">
+                      <label className="text-xs font-medium">
+                        Search_Odpt_No
                       </label>
                       <input
-                        disabled
-                        id="Od_No_of_Custom"
-                        value={orderData?.Od_No_of_Custom || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-26">
-                        Od_Ctl_Person
-                      </label>
-                      <select
-                        id="Od_Ctl_Person_CD"
-                        value={orderData?.Od_Ctl_Person_CD || ""}
-                        onChange={handleInputChange}
-                        className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                      >
-                        <option value="">ไม่มีข้อมูล</option>
-                        {Array.isArray(orderData?.Od_Ctl_Person_CD) &&
-                          orderData.Od_Ctl_Person_CD.map((group, index) => (
-                            <option key={index} value={group.value}>
-                              {group.label}
-                            </option>
-                          ))}
-                      </select>
-                      <input
-                        disabled
-                        id="Od_Ctl_Person_Name"
-                        value={orderData?.Od_Ctl_Person_Name || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-26">
-                        Sales
-                      </label>
-                      <input
-                        disabled
-                        id="Sales_Person_Name"
-                        value={orderData?.Od_Ctl_Person_Name || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-26">
-                        Specific
-                      </label>
-                      <select
-                        id="Specific_CD"
-                        value={orderData?.Specific_CD || ""}
-                        onChange={handleInputChange}
-                        className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                      >
-                        <option value="">ไม่มีข้อมูล</option>
-                        {Array.isArray(orderData?.Specific_CD) &&
-                          orderData.Specific_CD.map((group, index) => (
-                            <option key={index} value={group.value}>
-                              {group.label}
-                            </option>
-                          ))}
-                      </select>
-                      <input
-                        disabled
-                        id="Specific_Name"
-                        value={orderData?.Specific_Name || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                        type="text"
+                        className="border rounded px-2 py-1 text-xs w-20"
                       />
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-20">
-                        Pd_Receive
-                      </label>
+                    <div className="flex items-center space-x-2">
+                      <label className="text-xs font-medium">Order_No</label>
                       <input
-                        disabled
-                        id="Pd_Received_Date"
-                        value={orderData?.Pd_Received_Date || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-20">
-                        Request
-                      </label>
-                      <input
-                        disabled
-                        id="Request_Delivery"
-                        value={orderData?.Request_Delivery || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-20">
-                        Customer
-                      </label>
-                      <select
-                        id="Customer_CD"
-                        value={orderData?.Customer_CD || ""}
-                        onChange={handleInputChange}
-                        className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                      >
-                        <option value="">ไม่มีข้อมูล</option>
-                        {Array.isArray(orderData?.Customer_CD) &&
-                          orderData.Customer_CD.map((group, index) => (
-                            <option key={index} value={group.value}>
-                              {group.label}
-                            </option>
-                          ))}
-                      </select>
-                      <input
-                        disabled
-                        id="Customer_Abb"
-                        value={orderData?.Customer_Abb || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Mate2
-                      </label>
-                      <input
-                        disabled
-                        id="Material2"
-                        value={orderData?.Material2 || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <input
-                        disabled
-                        id="H_Treatment2"
-                        value={orderData?.H_Treatment2 || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                        type="text"
+                        className="border rounded px-2 py-1 text-xs w-20"
                       />
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Req3
-                      </label>
-                      <select
-                        id="Request3_CD"
-                        value={orderData?.Request3_CD || ""}
-                        onChange={handleInputChange}
-                        className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                      >
-                        <option value="">ไม่มีข้อมูล</option>
-                        {Array.isArray(orderData?.Request3_CD) &&
-                          orderData.Request3_CD.map((group, index) => (
-                            <option key={index} value={group.value}>
-                              {group.label}
-                            </option>
-                          ))}
-                      </select>
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Coating
-                      </label>
-                      <select
-                        id="Coating_CD"
-                        value={orderData?.Coating_CD || ""}
-                        onChange={handleInputChange}
-                        className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                      >
-                        <option value="">ไม่มีข้อมูล</option>
-                        {Array.isArray(orderData?.Coating_CD) &&
-                          orderData.Coating_CD.map((group, index) => (
-                            <option key={index} value={group.value}>
-                              {group.label}
-                            </option>
-                          ))}
-                      </select>
+                    <div className="flex items-center space-x-2">
+                      <label className="text-xs font-medium">Odpt_No</label>
                       <input
-                        disabled
-                        id="Coating_Name"
-                        value={orderData?.Coating_Name || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Detail
-                      </label>
-                      <input
-                        disabled
-                        id="Coating"
-                        value={orderData?.Coating || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Od_Progress
-                      </label>
-                      <select
-                        id="Od_Progress_CD"
-                        value={orderData?.Od_Progress_CD || ""}
-                        onChange={handleInputChange}
-                        className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                      >
-                        <option value="">ไม่มีข้อมูล</option>
-                        {Array.isArray(orderData?.Od_Progress_CD) &&
-                          orderData.Od_Progress_CD.map((group, index) => (
-                            <option key={index} value={group.value}>
-                              {group.label}
-                            </option>
-                          ))}
-                      </select>
-                      <input
-                        disabled
-                        id="Od_Progress_Name"
-                        value={orderData?.Od_Progress_Name || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                    </div>
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Pd_Comp
-                      </label>
-                      <input
-                        disabled
-                        id="Pd_Complete_Date"
-                        value={orderData?.Pd_Complete_Date || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Product
-                      </label>
-                      <input
-                        disabled
-                        id="Product_Delivery"
-                        value={orderData?.Product_Delivery || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Pd_Name
-                      </label>
-                      <input
-                        disabled
-                        id="Product_Name"
-                        value={orderData?.Product_Name || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Mate3
-                      </label>
-                      <input
-                        disabled
-                        id="Material3"
-                        value={orderData?.Material3 || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <input
-                        disabled
-                        id="H_Treatment3"
-                        value={orderData?.H_Treatment3 || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                        type="text"
+                        className="border rounded px-2 py-1 text-xs w-20"
                       />
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Qty
-                      </label>
-                      <input
-                        disabled
-                        id="Quantity"
-                        value={orderData?.Quantity || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <input
-                        disabled
-                        id="Unit_Name"
-                        value={orderData?.Unit_Name || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <div className="flex gap-2 items-center w-full sm:w-auto">
-                        <input
-                          id="Od_Pending"
-                          checked={orderData?.Od_Pending || ""}
-                          onChange={handleInputChange}
-                          type="checkbox"
-                          className="w-6 h-6"
-                        />
-                        <label
-                          htmlFor="Od_Pending"
-                          className="whitespace-nowrap text-xs sm:text-xs lg:text-lg"
-                        >
-                          Od_Pending
-                        </label>
+                    <div className="flex space-x-1">
+                      <button className="bg-gray-300 py-1 px-2 rounded text-xs">
+                        PP
+                      </button>
+                      <button className="bg-gray-300 py-1 px-2 rounded text-xs">
+                        PD
+                      </button>
+                      <button className="bg-gray-300 py-1 px-2 rounded text-xs">
+                        RD
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ส่วนของ div ขวา */}
+              </div>
+              <hr className="border-y-[1px] border-gray-300" />
+            </div>
+
+            <div className="overflow-x-auto w-full">
+              <div className="grid grid-cols-12 min-w-[1800px]">
+                <div className="w-full content-start ms-5 mt-4">
+                  <label className=" text-xs">Order_Info</label>
+                </div>
+                <br />
+                <div className="col-span-12 me-5 mt-5 ml-14 ">
+                  <div className="grid grid-cols-12 gap-4">
+                    <div className="col-span-12 md:col-span-9">
+                      {/* Group 1 */}
+                      <div className="gap-2 flex mb-4 justify-start me-5">
+                        <div className="flex gap-2 w-auto">
+                          <label className="w-auto  text-xs">Od_No</label>
+                          <div className="w-auto ml-1">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto item ">
+                          <label className="w-16  text-xs">Product_Grp</label>
+                          <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] w-36">
+                            <option value=""></option>
+                            <option value="part1">Part 1</option>
+                            <option value="part2">Part 2</option>
+                            <option value="part3">Part 3</option>
+                          </select>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-0.5">
+                          <label className="w-auto text-xs">Mate1</label>
+                          <div className="w-auto flex gap-1">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-10 text-xs">PO No</label>
+                          <div className="w-auto flex gap-1 mr-1">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-20 text-xs">Od_Ctl_Person</label>
+                          <div className="w-auto flex gap-1 mr-1">
+                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] ">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto mr-1">
+                          <label className="w-8 text-xs">Sales</label>
+                          <div className="w-auto flex gap-1">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-10">
+                          <label className="w-10 text-xs">Specific</label>
+                          <div className="w-auto flex gap-1">
+                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] ">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-5">
+                          <label className="w-auto  text-xs">Pd_Receive</label>
+                          <div className="w-auto">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
+                            />
+                          </div>
+                        </div>
                       </div>
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Product_Docu
-                      </label>
-                      <input
-                        disabled
-                        id="Product_Docu"
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Delivery
-                      </label>
-                      <select
-                        id="Delivery_CD"
-                        value={orderData?.Delivery_CD || ""}
-                        onChange={handleInputChange}
-                        className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                      >
-                        <option value="">ไม่มีข้อมูล</option>
-                        {Array.isArray(orderData?.Delivery_CD) &&
-                          orderData.Delivery_CD.map((group, index) => (
-                            <option key={index} value={group.value}>
-                              {group.label}
-                            </option>
-                          ))}
-                      </select>
-                      <input
-                        disabled
-                        id="Delivery_Name"
-                        value={orderData?.Delivery_Name || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                    </div>
 
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Confirm
-                      </label>
-                      <input
-                        disabled
-                        id="Confirm_Delivery"
-                        value={orderData?.Confirm_Delivery || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Pd_Size
-                      </label>
-                      <input
-                        disabled
-                        id="Product_Size"
-                        value={orderData?.Product_Size || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Mate4
-                      </label>
-                      <input
-                        disabled
-                        id="Material4"
-                        value={orderData?.Material4 || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <input
-                        disabled
-                        id="H_Treatment4"
-                        value={orderData?.H_Treatment4 || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Price
-                      </label>
-                      <select
-                        id="Price_CD"
-                        value={orderData?.Price_CD || ""}
-                        onChange={handleInputChange}
-                        className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                      >
-                        <option value="">ไม่มีข้อมูล</option>
-                        {Array.isArray(orderData?.Price_CD) &&
-                          orderData.Price_CD.map((group, index) => (
-                            <option key={index} value={group.value}>
-                              {group.label}
-                            </option>
-                          ))}
-                      </select>
-                      <input
-                        disabled
-                        id="Price_Name"
-                        value={orderData?.Price_Name || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <div className="flex gap-2 items-center w-full sm:w-auto">
-                        <input
-                          id="Temp_Shipment"
-                          checked={orderData?.Temp_Shipment || ""}
-                          onChange={handleInputChange}
-                          type="checkbox"
-                          className="w-6 h-6"
-                        />
-                        <label
-                          htmlFor="Temp_Shipment"
-                          className="whitespace-nowrap text-xs sm:text-xs lg:text-lg"
-                        >
-                          Temp_Shipment
-                        </label>
+                      {/* Group 2 */}
+                      <div className="gap-2 flex mb-4 justify-start me-5">
+                        <div className="flex gap-2 w-auto">
+                          <label className="w-10  text-xs">Request</label>
+                          <div className="w-auto">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-12 text-xs">Customer</label>
+                          <div className="w-auto flex gap-1">
+                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] ">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[87px]"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-auto text-xs">Mate2</label>
+                          <div className="w-auto flex gap-1 -ml-0">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-10 text-xs">Req3</label>
+                          <div className="w-auto flex gap-1 mr-1">
+                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] w-24">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-10 text-xs">Coating</label>
+                          <div className="w-auto flex gap-1 ">
+                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] ">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-8">
+                          <label className="w-8 text-xs">Detail</label>
+                          <div className="w-auto flex gap-1">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-28"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-16 text-xs ml-5">
+                            Od_Progress
+                          </label>
+                          <div className="w-auto flex gap-1">
+                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99]  ">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-7">
+                          <label className="w-auto  text-xs">Pd_Comp</label>
+                          <div className="w-auto">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Group 3 */}
+                      <div className="gap-2 flex mb-4 justify-start ">
+                        <div className="flex gap-2 w-auto">
+                          <label className="w-auto  text-xs">Product</label>
+                          <div className="w-auto">
+                            <input
+                              type="text"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-10 text-xs">Pd_name</label>
+                          <div className="w-auto flex gap-1">
+                            <input
+                              type="text"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-[160px] ml-2"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-auto text-xs">Mate3</label>
+                          <div className="w-auto flex gap-1">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-10 text-xs">Qty</label>
+                          <div className="w-auto flex gap-1 mr-1">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-12"
+                            />
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-12"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-3">
+                          <div className="w-auto flex gap-1 ">
+                            <input
+                              type="checkbox"
+                              className="form-checkbox border-gray-400 rounded"
+                            />
+                            <label className="text-xs mt-1">Od_Pending</label>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-6">
+                          <label className="w-20 text-xs">Product_Docu</label>
+                          <div className="w-auto flex gap-1">
+                            <input
+                              type="text"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-30"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-6">
+                          <label className="w-10 text-xs ml-5">Delivery</label>
+                          <div className="w-auto flex gap-1">
+                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99]  ">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-6">
+                          <label className="w-auto  text-xs">QC_Comp</label>
+                          <div className="w-auto">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Group 4 */}
+                      <div className="gap-2 flex mb-4 justify-start ">
+                        <div className="flex gap-2 w-auto">
+                          <label className="w-auto  text-xs">Confirm</label>
+                          <div className="w-auto">
+                            <input
+                              type="text"
+                              className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-10 text-xs">Pd_Size</label>
+                          <div className="w-auto flex gap-1">
+                            <input
+                              type="text"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-[160px] ml-1.5"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-auto text-xs">Mate4</label>
+                          <div className="w-auto flex gap-1">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-10 text-xs">Price</label>
+                          <div className="w-auto flex gap-1 mr-1">
+                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99]  w-12">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-12"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-3">
+                          <div className="w-auto flex gap-1 ">
+                            <input
+                              type="checkbox"
+                              className="form-checkbox border-gray-400 rounded"
+                            />
+                            <label className="text-xs mt-1">
+                              Temp_Shipment
+                            </label>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-1.5">
+                          <label className="w-20 text-xs">Supple_Docu</label>
+                          <div className="w-auto flex gap-1">
+                            <input
+                              type="text"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-30"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-8">
+                          <label className="w-8 text-xs ml-5 item">
+                            Target
+                          </label>
+                          <div className="w-auto flex gap-1">
+                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99]  ">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-6">
+                          <label className="w-auto  text-xs">Shipment</label>
+                          <div className="w-auto">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Group 5 */}
+                      <div className="gap-2 flex mb-4 justify-start ">
+                        <div className="flex gap-2 w-auto">
+                          <label className="w-auto  text-xs">Nav</label>
+                          <div className="w-auto">
+                            <input
+                              type="text"
+                              className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-24 ml-5"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-10 text-xs">Pd_Draw</label>
+                          <div className="w-auto flex gap-1">
+                            <input
+                              type="text"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-[160px] ml-1.5"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-auto text-xs">Mate5</label>
+                          <div className="w-auto flex gap-1 ml-0.5">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-10 text-xs">Supple</label>
+                          <div className="w-auto flex gap-1 mr-1">
+                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99]  w-24">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-[18px]">
+                          <div className="w-auto flex gap-1 ">
+                            <input
+                              type="checkbox"
+                              className="form-checkbox border-gray-400 rounded"
+                            />
+                            <label className="text-xs mt-1">Unreceived</label>
+                            <input
+                              type="checkbox"
+                              className="form-checkbox border-gray-400 rounded ml-6 "
+                            />
+                            <label className="text-xs mt-1">Od_CAT1</label>
+                            <input
+                              type="checkbox"
+                              className="form-checkbox border-gray-400 rounded ml-6"
+                            />
+                            <label className="text-xs mt-1">Od_CAT2</label>
+                            <input
+                              type="checkbox"
+                              className="form-checkbox border-gray-400 rounded ml-6"
+                            />
+                            <label className="text-xs mt-1">Od_CAT3</label>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-2 w-auto ml-[96px]">
+                          <label className="w-20 text-xs ml-5 item">
+                            Pd_Target_Qty
+                          </label>
+                          <div className="w-auto flex gap-1">
+                            <input
+                              type="text"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-2">
+                          <label className="w-auto  text-xs">
+                            Calc_Process
+                          </label>
+                          <div className="w-auto">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <hr className="border-y-[1px] border-gray-300 w-[1700px]" />
+
+                      {/* Group 6 */}
+                      <div className="gap-2 flex mb-4 justify-start mt-4">
+                        <div className="flex gap-2 w-auto">
+                          <label className="w-10  text-xs">Parts_No</label>
+                          <div className="w-auto">
+                            <input
+                              type="text"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24 ml-1"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <label className="w-16 text-xs">Parts_Delivery</label>
+                          <div className="w-auto flex gap-1">
+                            <input
+                              type="text"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24 ml-1.5"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-2">
+                          <label className="w-10 text-xs">Parts_List</label>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-9">
+                          <label className="w-14 text-xs">RegPerson</label>
+                          <div className="w-auto flex gap-1 mr-1">
+                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99]  w-24">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24 ml-1.5"
+                            />
+                            <label className="w-32 text-xs ml-5">
+                              Company Information
+                            </label>
+                            <label className="w-24 text-xs">
+                              Note/Remark/Info
+                            </label>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-[18px]">
+                          <div className="w-auto flex gap-1 ">
+                            <input
+                              type="checkbox"
+                              className="form-checkbox border-gray-400 rounded ml-5 "
+                            />
+                            <label className="text-xs mt-2">Pt_CAT1</label>
+                            <input
+                              type="checkbox"
+                              className="form-checkbox border-gray-400 rounded ml-5"
+                            />
+                            <label className="text-xs mt-2">Pt_CAT2</label>
+                            <input
+                              type="checkbox"
+                              className="form-checkbox border-gray-400 rounded ml-5"
+                            />
+                            <label className="text-xs mt-2">Pt_CAT3</label>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-2 w-auto -ml-2">
+                          <label className="w-10 text-xs ml-5 item">
+                            Progress
+                          </label>
+                          <div className="w-auto flex gap-1">
+                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99]  ">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-6">
+                          <label className="w-auto  text-xs">Plan_Reg</label>
+                          <div className="w-auto">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Group 7 */}
+                      <div className="gap-2 flex mb-4 justify-start mt-4">
+                        <div className="flex flex-col gap-4 w-auto">
+                          <div className="flex items-center gap-4">
+                            <label className="w-11 text-xs">Pt_Name</label>
+                            <div className="w-auto">
+                              <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] w-24">
+                                <option value=""></option>
+                                <option value="part1">Part 1</option>
+                                <option value="part2">Part 2</option>
+                                <option value="part3">Part 3</option>
+                              </select>
+                            </div>
+
+                            <label className="w-10 text-xs">Pt_Mate</label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24 h-7"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <label className="w-11 text-xs">Pt_Qty</label>
+                            <div className="w-auto">
+                              <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] w-24 ">
+                                <option value=""></option>
+                                <option value="part1">Part 1</option>
+                                <option value="part2">Part 2</option>
+                                <option value="part3">Part 3</option>
+                              </select>
+                            </div>
+                            <input
+                              type="checkbox"
+                              className="form-checkbox border-gray-400 rounded ml-2"
+                            />
+                            <label className="text-xs ">Split</label>
+                            <label className="w-7 text-xs ml-4">Sp_Qty</label>
+                            <input
+                              type="text"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-14 ml-1.5 h-7"
+                            />
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <label className="w-20 text-xs">
+                              Connect_Od_No
+                            </label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-32  h-7"
+                              />
+                            </div>
+                            <label className="w-8 text-xs ml-1">NG_Qty</label>
+                            <div className="w-auto flex gap-1">
+                              <input
+                                type="text"
+                                className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-14 ml-1.5 h-7"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <label className="w-20 text-xs">
+                              Connect_Pt_No
+                            </label>
+                            <div className="w-auto flex gap-2">
+                              <input
+                                type="text"
+                                className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-10 h-7"
+                              />
+                              <input
+                                type="text"
+                                className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-20 h-7"
+                              />
+                            </div>
+                            <input
+                              type="checkbox"
+                              className="form-checkbox border-gray-400 rounded ml-2"
+                            />
+                            <label className="text-xs ">Pt_pend</label>
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <label className="w-20 text-xs">
+                              Connect_Pr_No
+                            </label>
+                            <div className="w-auto flex gap-2">
+                              <input
+                                type="text"
+                                className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-10 h-7"
+                              />
+                              <input
+                                type="text"
+                                className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md  w-20 h-7"
+                              />
+                            </div>
+                            <input
+                              type="checkbox"
+                              className="form-checkbox border-gray-400 rounded ml-2"
+                            />
+                            <label className="text-xs ">Outside</label>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-2 w-auto ">
+                          <div className="w-auto flex gap-1">
+                            <div class=" border border-gray-300 overflow-hidden">
+                              <table class="w-[360px] h-[10px] border-collapse text-xs">
+                                <thead>
+                                  <tr class="bg-gray-100">
+                                    <th class="border border-gray-300 py-2 px-1 text-center">
+                                      P.
+                                    </th>
+                                    <th class="border border-gray-300 py-2 px-1 text-center">
+                                      PI.
+                                    </th>
+                                    <th class="border border-gray-300 py-2 px-1 text-center">
+                                      Part
+                                    </th>
+                                    <th class="border border-gray-300 py-2 px-1 text-center">
+                                      Pt_Delivery
+                                    </th>
+                                    <th class="border border-gray-300 py-2 px-1 text-center">
+                                      Pt_
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                  </tr>
+                                  <tr>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                  </tr>
+                                  <tr>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                  </tr>
+                                  <tr>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                    <td class="border border-gray-300 h-8"></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+
+                              <div class="flex justify-between items-center p-2 border-t border-gray-300">
+                                <button class="text-gray-500 focus:outline-none">
+                                  ◀
+                                </button>
+                                <button class="text-gray-500 focus:outline-none">
+                                  ▶
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-2 w-auto ml-[18px] h-20">
+                          <div className="w-auto flex flex-col gap-2">
+                            <div className="flex items-center">
+                              <label className="text-xs mr-2">1</label>
+                              <select className="border rounded px-2 py-1 text-xs w-24">
+                                <option value=""></option>
+                                <option value="part1">Part 1</option>
+                                <option value="part2">Part 2</option>
+                                <option value="part3">Part 3</option>
+                              </select>
+                            </div>
+                            <div className="flex items-center">
+                              <label className="text-xs mr-2">2</label>
+                              <select className="border rounded px-2 py-1 text-xs w-24">
+                                <option value=""></option>
+                                <option value="part1">Part 1</option>
+                                <option value="part2">Part 2</option>
+                                <option value="part3">Part 3</option>
+                              </select>
+                            </div>
+                            <div className="flex items-center">
+                              <label className="text-xs mr-2">3</label>
+                              <select className="border rounded px-2 py-1 text-xs w-24">
+                                <option value=""></option>
+                                <option value="part1">Part 1</option>
+                                <option value="part2">Part 2</option>
+                                <option value="part3">Part 3</option>
+                              </select>
+                            </div>
+                            <div className="flex items-center">
+                              <label className="text-xs mr-2">4</label>
+                              <select className="border rounded px-2 py-1 text-xs w-24">
+                                <option value=""></option>
+                                <option value="part1">Part 1</option>
+                                <option value="part2">Part 2</option>
+                                <option value="part3">Part 3</option>
+                              </select>
+                            </div>
+                            <div className="flex items-center">
+                              <label className="text-xs mr-2">5</label>
+                              <select className="border rounded px-2 py-1 text-xs w-24">
+                                <option value=""></option>
+                                <option value="part1">Part 1</option>
+                                <option value="part2">Part 2</option>
+                                <option value="part3">Part 3</option>
+                              </select>
+                            </div>
+                            <div className="flex items-center">
+                              <label className="text-xs mr-2">6</label>
+                              <select className="border rounded px-2 py-1 text-xs w-24">
+                                <option value=""></option>
+                                <option value="part1">Part 1</option>
+                                <option value="part2">Part 2</option>
+                                <option value="part3">Part 3</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-2 w-auto ml-[18px] h-10">
+                          <div className="w-16 flex flex-col gap-2">
+                            <div className="flex items-center h-full py-2">
+                              <label className="text-xs mr-2">Chk 1</label>
+                              <input
+                                type="checkbox"
+                                className="form-checkbox border-gray-400 rounded ml-2"
+                              />
+                            </div>
+                            <div className="flex items-center h-full py-1">
+                              <label className="text-xs mr-2">Chk 2</label>
+                              <input
+                                type="checkbox"
+                                className="form-checkbox border-gray-400 rounded ml-2"
+                              />
+                            </div>
+                            <div className="flex items-center h-full py-2">
+                              <label className="text-xs mr-2">Chk 3</label>
+                              <input
+                                type="checkbox"
+                                className="form-checkbox border-gray-400 rounded ml-2"
+                              />
+                            </div>
+                            <div className="flex items-center h-full py-1">
+                              <label className="text-xs mr-2">Chk 4</label>
+                              <input
+                                type="checkbox"
+                                className="form-checkbox border-gray-400 rounded ml-2"
+                              />
+                            </div>
+                            <div className="flex items-center h-full py-1">
+                              <label className="text-xs mr-2">Chk 5</label>
+                              <input
+                                type="checkbox"
+                                className="form-checkbox border-gray-400 rounded ml-2"
+                              />
+                            </div>
+                            <div className="flex items-center h-full py-2">
+                              <label className="text-xs mr-2">Chk 6</label>
+                              <input
+                                type="checkbox"
+                                className="form-checkbox border-gray-400 rounded ml-2"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ">
+                          <div className="w-auto">
+                            <table class="w-[500px] text-xs border border-gray-300">
+                              <tbody>
+                                <tr>
+                                  <td class="border border-gray-300 h-44 w-1/2"></td>
+                                  <td class="border border-gray-300 h-24 w-1/2"></td>
+                                </tr>
+                                <tr>
+                                  <td
+                                    class="border border-gray-300 h-8"
+                                    colspan="2"
+                                  ></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col gap-2 w-auto ">
+                          <div className="flex gap-2 w-auto ml-[50px]">
+                            <label className="w-auto text-xs">Plan_Reg</label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex gap-2 w-auto ml-[45px]">
+                            <label className="w-auto text-xs">QC_Comp</label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex gap-2 w-auto ml-[50px]">
+                            <label className="w-auto text-xs">Plan_Upd</label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex gap-2 w-auto ml-4">
+                            <label className="w-auto text-xs">UpdPerson</label>
+                            <div className="w-auto">
+                              <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] w-12 ">
+                                <option value=""></option>
+                                <option value="part1">Part 1</option>
+                                <option value="part2">Part 2</option>
+                                <option value="part3">Part 3</option>
+                              </select>
+                              <input
+                                type="text"
+                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[125px] ml-1"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex gap-2 w-auto ml-7">
+                            <label className="w-auto text-xs">Schedule</label>
+                            <div className="flex gap-2 w-auto">
+                              <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] w-10 ">
+                                <option value=""></option>
+                                <option value="part1">Part 1</option>
+                                <option value="part2">Part 2</option>
+                                <option value="part3">Part 3</option>
+                              </select>
+                              <input
+                                type="text"
+                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-32"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex gap-2 w-auto">
+                            <label className="w-auto text-xs">
+                              Starnat|ManHour_Scale
+                            </label>
+                            <div className="flex gap-2 w-auto">
+                              <input
+                                type="text"
+                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-14"
+                              />
+                              <input
+                                type="text"
+                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-16"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Group 8 */}
+                      <div className="gap-2 flex mb-4 justify-start mt-4 ml-16">
+                        <div className="flex gap-2 w-auto">
+                          <label className="w-24  text-xs">
+                            PI_Quote_OdPt_No
+                          </label>
+                          <div className="w-auto">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-40 ml-1"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-3">
+                          <label className="w-20 text-xs">Start_Rev_Days</label>
+                          <div className="w-auto flex gap-1">
+                            <input
+                              type="text"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-14 ml-1"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-10">
+                          <label className="w-20 text-xs">End_Rev_Days</label>
+                          <div className="w-auto flex gap-1">
+                            <input
+                              type="text"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-14 ml-1"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto w-full">
+              <div className="grid grid-cols-12 min-w-auto">
+                <div className="col-span-12 me-5 mt-5  ">
+                  <div className="grid grid-cols-12 gap-4">
+                    <div className="col-span-12 md:col-span-9">
+                      {/* Group 9 */}
+                      <div className="gap-2 flex mb-4 justify-start mt-4 ml-16">
+                        <div className="flex gap-2 w-auto">
+                          <label className="w-10  text-xs">PI_Quote</label>
+                          <div className="w-auto">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-40 ml-1"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-3">
+                          <label className="w-24 text-xs">
+                            In_Inst(TooPcNo)
+                          </label>
+                          <div className="w-auto flex gap-1">
+                            <button className="bg-gray-300 py-1 px-2 rounded text-xs">
+                              ScheduleCalc
+                            </button>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-5">
+                          <label className="w-10 text-xs">Type</label>
+                          <div className="w-auto flex gap-1">
+                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] w-24 ">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 w-auto ml-5">
+                          <input
+                            type="checkbox"
+                            className="form-checkbox border-gray-400 rounded ml-2"
+                          />
+                          <label className="text-xs mr-2 mt-1">
+                            Money_Object
+                          </label>
+
+                          <div className="w-auto flex gap-1">
+                            <input
+                              type="text"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24ml-1"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Group 10 */}
+                      <div className="gap-2 flex mb-4 justify-start mt-4 ">
+                        <div className="flex gap-2 w-auto">
+                          <table className="table-auto bg-white border-2 border-black text-xs">
+                            <thead className="sticky top-0 z-10 bg-white">
+                              <tr className="text-black font-bold text-xs">
+                                <th
+                                  colSpan="2"
+                                  className="py-1 px-2 text-center"
+                                >
+                                  <button className="bg-gray-300 py-1 px-2 rounded text-xs text-gray-500">
+                                    Quote_Info_View
+                                  </button>
+                                </th>
+                                <th className="py-1 px-3 w-auto" rowSpan="2">
+                                  <button className="bg-gray-300 py-1 px-2 rounded text-xs text-gray-500 h-10">
+                                    All ➔
+                                  </button>
+                                </th>
+                                <th className="py-1 px-10 w-auto" rowSpan="2">
+                                  Plan_Process
+                                </th>
+                                <th className="py-1 px-3 w-auto" rowSpan="2">
+                                  Plan Machine(min)
+                                </th>
+                                <th className="py-1 px-3 w-auto" rowSpan="2">
+                                  PlanMachine (min)|(D)
+                                </th>
+                                <th className="py-1 px-10 w-auto" rowSpan="2">
+                                  Time/Proce/Sche
+                                </th>
+                                <th className="py-1 px-3 w-auto" rowSpan="2">
+                                  Plan_Date
+                                </th>
+                                <th className="py-1 px-20 w-auto" rowSpan="2">
+                                  Instructions
+                                </th>
+                                <th className="py-1 px-3 w-auto" rowSpan="2">
+                                  Result_Date
+                                </th>
+                                <th className="py-1 px-3 w-auto" rowSpan="2">
+                                  Result Machine (min/Lot)
+                                </th>
+                                <th className="py-1 px-3 w-auto" rowSpan="2">
+                                  Result Person (min/Lot)
+                                </th>
+                                <th className="py-1 px-3 w-auto" rowSpan="2">
+                                  Result Qty
+                                </th>
+                                <th className="py-1 px-3 w-auto" rowSpan="2">
+                                  <button className="bg-gray-300 py-1 px-2 rounded text-xs text-gray-500">
+                                    ASP Schedule Reflect
+                                  </button>
+                                </th>
+                                <th className="py-1 px-3 w-auto" rowSpan="2">
+                                  <div className="flex gap-1">
+                                    <button className="bg-gray-300 py-1 px-2 rounded text-xs text-gray-500">
+                                      Schedule_BK
+                                    </button>
+                                    <button className="bg-gray-300 py-1 px-2 rounded text-xs text-gray-500">
+                                      Schedule_RE
+                                    </button>
+                                  </div>
+                                </th>
+                                <th className="py-1 px-2 w-auto" rowSpan="2">
+                                  PI_Machine Lot_Time (min/Lot)
+                                </th>
+                                <th className="py-1 px-2 w-auto" rowSpan="2">
+                                  PI_Person Lot_time (min/Lot)
+                                </th>
+                              </tr>
+                              <tr className="text-black font-bold text-xs">
+                                <th className="py-1 px-2 w-auto">No.</th>
+                                <th className="py-1 px-5 w-auto">M|P(m/p)</th>
+                              </tr>
+                            </thead>
+
+                            <tbody>
+                              {rows.map((row, rowIndex) => {
+                                return (
+                                  <tr
+                                    key={rowIndex}
+                                    className="border border-black border-dashed"
+                                  >
+                                    {/* Column for Row Number */}
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto">
+                                      {rowIndex + 1}
+                                    </td>
+
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <div className="text-center">
+                                        {row.mp}
+                                      </div>
+                                    </td>
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <button className="bg-gray-300 py-1 px-2 rounded text-xs text-gray-500 h-8 font-bold">
+                                        ➔
+                                      </button>
+                                    </td>
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <div className="text-center">
+                                        {row.plan_process}
+                                      </div>
+                                    </td>
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <div className="text-center">
+                                        {row.min}
+                                      </div>
+                                    </td>
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <div className="text-center">
+                                        {row.mind}
+                                      </div>
+                                    </td>
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <div className="text-center">
+                                        {row.time}
+                                      </div>
+                                    </td>
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <div className="text-center">
+                                        {row.plan_date}
+                                      </div>
+                                    </td>
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <div className="text-center">
+                                        {row.instructions}
+                                      </div>
+                                    </td>
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <div className="text-center">
+                                        {row.result_date}
+                                      </div>
+                                    </td>
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <div className="text-center">
+                                        {row.resultmachine}
+                                      </div>
+                                    </td>
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <div className="text-center">
+                                        {row.result_person}
+                                      </div>
+                                    </td>
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <div className="text-center">
+                                        {row.resultqty}
+                                      </div>
+                                    </td>
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <div className="text-center">
+                                        {row.asp}
+                                      </div>
+                                    </td>
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <div className="text-center">
+                                        {row.bk}
+                                      </div>
+                                    </td>
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <div className="text-center">
+                                        {row.pi_machine}
+                                      </div>
+                                    </td>
+                                    <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
+                                      <div className="text-center">
+                                        {row.pi_person}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="gap-4 flex mb-4  mt-4 ml-16 flex-row flex-wrap min-w-[2000px] justify-between ">
+                    <div class="bg-white p-3 mt-5">
+                      <div class="flex flex-wrap gap-4">
+                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                          Plan Copy <br /> 引用(F1)
+                        </button>
+                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                          Edit <br /> 編集 (F2)
+                        </button>
+                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                          New Add <br /> 追加 (F3)
+                        </button>
+                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                          Sub-Con <br /> 手配 (F4)
+                        </button>
+                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                          Plan <br /> 計画 (F5)
+                        </button>
+                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                          P Sheet All <br /> 全頁 (F6)
+                        </button>
+                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                          P Sheet 1P <br /> 1頁 (F7)
+                        </button>
+                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                          NextParts <br /> 別部 (F8)
+                        </button>
+                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                          Save <br /> 登録 (F9)
+                        </button>
+                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                          Delete <br /> 削除 (F10)
+                        </button>
+                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-sm text-white w-auto text-center">
+                          NextInput <br /> 次へ (F11)
+                        </button>
+                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                          Exit <br /> 終了 (F12)
+                        </button>
                       </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Supple_Docu
-                      </label>
-                      <input
-                        disabled
-                        id="Supple_Docu"
-                        value={orderData?.Supple_Docu || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Target
-                      </label>
-                      <select
-                        id="Target_CD"
-                        value={orderData?.Target_CD || ""}
-                        onChange={handleInputChange}
-                        className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                      >
-                        <option value="">ไม่มีข้อมูล</option>
-                        {Array.isArray(orderData?.Target_CD) &&
-                          orderData.Target_CD.map((group, index) => (
-                            <option key={index} value={group.value}>
-                              {group.label}
-                            </option>
-                          ))}
-                      </select>
-                      <input
-                        disabled
-                        id="Target_Name"
-                        value={orderData?.Target_Name || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Shipment
-                      </label>
-                      <input
-                        disabled
-                        id="Shipment_Date"
-                        value={orderData?.Shipment_Date || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                    </div>
+                    <div class="p-4  max-w-lg mr-32">
+                      <div class="grid grid-cols-6 gap-2 p-1">
+                        <label
+                          for="max-end-no"
+                          class="col-span-1 flex items-center text-xs"
+                        >
+                          MaxEnd_No
+                        </label>
+                        <input
+                          id="max-end-no"
+                          type="text"
+                          class="col-span-1 border border-gray-300 rounded p-1 w-16"
+                        />
+                        <input
+                          id="max-end-no-2"
+                          type="text"
+                          class="col-span-1 border border-gray-300 rounded p-1 w-16"
+                        />
 
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        NAV
-                      </label>
-                      <input
-                        disabled
-                        id="NAV_Delivery"
-                        value={orderData?.NAV_Delivery || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Pd_Draw
-                      </label>
-                      <input
-                        disabled
-                        id="Product_Draw"
-                        value={orderData?.Product_Draw || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Mate5
-                      </label>
-                      <input
-                        disabled
-                        id="Material5"
-                        value={orderData?.Material5 || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <input
-                        disabled
-                        id="H_Treatment5"
-                        value={orderData?.H_Treatment5 || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Supply
-                      </label>
-                      <select
-                        id="Supply_CD"
-                        value={orderData?.Supply_CD || ""}
-                        onChange={handleInputChange}
-                        className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                      >
-                        <option value="">ไม่มีข้อมูล</option>
-                        {Array.isArray(orderData?.Supply_CD) &&
-                          orderData.Supply_CD.map((group, index) => (
-                            <option key={index} value={group.value}>
-                              {group.label}
-                            </option>
-                          ))}
-                      </select>
-                    </div>
+                        <label
+                          for="total"
+                          class="col-span-1 flex items-center text-xs mr-1"
+                        >
+                          Total
+                        </label>
+                        <input
+                          id="total"
+                          type="text"
+                          class="col-span-2 border border-gray-300 rounded p-1 w-24"
+                        />
 
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <div className="flex gap-2 items-center w-full sm:w-auto">
-                        <input
-                          id="Unreceived"
-                          checked={orderData?.Unreceived || ""}
-                          onChange={handleInputChange}
-                          type="checkbox"
-                          className="w-6 h-6"
-                        />
                         <label
-                          htmlFor="Unreceived"
-                          className="whitespace-nowrap text-xs sm:text-xs lg:text-lg"
+                          for="now-no"
+                          class="col-span-1 flex items-center text-xs"
                         >
-                          Unreceived
+                          Now_No
                         </label>
-                      </div>
-                      <div className="flex gap-2 items-center w-full sm:w-auto">
                         <input
-                          id="Od_CAT1"
-                          checked={orderData?.Od_CAT1 || ""}
-                          onChange={handleInputChange}
-                          type="checkbox"
-                          className="w-6 h-6"
+                          id="now-no"
+                          type="text"
+                          class="col-span-1 border  rounded p-1 w-16"
                         />
-                        <label
-                          htmlFor="Od_CAT1"
-                          className="whitespace-nowrap text-xs sm:text-xs lg:text-lg"
-                        >
-                          Od_CAT1
-                        </label>
-                      </div>
-                      <div className="flex gap-2 items-center w-full sm:w-auto">
-                        <input
-                          id="Od_CAT2"
-                          checked={orderData?.Od_CAT2 || ""}
-                          onChange={handleInputChange}
-                          type="checkbox"
-                          className="w-6 h-6"
-                        />
-                        <label
-                          htmlFor="Od_CAT2"
-                          className="whitespace-nowrap text-xs sm:text-xs lg:text-lg"
-                        >
-                          Od_CAT2
-                        </label>
-                      </div>
-                      <div className="flex gap-2 items-center w-full sm:w-auto">
-                        <input
-                          id="Od_CAT3"
-                          checked={orderData?.Od_CAT3 || ""}
-                          onChange={handleInputChange}
-                          type="checkbox"
-                          className="w-6 h-6"
-                        />
-                        <label
-                          htmlFor="Od_CAT3"
-                          className="whitespace-nowrap text-xs sm:text-xs lg:text-lg"
-                        >
-                          Od_CAT3
-                        </label>
-                      </div>
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Pd_Target_Qty
-                      </label>
-                      <input
-                        disabled
-                        id="Pd_Target_Qty"
-                        value={orderData?.Pd_Target_Qty || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Calc_Process
-                      </label>
-                      <input
-                        disabled
-                        id="Calc_Process_Date"
-                        value={orderData?.Calc_Process_Date || ""}
-                        onChange={handleInputChange}
-                        className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                    </div>
-                    <br></br>
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Parts_No
-                      </label>
-                      <input
-                        id="Parts_No"
-                        value={planData?.Parts_No || ""}
-                        onChange={handlePlanInputChange}
-                        className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Parts_Delivery
-                      </label>
-                      <input
-                        id="Pt_Delivery"
-                        value={planData?.Pt_Delivery || ""}
-                        onChange={handlePlanInputChange}
-                        className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        【Parts_List】
-                      </label>
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        RegPerson
-                      </label>
-                      <select
-                        id="Pl_Reg_Person_CD"
-                        value={planData?.Pl_Reg_Person_CD || ""}
-                        onChange={handlePlanInputChange}
-                        className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                      >
-                        <option value="">ไม่มีข้อมูล</option>
-                        {Array.isArray(planData?.Pl_Reg_Person_CD) &&
-                          planData.Pl_Reg_Person_CD.map((group, index) => (
-                            <option key={index} value={group.value}>
-                              {group.label}
-                            </option>
-                          ))}
-                      </select>
-                      <input
-                        id="Pl_Reg_Person_Name"
-                        value={planData?.Pl_Reg_Person_Name || ""}
-                        onChange={handlePlanInputChange}
-                        className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                    </div>
 
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Pt_Name
-                      </label>
-                      <select
-                        id="Parts_CD"
-                        value={planData?.Parts_CD || ""}
-                        onChange={handlePlanInputChange}
-                        className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                      >
-                        <option value="">ไม่มีข้อมูล</option>
-                        {Array.isArray(planData?.Parts_CD) &&
-                          planData.Parts_CD.map((group, index) => (
-                            <option key={index} value={group.value}>
-                              {group.label}
-                            </option>
-                          ))}
-                      </select>
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Pt_Mate
-                      </label>
-                      <input
-                        id="Pt_Material"
-                        value={planData?.Pt_Material || ""}
-                        onChange={handlePlanInputChange}
-                        className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Pt_Qty
-                      </label>
-                      <input
-                        id="Pt_Qty"
-                        value={planData?.Pt_Qty || ""}
-                        onChange={handlePlanInputChange}
-                        className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <select
-                        id="Pt_Unit_CD"
-                        value={planData?.Pt_Unit_CD || ""}
-                        onChange={handlePlanInputChange}
-                        className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
-                      >
-                        <option value="">ไม่มีข้อมูล</option>
-                        {Array.isArray(planData?.Pt_Unit_CD) &&
-                          planData.Pt_Unit_CD.map((group, index) => (
-                            <option key={index} value={group.value}>
-                              {group.label}
-                            </option>
-                          ))}
-                      </select>
-                      <div className="flex gap-2 items-center w-full sm:w-auto">
-                        <input
-                          id="Pt_Split"
-                          checked={planData?.Pt_Split}
-                          onChange={handlePlanInputChange}
-                          type="checkbox"
-                          className="w-6 h-6"
-                        />
                         <label
-                          htmlFor="Pt_Split"
-                          className="whitespace-nowrap text-xs sm:text-xs lg:text-lg"
+                          for="re-total"
+                          class="col-span-1 flex items-center text-xs ml-20"
                         >
-                          Split
+                          Re_Total
                         </label>
-                      </div>
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-24">
-                        Sp_Qty
-                      </label>
-                      <input
-                        id="Pt_Spare_Qty"
-                        value={planData?.Pt_Spare_Qty || ""}
-                        onChange={handlePlanInputChange}
-                        className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                    </div>
+                        <input
+                          id="re-total"
+                          type="text"
+                          class="col-span-3 border  p-1 w-[100px] ml-20"
+                        />
 
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-28">
-                        Connect_Od_No
-                      </label>
-                      <input
-                        id="Connect_Od_No"
-                        value={planData?.Connect_Od_No || ""}
-                        onChange={handlePlanInputChange}
-                        className="bg-[#d0f8ce] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-28">
-                        NG_Qty
-                      </label>
-                      <input
-                        id="NG_Qty"
-                        value={planData?.Pt_NG_Qty || ""}
-                        onChange={handlePlanInputChange}
-                        className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-28">
-                        Connect_Pt_No
-                      </label>
-                      <input
-                        id="Connect_Pt_No"
-                        value={planData?.Connect_Pt_No || ""}
-                        onChange={handlePlanInputChange}
-                        className="bg-[#d0f8ce] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <input
-                        id="Connect_Pt_Abb"
-                        value={planData?.Connect_Pt_Abb || ""}
-                        onChange={handlePlanInputChange}
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <div className="flex gap-2 items-center w-full sm:w-auto">
-                        <input
-                          id="Pt_Pend"
-                          checked={planData?.Pt_Pend || ""}
-                          onChange={handlePlanInputChange}
-                          type="checkbox"
-                          className="w-6 h-6"
-                        />
                         <label
-                          htmlFor="Pt_Pend"
-                          className="whitespace-nowrap text-xs sm:text-xs lg:text-lg"
+                          for="re-pr-qty"
+                          class="col-span-1 flex items-center text-xs"
                         >
-                          Pt_Pend
+                          Re_Pr_Qty
                         </label>
-                      </div>
-                    </div>
+                        <input
+                          id="re-pr-qty"
+                          type="text"
+                          class="col-span-1 border  p-1 w-16"
+                        />
 
-                    <div className="flex flex-col sm:flex-row gap-2 items-center sm:col-span-2 lg:col-span-5">
-                      <label className="font-medium text-xs sm:text-sm md:text-base w-full sm:w-1/2 md:w-1/2 lg:w-28">
-                        Connect_Pr_No
-                      </label>
-                      <input
-                        id="Connect_Pr_No"
-                        value={planData?.Connect_Pr_No || ""}
-                        onChange={handlePlanInputChange}
-                        className="bg-[#d0f8ce] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <input
-                        id="Connect_Pr_Abb"
-                        value={planData?.Connect_Pr_Abb || ""}
-                        onChange={handlePlanInputChange}
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                      />
-                      <div className="flex gap-2 items-center w-full sm:w-auto">
-                        <input
-                          id="Outside"
-                          checked={planData?.Outside || ""}
-                          onChange={handlePlanInputChange}
-                          type="checkbox"
-                          className="w-6 h-6"
-                        />
                         <label
-                          htmlFor="Outside"
-                          className="whitespace-nowrap text-xs sm:text-xs lg:text-lg"
+                          for="re-total-n"
+                          class="col-span-1 flex items-center text-xs ml-16"
                         >
-                          Outside
+                          Re_Total_N
                         </label>
+                        <input
+                          id="re-total-n"
+                          type="text"
+                          class="col-span-3 border border-gray-300 rounded p-1 w-[100px] ml-20"
+                        />
                       </div>
                     </div>
                   </div>

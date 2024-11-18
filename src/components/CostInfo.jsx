@@ -8,16 +8,16 @@ const CostInfo = () => {
   const headers = ["CC", "F", "Process", "MA", "Machine", "MA", "Work", "Work"];
 
   // Generate table rows with input fields
-  const rows = Array.from({ length: 11 }, (_, rowIndex) => (
+  const rows = Array.from({ length: 10 }, (_, rowIndex) => (
     <tr
       key={rowIndex}
       className={rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"}
     >
       {headers.map((_, colIndex) => (
-        <td key={colIndex} className="px-4 py-2 border text-sm">
-          <input
+        <td key={colIndex} className="px-4 py-2 border border-black text-sm">
+          <p
             type="text"
-            className="w-28 p-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-28 h-7 p-1"
           />
         </td>
       ))}
@@ -29,9 +29,9 @@ const CostInfo = () => {
       <Sidebar />
       <div className="flex flex-col w-screen mr-2 ml-2">
         <Navbar />
-        <div className="flex-1 flex-col overflow-x-auto flex-grow p-2">
+        <div className="flex-1 flex-col overflow-x-auto flex-grow p-2 bg-white mt-2 rounded-md">
           <h1 className="text-2xl font-bold mt-3 text-center">Cost Info</h1>
-          <hr className="my-6 h-0.5 border-t-0 bg-neutral-200 opacity-100 dark:opacity-50" />
+          <hr className="my-6 h-0.5 border-t-0 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2 mb-2">
             <div className="flex flex-col space-y-1">
@@ -549,20 +549,20 @@ const CostInfo = () => {
               </div>
               <div className="overflow-x-auto w-full">
                 <div className="overflow-x-auto w-full">
-                  <table className="min-w-full bg-white border border-gray-300 table-auto">
+                  <table className="min-w-full bg-white border border-black table-auto">
                     <thead>
                       <tr>
                         {headers.map((header, index) => (
                           <th
                             key={index}
-                            className="px-4 py-2 text-xs font-medium text-gray-700 border-b border-gray-300 text-left"
+                            className="px-4 py-2 text-xs font-medium text-gray-700 border border-black text-left"
                           >
                             {header}
                           </th>
                         ))}
                       </tr>
                     </thead>
-                    <tbody>{rows}</tbody>
+                    <tbody className="border border-black">{rows}</tbody>
                   </table>
                 </div>
               </div>
