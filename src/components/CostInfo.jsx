@@ -131,11 +131,11 @@ const CostInfo = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-2">
             <div className="flex items-center space-x-2">
-              <label className="text-xs font-bold w-[75px] lg:w-[70px]">
+              <label className="text-xs font-bold w-[105px] lg:w-[70px]">
                 Process No.
               </label>
               <div className="flex items-center gap-2">
-                <div className="relative sm:w-20 lg:w-20 xl:w-20">
+                <div className="relative w-full sm:w-20 lg:w-20 xl:w-20">
                   <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
                     <option value="" disabled hidden></option>
                     <option value="1">1</option>
@@ -159,7 +159,7 @@ const CostInfo = () => {
                     Machine CD(CMC)
                   </label>
                   <div className="flex items-center gap-2">
-                    <div className="relative xl:w-28">
+                    <div className="relative w-full xl:w-28">
                       <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffcc] w-full h-8">
                         <option value="" disabled hidden></option>
                         <option value="1">1</option>
@@ -193,7 +193,7 @@ const CostInfo = () => {
                     Worker CD(CPT)
                   </label>
                   <div className="flex items-center gap-2">
-                    <div className="relative xl:w-28">
+                    <div className="relative w-full xl:w-28">
                       <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffcc] w-full h-8">
                         <option value="" disabled hidden></option>
                         <option value="1">1</option>
@@ -251,7 +251,7 @@ const CostInfo = () => {
                     Cost_Progress
                   </label>
                   <div className="flex items-center gap-2">
-                    <div className="relative xl:w-28">
+                    <div className="relative w-full xl:w-28">
                       <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
                         <option value="" disabled hidden></option>
                         <option value="1">1</option>

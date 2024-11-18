@@ -24,6 +24,7 @@ import { useAuth } from "../hooks/use-auth";
 
 const menuItems = [
   { icon: HiHome, label: "Main", to: "/dashboard" },
+  { icon: HiHome, label: "Admin Menu", to: "/admin-menu" },
   { icon: HiClipboardCheck, label: "Sales", to: "/sales" },
   { icon: HiOutlineUserGroup, label: "Sub-Con (手配)", to: "/sub-con" },
   { icon: HiOutlineCalendar, label: "Plan", to: "/plan" },
