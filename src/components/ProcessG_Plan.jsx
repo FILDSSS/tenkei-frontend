@@ -15,8 +15,10 @@ export default function ProcessG_Plan() {
                 <label className="text-xl font-bold">ProcessG_Plan</label>
             </div>
             <hr />
-            <div className="mx-5 p-4 grid grid-cols-2 gap-2">
-                <div className="w-full">
+
+            
+            <div className="mx-5 p-4 grid grid-cols-1 lg:grid-cols-2 gap-2">
+                <div className="w-full ">
                     <div>
                         <label className="font-medium text-xs">Target_ProG_Setting</label>
                     </div>
@@ -27,6 +29,9 @@ export default function ProcessG_Plan() {
                             <label className="font-medium text-xs">Check_Only</label>
                         </div>
                     </div>
+
+
+                    <div className ="sm:overflow-x-auto">
                     <table className="border-2 border-black w-full">
                         <thead className="">
                             <tr>
@@ -119,7 +124,11 @@ export default function ProcessG_Plan() {
                             </tr>
                         </tbody>
                     </table>
-                    <div className="grid grid-cols-2 mt-4">
+                    </div>
+
+
+
+                    <div className="grid grid-cols-2 mt-4 ">
                         <div className="flex justify-center">
                             <button className="bg-blue-500 hover:bg-blue-700 w-28 h-10 rounded-lg">
                                 <label className="text-white font-semibold">Default</label>
@@ -383,17 +392,17 @@ export default function ProcessG_Plan() {
                         </div>
                     </div>
                     <div className="grid grid-cols-12 gap-2 mb-3">
-                        <div className="col-span-3"></div>
+                        <div className="col-span-3 "></div>
                         <div className="col-span-1 text-end">
                             <label className="font-medium text-xs">Parts_No</label>
                         </div>
-                        <div className="col-span-3">
+                        <div className="col-span-3 sm:ml-4 md:ml-6">
                             <input type="text" className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md px-1 w-full" />
                         </div>
                         <div className="col-span-1 text-center">
                             <label className="font-bold text-base">~</label>
                         </div>
-                        <div className="col-span-3">
+                        <div className="col-span-3 sm:ml-4 md:ml-6">
                             <input type="text" className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md px-1 w-full" />
                         </div>
                         <div className="col-span-1"></div>
@@ -422,13 +431,13 @@ export default function ProcessG_Plan() {
                         <div className="col-span-1 text-end">
                             <label className="font-medium text-xs">Plan_Date</label>
                         </div>
-                        <div className="col-span-3">
+                        <div className="col-span-3 sm:ml-4 md:ml-6">
                             <input type="text" className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md px-1 w-full" />
                         </div>
                         <div className="col-span-1 text-center">
                             <label className="font-bold text-base">~</label>
                         </div>
-                        <div className="col-span-3">
+                        <div className="col-span-3 sm:ml-4 md:ml-6">
                             <input type="text" className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md px-1 w-full" />
                         </div>
                         <div className="col-span-1"></div>
@@ -518,8 +527,11 @@ export default function ProcessG_Plan() {
                     </div>
                 </div>
             </div>
+
+
+
             <div className="p-3">
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4">
                     <div className="grid grid-cols-4 gap-2">
                         <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
                             Search <br />

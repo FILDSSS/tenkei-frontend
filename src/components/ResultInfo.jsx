@@ -7,7 +7,7 @@ export default function ResultInfo() {
   return (
     <div className="flex bg-[#E9EFEC] h-[100vh]">
       <Sidebar />
-      <div className="flex flex-col w-screen mr-2 ml-2">
+      <div className="flex flex-col w-full mr-2 ml-2">
         <Navbar />
         <div className="flex-1 flex-col overflow-x-hidden flex-grow p-2 bg-white mt-2 rounded-md">
           <div className="grid grid-cols-1">
