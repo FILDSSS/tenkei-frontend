@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useOrder } from "../hooks/use-order";
 import { usePurchase } from "../hooks/use-purchase";
 import { usePlan } from "../hooks/use-plan";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
+import Swal from "sweetalert2";
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
 
 export default function PlanInfo() {
-  const [searchOrderNo, setSearchOrderNo] = useState("");
+  const location = useLocation();
+  const [searchOrderNo, setSearchOrderNo] = useState(
+    location.state?.searchOrderNo || ""
+  );
   const [autoYearChange, setAutoYearChange] = useState(false);
   const { orderData, searchOrderData, setOrderData } = useOrder();
   const { purchaseData, setPurchaseData } = usePurchase();
@@ -40,6 +45,8 @@ export default function PlanInfo() {
     }
   };
 
+  const isSearchOrderNoFilled = searchOrderNo !== "";
+
   const handlePlanInputChange = async (event) => {
     const { id, value, type, checked } = event.target;
 
@@ -48,6 +55,37 @@ export default function PlanInfo() {
       ...prevPlanData,
       [id]: type === "checkbox" ? checked : value === "" ? null : value,
     }));
+  };
+
+  const handleSearch_Order_NoChange = async (newOrder_No) => {
+    if (searchOrderNo) {
+      await searchOrderData(searchOrderNo);
+    }
+  };
+
+  useEffect(() => {
+    handleSearch_Order_NoChange();
+  }, [searchOrderNo]);
+
+  const handleF12Click = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You are about to reset the form data!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, reset it!",
+      cancelButtonText: "No, cancel",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setSearchOrderNo("");
+        setOrderData({});
+        // console.log("Form reset to initial state.");
+        Swal.fire("Reset!", "The form data has been reset.", "success");
+      } else {
+        // console.log("Reset action cancelled.");
+      }
+    });
   };
 
   const rows = [
@@ -71,7 +109,7 @@ export default function PlanInfo() {
       ),
       plan_process: (
         <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
+          <select className="border rounded px-2 py-1 text-xs w-full ">
             <option value=""></option>
             <option value="part1">Part 1</option>
             <option value="part2">Part 2</option>
@@ -1191,8 +1229,14 @@ export default function PlanInfo() {
                   <div className="flex items-center space-x-2 justify-start">
                     <label className="text-xs font-medium">Date:</label>
                     <input
-                      type="date"
-                      className="border rounded px-2 py-1 text-sm"
+                      type="text"
+                      className="border-2 border-gray-500 rounded-md px-2 py-1 text-sm w-32"
+                      value={new Date().toLocaleDateString("th-TH", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                      readOnly
                     />
                     <div className="inline-flex space-x-0">
                       <button className="bg-gray-300 px-2 py-1 rounded-l text-xs">
@@ -1208,7 +1252,7 @@ export default function PlanInfo() {
                         <label className="text-xs font-medium">Date:</label>
                         <input
                           type="date"
-                          className="border rounded px-2 py-1 text-xs"
+                          className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs"
                         />
                       </div>
 
@@ -1228,7 +1272,7 @@ export default function PlanInfo() {
                         <label className="text-xs font-medium">
                           Target_PrG
                         </label>
-                        <select className="border rounded bg-[#ccffff] px-2 py-1 text-xs">
+                        <select className="border-2 border-gray-500 rounded-md bg-[#ccffff] px-2 py-1 text-xs">
                           <option value="">Select</option>
                         </select>
                       </div>
@@ -1240,12 +1284,12 @@ export default function PlanInfo() {
                         </label>
                         <input
                           type="date"
-                          className="border rounded bg-[#ccffff] px-2 py-1 text-xs"
+                          className="border-2 border-gray-500 rounded-md bg-[#ccffff] px-2 py-1 text-xs"
                         />
                         <span className="text-xs font-medium">~</span>
                         <input
                           type="date"
-                          className="border rounded bg-[#ccffff] px-2 py-1 text-xs"
+                          className="border-2 border-gray-500 rounded-md bg-[#ccffff] px-2 py-1 text-xs"
                         />
                       </div>
                     </div>
@@ -1257,8 +1301,11 @@ export default function PlanInfo() {
                         Search_Order_No
                       </label>
                       <input
+                        id="Search_Order_No"
                         type="text"
-                        className="border rounded px-2 py-1 text-xs bg-[#ccffff] w-20"
+                        value={searchOrderNo || ""}
+                        onChange={handleInputChange}
+                        className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ccffff] w-32"
                       />
                     </div>
 
@@ -1266,7 +1313,7 @@ export default function PlanInfo() {
                       <label className="text-xs font-medium">
                         Search_Parts_No
                       </label>
-                      <select className="border rounded px-2 py-1 text-xs bg-[#ccffff] w-18">
+                      <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ccffff] w-18">
                         <option value="">Select</option>
                         <option value="part1">Part 1</option>
                         <option value="part2">Part 2</option>
@@ -1280,7 +1327,7 @@ export default function PlanInfo() {
                       </label>
                       <input
                         type="text"
-                        className="border rounded px-2 py-1 text-xs w-20"
+                        className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-20"
                       />
                     </div>
 
@@ -1288,7 +1335,7 @@ export default function PlanInfo() {
                       <label className="text-xs font-medium">Order_No</label>
                       <input
                         type="text"
-                        className="border rounded px-2 py-1 text-xs w-20"
+                        className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-20"
                       />
                     </div>
 
@@ -1296,7 +1343,7 @@ export default function PlanInfo() {
                       <label className="text-xs font-medium">Odpt_No</label>
                       <input
                         type="text"
-                        className="border rounded px-2 py-1 text-xs w-20"
+                        className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-20"
                       />
                     </div>
 
@@ -1332,16 +1379,28 @@ export default function PlanInfo() {
                       <div className="gap-2 flex mb-4 justify-start me-5">
                         <div className="flex gap-2 w-auto">
                           <label className="w-auto  text-xs">Od_No</label>
-                          <div className="w-auto ml-1">
-                            <input
-                              type="text"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                            />
+                          <div className="w-32 ml-1">
+                            {orderData ? (
+                              <input
+                                disabled
+                                id="Order_No"
+                                value={orderData.Order_No || ""}
+                                onChange={handleInputChange}
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                              />
+                            ) : (
+                              <input
+                                disabled
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                              />
+                            )}
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto item ">
-                          <label className="w-16  text-xs">Product_Grp</label>
-                          <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] w-36">
+                          <label className="w-16 text-xs">Product_Grp</label>
+                          <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-36">
                             <option value=""></option>
                             <option value="part1">Part 1</option>
                             <option value="part2">Part 2</option>
@@ -1351,14 +1410,38 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ml-0.5">
                           <label className="w-auto text-xs">Mate1</label>
                           <div className="w-auto flex gap-1">
-                            <input
-                              type="text"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                            />
-                            <input
-                              type="text"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                            />
+                            {orderData ? (
+                              <input
+                                disabled
+                                id="Material1"
+                                value={orderData.Material1 || ""}
+                                onChange={handleInputChange}
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            ) : (
+                              <input
+                                disabled
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            )}
+                            {orderData ? (
+                              <input
+                                disabled
+                                id="H_Treatment1"
+                                value={orderData.H_Treatment1 || ""}
+                                onChange={handleInputChange}
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            ) : (
+                              <input
+                                disabled
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            )}
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
@@ -1373,7 +1456,7 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ">
                           <label className="w-20 text-xs">Od_Ctl_Person</label>
                           <div className="w-auto flex gap-1 mr-1">
-                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] ">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
@@ -1397,7 +1480,7 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ml-10">
                           <label className="w-10 text-xs">Specific</label>
                           <div className="w-auto flex gap-1">
-                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] ">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
@@ -1424,17 +1507,30 @@ export default function PlanInfo() {
                       <div className="gap-2 flex mb-4 justify-start me-5">
                         <div className="flex gap-2 w-auto">
                           <label className="w-10  text-xs">Request</label>
-                          <div className="w-auto">
+                          <div className="w-32">
                             <input
+                              disabled
+                              id="Request_Delivery"
+                              value={
+                                orderData?.Request_Delivery
+                                  ? new Date(
+                                      orderData.Request_Delivery
+                                    ).toLocaleDateString("th-TH", {
+                                      day: "2-digit",
+                                      month: "2-digit",
+                                      year: "2-digit",
+                                    })
+                                  : ""
+                              }
                               type="text"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-12 text-xs">Customer</label>
                           <div className="w-auto flex gap-1">
-                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] ">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
@@ -1448,21 +1544,45 @@ export default function PlanInfo() {
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-auto text-xs">Mate2</label>
-                          <div className="w-auto flex gap-1 -ml-0">
-                            <input
-                              type="text"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                            />
-                            <input
-                              type="text"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                            />
+                          <div className="w-auto flex gap-1">
+                            {orderData ? (
+                              <input
+                                disabled
+                                id="Material1"
+                                value={orderData.Material2 || ""}
+                                onChange={handleInputChange}
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            ) : (
+                              <input
+                                disabled
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            )}
+                            {orderData ? (
+                              <input
+                                disabled
+                                id="H_Treatment1"
+                                value={orderData.H_Treatment2 || ""}
+                                onChange={handleInputChange}
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            ) : (
+                              <input
+                                disabled
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            )}
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Req3</label>
                           <div className="w-auto flex gap-1 mr-1">
-                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] w-24">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-24">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
@@ -1473,7 +1593,7 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Coating</label>
                           <div className="w-auto flex gap-1 ">
-                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] ">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
@@ -1495,11 +1615,11 @@ export default function PlanInfo() {
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
-                          <label className="w-16 text-xs ml-5">
+                          <label className="w-16 text-xs ml-4">
                             Od_Progress
                           </label>
                           <div className="w-auto flex gap-1">
-                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99]  ">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  ">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
@@ -1526,42 +1646,103 @@ export default function PlanInfo() {
                       <div className="gap-2 flex mb-4 justify-start ">
                         <div className="flex gap-2 w-auto">
                           <label className="w-auto  text-xs">Product</label>
-                          <div className="w-auto">
+                          <div className="w-32">
                             <input
+                              disabled
+                              id="Product_Delivery"
+                              value={
+                                orderData?.Product_Delivery
+                                  ? new Date(
+                                      orderData.Product_Delivery
+                                    ).toLocaleDateString("th-TH", {
+                                      day: "2-digit",
+                                      month: "2-digit",
+                                      year: "2-digit",
+                                    })
+                                  : ""
+                              }
                               type="text"
-                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Pd_name</label>
-                          <div className="w-auto flex gap-1">
-                            <input
-                              type="text"
-                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-[160px] ml-2"
-                            />
+                          <div className="w-40 ml-2">
+                            {orderData ? (
+                              <input
+                                disabled
+                                id="Product_Name"
+                                value={orderData.Product_Name || ""}
+                                onChange={handleInputChange}
+                                type="text"
+                                className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                              />
+                            ) : (
+                              <input
+                                disabled
+                                type="text"
+                                className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                              />
+                            )}
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-auto text-xs">Mate3</label>
                           <div className="w-auto flex gap-1">
-                            <input
-                              type="text"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                            />
-                            <input
-                              type="text"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                            />
+                            {orderData ? (
+                              <input
+                                disabled
+                                id="Material1"
+                                value={orderData.Material3 || ""}
+                                onChange={handleInputChange}
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            ) : (
+                              <input
+                                disabled
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            )}
+                            {orderData ? (
+                              <input
+                                disabled
+                                id="H_Treatment1"
+                                value={orderData.H_Treatment3 || ""}
+                                onChange={handleInputChange}
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            ) : (
+                              <input
+                                disabled
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            )}
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Qty</label>
                           <div className="w-auto flex gap-1 mr-1">
-                            <input
-                              type="text"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-12"
-                            />
+                            {orderData ? (
+                              <input
+                                disabled
+                                id="Quantity"
+                                value={orderData.Quantity || ""}
+                                onChange={handleInputChange}
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-12"
+                              />
+                            ) : (
+                              <input
+                                disabled
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-12"
+                              />
+                            )}
                             <input
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-12"
@@ -1589,7 +1770,7 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ml-6">
                           <label className="w-10 text-xs ml-5">Delivery</label>
                           <div className="w-auto flex gap-1">
-                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99]  ">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  ">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
@@ -1616,39 +1797,88 @@ export default function PlanInfo() {
                       <div className="gap-2 flex mb-4 justify-start ">
                         <div className="flex gap-2 w-auto">
                           <label className="w-auto  text-xs">Confirm</label>
-                          <div className="w-auto">
+                          <div className="w-32">
                             <input
+                              disabled
+                              id="Confirm_Delivery"
+                              value={
+                                orderData?.Confirm_Delivery
+                                  ? new Date(
+                                      orderData.Confirm_Delivery
+                                    ).toLocaleDateString("th-TH", {
+                                      day: "2-digit",
+                                      month: "2-digit",
+                                      year: "2-digit",
+                                    })
+                                  : ""
+                              }
                               type="text"
-                              className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Pd_Size</label>
-                          <div className="w-auto flex gap-1">
-                            <input
-                              type="text"
-                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-[160px] ml-1.5"
-                            />
+                          <div className="w-40 ml-2">
+                            {orderData ? (
+                              <input
+                                disabled
+                                id="Product_Size"
+                                value={orderData.Product_Size || ""}
+                                onChange={handleInputChange}
+                                type="text"
+                                className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                              />
+                            ) : (
+                              <input
+                                disabled
+                                type="text"
+                                className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                              />
+                            )}
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-auto text-xs">Mate4</label>
                           <div className="w-auto flex gap-1">
-                            <input
-                              type="text"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                            />
-                            <input
-                              type="text"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                            />
+                            {orderData ? (
+                              <input
+                                disabled
+                                id="Material1"
+                                value={orderData.Material4 || ""}
+                                onChange={handleInputChange}
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            ) : (
+                              <input
+                                disabled
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            )}
+                            {orderData ? (
+                              <input
+                                disabled
+                                id="H_Treatment1"
+                                value={orderData.H_Treatment4 || ""}
+                                onChange={handleInputChange}
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            ) : (
+                              <input
+                                disabled
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            )}
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Price</label>
                           <div className="w-auto flex gap-1 mr-1">
-                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99]  w-12">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-12">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
@@ -1680,12 +1910,12 @@ export default function PlanInfo() {
                             />
                           </div>
                         </div>
-                        <div className="flex gap-2 w-auto ml-8">
+                        <div className="flex gap-2 w-auto ml-7">
                           <label className="w-8 text-xs ml-5 item">
                             Target
                           </label>
                           <div className="w-auto flex gap-1">
-                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99]  ">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  ">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
@@ -1715,36 +1945,72 @@ export default function PlanInfo() {
                           <div className="w-auto">
                             <input
                               type="text"
-                              className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-24 ml-5"
+                              className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-32 ml-5"
                             />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Pd_Draw</label>
-                          <div className="w-auto flex gap-1">
-                            <input
-                              type="text"
-                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-[160px] ml-1.5"
-                            />
+                          <div className="w-40 ml-2">
+                            {orderData ? (
+                              <input
+                                disabled
+                                id="Product_Draw"
+                                value={orderData.Product_Draw || ""}
+                                onChange={handleInputChange}
+                                type="text"
+                                className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                              />
+                            ) : (
+                              <input
+                                disabled
+                                type="text"
+                                className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                              />
+                            )}
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-auto text-xs">Mate5</label>
-                          <div className="w-auto flex gap-1 ml-0.5">
-                            <input
-                              type="text"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                            />
-                            <input
-                              type="text"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                            />
+                          <div className="w-auto flex gap-1">
+                            {orderData ? (
+                              <input
+                                disabled
+                                id="Material1"
+                                value={orderData.Material5 || ""}
+                                onChange={handleInputChange}
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            ) : (
+                              <input
+                                disabled
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            )}
+                            {orderData ? (
+                              <input
+                                disabled
+                                id="H_Treatment1"
+                                value={orderData.H_Treatment5 || ""}
+                                onChange={handleInputChange}
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            ) : (
+                              <input
+                                disabled
+                                type="text"
+                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                              />
+                            )}
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Supple</label>
                           <div className="w-auto flex gap-1 mr-1">
-                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99]  w-24">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-24">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
@@ -1829,7 +2095,7 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ml-9">
                           <label className="w-14 text-xs">RegPerson</label>
                           <div className="w-auto flex gap-1 mr-1">
-                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99]  w-24">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-24">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
@@ -1872,7 +2138,7 @@ export default function PlanInfo() {
                             Progress
                           </label>
                           <div className="w-auto flex gap-1">
-                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99]  ">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  ">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
@@ -1898,10 +2164,10 @@ export default function PlanInfo() {
                       {/* Group 7 */}
                       <div className="gap-2 flex mb-4 justify-start mt-4">
                         <div className="flex flex-col gap-4 w-auto">
-                          <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-2">
                             <label className="w-11 text-xs">Pt_Name</label>
                             <div className="w-auto">
-                              <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] w-24">
+                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-24">
                                 <option value=""></option>
                                 <option value="part1">Part 1</option>
                                 <option value="part2">Part 2</option>
@@ -1909,7 +2175,7 @@ export default function PlanInfo() {
                               </select>
                             </div>
 
-                            <label className="w-10 text-xs">Pt_Mate</label>
+                            <label className="w-10 text-xs ml-7">Pt_Mate</label>
                             <div className="w-auto">
                               <input
                                 type="text"
@@ -1921,7 +2187,7 @@ export default function PlanInfo() {
                           <div className="flex items-center gap-2">
                             <label className="w-11 text-xs">Pt_Qty</label>
                             <div className="w-auto">
-                              <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] w-24 ">
+                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-24 ">
                                 <option value=""></option>
                                 <option value="part1">Part 1</option>
                                 <option value="part2">Part 2</option>
@@ -1963,7 +2229,7 @@ export default function PlanInfo() {
                             <label className="w-20 text-xs">
                               Connect_Pt_No
                             </label>
-                            <div className="w-auto flex gap-2">
+                            <div className="w-auto flex gap-1">
                               <input
                                 type="text"
                                 className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-10 h-7"
@@ -1984,7 +2250,7 @@ export default function PlanInfo() {
                             <label className="w-20 text-xs">
                               Connect_Pr_No
                             </label>
-                            <div className="w-auto flex gap-2">
+                            <div className="w-auto flex gap-1">
                               <input
                                 type="text"
                                 className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-10 h-7"
@@ -2073,7 +2339,7 @@ export default function PlanInfo() {
                           <div className="w-auto flex flex-col gap-2">
                             <div className="flex items-center">
                               <label className="text-xs mr-2">1</label>
-                              <select className="border rounded px-2 py-1 text-xs w-24">
+                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24">
                                 <option value=""></option>
                                 <option value="part1">Part 1</option>
                                 <option value="part2">Part 2</option>
@@ -2082,7 +2348,7 @@ export default function PlanInfo() {
                             </div>
                             <div className="flex items-center">
                               <label className="text-xs mr-2">2</label>
-                              <select className="border rounded px-2 py-1 text-xs w-24">
+                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24">
                                 <option value=""></option>
                                 <option value="part1">Part 1</option>
                                 <option value="part2">Part 2</option>
@@ -2091,7 +2357,7 @@ export default function PlanInfo() {
                             </div>
                             <div className="flex items-center">
                               <label className="text-xs mr-2">3</label>
-                              <select className="border rounded px-2 py-1 text-xs w-24">
+                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24">
                                 <option value=""></option>
                                 <option value="part1">Part 1</option>
                                 <option value="part2">Part 2</option>
@@ -2100,7 +2366,7 @@ export default function PlanInfo() {
                             </div>
                             <div className="flex items-center">
                               <label className="text-xs mr-2">4</label>
-                              <select className="border rounded px-2 py-1 text-xs w-24">
+                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24">
                                 <option value=""></option>
                                 <option value="part1">Part 1</option>
                                 <option value="part2">Part 2</option>
@@ -2109,7 +2375,7 @@ export default function PlanInfo() {
                             </div>
                             <div className="flex items-center">
                               <label className="text-xs mr-2">5</label>
-                              <select className="border rounded px-2 py-1 text-xs w-24">
+                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24">
                                 <option value=""></option>
                                 <option value="part1">Part 1</option>
                                 <option value="part2">Part 2</option>
@@ -2118,7 +2384,7 @@ export default function PlanInfo() {
                             </div>
                             <div className="flex items-center">
                               <label className="text-xs mr-2">6</label>
-                              <select className="border rounded px-2 py-1 text-xs w-24">
+                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24">
                                 <option value=""></option>
                                 <option value="part1">Part 1</option>
                                 <option value="part2">Part 2</option>
@@ -2227,7 +2493,7 @@ export default function PlanInfo() {
                           <div className="flex gap-2 w-auto ml-4">
                             <label className="w-auto text-xs">UpdPerson</label>
                             <div className="w-auto">
-                              <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] w-12 ">
+                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-full ">
                                 <option value=""></option>
                                 <option value="part1">Part 1</option>
                                 <option value="part2">Part 2</option>
@@ -2235,7 +2501,7 @@ export default function PlanInfo() {
                               </select>
                               <input
                                 type="text"
-                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[125px] ml-1"
+                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full mt-1"
                               />
                             </div>
                           </div>
@@ -2243,7 +2509,7 @@ export default function PlanInfo() {
                           <div className="flex gap-2 w-auto ml-7">
                             <label className="w-auto text-xs">Schedule</label>
                             <div className="flex gap-2 w-auto">
-                              <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] w-10 ">
+                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-full ">
                                 <option value=""></option>
                                 <option value="part1">Part 1</option>
                                 <option value="part2">Part 2</option>
@@ -2251,7 +2517,7 @@ export default function PlanInfo() {
                               </select>
                               <input
                                 type="text"
-                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-32"
+                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
                             </div>
                           </div>
@@ -2341,7 +2607,7 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ml-5">
                           <label className="w-10 text-xs">Type</label>
                           <div className="w-auto flex gap-1">
-                            <select className="border rounded px-2 py-1 text-xs bg-[#ffff99] w-24 ">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-24 ">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
@@ -2548,40 +2814,120 @@ export default function PlanInfo() {
                   <div class="gap-4 flex mb-4  mt-4 ml-16 flex-row flex-wrap min-w-[2000px] justify-between ">
                     <div class="bg-white p-3 mt-5">
                       <div class="flex flex-wrap gap-4">
-                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
-                          Plan Copy <br /> 引用(F1)
+                        <button
+                          className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
+                            !isSearchOrderNoFilled
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={!isSearchOrderNoFilled}
+                        >
+                          Plan Copy <br /> 引用 (F1)
                         </button>
-                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                        <button
+                          className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
+                            !isSearchOrderNoFilled
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={!isSearchOrderNoFilled}
+                        >
                           Edit <br /> 編集 (F2)
                         </button>
-                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                        <button
+                          className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
+                            !isSearchOrderNoFilled
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={!isSearchOrderNoFilled}
+                        >
                           New Add <br /> 追加 (F3)
                         </button>
-                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                        <button
+                          className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
+                            !isSearchOrderNoFilled
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={!isSearchOrderNoFilled}
+                        >
                           Sub-Con <br /> 手配 (F4)
                         </button>
-                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                        <button
+                          className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
+                            !isSearchOrderNoFilled
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={!isSearchOrderNoFilled}
+                        >
                           Plan <br /> 計画 (F5)
                         </button>
-                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                        <button
+                          className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
+                            !isSearchOrderNoFilled
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={!isSearchOrderNoFilled}
+                        >
                           P Sheet All <br /> 全頁 (F6)
                         </button>
-                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                        <button
+                          className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
+                            !isSearchOrderNoFilled
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={!isSearchOrderNoFilled}
+                        >
                           P Sheet 1P <br /> 1頁 (F7)
                         </button>
-                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                        <button
+                          className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
+                            !isSearchOrderNoFilled
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={!isSearchOrderNoFilled}
+                        >
                           NextParts <br /> 別部 (F8)
                         </button>
-                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                        <button
+                          className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
+                            !isSearchOrderNoFilled
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={!isSearchOrderNoFilled}
+                        >
                           Save <br /> 登録 (F9)
                         </button>
-                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                        <button
+                          className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
+                            !isSearchOrderNoFilled
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={!isSearchOrderNoFilled}
+                        >
                           Delete <br /> 削除 (F10)
                         </button>
-                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-sm text-white w-auto text-center">
+                        <button
+                          className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-sm text-white w-auto text-center ${
+                            !isSearchOrderNoFilled
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={!isSearchOrderNoFilled}
+                        >
                           NextInput <br /> 次へ (F11)
                         </button>
-                        <button class="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center">
+                        <button
+                          className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center"
+                          onClick={handleF12Click}
+                        >
                           Exit <br /> 終了 (F12)
                         </button>
                       </div>
@@ -2598,12 +2944,12 @@ export default function PlanInfo() {
                         <input
                           id="max-end-no"
                           type="text"
-                          class="col-span-1 border border-gray-300 rounded p-1 w-16"
+                          class="col-span-1 border-2 border-gray-500 rounded-md p-1 w-16"
                         />
                         <input
                           id="max-end-no-2"
                           type="text"
-                          class="col-span-1 border border-gray-300 rounded p-1 w-16"
+                          class="col-span-1 border-2 border-gray-500 rounded-md p-1 w-16"
                         />
 
                         <label
@@ -2615,7 +2961,7 @@ export default function PlanInfo() {
                         <input
                           id="total"
                           type="text"
-                          class="col-span-2 border border-gray-300 rounded p-1 w-24"
+                          class="col-span-2 border-2 border-gray-500 rounded-md p-1 w-24"
                         />
 
                         <label
@@ -2627,7 +2973,7 @@ export default function PlanInfo() {
                         <input
                           id="now-no"
                           type="text"
-                          class="col-span-1 border  rounded p-1 w-16"
+                          class="col-span-1 border-2 border-gray-500 rounded-md p-1 w-16"
                         />
 
                         <label
@@ -2639,7 +2985,7 @@ export default function PlanInfo() {
                         <input
                           id="re-total"
                           type="text"
-                          class="col-span-3 border  p-1 w-[100px] ml-20"
+                          class="col-span-3 border-2 border-gray-500 rounded-md p-1 w-24 ml-20"
                         />
 
                         <label
@@ -2651,7 +2997,7 @@ export default function PlanInfo() {
                         <input
                           id="re-pr-qty"
                           type="text"
-                          class="col-span-1 border  p-1 w-16"
+                          class="col-span-1 border-2 border-gray-500 rounded-md p-1 w-16"
                         />
 
                         <label
@@ -2663,7 +3009,7 @@ export default function PlanInfo() {
                         <input
                           id="re-total-n"
                           type="text"
-                          class="col-span-3 border border-gray-300 rounded p-1 w-[100px] ml-20"
+                          class="col-span-3 border-2 border-gray-500 rounded-md p-1 w-24 ml-20"
                         />
                       </div>
                     </div>
@@ -2677,3 +3023,7 @@ export default function PlanInfo() {
     </div>
   );
 }
+
+const searchPermission = (status) => {
+  document.getElementById("Search_Order_No").disabled = !status;
+};
