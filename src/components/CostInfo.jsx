@@ -15,10 +15,7 @@ const CostInfo = () => {
     >
       {headers.map((_, colIndex) => (
         <td key={colIndex} className="px-4 py-2 border border-black text-sm">
-          <p
-            type="text"
-            className="w-28 h-7 p-1"
-          />
+          <p type="text" className="w-28 h-7 p-1" />
         </td>
       ))}
     </tr>
@@ -45,66 +42,24 @@ const CostInfo = () => {
             <div className="flex flex-col space-y-1 relative">
               <label className="text-xs font-bold">Search Part No.</label>
               <div className="relative w-full">
-                <input
-                  type="text"
-                  className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                />
-                <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                  <option value="" disabled hidden>
-                    Select
-                  </option>
-                  <option value="0">0</option>
+                <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
+                  <option value="" disabled hidden></option>
                   <option value="1">1</option>
                   <option value="2">2</option>
+                  <option value="3">3</option>
                 </select>
-                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                  <svg
-                    className="w-4 h-4 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
               </div>
             </div>
 
             <div className="flex flex-col space-y-1 relative">
               <label className="text-xs font-bold">Search Cost No.</label>
               <div className="relative w-full">
-                <input
-                  type="text"
-                  className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 pl-10 w-full"
-                />
-                <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                  <option value="" disabled hidden>
-                    Select
-                  </option>
-                  <option value="0">0</option>
+                <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
+                  <option value="" disabled hidden></option>
                   <option value="1">1</option>
                   <option value="2">2</option>
+                  <option value="3">3</option>
                 </select>
-                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                  <svg
-                    className="w-4 h-4 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
               </div>
             </div>
 
@@ -122,33 +77,12 @@ const CostInfo = () => {
             <div className="flex flex-col space-y-1 relative pr-2">
               <label className="text-xs font-bold">Search Part No.</label>
               <div className="relative w-full">
-                <input
-                  type="text"
-                  className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                />
-                <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                  <option value="" disabled hidden>
-                    Select
-                  </option>
-                  <option value="0">0</option>
+                <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                  <option value="" disabled hidden></option>
                   <option value="1">1</option>
                   <option value="2">2</option>
+                  <option value="3">3</option>
                 </select>
-                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                  <svg
-                    className="w-4 h-4 text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
               </div>
             </div>
           </div>
@@ -202,33 +136,12 @@ const CostInfo = () => {
               </label>
               <div className="flex items-center gap-2">
                 <div className="relative sm:w-20 lg:w-20 xl:w-20">
-                  <input
-                    type="text"
-                    className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 pl-10 w-full"
-                  />
-                  <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                    <option value="" disabled hidden>
-                      Select
-                    </option>
-                    <option value="0">0</option>
+                  <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
+                    <option value="" disabled hidden></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
+                    <option value="3">3</option>
                   </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                    <svg
-                      className="w-4 h-4 text-gray-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
                 </div>
                 <input
                   type="text"
@@ -247,33 +160,12 @@ const CostInfo = () => {
                   </label>
                   <div className="flex items-center gap-2">
                     <div className="relative xl:w-28">
-                      <input
-                        type="text"
-                        className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                      />
-                      <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                        <option value="" disabled hidden>
-                          Select
-                        </option>
-                        <option value="0">0</option>
+                      <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffcc] w-full h-8">
+                        <option value="" disabled hidden></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
+                        <option value="3">3</option>
                       </select>
-                      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                        <svg
-                          className="w-4 h-4 text-gray-500"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
-                      </div>
                     </div>
                     <input
                       type="text"
@@ -302,33 +194,12 @@ const CostInfo = () => {
                   </label>
                   <div className="flex items-center gap-2">
                     <div className="relative xl:w-28">
-                      <input
-                        type="text"
-                        className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                      />
-                      <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                        <option value="" disabled hidden>
-                          Select
-                        </option>
-                        <option value="0">0</option>
+                      <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffcc] w-full h-8">
+                        <option value="" disabled hidden></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
+                        <option value="3">3</option>
                       </select>
-                      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                        <svg
-                          className="w-4 h-4 text-gray-500"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
-                      </div>
                     </div>
                     <input
                       type="text"
@@ -381,33 +252,12 @@ const CostInfo = () => {
                   </label>
                   <div className="flex items-center gap-2">
                     <div className="relative xl:w-28">
-                      <input
-                        type="text"
-                        className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                      />
-                      <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                        <option value="" disabled hidden>
-                          Select
-                        </option>
-                        <option value="0">0</option>
+                      <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
+                        <option value="" disabled hidden></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
+                        <option value="3">3</option>
                       </select>
-                      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                        <svg
-                          className="w-4 h-4 text-gray-500"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
-                      </div>
                     </div>
                     <input
                       type="text"
