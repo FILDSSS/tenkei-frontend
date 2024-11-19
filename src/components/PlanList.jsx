@@ -27,10 +27,7 @@ export default function PlanList() {
     >
       {headers.map((_, colIndex) => (
         <td key={colIndex} className="px-4 py-2 border border-black text-sm">
-          <p
-            type="text"
-            className="w-28 h-7 p-1"
-          />
+          <p type="text" className="w-28 h-7 p-1" />
         </td>
       ))}
     </tr>
@@ -50,198 +47,72 @@ export default function PlanList() {
               <div className="flex flex-col space-y-1 relative">
                 <label className="text-xs font-bold">Search_Type</label>
                 <div className="relative w-full lg:w-60 xl:w-44">
-                  <input
-                    type="text"
-                    className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                  />
-                  <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                    <option value="" disabled hidden>
-                      Select
-                    </option>
-                    <option value="0">0</option>
+                  <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
+                    <option value="" disabled hidden></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
+                    <option value="3">3</option>
                   </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                    <svg
-                      className="w-4 h-4 text-gray-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
                 </div>
               </div>
 
               <div className="flex flex-col space-y-1 relative">
                 <label className="text-xs font-bold">Delivery1</label>
                 <div className="relative w-full lg:w-60 xl:w-44">
-                  <input
-                    type="text"
-                    className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                  />
-                  <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                    <option value="" disabled hidden>
-                      Select
-                    </option>
-                    <option value="0">0</option>
+                  <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
+                    <option value="" disabled hidden></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
+                    <option value="3">3</option>
                   </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                    <svg
-                      className="w-4 h-4 text-gray-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
                 </div>
               </div>
 
               <div className="flex flex-col space-y-1 relative">
                 <label className="text-xs font-bold">Delivery2</label>
                 <div className="relative w-full lg:w-60 xl:w-44">
-                  <input
-                    type="text"
-                    className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                  />
-                  <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                    <option value="" disabled hidden>
-                      Select
-                    </option>
-                    <option value="0">0</option>
+                  <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
+                    <option value="" disabled hidden></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
+                    <option value="3">3</option>
                   </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                    <svg
-                      className="w-4 h-4 text-gray-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
                 </div>
               </div>
 
               <div className="flex flex-col space-y-1 relative">
                 <label className="text-xs font-bold">Delivery3</label>
                 <div className="relative w-full lg:w-60 xl:w-44">
-                  <input
-                    type="text"
-                    className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                  />
-                  <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                    <option value="" disabled hidden>
-                      Select
-                    </option>
-                    <option value="0">0</option>
+                  <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
+                    <option value="" disabled hidden></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
+                    <option value="3">3</option>
                   </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                    <svg
-                      className="w-4 h-4 text-gray-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
                 </div>
               </div>
 
               <div className="flex flex-col space-y-1 relative">
                 <label className="text-xs font-bold">View_Schedule</label>
                 <div className="relative w-full lg:w-60 xl:w-44">
-                  <input
-                    type="text"
-                    className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                  />
-                  <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                    <option value="" disabled hidden>
-                      Select
-                    </option>
-                    <option value="0">0</option>
+                  <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
+                    <option value="" disabled hidden></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
+                    <option value="3">3</option>
                   </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                    <svg
-                      className="w-4 h-4 text-gray-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
                 </div>
               </div>
 
               <div className="flex flex-col space-y-1 relative">
                 <label className="text-xs font-bold">Plan_Target</label>
                 <div className="relative w-full lg:w-60 xl:w-44">
-                  <input
-                    type="text"
-                    className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                  />
-                  <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                    <option value="" disabled hidden>
-                      Select
-                    </option>
-                    <option value="0">0</option>
+                  <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
+                    <option value="" disabled hidden></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
+                    <option value="3">3</option>
                   </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                    <svg
-                      className="w-4 h-4 text-gray-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
                 </div>
               </div>
             </div>
@@ -261,33 +132,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Format</label>
                   </div>
                   <div className="relative w-40 lg:w-44">
-                    <input
-                      type="text"
-                      className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
                   {/* Start */}
@@ -295,33 +145,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Change_Page</label>
                   </div>
                   <div className="relative w-40 lg:w-44">
-                    <input
-                      type="text"
-                      className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
                   {/* Start */}
@@ -329,33 +158,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Target</label>
                   </div>
                   <div className="relative w-40 lg:w-44">
-                    <input
-                      type="text"
-                      className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
                   {/* Start */}
@@ -363,33 +171,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Mark_days</label>
                   </div>
                   <div className="relative w-40 lg:w-44">
-                    <input
-                      type="text"
-                      className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
                   {/* Start */}
@@ -514,33 +301,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Ctl_Person</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -629,34 +395,13 @@ export default function PlanList() {
                   <div className="px-2 w-auto text-center pl-7">
                     <label className="font-bold text-xs">Product_Grp</label>
                   </div>
-                  <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                  <div className="relative w-24 ml-1">
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -666,33 +411,12 @@ export default function PlanList() {
                   <span className="text-lg mx-3">~</span>
                   {/* Start */}
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -700,37 +424,16 @@ export default function PlanList() {
                   />
                   {/* End */}
                   {/* Start */}
-                  <div className="px-2 w-auto text-center pl-32">
+                  <div className="px-2 w-auto text-center pl-[123px]">
                     <label className="font-bold text-xs">Sales_Grp</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -820,33 +523,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Not_Pd_Grp1</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -858,33 +540,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Price_CAT</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -896,33 +557,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Sales_Person</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1012,33 +652,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Not_Pd_Grp2</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1050,33 +669,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Request_CAT</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1084,33 +682,12 @@ export default function PlanList() {
                   />
 
                   <div className="relative w-24 ml-1">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1118,33 +695,12 @@ export default function PlanList() {
                   />
 
                   <div className="relative w-24 ml-1">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1195,33 +751,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Customer1</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1291,33 +826,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Customer2</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1338,33 +852,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Item1</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1423,33 +916,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Customer3</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1470,33 +942,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Item2</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1555,33 +1006,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Not_Customer</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1602,33 +1032,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Item3</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1687,33 +1096,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Specific1</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1725,33 +1113,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Coating1</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1763,33 +1130,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Item4</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1848,33 +1194,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Specific2</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1886,33 +1211,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Coating2</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -1924,33 +1228,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Od_Pent</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
                   {/* Start */}
@@ -1958,33 +1241,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Od_CAT1</label>
                   </div>
                   <div className="relative w-28">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
                   {/* Start */}
@@ -2030,33 +1292,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Not_Specific1</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -2068,33 +1309,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Coating3</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -2106,33 +1326,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">TempShip</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
                   {/* Start */}
@@ -2140,33 +1339,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Od_CAT2</label>
                   </div>
                   <div className="relative w-28">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
                   {/* Start */}
@@ -2212,33 +1390,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Not_Specific2</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -2250,33 +1407,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Not_Coat</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -2288,33 +1424,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Unrecive</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
                   {/* Start */}
@@ -2322,33 +1437,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Od_CAT3</label>
                   </div>
                   <div className="relative w-28">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
                   {/* Start */}
@@ -2507,33 +1601,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Money_Obj</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
 
@@ -2542,33 +1615,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Pt_CAT1</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
 
@@ -2644,33 +1696,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Pt_Name</label>
                   </div>
                   <div className="relative w-40 ml-7">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
 
@@ -2696,33 +1727,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Outside</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
 
@@ -2731,33 +1741,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Pt_CAT2</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
 
@@ -2793,33 +1782,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Req_Person</label>
                   </div>
                   <div className="relative w-32 ml-4">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   <input
                     type="text"
@@ -2859,33 +1827,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Pt_Pend</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
 
@@ -2894,33 +1841,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Pt_CAT3</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
 
@@ -2986,33 +1912,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Sort1</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
 
@@ -3021,33 +1926,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Sort2</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
 
@@ -3056,33 +1940,12 @@ export default function PlanList() {
                     <label className="font-bold text-xs">Sort3</label>
                   </div>
                   <div className="relative w-24">
-                    <input
-                      type="text"
-                      className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
-                    />
-                    <select className="absolute inset-y-0 right-0 opacity-0 cursor-pointer w-full">
-                      <option value="" disabled hidden>
-                        Select
-                      </option>
-                      <option value="0">0</option>
+                    <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
+                      <option value="" disabled hidden></option>
                       <option value="1">1</option>
                       <option value="2">2</option>
+                      <option value="3">3</option>
                     </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
                   </div>
                   {/* End */}
 
