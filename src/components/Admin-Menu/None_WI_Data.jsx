@@ -847,7 +847,7 @@ export function None_WI_Data() {
             </h1>
             <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
 
-            <div className="pl-3 text-lg">
+            <div className="ml-5 text-lg">
               <input
                 className="border-2 border-gray-500 rounded-md w-52 h-9"
                 type="text"
@@ -857,8 +857,8 @@ export function None_WI_Data() {
               />
             </div>
             <div className="flex justify-center items-center mt-5">
-              <div className="w-full text-center">
-                <DataTable
+              <div className="w-full text-center px-5">
+              <DataTable
                   columns={columns}
                   data={filteredData}
                   customStyles={{
@@ -867,21 +867,28 @@ export function None_WI_Data() {
                         minHeight: "50px",
                         textAlign: "center",
                         justifyContent: "center",
+                        borderBottom: "1px solid #ccc",
+                        borderRight: "1px solid #ccc", 
                       },
                     },
                     headCells: {
                       style: {
-                        fontSize: "16px",
+                        fontSize: "14px",
                         textAlign: "center",
                         justifyContent: "center",
-                        border: "1px solid #ccc",
+                        border: "1px solid #ccc", 
                       },
                     },
                     cells: {
                       style: {
                         textAlign: "center",
                         justifyContent: "center",
-                        border: "1px solid #ccc",
+                        border: "1px solid #ccc", 
+                      },
+                    },
+                    table: {
+                      style: {
+                        borderCollapse: "collapse",
                       },
                     },
                   }}
