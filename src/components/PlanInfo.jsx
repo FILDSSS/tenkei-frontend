@@ -20,10 +20,9 @@ export default function PlanInfo() {
     SupplyData, setSupplyData,
 
    } = useOrder();
+   const { planData, setPlanData,selectedPlanNo,setSelectedPlanNo,searchPartsData } = usePlan();
   
-  const [selectedCustomerName, setSelectedCustomerName] = useState("");
   const { purchaseData, setPurchaseData } = usePurchase();
-  const [selectedSalesGrpAbb, setSelectedSalesGrpAbb] = useState("");
   const [selectedSalesPersonAbb, setSelectedSalesPerson] = useState("");
   const [SpecificName, setSpecificName] = useState("");
   const [selectedCustomerAbb, setSelectedCustomerAbb] = useState("");
@@ -32,7 +31,7 @@ export default function PlanInfo() {
   const [DeliveryName, setDeliveryName] = useState("");
   const [PriceName, setPriceName] = useState("");
   const [targetName, setTargetName] = useState("");
-  const { planData, setPlanData } = usePlan();
+
   const inputs = Array.from({ length: 36 }, (_, i) => i + 1);
 
   const handleInputChange = (event, isPurchase, isPlan = false) => {
@@ -59,6 +58,7 @@ export default function PlanInfo() {
       setSearchOrderNo(value);
       if (value) {
         searchOrderData(value);
+        searchPartsData(value);
       }
     }
   };
@@ -73,6 +73,9 @@ export default function PlanInfo() {
       ...prevPlanData,
       [id]: type === "checkbox" ? checked : value === "" ? null : value,
     }));
+
+    
+    
   };
 
   const handleSearch_Order_NoChange = async (newOrder_No) => {
@@ -431,11 +434,18 @@ export default function PlanInfo() {
                       <label className="text-xs font-medium">
                         Search_Parts_No
                       </label>
-                      <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ccffff] w-18">
-                        <option value="">Select</option>
-                        <option value="part1">Part 1</option>
-                        <option value="part2">Part 2</option>
-                        <option value="part3">Part 3</option>
+                      <select id="Search_Parts_No" value={selectedPlanNo || ""} onChange={(e) => handlePlanInputChange(e)} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ccffff] w-18">
+                      <option value="">เลือกข้อมูล</option>
+                        {Array.isArray(selectedPlanNo) &&
+                        selectedPlanNo.length > 0 ? (
+                          selectedPlanNo.map((item, index) => (
+                          <option key={index} value={item.Parts_No}>
+                            {item.Parts_No}
+                          </option>
+                        ))
+                      ) : (
+                        <option value="">ไม่มีข้อมูล</option>
+                      )}
                       </select>
                     </div>
 
@@ -1266,13 +1276,21 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ml-9">
                           <label className="w-14 text-xs">RegPerson</label>
                           <div className="w-auto flex gap-1 mr-1">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-24">
+                            <select id="Pl_Reg_Person_CD" value={planData?.Pl_Reg_Person_CD} onChange={handlePlanInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-24">
                               <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
+                              {Array.isArray(WorkerData) &&
+                              WorkerData.length > 0 ? (
+                              WorkerData.map((item, index) => (
+                                <option key={index} value={item.Worker_CD}>
+                                  {item.Worker_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
                             </select>
                             <input
+                              id="Pl_Reg_Person_Name"
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24 ml-1.5"
                             />
