@@ -829,7 +829,7 @@ export function DeliveryDate() {
               </div>
             </div>
 
-            <div className="overflow-x-auto overflow-y-auto max-h-[520px] w-full">
+            <div className="overflow-x-auto overflow-y-auto max-h-[500px] w-full">
               <table className="bg-white text-xs w-full border-collapse">
                 <thead className="sticky top-0 z-10 bg-gray-300">
                   <tr className="text-black font-bold text-xs">
