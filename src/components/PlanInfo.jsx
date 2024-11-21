@@ -199,6 +199,8 @@ export default function PlanInfo() {
           <input
             id={`QPPC${id}`}
             type="text"
+            value={planData[`QPPC${id}`]||""}
+            onChange={(e) => handleInputChange(e)}
             className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
           />
           <div className="flex flex-col items-end w-full">
@@ -206,6 +208,8 @@ export default function PlanInfo() {
             <input
               id={`QRMT${id}`}
               type="text"
+              value={planData[`QRMT${id}`]||""}
+              onChange={(e) => handleInputChange(e)}
               className="border rounded px-2 py-1 text-xs w-20"
             />
           </div>
@@ -214,7 +218,10 @@ export default function PlanInfo() {
     ),
     plan_process: (
       <div>
-        <select id={`PPC${id}`} className="border rounded px-2 py-1 text-xs w-full">
+        <select id={`PPC${id}`} 
+        value={planData[`PPC${id}`] || ""}
+        onChange={(e) => handleInputChange(e)}        
+        className="border rounded px-2 py-1 text-xs w-full">
           <option value=""></option>
         </select>
       </div>
@@ -224,6 +231,8 @@ export default function PlanInfo() {
         <input
           id={`PMT${id}`}
           type="text"
+          value={planData[`PMT${id}`] || ""}
+          onChange={(e)=>handleInputChange(e)}
           className="border rounded px-2 py-1 text-xs w-full"
         />
       </div>
@@ -233,6 +242,8 @@ export default function PlanInfo() {
         <input
           id={`PPT${id}`}
           type="text"
+          value={planData[`PPT${id}`] || ""}
+          onChange={(e)=>handleInputChange(e)}
           className="border rounded px-2 py-1 text-xs w-full"
         />
       </div>
@@ -262,6 +273,8 @@ export default function PlanInfo() {
         <input
           id={`PPD${id}`}
           type="date"
+          value={planData[`PPD${id}`] || ""}
+          onChange={(e) => handleInputChange(e)}
           className="border rounded px-2 py-1 text-xs w-full"
         />
       </div>
@@ -271,6 +284,8 @@ export default function PlanInfo() {
         <input
           id={`PPV${id}`}
           type="text"
+          value={planData[`PPV${id}`] || ""}
+          onChange={(e) => handleInputChange(e)}
           className="border rounded px-2 py-1 text-xs w-full"
         />
       </div>
@@ -280,6 +295,8 @@ export default function PlanInfo() {
         <input
           id={`RPD${id}`}
           type="date"
+          value={planData[`RPD${id}`] || ""}
+          onChange={(e) => handleInputChange(e)}
           className="border rounded px-2 py-1 text-xs w-full"
         />
       </div>
@@ -289,6 +306,8 @@ export default function PlanInfo() {
         <input
           id={`RMT${id}`}
           type="text"
+          value={planData[`RMT${id}`] || ""}
+          onChange={(e) => handleInputChange(e)}
           className="border rounded px-2 py-1 text-xs w-full"
         />
       </div>
@@ -298,6 +317,8 @@ export default function PlanInfo() {
         <input
           id={`RPT${id}`}
           type="text"
+          value={planData[`RPT${id}`] || ""}
+          onChange={(e) => handleInputChange(e)}
           className="border rounded px-2 py-1 text-xs w-full"
         />
       </div>
@@ -307,6 +328,8 @@ export default function PlanInfo() {
         <input
           id={`RPN${id}`}
           type="text"
+          value={planData[`RPN${id}`] || ""}
+          onChange={(e) => handleInputChange(e)}
           className="border rounded px-2 py-1 text-xs w-full"
         />
       </div>
