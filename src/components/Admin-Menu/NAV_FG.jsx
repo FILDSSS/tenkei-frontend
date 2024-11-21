@@ -2,57 +2,106 @@ import React, { useState, useEffect, useRef } from "react";
 import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import DataTable from "react-data-table-component";
+import axios from "axios";
 
 export function NAV_FG() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [data, setData] = useState([]);
+  const [editedData, setEditedData] = useState({});
+  const [isChanged, setIsChanged] = useState(false);
+  const editedDataRef = useRef(editedData);
 
-  const [data, setData] = useState([
-    {
-      Item_Name: "GROOVING PLUG",
-      Customer_Name: "FTC-P2",
-      Order_Date: "19/11/2567",
-      Order_No: "BEC2403001",
-      Request_Delivery: "12/12/2567",
-      I_Complete_Date: "01/01/2568",
-      Date_of_Delay: 9,
-      NAV_Name: "JUKKUUUUU",
-      NAV_Size: "AAA 3 A",
-      Item1_CD: 99,
-      Quantity: 55,
-      Unit_Price: 99999,
-      Amount: 20000,
-    },
-    {
-      Item_Name: "SHAPING TOOL",
-      Customer_Name: "XYZ-P5",
-      Order_Date: "20/11/2567",
-      Order_No: "BEC2403002",
-      Request_Delivery: "15/12/2567",
-      I_Complete_Date: "05/01/2568",
-      Date_of_Delay: 5,
-      NAV_Name: "SHAPEMASTER",
-      NAV_Size: "BB 2 B",
-      Item1_CD: 101,
-      Quantity: 30,
-      Unit_Price: 5000,
-      Amount: 150000,
-    },
-    {
-      Item_Name: "CUTTING INSERT",
-      Customer_Name: "ABC-P1",
-      Order_Date: "18/11/2567",
-      Order_No: "BEC2403003",
-      Request_Delivery: "10/12/2567",
-      I_Complete_Date: "03/01/2568",
-      Date_of_Delay: 12,
-      NAV_Name: "CUTTERPRO",
-      NAV_Size: "CC 5 C",
-      Item1_CD: 102,
-      Quantity: 80,
-      Unit_Price: 1200,
-      Amount: 96000,
-    },
-  ]);
+  const fetchNAVFG = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:4000/NAVFG/fetch-navfg"
+      );
+      // console.log("Fetched data:", response.data);
+      setData(response.data.data.NAVFG || []);
+    } catch (error) {
+      // console.error("Error fetching orders:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchNAVFG();
+  }, []);
+
+  useEffect(() => {
+    const initialEditedData = data.reduce((acc, row, index) => {
+      if (!editedData[index]) {
+        acc[index] = { ...row };
+      }
+      return acc;
+    }, {});
+
+    if (Object.keys(initialEditedData).length > 0) {
+      setEditedData(initialEditedData);
+    }
+  }, [data]);
+
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+
+    if (isNaN(date)) return "";
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
+  const handleChange = (e, orderNo, field) => {
+    const newValue = e.target.value;
+  
+    if (editedDataRef.current[orderNo]?.[field] !== newValue) {
+      setIsChanged(true); 
+  
+      const updatedData = { ...editedDataRef.current };
+  
+      updatedData[orderNo] = updatedData[orderNo] || {};
+      updatedData[orderNo][field] = newValue;
+  
+      setEditedData(updatedData);
+      editedDataRef.current = updatedData;
+    }
+  };
+
+  const handleSave = (orderNo, field) => {
+    const newValue = editedData[orderNo]?.[field];
+    const oldValue = data.find((row) => row.Order_No === orderNo)?.[field];
+
+    if (newValue !== oldValue) {
+      try {
+        const updatedData = [...data];
+        const rowIndex = updatedData.findIndex(
+          (row) => row.Order_No === orderNo
+        );
+
+        if (rowIndex !== -1) {
+          updatedData[rowIndex][field] = newValue;
+          setData(updatedData);
+
+          localStorage.setItem("navFgData", JSON.stringify(updatedData));
+          alert("Edit Successfully!");
+        }
+
+        setIsChanged(false);
+      } catch (error) {
+        alert("Something went wrong!");
+        console.error(error);
+      }
+    }
+  };
+
+  const handleKeyDown = (e, index, field) => {
+    if (e.key === "Enter") {
+      handleSave(index, field);
+      setIsChanged(false);
+    }
+  };
 
   const filteredData = data.filter((row) => {
     return Object.values(row).some((value) =>
@@ -60,183 +109,284 @@ export function NAV_FG() {
     );
   });
 
-  // สำหรับ Dummy Data
-  const handleEdit = (index, field, newValue) => {
-    const updatedData = [...data];
-    updatedData[index][field] = newValue;
-    setData(updatedData);
-  };
-
   const columns = [
     {
       name: "Item_Name",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Item_Name}
-          onChange={(e) => handleEdit(index, "Item_Name", e.target.value)}
+          value={
+            editedData[row.Order_No]?.Item_Name !== undefined
+              ? editedData[row.Order_No]?.Item_Name
+              : row.Item_Name || ""
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "Item_Name")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Item_Name")}
         />
       ),
-      sortable: true,
-      width: "180px",
+      width: "200px",
     },
     {
       name: "Customer_Name",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Customer_Name}
-          onChange={(e) => handleEdit(index, "Customer_Name", e.target.value)}
+          value={
+            editedData[row.Order_No]?.Customer_Name !== undefined
+              ? editedData[row.Order_No]?.Customer_Name
+              : row.Customer_Name || ""
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "Customer_Name")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Customer_Name")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
       name: "Order_Date",
-      selector: (row, index) => (
+      selector: (row) => {
+        const date = row.Order_Date ? new Date(row.Order_Date) : null;
+        if (!date || isNaN(date)) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
+      width: "180px",
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Order_Date}
-          onChange={(e) => handleEdit(index, "Order_Date", e.target.value)}
+          type="date"
+          value={
+            editedData[row.Order_No]?.Order_Date ||
+            formatDateForInput(row.Order_Date)
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "Order_Date")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Order_Date")}
         />
       ),
-      sortable: true,
-      width: "170px",
     },
     {
       name: "Order_No",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Order_No}
-          onChange={(e) => handleEdit(index, "Order_No", e.target.value)}
+          value={
+            editedData[row.Order_No]?.Order_No !== undefined
+              ? editedData[row.Order_No]?.Order_No
+              : row.Order_No || ""
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "Order_No")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Order_No")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
       name: "Request_Delivery",
-      selector: (row, index) => (
+      selector: (row) => {
+        const date = row.Request_Delivery
+          ? new Date(row.Request_Delivery)
+          : null;
+        if (!date || isNaN(date)) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
+      width: "180px",
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Request_Delivery}
-          onChange={(e) =>
-            handleEdit(index, "Request_Delivery", e.target.value)
+          type="date"
+          value={
+            editedData[row.Order_No]?.Request_Delivery ||
+            formatDateForInput(row.Request_Delivery)
           }
+          onChange={(e) => handleChange(e, row.Order_No, "Request_Delivery")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Request_Delivery")}
         />
       ),
-      sortable: true,
-      width: "180px",
     },
     {
-      name: "I_Complete_Date",
-      selector: (row, index) => (
+      name: "I_Completed_Date",
+      selector: (row) => {
+        const date = row.I_Completed_Date
+          ? new Date(row.I_Completed_Date)
+          : null;
+        if (!date || isNaN(date)) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
+      width: "180px",
+      cell: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="date"
+          value={
+            editedData[row.Order_No]?.I_Completed_Date ||
+            formatDateForInput(row.I_Completed_Date)
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "I_Completed_Date")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "I_Completed_Date")}
+        />
+      ),
+    },
+    {
+      name: "Order_No",
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.I_Complete_Date}
-          onChange={(e) => handleEdit(index, "I_Complete_Date", e.target.value)}
+          value={
+            editedData[row.Order_No]?.Order_No !== undefined
+              ? editedData[row.Order_No]?.Order_No
+              : row.Order_No || ""
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "Order_No")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Order_No")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
       name: "Date_of_Delay",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.Date_of_Delay}
-          onChange={(e) => handleEdit(index, "Date_of_Delay", e.target.value)}
+          value={
+            editedData[row.Order_No]?.Date_of_Delay !== undefined
+              ? editedData[row.Order_No]?.Date_of_Delay
+              : row.Date_of_Delay || ""
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "Date_of_Delay")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Date_of_Delay")}
         />
       ),
-      sortable: true,
-      width: "160px",
+      width: "180px",
     },
     {
       name: "NAV_Name",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
-          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          className="p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          style={{
+            width: "fit-content",
+            minWidth: "250px",
+            maxWidth: "100%",
+          }}
           type="text"
-          value={row.NAV_Name}
-          onChange={(e) => handleEdit(index, "NAV_Name", e.target.value)}
+          value={
+            editedData[row.Order_No]?.NAV_Name !== undefined
+              ? editedData[row.Order_No]?.NAV_Name
+              : row.NAV_Name || ""
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "NAV_Name")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "NAV_Name")}
         />
       ),
-      sortable: true,
-      width: "180px",
+      width: "auto",
     },
     {
       name: "NAV_Size",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          style={{
+            width: "fit-content",
+            minWidth: "250px",
+            maxWidth: "100%",
+          }}
           type="text"
-          value={row.NAV_Size}
-          onChange={(e) => handleEdit(index, "NAV_Size", e.target.value)}
+          value={
+            editedData[row.Order_No]?.NAV_Size !== undefined
+              ? editedData[row.Order_No]?.NAV_Size
+              : row.NAV_Size || ""
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "NAV_Size")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "NAV_Size")}
         />
       ),
-      sortable: true,
-      width: "180px",
+      width: "auto",
     },
     {
       name: "Item1_CD",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="number"
-          value={row.Item1_CD}
-          onChange={(e) => handleEdit(index, "Item1_CD", e.target.value)}
+          type="text"
+          value={
+            editedData[row.Order_No]?.Item1_CD !== undefined
+              ? editedData[row.Order_No]?.Item1_CD
+              : row.Item1_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "Item1_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Item1_CD")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
       name: "Quantity",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.Quantity}
-          onChange={(e) => handleEdit(index, "Quantity", e.target.value)}
+          value={
+            editedData[row.Order_No]?.Quantity !== undefined
+              ? editedData[row.Order_No]?.Quantity
+              : row.Quantity || ""
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "Quantity")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Quantity")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
       name: "Unit_Price",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.Unit_Price}
-          onChange={(e) => handleEdit(index, "Unit_Price", e.target.value)}
+          value={
+            editedData[row.Order_No]?.Unit_Price !== undefined
+              ? editedData[row.Order_No]?.Unit_Price
+              : row.Unit_Price || ""
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "Unit_Price")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Unit_Price")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
       name: "Amount",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.Amount}
-          onChange={(e) => handleEdit(index, "Amount", e.target.value)}
+          value={
+            editedData[row.Order_No]?.Amount !== undefined
+              ? editedData[row.Order_No]?.Amount
+              : row.Amount || ""
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "Amount")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Amount")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
   ];
@@ -268,6 +418,9 @@ export function NAV_FG() {
                   <DataTable
                     columns={columns}
                     data={filteredData}
+                    pagination
+                    paginationPerPage={5}
+                    paginationRowsPerPageOptions={[5, 10, 15, 20]}
                     customStyles={{
                       rows: {
                         style: {

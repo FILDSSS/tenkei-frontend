@@ -16,9 +16,10 @@ export function MonthTarget() {
       const response = await axios.get(
         "http://localhost:4000/workg/fetch-workg"
       );
+      // console.log("Fetched data:", response.data);
       setData(response.data.data.workg || []);
     } catch (error) {
-      console.error("Error fetching orders:", error);
+      // console.error("Error fetching orders:", error);
     }
   };
 
@@ -41,15 +42,17 @@ export function MonthTarget() {
 
   const handleChange = (e, workgCd, field) => {
     const newValue = e.target.value;
-    setIsChanged(true);
-
+  
     if (editedDataRef.current[workgCd]?.[field] !== newValue) {
-      const updatedEditedData = { ...editedDataRef.current };
-      updatedEditedData[workgCd] = updatedEditedData[workgCd] || {};
-      updatedEditedData[workgCd][field] = newValue;
-
-      setEditedData(updatedEditedData);
-      editedDataRef.current = updatedEditedData;
+      setIsChanged(true); 
+  
+      const updatedData = { ...editedDataRef.current };
+  
+      updatedData[workgCd] = updatedData[workgCd] || {};
+      updatedData[workgCd][field] = newValue;
+  
+      setEditedData(updatedData);
+      editedDataRef.current = updatedData;
     }
   };
 
@@ -58,46 +61,40 @@ export function MonthTarget() {
     const oldValue = data.find((row) => row.WorkG_CD === workgCd)?.[field];
 
     if (newValue !== oldValue) {
-      const updatedData = [...data];
-      const rowIndex = updatedData.findIndex((row) => row.WorkG_CD === workgCd);
+      try {
+        const updatedData = [...data];
+        const rowIndex = updatedData.findIndex(
+          (row) => row.WorkG_CD === workgCd
+        );
 
-      if (rowIndex !== -1) {
-        updatedData[rowIndex][field] = newValue;
-        setData(updatedData);
+        if (rowIndex !== -1) {
+          updatedData[rowIndex][field] = newValue;
+          setData(updatedData);
+
+          localStorage.setItem("monthTargetData", JSON.stringify(updatedData));
+          alert("Edit Successfully!");
+        }
+
+        setIsChanged(false);
+      } catch (error) {
+        alert("Something went wrong!");
+        console.error(error);
       }
-
-      localStorage.setItem("workgData", JSON.stringify(updatedData));
-
-      alert("Edit Successfully!");
-      setIsChanged(false);
     }
   };
 
-  const handleKeyDown = (e, workgCd, field) => {
+  const handleKeyDown = (e, index, field) => {
     if (e.key === "Enter") {
-      handleSave(workgCd, field);
+      handleSave(index, field);
       setIsChanged(false);
     }
   };
 
-  const handleBlur = (workgCd, field) => {
-    if (isChanged) {
-      setEditedData((prevState) => {
-        const updatedData = { ...prevState };
-        updatedData[workgCd] = {
-          ...data.find((row) => row.WorkG_CD === workgCd),
-        };
-        return updatedData;
-      });
-      setIsChanged(false);
-    }
-  };
-
-  const filteredData = data.filter((row) =>
-    Object.values(row).some((value) =>
+  const filteredData = data.filter((row) => {
+    return Object.values(row).some((value) =>
       String(value).toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
+    );
+  });
 
   const columns = [
     {
@@ -107,14 +104,14 @@ export function MonthTarget() {
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
           value={
-            editedDataRef.current[row.WorkG_CD]?.WorkG_CD || row.WorkG_CD || ""
+            editedData[row.WorkG_CD]?.WorkG_CD !== undefined
+              ? editedData[row.WorkG_CD]?.WorkG_CD
+              : row.WorkG_CD || ""
           }
           onChange={(e) => handleChange(e, row.WorkG_CD, "WorkG_CD")}
           onKeyDown={(e) => handleKeyDown(e, row.WorkG_CD, "WorkG_CD")}
-          onBlur={() => handleBlur(row.WorkG_CD, "WorkG_CD")}
         />
       ),
-      sortable: true,
       width: "170px",
     },
     {
@@ -124,36 +121,32 @@ export function MonthTarget() {
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
           value={
-            editedDataRef.current[row.WorkG_CD]?.WorkG_Abb ||
-            row.WorkG_Abb ||
-            ""
+            editedData[row.WorkG_CD]?.WorkG_Abb !== undefined
+              ? editedData[row.WorkG_CD]?.WorkG_Abb
+              : row.WorkG_Abb || ""
           }
           onChange={(e) => handleChange(e, row.WorkG_CD, "WorkG_Abb")}
           onKeyDown={(e) => handleKeyDown(e, row.WorkG_CD, "WorkG_Abb")}
-          onBlur={() => handleBlur(row.WorkG_CD, "WorkG_Abb")}
         />
       ),
-      sortable: true,
-      width: "170px",
+      width: "200px",
     },
     {
       name: "Target_Amount",
       selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
+          type="number"
           value={
-            editedDataRef.current[row.WorkG_CD]?.Target_Amount ??
-            row.Target_Amount ??
-            ""
+            editedData[row.WorkG_CD]?.Target_Amount !== undefined
+              ? editedData[row.WorkG_CD]?.Target_Amount
+              : row.Target_Amount ?? ""
           }
           onChange={(e) => handleChange(e, row.WorkG_CD, "Target_Amount")}
           onKeyDown={(e) => handleKeyDown(e, row.WorkG_CD, "Target_Amount")}
-          onBlur={() => handleBlur(row.WorkG_CD, "Target_Amount")}
         />
       ),
-      sortable: true,
-      width: "160px",
+      width: "200px",
     },
   ];
 
@@ -179,37 +172,44 @@ export function MonthTarget() {
             </div>
             <div className="flex justify-left items-center mt-5 mb-3">
               <div className="w-full sm:w-auto text-center px-5">
-                <DataTable
-                  columns={columns}
-                  data={filteredData}
-                  customStyles={{
-                    rows: {
-                      style: {
-                        minHeight: "50px",
-                        borderBottom: "1px solid #ccc",
-                        borderRight: "1px solid #ccc",
+              <DataTable
+                    columns={columns}
+                    data={filteredData}
+                    pagination
+                    paginationPerPage={10}
+                    paginationRowsPerPageOptions={[5, 10, 15, 20]}
+                    customStyles={{
+                      rows: {
+                        style: {
+                          minHeight: "50px",
+                          textAlign: "center",
+                          justifyContent: "center",
+                          borderBottom: "1px solid #ccc",
+                          borderRight: "1px solid #ccc",
+                        },
                       },
-                    },
-                    headCells: {
-                      style: {
-                        fontSize: "14px",
-                        textAlign: "center",
-                        justifyContent: "center",
-                        border: "1px solid #ccc",
+                      headCells: {
+                        style: {
+                          fontSize: "14px",
+                          textAlign: "center",
+                          justifyContent: "center",
+                          border: "1px solid #ccc",
+                        },
                       },
-                    },
-                    cells: {
-                      style: {
-                        border: "1px solid #ccc",
+                      cells: {
+                        style: {
+                          textAlign: "center",
+                          justifyContent: "center",
+                          border: "1px solid #ccc",
+                        },
                       },
-                    },
-                    table: {
-                      style: {
-                        borderCollapse: "collapse",
+                      table: {
+                        style: {
+                          borderCollapse: "collapse",
+                        },
                       },
-                    },
-                  }}
-                />
+                    }}
+                  />
               </div>
             </div>
           </div>

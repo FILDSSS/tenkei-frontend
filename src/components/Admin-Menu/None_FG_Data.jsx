@@ -163,17 +163,6 @@ export function None_FG_Data() {
     }
   };
 
-  const handleBlur = (index, field) => {
-    if (isChanged) {
-      setEditedData((prevState) => {
-        const updatedData = { ...prevState };
-        updatedData[index] = { ...data[index] };
-        return updatedData;
-      });
-      setIsChanged(false);
-    }
-  };
-
   // สำหรับ Dummy Data
   const handleEdit = (index, field, newValue) => {
     const updatedData = [...data];
@@ -198,7 +187,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Order_No", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -211,7 +199,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Parts_No", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -224,7 +211,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Cost_No", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -237,7 +223,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Process_No", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -250,7 +235,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "OdPt_No", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -263,7 +247,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "OdPtCs_No", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -276,7 +259,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "OdPtPr_No", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -289,7 +271,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "CMC", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -302,7 +283,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "CMT", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -315,7 +295,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "CPC", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -328,7 +307,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "CPT", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -341,7 +319,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "CPD", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -354,7 +331,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "CPN", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -367,7 +343,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Cs_Progress_CD", e.target.value)}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -380,7 +355,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Cs_Complete_Date", e.target.value)}
         />
       ),
-      sortable: true,
       width: "200px",
     },
     {
@@ -393,7 +367,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Cs_Complete_Qty", e.target.value)}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -406,7 +379,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Cs_Label_CSV", e.target.value)}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -419,7 +391,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Cs_All_Complete", e.target.value)}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -432,7 +403,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Cs_Order_All_Complete", e.target.value)}
         />
       ),
-      sortable: true,
       width: "220px",
     },
     {
@@ -445,7 +415,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Cs_Parts_Complete", e.target.value)}
         />
       ),
-      sortable: true,
       width: "200px",
     },
     {
@@ -458,7 +427,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Cs_Final_Complete", e.target.value)}
         />
       ),
-      sortable: true,
       width: "200px",
     },
     {
@@ -471,7 +439,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Cs_Remark", e.target.value)}
         />
       ),
-      sortable: true,
       width: "200px",
     },
     {
@@ -484,7 +451,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Cs_Register_Date", e.target.value)}
         />
       ),
-      sortable: true,
       width: "200px",
     },
     {
@@ -497,7 +463,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Cs_Modify_Date", e.target.value)}
         />
       ),
-      sortable: true,
       width: "200px",
     },
     {
@@ -510,7 +475,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Cs_Reg_Person_CD", e.target.value)}
         />
       ),
-      sortable: true,
       width: "200px",
     },
     {
@@ -523,7 +487,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Cs_Upd_Person_CD", e.target.value)}
         />
       ),
-      sortable: true,
       width: "200px",
     },
     {
@@ -536,7 +499,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Sequence_No", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -549,7 +511,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "ProcessCD", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -562,7 +523,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Comp_Month", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
     {
@@ -575,7 +535,6 @@ export function None_FG_Data() {
           onChange={(e) => handleEdit(index, "Amount", e.target.value)}
         />
       ),
-      sortable: true,
       width: "150px",
     },
   ];

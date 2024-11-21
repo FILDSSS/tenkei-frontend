@@ -89,7 +89,7 @@ export function WeekTargetSetting() {
         setData(updatedData);
       }
 
-      localStorage.setItem("workgData", JSON.stringify(updatedData));
+      localStorage.setItem("weekTargetData", JSON.stringify(updatedData));
 
       alert("Edit Successfully!");
       setIsChanged(false);
@@ -148,7 +148,6 @@ export function WeekTargetSetting() {
         const year = date.getFullYear() + 543;
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "220px",
     },
     {
@@ -161,7 +160,6 @@ export function WeekTargetSetting() {
         const year = date.getFullYear() + 543;
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "220px",
     },
     {
@@ -174,7 +172,6 @@ export function WeekTargetSetting() {
         const year = date.getFullYear() + 543;
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "220px",
     },
     {
@@ -187,7 +184,6 @@ export function WeekTargetSetting() {
         const year = date.getFullYear() + 543;
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "220px",
     },
     {
@@ -200,7 +196,6 @@ export function WeekTargetSetting() {
         const year = date.getFullYear() + 543;
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "220px",
     },
     {
@@ -213,7 +208,6 @@ export function WeekTargetSetting() {
         const year = date.getFullYear() + 543;
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "220px",
     },
     {
@@ -226,7 +220,6 @@ export function WeekTargetSetting() {
         const year = date.getFullYear() + 543;
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "220px",
     },
     {
@@ -239,7 +232,6 @@ export function WeekTargetSetting() {
         const year = date.getFullYear() + 543;
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "220px",
     },
     {
@@ -252,7 +244,6 @@ export function WeekTargetSetting() {
         const year = date.getFullYear() + 543;
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "220px",
     },
     {
@@ -265,7 +256,6 @@ export function WeekTargetSetting() {
         const year = date.getFullYear() + 543;
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "220px",
     },
   ];

@@ -38,17 +38,32 @@ export function None_WI_Data() {
     }
   }, [data]);
 
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+
+    if (isNaN(date)) return "";
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
   const handleChange = (e, orderNo, field) => {
     const newValue = e.target.value;
-    setIsChanged(true);
 
     if (editedDataRef.current[orderNo]?.[field] !== newValue) {
-      const updatedEditedData = { ...editedDataRef.current };
+      setIsChanged(true);
 
-      updatedEditedData[orderNo] = updatedEditedData[orderNo] || {};
-      updatedEditedData[orderNo][field] = newValue;
-      setEditedData(updatedEditedData);
-      editedDataRef.current = updatedEditedData;
+      const updatedData = { ...editedDataRef.current };
+
+      updatedData[orderNo] = updatedData[orderNo] || {};
+      updatedData[orderNo][field] = newValue;
+
+      setEditedData(updatedData);
+      editedDataRef.current = updatedData;
     }
   };
 
@@ -64,7 +79,7 @@ export function None_WI_Data() {
         };
 
         const response = await axios.put(
-          "http://localhost:4000/order/edit-order", 
+          "http://localhost:4000/order/edit-order",
           payload
         );
 
@@ -76,8 +91,6 @@ export function None_WI_Data() {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
         }
-
-        localStorage.setItem("workgData", JSON.stringify(updatedData));
 
         alert("Edit Successfully!");
         setIsChanged(false);
@@ -91,17 +104,6 @@ export function None_WI_Data() {
   const handleKeyDown = (e, index, field) => {
     if (e.key === "Enter") {
       handleSave(index, field);
-      setIsChanged(false);
-    }
-  };
-
-  const handleBlur = (index, field) => {
-    if (isChanged) {
-      setEditedData((prevState) => {
-        const updatedData = { ...prevState };
-        updatedData[index] = { ...data[index] };
-        return updatedData;
-      });
       setIsChanged(false);
     }
   };
@@ -128,19 +130,16 @@ export function None_WI_Data() {
     {
       name: "Order_No",
       selector: (row) => row.Order_No,
-      sortable: true,
       width: "150px",
     },
     {
       name: "Product_Grp_CD",
       selector: (row) => row.Product_Grp_CD,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Customer_CD",
       selector: (row) => row.Customer_CD,
-      sortable: true,
       width: "160px",
     },
     {
@@ -156,406 +155,338 @@ export function None_WI_Data() {
           }
           onChange={(e) => handleChange(e, row.Order_No, "NAV_Name")}
           onKeyDown={(e) => handleKeyDown(e, row.Order_No, "NAV_Name")}
-          onBlur={() => handleBlur(row.Order_No, "NAV_Name")}
         />
       ),
-      sortable: true,
       width: "250px",
     },
     {
       name: "Product_Name",
       selector: (row) => row.Product_Name,
-      sortable: true,
       width: "250px",
     },
     {
       name: "NAV_Size",
       selector: (row) => row.NAV_Size,
-      sortable: true,
       width: "250px",
     },
     {
       name: "Product_Size",
       selector: (row) => row.Product_Size,
-      sortable: true,
       width: "250px",
     },
     {
       name: "Tolerance",
       selector: (row) => row.Tolerance,
-      sortable: true,
       width: "150px",
     },
     {
       name: "Customer_Draw",
       selector: (row) => row.Customer_Draw,
-      sortable: true,
       width: "220px",
     },
     {
       name: "Company_Draw",
       selector: (row) => row.Company_Draw,
-      sortable: true,
       width: "200px",
     },
     {
       name: "Product_Draw",
       selector: (row) => row.Product_Draw,
-      sortable: true,
       width: "250px",
     },
     {
       name: "Quantity",
       selector: (row) => row.Quantity,
-      sortable: true,
       width: "160px",
     },
     {
       name: "Pd_Target_Qty",
       selector: (row) => row.Pd_Target_Qty,
-      sortable: true,
       width: "170px",
     },
     {
       name: "Pd_Complete_Qty",
       selector: (row) => row.Pd_Complete_Qty,
-      sortable: true,
       width: "180px",
     },
     {
       name: "I_Complete_Qty",
       selector: (row) => row.I_Complete_Qty,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Shipment_Qty",
       selector: (row) => row.Shipment_Qty,
-      sortable: true,
       width: "170px",
     },
     {
       name: "Pd_Split_Qty",
       selector: (row) => row.Pd_Split_Qty,
-      sortable: true,
       width: "170px",
     },
     {
       name: "Pd_Calc_Qty",
       selector: (row) => row.Pd_Calc_Qty,
-      sortable: true,
       width: "170px",
     },
     {
       name: "NG_Qty",
       selector: (row) => row.NG_Qty,
-      sortable: true,
       width: "170px",
     },
     {
       name: "Unit_CD",
       selector: (row) => row.Unit_CD,
-      sortable: true,
       width: "170px",
     },
     {
       name: "Sales_Grp_CD",
       selector: (row) => row.Sales_Grp_CD,
-      sortable: true,
       width: "200px",
     },
     {
       name: "Sales_Person_CD",
       selector: (row) => row.Sales_Person_CD,
-      sortable: true,
       width: "200px",
     },
     {
       name: "Request1_CD",
       selector: (row) => row.Request1_CD,
-      sortable: true,
       width: "190px",
     },
     {
       name: "Request2_CD",
       selector: (row) => row.Request2_CD,
-      sortable: true,
       width: "190px",
     },
     {
       name: "Request3_CD",
       selector: (row) => row.Request3_CD,
-      sortable: true,
       width: "190px",
     },
     {
       name: "Material1",
       selector: (row) => row.Material1,
-      sortable: true,
       width: "180px",
     },
     {
       name: "H_Treatment1",
       selector: (row) => row.H_Treatment1,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Material2",
       selector: (row) => row.Material2,
-      sortable: true,
       width: "180px",
     },
     {
       name: "H_Treatment2",
       selector: (row) => row.H_Treatment2,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Material3",
       selector: (row) => row.Material3,
-      sortable: true,
       width: "180px",
     },
     {
       name: "H_Treatment3",
       selector: (row) => row.H_Treatment3,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Material4",
       selector: (row) => row.Material4,
-      sortable: true,
       width: "180px",
     },
     {
       name: "H_Treatment4",
       selector: (row) => row.H_Treatment4,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Material5",
       selector: (row) => row.Material5,
-      sortable: true,
       width: "180px",
     },
     {
       name: "H_Treatment5",
       selector: (row) => row.H_Treatment5,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Coating_CD",
       selector: (row) => row.Coating_CD,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Coating",
       selector: (row) => row.Coating,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Quote_No",
       selector: (row) => row.Quote_No,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Quote_CD",
       selector: (row) => row.Quote_CD,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Od_No_of_Pd_Split",
       selector: (row) => row.Od_No_of_Pd_Split,
-      sortable: true,
       width: "210px",
     },
     {
       name: "ItemO_CD",
       selector: (row) => row.ItemO_CD,
-      sortable: true,
       width: "170px",
     },
     {
       name: "Item1_CD",
       selector: (row) => row.Item1_CD,
-      sortable: true,
       width: "170px",
     },
     {
       name: "Item2_CD",
       selector: (row) => row.Item2_CD,
-      sortable: true,
       width: "170px",
     },
     {
       name: "Item3_CD",
       selector: (row) => row.Item3_CD,
-      sortable: true,
       width: "170px",
     },
     {
       name: "Item4_CD",
       selector: (row) => row.Item4_CD,
-      sortable: true,
       width: "170px",
     },
     {
       name: "Custom_Material",
       selector: (row) => row.Custom_Material,
-      sortable: true,
       width: "200px",
     },
     {
       name: "Od_No_of_Custom",
       selector: (row) => row.Od_No_of_Custom,
-      sortable: true,
       width: "200px",
     },
     {
       name: "Supply_CD",
       selector: (row) => row.Supply_CD,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Destination_CD",
       selector: (row) => row.Destination_CD,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Contract_Docu_CD",
       selector: (row) => row.Contract_Docu_CD,
-      sortable: true,
       width: "200px",
     },
     {
       name: "Price_CD",
       selector: (row) => row.Price_CD,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Unit_Price",
       selector: (row) => row.Unit_Price,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Specific_CD",
       selector: (row) => row.Specific_CD,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Od_Progress_CD",
       selector: (row) => row.Od_Progress_CD,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Delivery_CD",
       selector: (row) => row.Delivery_CD,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Schedule_CD",
       selector: (row) => row.Schedule_CD,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Target_CD",
       selector: (row) => row.Target_CD,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Product_Docu",
       selector: (row) => row.Product_Docu,
-      sortable: true,
       width: "500px",
     },
     {
       name: "Procure_Docu",
       selector: (row) => row.Procure_Docu,
-      sortable: true,
       width: "170px",
     },
     {
       name: "Outside_Docu",
       selector: (row) => row.Outside_Docu,
-      sortable: true,
       width: "170px",
     },
     {
       name: "Inspect_Docu",
       selector: (row) => row.Inspect_Docu,
-      sortable: true,
       width: "170px",
     },
     {
       name: "Send_Docu",
       selector: (row) => row.Send_Docu,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Supple_Docu",
       selector: (row) => row.Supple_Docu,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Sl_Instructions",
       selector: (row) => row.Sl_Instructions,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Pd_Instructions",
       selector: (row) => row.Pd_Instructions,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Pd_Remark",
       selector: (row) => row.Pd_Remark,
-      sortable: true,
       width: "180px",
     },
     {
       name: "I_Remark",
       selector: (row) => row.I_Remark,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Od_Ctl_Person_CD",
       selector: (row) => row.Od_Ctl_Person_CD,
-      sortable: true,
       width: "200px",
     },
     {
       name: "Od_Reg_Person_CD",
       selector: (row) => row.Od_Reg_Person_CD,
-      sortable: true,
       width: "200px",
     },
     {
       name: "Od_Upd_Person_CD",
       selector: (row) => row.Od_Upd_Person_CD,
-      sortable: true,
       width: "200px",
     },
     {
@@ -572,7 +503,6 @@ export function None_WI_Data() {
 
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "220px",
     },
     {
@@ -589,7 +519,6 @@ export function None_WI_Data() {
 
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "220px",
     },
     {
@@ -606,26 +535,23 @@ export function None_WI_Data() {
 
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "200px",
     },
     {
       name: "NAV_Delivery",
       selector: (row) => row.NAV_Delivery,
-      sortable: true,
       width: "180px",
     },
     {
       name: "ASP_Delivery",
       selector: (row) => row.ASP_Delivery,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Order_Date",
       selector: (row) => {
         const date = row.Order_Date ? new Date(row.Order_Date) : null;
-        if (!date) return "";
+        if (!date || isNaN(date)) return "";
 
         const day = String(date.getDate()).padStart(2, "0");
         const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -633,8 +559,19 @@ export function None_WI_Data() {
 
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "180px",
+      cell: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="date"
+          value={
+            editedData[row.Order_No]?.Order_Date ||
+            formatDateForInput(row.Order_Date)
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "Order_Date")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Order_Date")}
+        />
+      ),
     },
     {
       name: "Pd_Received_Date",
@@ -650,13 +587,11 @@ export function None_WI_Data() {
 
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "190px",
     },
     {
       name: "Pd_Complete_Date",
       selector: (row) => row.Pd_Complete_Date,
-      sortable: true,
       width: "200px",
     },
     {
@@ -673,31 +608,26 @@ export function None_WI_Data() {
 
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "180px",
     },
     {
       name: "Shipment_Date",
       selector: (row) => row.Shipment_Date,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Pd_Calc_Date",
       selector: (row) => row.Pd_Calc_Date,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Calc_Process_Date",
       selector: (row) => row.Calc_Process_Date,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Rs_Confirm_Date",
       selector: (row) => row.Rs_Confirm_Date,
-      sortable: true,
       width: "180px",
     },
     {
@@ -712,7 +642,6 @@ export function None_WI_Data() {
 
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "190px",
     },
     {
@@ -727,7 +656,6 @@ export function None_WI_Data() {
 
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "190px",
     },
     {
@@ -742,67 +670,56 @@ export function None_WI_Data() {
 
         return `${day}/${month}/${year}`;
       },
-      sortable: true,
       width: "190px",
     },
     {
       name: "Carbide_Cost",
       selector: (row) => row.Carbide_Cost,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Steel_Cost",
       selector: (row) => row.Steel_Cost,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Outsourcing_Cost",
       selector: (row) => row.Outsourcing_Cost,
-      sortable: true,
       width: "180px",
     },
     {
       name: "H_Treatment_Cost",
       selector: (row) => row.H_Treatment_Cost,
-      sortable: true,
       width: "190px",
     },
     {
       name: "Coating_Cost",
       selector: (row) => row.Coating_Cost,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Electrode_Cost",
       selector: (row) => row.Electrode_Cost,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Electroplate_Cost",
       selector: (row) => row.Electroplate_Cost,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Tooling_Cost",
       selector: (row) => row.Tooling_Cost,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Jig_Cost",
       selector: (row) => row.Jig_Cost,
-      sortable: true,
       width: "180px",
     },
     {
       name: "Fixtures_Cost",
       selector: (row) => row.Fixtures_Cost,
-      sortable: true,
       width: "180px",
     },
     {
@@ -814,7 +731,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Od_CAT1")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -826,7 +742,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Od_CAT2")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -838,7 +753,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Od_CAT3")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -850,7 +764,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Od_Pending")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -862,7 +775,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Temp_Shipment")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -874,7 +786,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Unreceived")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -886,7 +797,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Current_Order")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -898,7 +808,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Month_Plan")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -910,7 +819,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Week_Plan")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -922,7 +830,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Today_Plan")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -934,7 +841,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Must_Delivery")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -946,7 +852,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Into_I")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -958,7 +863,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Input_Confirm")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -970,7 +874,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Pd_Confirm")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -982,7 +885,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "I_Confirm")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -994,7 +896,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Od_Confirm")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -1006,7 +907,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "I_Target")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
     {
@@ -1018,7 +918,6 @@ export function None_WI_Data() {
           onChange={(e) => handleCheckboxChange(e, row, "Urgent_Goods")}
         />
       ),
-      sortable: true,
       width: "180px",
     },
   ];
