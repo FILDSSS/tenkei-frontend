@@ -3,51 +3,57 @@ import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import DataTable from "react-data-table-component";
 
-export function None_WI_Data_Tenkei() {
+export function None_FG_Data_Tenkei() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const [data, setData] = useState([
     {
-      Item_Name: "LATHE TOOL",
-      Customer_Name: "MNO-P3",
-      Order_Date: "02/12/2567",
-      Order_No: "BEC2403010",
-      Request_Delivery: "25/12/2567",
-      NAV_Name: "LATHEPRO",
-      NAV_Size: "JJ 1 J",
-      Item1_CD: 109,
-      Quantity: 30,
-      Unit_Price: 1500,
-      Amount: 45000,
-    },
-    {
-      Item_Name: "WELDING ROD",
-      Customer_Name: "RST-P4",
-      Order_Date: "07/12/2567",
-      Order_No: "BEC2403011",
-      Request_Delivery: "28/12/2567",
-      NAV_Name: "WELDPRO",
-      NAV_Size: "KK 4 K",
-      Item1_CD: 110,
-      Quantity: 60,
+      Item_Name: "THREADING TOOL",
+      Customer_Name: "PQR-P4",
+      Order_Date: "22/11/2567",
+      Order_No: "BEC2403004",
+      Request_Delivery: "20/12/2567",
+      I_Complete_Date: "07/01/2568",
+      Date_of_Delay: 3,
+      NAV_Name: "THREADMAX",
+      NAV_Size: "DD 1 D",
+      Item1_CD: 103,
+      Quantity: 25,
       Unit_Price: 2500,
-      Amount: 150000,
+      Amount: 62500,
     },
     {
-      Item_Name: "CARBIDE INSERT",
-      Customer_Name: "UVW-P6",
-      Order_Date: "12/12/2567",
-      Order_No: "BEC2403012",
-      Request_Delivery: "05/01/2568",
-      NAV_Name: "CARBIDEMAX",
-      NAV_Size: "LL 2 L",
-      Item1_CD: 111,
+      Item_Name: "MILLING INSERT",
+      Customer_Name: "LMN-P3",
+      Order_Date: "21/11/2567",
+      Order_No: "BEC2403005",
+      Request_Delivery: "18/12/2567",
+      I_Complete_Date: "02/01/2568",
+      Date_of_Delay: 2,
+      NAV_Name: "MILLERPRO",
+      NAV_Size: "EE 6 E",
+      Item1_CD: 104,
+      Quantity: 60,
+      Unit_Price: 800,
+      Amount: 48000,
+    },
+    {
+      Item_Name: "TURNING INSERT",
+      Customer_Name: "DEF-P6",
+      Order_Date: "23/11/2567",
+      Order_No: "BEC2403006",
+      Request_Delivery: "25/12/2567",
+      I_Complete_Date: "10/01/2568",
+      Date_of_Delay: 7,
+      NAV_Name: "TURNMAX",
+      NAV_Size: "FF 4 F",
+      Item1_CD: 105,
       Quantity: 45,
-      Unit_Price: 3500,
-      Amount: 157500,
+      Unit_Price: 1500,
+      Amount: 67500,
     },
   ]);
-
+  
   const [editedData, setEditedData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
   const editedDataRef = useRef(editedData);
@@ -142,7 +148,7 @@ export function None_WI_Data_Tenkei() {
         />
       ),
       sortable: true,
-      width: "200px",
+      width: "180px",
     },
     {
       name: "Customer_Name",
@@ -197,6 +203,32 @@ export function None_WI_Data_Tenkei() {
       ),
       sortable: true,
       width: "180px",
+    },
+    {
+      name: "I_Complete_Date",
+      selector: (row, index) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="text"
+          value={row.I_Complete_Date}
+          onChange={(e) => handleEdit(index, "I_Complete_Date", e.target.value)}
+        />
+      ),
+      sortable: true,
+      width: "180px",
+    },
+    {
+      name: "Date_of_Delay",
+      selector: (row, index) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="number"
+          value={row.Date_of_Delay}
+          onChange={(e) => handleEdit(index, "Date_of_Delay", e.target.value)}
+        />
+      ),
+      sortable: true,
+      width: "160px",
     },
     {
       name: "NAV_Name",
@@ -287,7 +319,7 @@ export function None_WI_Data_Tenkei() {
           <div className="bg-white grid grid-cols-1">
             <div className="bg-white grid grid-cols-1">
               <h1 className="text-2xl font-bold text-center mt-3">
-                None WI DATA In Tenkei
+                None FG DATA In Tenkei
               </h1>
               <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
 

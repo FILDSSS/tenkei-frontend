@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import DataTable from "react-data-table-component";
@@ -7,6 +7,9 @@ import axios from "axios";
 export function None_WI_Data() {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [editedData, setEditedData] = useState({});
+  const [isChanged, setIsChanged] = useState(false);
+  const editedDataRef = useRef(editedData);
 
   const fetchOrders = async () => {
     try {
@@ -21,6 +24,87 @@ export function None_WI_Data() {
   useEffect(() => {
     fetchOrders();
   }, []);
+
+  useEffect(() => {
+    const initialEditedData = data.reduce((acc, row, index) => {
+      if (!editedData[index]) {
+        acc[index] = { ...row };
+      }
+      return acc;
+    }, {});
+
+    if (Object.keys(initialEditedData).length > 0) {
+      setEditedData(initialEditedData);
+    }
+  }, [data]);
+
+  const handleChange = (e, orderNo, field) => {
+    const newValue = e.target.value;
+    setIsChanged(true);
+
+    if (editedDataRef.current[orderNo]?.[field] !== newValue) {
+      const updatedEditedData = { ...editedDataRef.current };
+
+      updatedEditedData[orderNo] = updatedEditedData[orderNo] || {};
+      updatedEditedData[orderNo][field] = newValue;
+      setEditedData(updatedEditedData);
+      editedDataRef.current = updatedEditedData;
+    }
+  };
+
+  const handleSave = async (orderNo, field) => {
+    const newValue = editedData[orderNo]?.[field];
+    const oldValue = data.find((row) => row.Order_No === orderNo)?.[field];
+
+    if (newValue !== oldValue) {
+      try {
+        const payload = {
+          Order_No: orderNo,
+          [field]: newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/order/edit-order", 
+          payload
+        );
+
+        const updatedData = [...data];
+        const rowIndex = updatedData.findIndex(
+          (row) => row.Order_No === orderNo
+        );
+        if (rowIndex !== -1) {
+          updatedData[rowIndex][field] = newValue;
+          setData(updatedData);
+        }
+
+        localStorage.setItem("workgData", JSON.stringify(updatedData));
+
+        alert("Edit Successfully!");
+        setIsChanged(false);
+      } catch (error) {
+        alert("Something went wrong!");
+        console.error(error);
+      }
+    }
+  };
+
+  const handleKeyDown = (e, index, field) => {
+    if (e.key === "Enter") {
+      handleSave(index, field);
+      setIsChanged(false);
+    }
+  };
+
+  const handleBlur = (index, field) => {
+    if (isChanged) {
+      setEditedData((prevState) => {
+        const updatedData = { ...prevState };
+        updatedData[index] = { ...data[index] };
+        return updatedData;
+      });
+      setIsChanged(false);
+    }
+  };
 
   const handleCheckboxChange = (e, row, field) => {
     const isChecked = e.target.checked;
@@ -61,7 +145,20 @@ export function None_WI_Data() {
     },
     {
       name: "NAV_Name",
-      selector: (row) => row.NAV_Name,
+      selector: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="text"
+          value={
+            editedData[row.Order_No]?.NAV_Name !== undefined
+              ? editedData[row.Order_No]?.NAV_Name
+              : row.NAV_Name || ""
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "NAV_Name")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "NAV_Name")}
+          onBlur={() => handleBlur(row.Order_No, "NAV_Name")}
+        />
+      ),
       sortable: true,
       width: "250px",
     },
@@ -463,21 +560,54 @@ export function None_WI_Data() {
     },
     {
       name: "Request_Delivery",
-      selector: (row) => row.Request_Delivery,
+      selector: (row) => {
+        const date = row.Request_Delivery
+          ? new Date(row.Request_Delivery)
+          : null;
+        if (!date) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
       sortable: true,
       width: "220px",
     },
     {
       name: "Product_Delivery",
-      selector: (row) => row.Product_Delivery,
+      selector: (row) => {
+        const date = row.Product_Delivery
+          ? new Date(row.Product_Delivery)
+          : null;
+        if (!date) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
       sortable: true,
       width: "220px",
     },
     {
       name: "Confirm_Delivery",
-      selector: (row) => row.Confirm_Delivery,
+      selector: (row) => {
+        const date = row.Confirm_Delivery
+          ? new Date(row.Confirm_Delivery)
+          : null;
+        if (!date) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
       sortable: true,
-      width: "220px",
+      width: "200px",
     },
     {
       name: "NAV_Delivery",
@@ -493,15 +623,35 @@ export function None_WI_Data() {
     },
     {
       name: "Order_Date",
-      selector: (row) => row.Order_Date,
+      selector: (row) => {
+        const date = row.Order_Date ? new Date(row.Order_Date) : null;
+        if (!date) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
       sortable: true,
-      width: "210px",
+      width: "180px",
     },
     {
       name: "Pd_Received_Date",
-      selector: (row) => row.Pd_Received_Date,
+      selector: (row) => {
+        const date = row.Pd_Received_Date
+          ? new Date(row.Pd_Received_Date)
+          : null;
+        if (!date) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
       sortable: true,
-      width: "200px",
+      width: "190px",
     },
     {
       name: "Pd_Complete_Date",
@@ -511,9 +661,20 @@ export function None_WI_Data() {
     },
     {
       name: "I_Completed_Date",
-      selector: (row) => row.I_Completed_Date,
+      selector: (row) => {
+        const date = row.I_Completed_Date
+          ? new Date(row.I_Completed_Date)
+          : null;
+        if (!date) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
       sortable: true,
-      width: "200px",
+      width: "180px",
     },
     {
       name: "Shipment_Date",
@@ -541,21 +702,48 @@ export function None_WI_Data() {
     },
     {
       name: "Od_Reg_Date",
-      selector: (row) => row.Od_Reg_Date,
+      selector: (row) => {
+        const date = row.Od_Reg_Date ? new Date(row.Od_Reg_Date) : null;
+        if (!date) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
       sortable: true,
-      width: "210px",
+      width: "190px",
     },
     {
       name: "Od_Upd_Date",
-      selector: (row) => row.Od_Upd_Date,
+      selector: (row) => {
+        const date = row.Od_Upd_Date ? new Date(row.Od_Upd_Date) : null;
+        if (!date) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
       sortable: true,
-      width: "210px",
+      width: "190px",
     },
     {
       name: "Od_NAV_Upd_Date",
-      selector: (row) => row.Od_NAV_Upd_Date,
+      selector: (row) => {
+        const date = row.Od_NAV_Upd_Date ? new Date(row.Od_NAV_Upd_Date) : null;
+        if (!date) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
       sortable: true,
-      width: "210px",
+      width: "190px",
     },
     {
       name: "Carbide_Cost",
@@ -858,7 +1046,7 @@ export function None_WI_Data() {
             </div>
             <div className="flex justify-center items-center mt-5">
               <div className="w-full text-center px-5">
-              <DataTable
+                <DataTable
                   columns={columns}
                   data={filteredData}
                   customStyles={{
@@ -868,7 +1056,7 @@ export function None_WI_Data() {
                         textAlign: "center",
                         justifyContent: "center",
                         borderBottom: "1px solid #ccc",
-                        borderRight: "1px solid #ccc", 
+                        borderRight: "1px solid #ccc",
                       },
                     },
                     headCells: {
@@ -876,14 +1064,12 @@ export function None_WI_Data() {
                         fontSize: "14px",
                         textAlign: "center",
                         justifyContent: "center",
-                        border: "1px solid #ccc", 
+                        border: "1px solid #ccc",
                       },
                     },
                     cells: {
                       style: {
-                        textAlign: "center",
-                        justifyContent: "center",
-                        border: "1px solid #ccc", 
+                        border: "1px solid #ccc",
                       },
                     },
                     table: {
