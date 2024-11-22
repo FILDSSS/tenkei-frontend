@@ -728,7 +728,9 @@ export function None_WI_Data() {
         <input
           type="checkbox"
           checked={row.Od_CAT1}
+          style={{ pointerEvents: "none" }}
           onChange={(e) => handleCheckboxChange(e, row, "Od_CAT1")}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -740,6 +742,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.Od_CAT2}
           onChange={(e) => handleCheckboxChange(e, row, "Od_CAT2")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -751,6 +755,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.Od_CAT3}
           onChange={(e) => handleCheckboxChange(e, row, "Od_CAT3")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -762,6 +768,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.Od_Pending}
           onChange={(e) => handleCheckboxChange(e, row, "Od_Pending")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -773,6 +781,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.Temp_Shipment}
           onChange={(e) => handleCheckboxChange(e, row, "Temp_Shipment")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -784,6 +794,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.Unreceived}
           onChange={(e) => handleCheckboxChange(e, row, "Unreceived")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -795,6 +807,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.Current_Order}
           onChange={(e) => handleCheckboxChange(e, row, "Current_Order")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -806,6 +820,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.Month_Plan}
           onChange={(e) => handleCheckboxChange(e, row, "Month_Plan")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -817,6 +833,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.Week_Plan}
           onChange={(e) => handleCheckboxChange(e, row, "Week_Plan")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -828,6 +846,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.Today_Plan}
           onChange={(e) => handleCheckboxChange(e, row, "Today_Plan")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -839,6 +859,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.Must_Delivery}
           onChange={(e) => handleCheckboxChange(e, row, "Must_Delivery")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -850,6 +872,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.Into_I}
           onChange={(e) => handleCheckboxChange(e, row, "Into_I")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -861,6 +885,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.Input_Confirm}
           onChange={(e) => handleCheckboxChange(e, row, "Input_Confirm")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -872,6 +898,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.Pd_Confirm}
           onChange={(e) => handleCheckboxChange(e, row, "Pd_Confirm")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -883,6 +911,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.I_Confirm}
           onChange={(e) => handleCheckboxChange(e, row, "I_Confirm")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -894,6 +924,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.Od_Confirm}
           onChange={(e) => handleCheckboxChange(e, row, "Od_Confirm")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -905,6 +937,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.I_Target}
           onChange={(e) => handleCheckboxChange(e, row, "I_Target")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -916,6 +950,8 @@ export function None_WI_Data() {
           type="checkbox"
           checked={row.Urgent_Goods}
           onChange={(e) => handleCheckboxChange(e, row, "Urgent_Goods")}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "180px",
@@ -948,6 +984,9 @@ export function None_WI_Data() {
                 <DataTable
                   columns={columns}
                   data={filteredData}
+                  pagination
+                  paginationPerPage={5}
+                  paginationRowsPerPageOptions={[5, 10, 15, 20]}
                   customStyles={{
                     rows: {
                       style: {
@@ -968,6 +1007,8 @@ export function None_WI_Data() {
                     },
                     cells: {
                       style: {
+                        textAlign: "center",
+                        justifyContent: "center",
                         border: "1px solid #ccc",
                       },
                     },

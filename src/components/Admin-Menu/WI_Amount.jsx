@@ -624,6 +624,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Od_CAT1}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Od_CAT1")}
           className="mx-auto"
         />
       ),
@@ -637,6 +638,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Od_CAT2}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Od_CAT2")}
           className="mx-auto"
         />
       ),
@@ -650,6 +652,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Od_CAT3}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Od_CAT3")}
           className="mx-auto"
         />
       ),
@@ -663,6 +666,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Od_Pending}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Od_Pending")}
           className="mx-auto"
         />
       ),
@@ -676,6 +680,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Temp_Shipment}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Temp_Shipment")}
           className="mx-auto"
         />
       ),
@@ -689,6 +694,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Unreceived}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Unreceived")}
           className="mx-auto"
         />
       ),
@@ -702,6 +708,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Current_Order}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Current_Order")}
           className="mx-auto"
         />
       ),
@@ -715,6 +722,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Month_Plan}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Month_Plan")}
           className="mx-auto"
         />
       ),
@@ -728,6 +736,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Week_Plan}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Week_Plan")}
           className="mx-auto"
         />
       ),
@@ -741,6 +750,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Today_Plan}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Today_Plan")}
           className="mx-auto"
         />
       ),
@@ -754,6 +764,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Must_Delivery}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Must_Delivery")}
           className="mx-auto"
         />
       ),
@@ -767,6 +778,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Into_I}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Into_I")}
           className="mx-auto"
         />
       ),
@@ -780,6 +792,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Input_Confirm}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Input_Confirm")}
           className="mx-auto"
         />
       ),
@@ -793,6 +806,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Pd_Confirm}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Pd_Confirm")}
           className="mx-auto"
         />
       ),
@@ -806,6 +820,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.I_Confirm}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "I_Confirm")}
           className="mx-auto"
         />
       ),
@@ -819,6 +834,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Od_Confirm}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Od_Confirm")}
           className="mx-auto"
         />
       ),
@@ -832,6 +848,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.I_Target}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "I_Target")}
           className="mx-auto"
         />
       ),
@@ -845,6 +862,7 @@ export function WI_Amount() {
           type="checkbox"
           checked={row.Urgent_Goods}
           style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Urgent_Goods")}
           className="mx-auto"
         />
       ),
@@ -924,6 +942,9 @@ export function WI_Amount() {
                 <DataTable
                   columns={columns}
                   data={filteredData}
+                  pagination
+                  paginationPerPage={5}
+                  paginationRowsPerPageOptions={[5, 10, 15, 20]}
                   customStyles={{
                     rows: {
                       style: {
@@ -944,6 +965,8 @@ export function WI_Amount() {
                     },
                     cells: {
                       style: {
+                        textAlign: "center",
+                        justifyContent: "center",
                         border: "1px solid #ccc",
                       },
                     },

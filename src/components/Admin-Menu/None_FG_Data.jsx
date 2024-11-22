@@ -352,7 +352,9 @@ export function None_FG_Data() {
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
           value={row.Cs_Complete_Date}
-          onChange={(e) => handleEdit(index, "Cs_Complete_Date", e.target.value)}
+          onChange={(e) =>
+            handleEdit(index, "Cs_Complete_Date", e.target.value)
+          }
         />
       ),
       width: "200px",
@@ -400,7 +402,9 @@ export function None_FG_Data() {
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
           value={row.Cs_Order_All_Complete}
-          onChange={(e) => handleEdit(index, "Cs_Order_All_Complete", e.target.value)}
+          onChange={(e) =>
+            handleEdit(index, "Cs_Order_All_Complete", e.target.value)
+          }
         />
       ),
       width: "220px",
@@ -412,7 +416,9 @@ export function None_FG_Data() {
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
           value={row.Cs_Parts_Complete}
-          onChange={(e) => handleEdit(index, "Cs_Parts_Complete", e.target.value)}
+          onChange={(e) =>
+            handleEdit(index, "Cs_Parts_Complete", e.target.value)
+          }
         />
       ),
       width: "200px",
@@ -424,7 +430,9 @@ export function None_FG_Data() {
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
           value={row.Cs_Final_Complete}
-          onChange={(e) => handleEdit(index, "Cs_Final_Complete", e.target.value)}
+          onChange={(e) =>
+            handleEdit(index, "Cs_Final_Complete", e.target.value)
+          }
         />
       ),
       width: "200px",
@@ -448,7 +456,9 @@ export function None_FG_Data() {
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
           value={row.Cs_Register_Date}
-          onChange={(e) => handleEdit(index, "Cs_Register_Date", e.target.value)}
+          onChange={(e) =>
+            handleEdit(index, "Cs_Register_Date", e.target.value)
+          }
         />
       ),
       width: "200px",
@@ -472,7 +482,9 @@ export function None_FG_Data() {
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
           value={row.Cs_Reg_Person_CD}
-          onChange={(e) => handleEdit(index, "Cs_Reg_Person_CD", e.target.value)}
+          onChange={(e) =>
+            handleEdit(index, "Cs_Reg_Person_CD", e.target.value)
+          }
         />
       ),
       width: "200px",
@@ -484,7 +496,9 @@ export function None_FG_Data() {
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
           value={row.Cs_Upd_Person_CD}
-          onChange={(e) => handleEdit(index, "Cs_Upd_Person_CD", e.target.value)}
+          onChange={(e) =>
+            handleEdit(index, "Cs_Upd_Person_CD", e.target.value)
+          }
         />
       ),
       width: "200px",
@@ -566,6 +580,9 @@ export function None_FG_Data() {
                   <DataTable
                     columns={columns}
                     data={filteredData}
+                    pagination
+                    paginationPerPage={5}
+                    paginationRowsPerPageOptions={[5, 10, 15, 20]}
                     customStyles={{
                       rows: {
                         style: {

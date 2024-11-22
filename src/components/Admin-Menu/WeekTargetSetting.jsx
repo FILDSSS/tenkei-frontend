@@ -126,16 +126,18 @@ export function WeekTargetSetting() {
     return Object.values(row).some((value) => {
       const formattedDate = (value) => {
         const date = new Date(value);
-        if (isNaN(date)) return ""; 
+        if (isNaN(date)) return "";
         const day = String(date.getDate()).padStart(2, "0");
         const month = String(date.getMonth() + 1).padStart(2, "0");
-        const year = date.getFullYear() + 543; 
+        const year = date.getFullYear() + 543;
         return `${day}/${month}/${year}`;
       };
-  
-      return formattedDate(value).toLowerCase().includes(searchTerm.toLowerCase());
+
+      return formattedDate(value)
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
     });
-  });  
+  });
 
   const columns = [
     {
@@ -287,6 +289,9 @@ export function WeekTargetSetting() {
                   <DataTable
                     columns={columns}
                     data={filteredData}
+                    pagination
+                    paginationPerPage={5}
+                    paginationRowsPerPageOptions={[5, 10, 15, 20]}
                     customStyles={{
                       rows: {
                         style: {
