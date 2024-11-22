@@ -37,7 +37,7 @@ import None_FG_DataPage from "../pages/Admin-Menu/None_FG_DataPage";
 import None_WI_DataPage from "../pages/Admin-Menu/None_WI_DataPage";
 import MonthTargetPage from "../pages/Admin-Menu/MonthTargetPage";
 import SystemMaintenancePage from "../pages/Admin-Menu/SystemMaintenancePage";
-import None_FG_Data_TenkeiPage from "../pages/Admin-Menu/None_FG_Data_Tenkei";
+import None_FG_Data_TenkeiPage from "../pages/Admin-Menu/None_FG_Data_TenkeiPage";
 import None_WI_Data_TenkeiPage from "../pages/Admin-Menu/None_WI_Data_TenkeiPage";
 import WeekTargetSettingPage from "../pages/Admin-Menu/WeekTargetSettingPage";
 import ASP_CSV1Page from "../pages/Admin-Menu/ASP_CSV1Page";
