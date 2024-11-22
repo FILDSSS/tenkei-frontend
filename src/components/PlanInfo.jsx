@@ -328,7 +328,7 @@ export default function PlanInfo() {
         <input
           id={`RPN${id}`}
           type="text"
-          value={planData?.[`RPT${id}`] || ""}
+          value={planData?.                                                                                                [`RPT${id}`] || ""}
           onChange={handlePlanInputChange}
           className="border rounded px-2 py-1 text-xs w-full"
         />
