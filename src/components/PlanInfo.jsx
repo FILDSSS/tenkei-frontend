@@ -13,9 +13,26 @@ export default function PlanInfo() {
     location.state?.searchOrderNo || ""
   );
   const [autoYearChange, setAutoYearChange] = useState(false);
-  const { orderData, searchOrderData, setOrderData } = useOrder();
+  const { orderData, searchOrderData, setOrderData,WorkgData,setWorkgData,WorkerData,
+    setWorkerData,SpecificData,setSpecificData,CustomerData, setCustomerData,
+    Request3Data, CoatingData, setCoatingData,OdProgressData,setOdProgressData,
+    DeliveryData, setDeliveryData,PriceData, setPriceData,TargetData, setTargetData,
+    SupplyData, setSupplyData,
+
+   } = useOrder();
+   const { planData, setPlanData,selectedPlanNo,setSelectedPlanNo,searchPartsData } = usePlan();
+  
   const { purchaseData, setPurchaseData } = usePurchase();
-  const { planData, setPlanData } = usePlan();
+  const [selectedSalesPersonAbb, setSelectedSalesPerson] = useState("");
+  const [SpecificName, setSpecificName] = useState("");
+  const [selectedCustomerAbb, setSelectedCustomerAbb] = useState("");
+  const [coatingName, setCoatingName] = useState("");
+  const [OdProgressName, setOdProgressName] = useState("");
+  const [DeliveryName, setDeliveryName] = useState("");
+  const [PriceName, setPriceName] = useState("");
+  const [targetName, setTargetName] = useState("");
+
+  const inputs = Array.from({ length: 36 }, (_, i) => i + 1);
 
   const handleInputChange = (event, isPurchase, isPlan = false) => {
     const { id, value, type, checked } = event.target;
@@ -41,6 +58,7 @@ export default function PlanInfo() {
       setSearchOrderNo(value);
       if (value) {
         searchOrderData(value);
+        searchPartsData(value);
       }
     }
   };
@@ -55,6 +73,9 @@ export default function PlanInfo() {
       ...prevPlanData,
       [id]: type === "checkbox" ? checked : value === "" ? null : value,
     }));
+
+    
+    
   };
 
   const handleSearch_Order_NoChange = async (newOrder_No) => {
@@ -88,1129 +109,252 @@ export default function PlanInfo() {
     });
   };
 
-  const rows = [
-    {
-      mp: (
+
+
+  useEffect(() => {
+    if (orderData?.Od_Ctl_Person_CD && WorkerData.length > 0) {
+      const selectedGroup = WorkerData.find(
+        (item) => item.Worker_CD === orderData.Od_Ctl_Person_CD
+      );
+      setSelectedSalesPerson(selectedGroup ? selectedGroup.Worker_Abb : "");
+    }
+  }, [orderData?.Od_Ctl_Person_CD, WorkerData]);
+
+  useEffect(() => {
+    if (orderData?.Specific_CD && SpecificData.length > 0) {
+      const selectedGroup = SpecificData.find(
+        (item) => item.Specific_CD === orderData?.Specific_CD
+      );
+
+      setSpecificName(selectedGroup ? selectedGroup.Specific_Name : "");
+    }
+  }, [orderData?.Specific_CD, SpecificData]);
+
+  useEffect(() => {
+    if (orderData?.Customer_CD && CustomerData.length > 0) {
+      const selectedGroup = CustomerData.find(
+        (item) => item.Customer_CD === orderData.Customer_CD
+      );
+      
+      setSelectedCustomerAbb(selectedGroup ? selectedGroup.Customer_Abb : "");
+    }
+
+    
+  }, [orderData?.Customer_CD, CustomerData]);
+
+  useEffect(() => {
+    if (orderData?.Coating_CD && CoatingData.length > 0) {
+      const selectedGroup = CoatingData.find(
+        (item) => item.Coating_CD === orderData.Coating_CD
+      );
+
+      setCoatingName(selectedGroup ? selectedGroup.Coating_Name : "");
+    }
+  }, [orderData?.Coating_CD, CoatingData]);
+
+  useEffect(() => {
+    if (orderData?.Od_Progress_CD && OdProgressData.length > 0) {
+      const selectedGroup = OdProgressData.find(
+        (item) => item.Od_Progress_CD === orderData.Od_Progress_CD
+      );
+
+      setOdProgressName(selectedGroup ? selectedGroup.Od_Progress_Name : "");
+    }
+  }, [orderData?.Od_Progress_CD, OdProgressData]);
+
+  useEffect(() => {
+    if (orderData?.Delivery_CD && DeliveryData.length > 0) {
+      const selectedGroup = DeliveryData.find(
+        (item) => item.Delivery_CD === orderData.Delivery_CD
+      );
+
+      setDeliveryName(selectedGroup ? selectedGroup.Delivery_Name : "");
+    }
+  }, [orderData?.Delivery_CD, DeliveryData]);
+
+  useEffect(() => {
+    if (orderData?.Price_CD && PriceData.length > 0) {
+      const selectedGroup = PriceData.find(
+        (item) => item.Price_CD === orderData?.Price_CD
+      );
+
+      setPriceName(selectedGroup ? selectedGroup.Price_Name : "");
+    }
+  }, [orderData?.Price_CD, PriceData]);
+
+  useEffect(() => {
+    if (orderData?.Target_CD && TargetData.length > 0) {
+      const selectedGroup = TargetData.find(
+        (item) => item.Target_CD === orderData.Target_CD
+      );
+
+      setTargetName(selectedGroup ? selectedGroup.Target_Name : "");
+    }
+  }, [orderData?.Target_CD, TargetData]);
+
+  const rows = inputs.map((id) => ({
+    mp: (
+      <div>
         <div className="flex space-x-2 w-full">
           <input
+            id={`QPPC${id}`}
             type="text"
+            value={planData?.[`QPPC${id}`] || ""}
+            onChange={handlePlanInputChange}
             className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
           />
           <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">▼</button>
             <input
+              id={`QRMT${id}`}
               type="text"
+              value={planData?.[`QRMT${id}`] || ""}
+              onChange={handlePlanInputChange}
               className="border rounded px-2 py-1 text-xs w-20"
             />
           </div>
         </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-
-    {
-      mp: (
-        <div className="flex space-x-2 w-full">
-          <input
-            type="text"
-            className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
-          />
-          <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
-              ▼
-            </button>
-            <input
-              type="text"
-              className="border rounded px-2 py-1 text-xs w-20"
-            />
-          </div>
-        </div>
-      ),
-      plan_process: (
-        <div className="">
-          <select className="border rounded px-2 py-1 text-xs  w-full ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-      min: "",
-      mind: "",
-
-      time: (
-        <div className="space-x-2">
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-          <select className="border rounded px-2 py-1 text-xs  w-10 ">
-            <option value=""></option>
-            <option value="part1">Part 1</option>
-            <option value="part2">Part 2</option>
-            <option value="part3">Part 3</option>
-          </select>
-        </div>
-      ),
-
-      plan_date: "",
-      instructions: "",
-      result_date: "",
-      resultmachine: "",
-      result_person: "",
-      resultqty: "",
-      asp: "",
-      bk: "",
-      pi_machine: "",
-      pi_person: "",
-    },
-  ];
+      </div>
+    ),  
+    plan_process: (
+      <div>
+        <select id={`PPC${id}`} 
+        value={planData?.[`PPC${id}`] || ""}
+        onChange={handlePlanInputChange}    
+        className="border rounded px-2 py-1 text-xs w-full">
+          <option value=""></option>
+        </select>
+      </div>
+    ),
+    min: (
+      <div>
+        <input
+          id={`PMT${id}`}
+          type="text"
+          value={planData?.[`PMT${id}`] || ""}
+          onChange={handlePlanInputChange}
+          className="border rounded px-2 py-1 text-xs w-full"
+        />
+      </div>
+    ),
+    mind: (
+      <div>
+        <input
+          id={`PPT${id}`}
+          type="text"
+          value={planData?.[`PPT${id}`] || ""}
+          onChange={handlePlanInputChange}
+          className="border rounded px-2 py-1 text-xs w-full"
+        />
+      </div>
+    ),
+    time: (
+      <div className="space-x-2">
+        <select id={`T_Type${id}`} className="border rounded px-2 py-1 text-xs w-10">
+          <option value=""></option>
+          <option value="P">P</option>
+          <option value="L">L</option>
+        </select>
+        <select id={`P_Type${id}`} className="border rounded px-2 py-1 text-xs w-10">
+          <option value=""></option>
+          <option value="M">M</option>
+          <option value="A">A</option>
+          <option value="O">O</option>
+        </select>
+        <select id={`S_Type${id}`} className="border rounded px-2 py-1 text-xs w-10">
+          <option value=""></option>
+          <option value="C">C</option>
+          <option value="F">F</option>
+        </select>
+      </div>
+    ),
+    plan_date: (
+      <div>
+        <input
+          id={`PPD${id}`}
+          type="date"
+          value={planData?.[`PPD${id}`] || ""}
+          onChange={handlePlanInputChange}
+          className="border rounded px-2 py-1 text-xs w-full"
+        />
+      </div>
+    ),
+    instructions: (
+      <div>
+        <input
+          id={`PPV${id}`}
+          type="text"
+          value={planData?.[`PPV${id}`] || ""}
+          onChange={handlePlanInputChange}
+          className="border rounded px-2 py-1 text-xs w-full"
+        />
+      </div>
+    ),
+    result_date: (
+      <div>
+        <input
+          id={`RPD${id}`}
+          type="date"
+          value={planData?.[`RPD${id}`] || ""}
+          onChange={handlePlanInputChange}
+          className="border rounded px-2 py-1 text-xs w-full"
+        />
+      </div>
+    ),
+    resultmachine: (
+      <div>
+        <input
+          id={`RMT${id}`}
+          type="text"
+          value={planData?.[`RMT${id}`] || ""}
+          onChange={handlePlanInputChange}
+          className="border rounded px-2 py-1 text-xs w-full"
+        />
+      </div>
+    ),
+    result_person: (
+      <div>
+        <input
+          id={`RPT${id}`}
+          type="text"
+          value={planData?.[`RPT${id}`] || ""}
+          onChange={handlePlanInputChange}
+          className="border rounded px-2 py-1 text-xs w-full"
+        />
+      </div>
+    ),
+    resultqty: (
+      <div>
+        <input
+          id={`RPN${id}`}
+          type="text"
+          value={planData?.[`RPT${id}`] || ""}
+          onChange={handlePlanInputChange}
+          className="border rounded px-2 py-1 text-xs w-full"
+        />
+      </div>
+    ),
+    asp: (
+      <p className="mb-6 text-sm font-normal text-gray-500 sm:px-16 dark:text-gray-400">
+        {id}
+      </p>
+    ),
+    bk: (
+      <p className="mb-6 text-sm font-normal text-gray-500 sm:px-16 dark:text-gray-400">
+        {id}
+      </p>
+    ),
+    pi_machine: (
+      <p className="mb-6 text-sm font-normal text-gray-500 sm:px-16 dark:text-gray-400">
+        {id}
+      </p>
+    ),
+    pi_person: (
+      <p className="mb-6 text-sm font-normal text-gray-500 sm:px-16 dark:text-gray-400">
+        {id}
+      </p>
+    ),
+  }));
 
   return (
     <div className="flex bg-[#E9EFEC] h-[100vh]">
@@ -1313,11 +457,18 @@ export default function PlanInfo() {
                       <label className="text-xs font-medium">
                         Search_Parts_No
                       </label>
-                      <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ccffff] w-18">
-                        <option value="">Select</option>
-                        <option value="part1">Part 1</option>
-                        <option value="part2">Part 2</option>
-                        <option value="part3">Part 3</option>
+                      <select id="Search_Parts_No" value={selectedPlanNo || ""} onChange={(e) => handlePlanInputChange(e)} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ccffff] w-18">
+                      <option value="">เลือกข้อมูล</option>
+                        {Array.isArray(selectedPlanNo) &&
+                        selectedPlanNo.length > 0 ? (
+                          selectedPlanNo.map((item, index) => (
+                          <option key={index} value={item.Parts_No}>
+                            {item.Parts_No}
+                          </option>
+                        ))
+                      ) : (
+                        <option value="">ไม่มีข้อมูล</option>
+                      )}
                       </select>
                     </div>
 
@@ -1380,68 +531,59 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto">
                           <label className="w-auto  text-xs">Od_No</label>
                           <div className="w-32 ml-1">
-                            {orderData ? (
+                            
                               <input
                                 disabled
                                 id="Order_No"
-                                value={orderData.Order_No || ""}
+                                value={orderData?.Order_No || ""}
                                 onChange={handleInputChange}
                                 type="text"
                                 className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
-                            ) : (
-                              <input
-                                disabled
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                              />
-                            )}
+                          
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto item ">
                           <label className="w-16 text-xs">Product_Grp</label>
-                          <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-36">
-                            <option value=""></option>
-                            <option value="part1">Part 1</option>
-                            <option value="part2">Part 2</option>
-                            <option value="part3">Part 3</option>
+                          <select id="Product_Grp_CD"  className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-36">
+                            <option value={orderData?.Product_Grp_CD || ""}>
+                                {orderData?.Product_Grp_CD || ""}
+                            </option>
+                            {Array.isArray(WorkgData) &&
+                              WorkgData.length > 0 ? (
+                                WorkgData.map((item, index) => (
+                                  <option key={index} value={item.WorkG_CD}>
+                                    {item.WorkG_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
                           </select>
                         </div>
                         <div className="flex gap-2 w-auto ml-0.5">
                           <label className="w-auto text-xs">Mate1</label>
                           <div className="w-auto flex gap-1">
-                            {orderData ? (
+                           
                               <input
                                 disabled
                                 id="Material1"
-                                value={orderData.Material1 || ""}
+                                value={orderData?.Material1 || ""}
                                 onChange={handleInputChange}
                                 type="text"
                                 className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                               />
-                            ) : (
-                              <input
-                                disabled
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                            )}
-                            {orderData ? (
+                         
+                            
                               <input
                                 disabled
                                 id="H_Treatment1"
-                                value={orderData.H_Treatment1 || ""}
+                                value={orderData?.H_Treatment1 || ""}
                                 onChange={handleInputChange}
                                 type="text"
                                 className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                               />
-                            ) : (
-                              <input
-                                disabled
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                            )}
+                      
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
@@ -1449,6 +591,9 @@ export default function PlanInfo() {
                           <div className="w-auto flex gap-1 mr-1">
                             <input
                               type="text"
+                              id="Od_No_of_Custom"
+                              value={orderData?.Od_No_of_Custom || ""}
+                              onChange={handleInputChange}
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                             />
                           </div>
@@ -1456,13 +601,24 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ">
                           <label className="w-20 text-xs">Od_Ctl_Person</label>
                           <div className="w-auto flex gap-1 mr-1">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
+                            <select id="Od_Ctl_Person_CD" value={orderData?.Od_Ctl_Person_CD || ""} onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
+                            <option  value={orderData?.Od_Ctl_Person_CD || ""}>
+                                {orderData?.Od_Ctl_Person_CD || ""}
+                            </option>
+                            {Array.isArray(WorkerData) &&
+                              WorkerData.length > 0 ? (
+                                WorkerData.map((item, index) => (
+                                  <option key={index} value={item.Worker_CD}>
+                                    {item.Worker_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
                             </select>
                             <input
+                               value={selectedSalesPersonAbb}
+                               onChange={(event) => setWorkerData(event)}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                             />
@@ -1472,6 +628,8 @@ export default function PlanInfo() {
                           <label className="w-8 text-xs">Sales</label>
                           <div className="w-auto flex gap-1">
                             <input
+                              value={orderData?.Sales_Person_CD || ""}
+                              onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                             />
@@ -1480,13 +638,24 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ml-10">
                           <label className="w-10 text-xs">Specific</label>
                           <div className="w-auto flex gap-1">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
+                            <select id="Specific_CD" value={orderData?.Specific_CD || ""} onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
+                            <option  value={orderData?.Specific_CD || ""}>
+                                {orderData?.Specific_CD || ""}
+                            </option>
+                            {Array.isArray(SpecificData) &&
+                              SpecificData.length > 0 ? (
+                                SpecificData.map((item, index) => (
+                                  <option key={index} value={item.Specific_CD}>
+                                    {item.Specific_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
                             </select>
                             <input
+                              value={SpecificName || ""}
+                              onChange={(event) => setSpecificData(event)}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                             />
@@ -1496,6 +665,9 @@ export default function PlanInfo() {
                           <label className="w-auto  text-xs">Pd_Receive</label>
                           <div className="w-auto">
                             <input
+                              id="Pd_Received_Date"
+                              value={orderData?.Pd_Received_Date || ""}
+                              onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
                             />
@@ -1530,13 +702,24 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ">
                           <label className="w-12 text-xs">Customer</label>
                           <div className="w-auto flex gap-1">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
+                            <select id="Customer_CD" value={orderData?.Customer_CD || ""}  onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
+                            <option  value={orderData?.Customer_CD || ""}>
+                                {orderData?.Customer_CD || ""}
+                            </option>
+                            {Array.isArray(CustomerData) &&
+                              CustomerData.length > 0 ? (
+                                CustomerData.map((item, index) => (
+                                  <option key={index} value={item.Customer_CD}>
+                                    {item.Customer_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
                             </select>
                             <input
+                              value={selectedCustomerAbb || ""}
+                              onChange={(event) => setCustomerData(event)}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[87px]"
                             />
@@ -1545,61 +728,68 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ">
                           <label className="w-auto text-xs">Mate2</label>
                           <div className="w-auto flex gap-1">
-                            {orderData ? (
+                         
                               <input
                                 disabled
-                                id="Material1"
-                                value={orderData.Material2 || ""}
+                                id="Material2"
+                                value={orderData?.Material2 || ""}
                                 onChange={handleInputChange}
                                 type="text"
                                 className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                               />
-                            ) : (
+                        
                               <input
                                 disabled
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                            )}
-                            {orderData ? (
-                              <input
-                                disabled
-                                id="H_Treatment1"
-                                value={orderData.H_Treatment2 || ""}
+                                id="H_Treatment2"
+                                value={orderData?.H_Treatment2 || ""}
                                 onChange={handleInputChange}
                                 type="text"
                                 className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                            ) : (
-                              <input
-                                disabled
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                            )}
+                              /> 
+                          
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Req3</label>
                           <div className="w-auto flex gap-1 mr-1">
                             <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-24">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
+                            <option  value={orderData?.Request3_CD || ""}>
+                                {orderData?.Request3_CD || ""}
+                            </option>
+                            {Array.isArray(Request3Data) &&
+                              Request3Data.length > 0 ? (
+                                Request3Data.map((item, index) => (
+                                  <option key={index} value={item.Request3_CD}>
+                                    {item.Request3_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
                             </select>
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Coating</label>
                           <div className="w-auto flex gap-1 ">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
+                            <select id="Coating_CD" value={orderData?.Coating_CD || ""}  onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
+                            <option  value={orderData?.Coating_CD || ""}>
+                                {orderData?.Coating_CD || ""}
+                            </option>
+                            {Array.isArray(CoatingData) &&
+                              CoatingData.length > 0 ? (
+                                CoatingData.map((item, index) => (
+                                  <option key={index} value={item.Coating_CD}>
+                                    {item.Coating_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
                             </select>
                             <input
+                              value={coatingName || ""}
+                              onChange={(event) => setCoatingData(event)}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                             />
@@ -1609,6 +799,9 @@ export default function PlanInfo() {
                           <label className="w-8 text-xs">Detail</label>
                           <div className="w-auto flex gap-1">
                             <input
+                              id="Coating"
+                              value={orderData?.Coating || ""}
+                              onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-28"
                             />
@@ -1619,13 +812,24 @@ export default function PlanInfo() {
                             Od_Progress
                           </label>
                           <div className="w-auto flex gap-1">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  ">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
+                            <select id="Od_Progress_CD" value={orderData?.Od_Progress_CD || ""} onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  ">
+                            <option  value={orderData?.Od_Progress_CD || ""}>
+                                {orderData?.Od_Progress_CD || ""}
+                            </option>
+                            {Array.isArray(OdProgressData) &&
+                              OdProgressData.length > 0 ? (
+                                OdProgressData.map((item, index) => (
+                                  <option key={index} value={item.Od_Progress_CD}>
+                                    {item.Od_Progress_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
                             </select>
                             <input
+                              value={OdProgressName || ""}
+                              onChange={(event) => setOdProgressData(event)}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                             />
@@ -1635,6 +839,9 @@ export default function PlanInfo() {
                           <label className="w-auto  text-xs">Pd_Comp</label>
                           <div className="w-auto">
                             <input
+                              id="Pd_Complete_Date"
+                              value={orderData?.Pd_Complete_Date || ""}
+                              onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
                             />
@@ -1669,84 +876,56 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Pd_name</label>
                           <div className="w-40 ml-2">
-                            {orderData ? (
+                  
                               <input
                                 disabled
                                 id="Product_Name"
-                                value={orderData.Product_Name || ""}
+                                value={orderData?.Product_Name || ""}
                                 onChange={handleInputChange}
                                 type="text"
                                 className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
-                            ) : (
-                              <input
-                                disabled
-                                type="text"
-                                className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                              />
-                            )}
+                        
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-auto text-xs">Mate3</label>
                           <div className="w-auto flex gap-1">
-                            {orderData ? (
+                          
                               <input
                                 disabled
-                                id="Material1"
-                                value={orderData.Material3 || ""}
+                                id="Material3"
+                                value={orderData?.Material3 || ""}
                                 onChange={handleInputChange}
                                 type="text"
                                 className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                               />
-                            ) : (
+                     
                               <input
                                 disabled
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                            )}
-                            {orderData ? (
-                              <input
-                                disabled
-                                id="H_Treatment1"
-                                value={orderData.H_Treatment3 || ""}
+                                id="H_Treatment3"
+                                value={orderData?.H_Treatment3 || ""}
                                 onChange={handleInputChange}
                                 type="text"
                                 className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                               />
-                            ) : (
-                              <input
-                                disabled
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                            )}
+                        
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Qty</label>
                           <div className="w-auto flex gap-1 mr-1">
-                            {orderData ? (
+                          
                               <input
                                 disabled
                                 id="Quantity"
-                                value={orderData.Quantity || ""}
+                                value={orderData?.Quantity || ""}
                                 onChange={handleInputChange}
                                 type="text"
                                 className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-12"
                               />
-                            ) : (
-                              <input
-                                disabled
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-12"
-                              />
-                            )}
-                            <input
-                              type="text"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-12"
-                            />
+                     
+                         
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ml-3">
@@ -1762,6 +941,9 @@ export default function PlanInfo() {
                           <label className="w-20 text-xs">Product_Docu</label>
                           <div className="w-auto flex gap-1">
                             <input
+                               id="Product_Docu"
+                               value={orderData?.Product_Docu || ""}
+                               onChange={handleInputChange}
                               type="text"
                               className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-30"
                             />
@@ -1770,13 +952,24 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ml-6">
                           <label className="w-10 text-xs ml-5">Delivery</label>
                           <div className="w-auto flex gap-1">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  ">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
+                            <select id="Delivery_CD"  value={orderData?.Delivery_CD || ""} onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  ">
+                            <option  value={orderData?.Delivery_CD || ""}>
+                                {orderData?.Delivery_CD || ""}
+                            </option>
+                            {Array.isArray(DeliveryData) &&
+                              DeliveryData.length > 0 ? (
+                                DeliveryData.map((item, index) => (
+                                  <option key={index} value={item.Delivery_CD}>
+                                    {item.Delivery_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
                             </select>
                             <input
+                              value={DeliveryName || ""}
+                              onChange={(event) => setDeliveryData(event)}  
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                             />
@@ -1786,6 +979,9 @@ export default function PlanInfo() {
                           <label className="w-auto  text-xs">QC_Comp</label>
                           <div className="w-auto">
                             <input
+                              id="I_Completed_Date"
+                              value={orderData?.I_Completed_Date || ""}
+                              onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
                             />
@@ -1820,71 +1016,63 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Pd_Size</label>
                           <div className="w-40 ml-2">
-                            {orderData ? (
+                           
                               <input
                                 disabled
                                 id="Product_Size"
-                                value={orderData.Product_Size || ""}
+                                value={orderData?.Product_Size || ""}
                                 onChange={handleInputChange}
                                 type="text"
                                 className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
-                            ) : (
-                              <input
-                                disabled
-                                type="text"
-                                className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                              />
-                            )}
+                       
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-auto text-xs">Mate4</label>
                           <div className="w-auto flex gap-1">
-                            {orderData ? (
+                            
                               <input
                                 disabled
-                                id="Material1"
-                                value={orderData.Material4 || ""}
+                                id="Material4"
+                                value={orderData?.Material4 || ""}
                                 onChange={handleInputChange}
                                 type="text"
                                 className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                               />
-                            ) : (
+                          
                               <input
                                 disabled
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                            )}
-                            {orderData ? (
-                              <input
-                                disabled
-                                id="H_Treatment1"
-                                value={orderData.H_Treatment4 || ""}
+                                id="H_Treatment4"
+                                value={orderData?.H_Treatment4 || ""}
                                 onChange={handleInputChange}
                                 type="text"
                                 className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                               />
-                            ) : (
-                              <input
-                                disabled
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                            )}
+                           
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Price</label>
                           <div className="w-auto flex gap-1 mr-1">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-12">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
+                            <select id="Price_CD" value={orderData?.Price_CD || ""} onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-12">
+                            <option  value={orderData?.Price_CD || ""}>
+                                {orderData?.Price_CD || ""}
+                            </option>
+                            {Array.isArray(PriceData) &&
+                              PriceData.length > 0 ? (
+                                PriceData.map((item, index) => (
+                                  <option key={index} value={item.Price_CD}>
+                                    {item.Price_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
                             </select>
                             <input
+                              value={PriceName || ""}
+                              onChange={(event) => setPriceData(event)}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-12"
                             />
@@ -1905,6 +1093,9 @@ export default function PlanInfo() {
                           <label className="w-20 text-xs">Supple_Docu</label>
                           <div className="w-auto flex gap-1">
                             <input
+                              id="Supple_Docu"
+                              value={orderData?.Supple_Docu || ""}
+                              onChange={handleInputChange}
                               type="text"
                               className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-30"
                             />
@@ -1915,13 +1106,24 @@ export default function PlanInfo() {
                             Target
                           </label>
                           <div className="w-auto flex gap-1">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  ">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
+                            <select  id="Target_CD" value={orderData?.Target_CD || ""}  onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  ">
+                               <option  value={orderData?.Target_CD || ""}>
+                                {orderData?.Target_CD || ""}
+                            </option>
+                            {Array.isArray(TargetData) &&
+                              TargetData.length > 0 ? (
+                                TargetData.map((item, index) => (
+                                  <option key={index} value={item.Target_CD}>
+                                    {item.Target_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
                             </select>
                             <input
+                              value={targetName || ""}
+                              onChange={(event) => setTargetData(event)}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                             />
@@ -1931,6 +1133,9 @@ export default function PlanInfo() {
                           <label className="w-auto  text-xs">Shipment</label>
                           <div className="w-auto">
                             <input
+                              id="Shipment_Date"
+                              value={orderData?.Shipment_Date || ""}
+                              onChange={handleInputChange}  
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
                             />
@@ -1944,6 +1149,9 @@ export default function PlanInfo() {
                           <label className="w-auto  text-xs">Nav</label>
                           <div className="w-auto">
                             <input
+                              id="NAV_Delivery"
+                              value={orderData?.NAV_Delivery || ""}
+                              onChange={handleInputChange}  
                               type="text"
                               className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-32 ml-5"
                             />
@@ -1952,69 +1160,59 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Pd_Draw</label>
                           <div className="w-40 ml-2">
-                            {orderData ? (
+                           
                               <input
                                 disabled
                                 id="Product_Draw"
-                                value={orderData.Product_Draw || ""}
+                                value={orderData?.Product_Draw || ""}
                                 onChange={handleInputChange}
                                 type="text"
                                 className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
-                            ) : (
-                              <input
-                                disabled
-                                type="text"
-                                className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                              />
-                            )}
+                          
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-auto text-xs">Mate5</label>
                           <div className="w-auto flex gap-1">
-                            {orderData ? (
+                           
                               <input
                                 disabled
-                                id="Material1"
-                                value={orderData.Material5 || ""}
+                                id="Material5"
+                                value={orderData?.Material5 || ""}
                                 onChange={handleInputChange}
                                 type="text"
                                 className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                               />
-                            ) : (
+                          
                               <input
                                 disabled
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                            )}
-                            {orderData ? (
-                              <input
-                                disabled
-                                id="H_Treatment1"
-                                value={orderData.H_Treatment5 || ""}
+                                id="H_Treatment5"
+                                value={orderData?.H_Treatment5 || ""}
                                 onChange={handleInputChange}
                                 type="text"
                                 className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                               />
-                            ) : (
-                              <input
-                                disabled
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                            )}
+                           
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Supple</label>
                           <div className="w-auto flex gap-1 mr-1">
                             <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-24">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
+                            <option  value={orderData?.Supply_CD || ""}>
+                                {orderData?.Supply_CD || ""}
+                            </option>
+                            {Array.isArray(SupplyData) &&
+                              SupplyData.length > 0 ? (
+                                SupplyData.map((item, index) => (
+                                  <option key={index} value={item.Supply_CD}>
+                                    {item.Supply_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
                             </select>
                           </div>
                         </div>
@@ -2049,6 +1247,9 @@ export default function PlanInfo() {
                           </label>
                           <div className="w-auto flex gap-1">
                             <input
+                              id="Pd_Target_Qty"
+                              value={orderData?.Pd_Target_Qty || ""}
+                              onChange={handleInputChange}
                               type="text"
                               className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                             />
@@ -2060,6 +1261,9 @@ export default function PlanInfo() {
                           </label>
                           <div className="w-auto">
                             <input
+                              id="Calc_Process_Date"
+                              value={orderData?.Calc_Process_Date || ""}
+                              onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
                             />
@@ -2095,13 +1299,21 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ml-9">
                           <label className="w-14 text-xs">RegPerson</label>
                           <div className="w-auto flex gap-1 mr-1">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-24">
+                            <select id="Pl_Reg_Person_CD" value={planData?.Pl_Reg_Person_CD} onChange={handlePlanInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-24">
                               <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
+                              {Array.isArray(WorkerData) &&
+                              WorkerData.length > 0 ? (
+                              WorkerData.map((item, index) => (
+                                <option key={index} value={item.Worker_CD}>
+                                  {item.Worker_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
                             </select>
                             <input
+                              id="Pl_Reg_Person_Name"
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24 ml-1.5"
                             />
@@ -2270,64 +1482,64 @@ export default function PlanInfo() {
 
                         <div className="flex gap-2 w-auto ">
                           <div className="w-auto flex gap-1">
-                            <div class=" border border-gray-300 overflow-hidden">
-                              <table class="w-[360px] h-[10px] border-collapse text-xs">
+                            <div className=" border border-gray-300 overflow-hidden">
+                              <table className="w-[360px] h-[10px] border-collapse text-xs">
                                 <thead>
-                                  <tr class="bg-gray-100">
-                                    <th class="border border-gray-300 py-2 px-1 text-center">
+                                  <tr className="bg-gray-100">
+                                    <th className="border border-gray-300 py-2 px-1 text-center">
                                       P.
                                     </th>
-                                    <th class="border border-gray-300 py-2 px-1 text-center">
+                                    <th className="border border-gray-300 py-2 px-1 text-center">
                                       PI.
                                     </th>
-                                    <th class="border border-gray-300 py-2 px-1 text-center">
+                                    <th className="border border-gray-300 py-2 px-1 text-center">
                                       Part
                                     </th>
-                                    <th class="border border-gray-300 py-2 px-1 text-center">
+                                    <th className="border border-gray-300 py-2 px-1 text-center">
                                       Pt_Delivery
                                     </th>
-                                    <th class="border border-gray-300 py-2 px-1 text-center">
+                                    <th className="border border-gray-300 py-2 px-1 text-center">
                                       Pt_
                                     </th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   <tr>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
                                   </tr>
                                   <tr>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
                                   </tr>
                                   <tr>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
                                   </tr>
                                   <tr>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
-                                    <td class="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
+                                    <td className="border border-gray-300 h-8"></td>
                                   </tr>
                                 </tbody>
                               </table>
 
-                              <div class="flex justify-between items-center p-2 border-t border-gray-300">
-                                <button class="text-gray-500 focus:outline-none">
+                              <div className="flex justify-between items-center p-2 border-t border-gray-300">
+                                <button className="text-gray-500 focus:outline-none">
                                   ◀
                                 </button>
-                                <button class="text-gray-500 focus:outline-none">
+                                <button className="text-gray-500 focus:outline-none">
                                   ▶
                                 </button>
                               </div>
@@ -2442,16 +1654,16 @@ export default function PlanInfo() {
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <div className="w-auto">
-                            <table class="w-[500px] text-xs border border-gray-300">
+                            <table className="w-[500px] text-xs border border-gray-300">
                               <tbody>
                                 <tr>
-                                  <td class="border border-gray-300 h-44 w-1/2"></td>
-                                  <td class="border border-gray-300 h-24 w-1/2"></td>
+                                  <td className="border border-gray-300 h-44 w-1/2"></td>
+                                  <td className="border border-gray-300 h-24 w-1/2"></td>
                                 </tr>
                                 <tr>
                                   <td
-                                    class="border border-gray-300 h-8"
-                                    colspan="2"
+                                    className="border border-gray-300 h-8"
+                                    colSpan="2"
                                   ></td>
                                 </tr>
                               </tbody>
@@ -2609,9 +1821,9 @@ export default function PlanInfo() {
                           <div className="w-auto flex gap-1">
                             <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-24 ">
                               <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
+                              <option value="Forward">Forward</option>
+                              <option value="Equality">Equality</option>
+                              <option value="Backward">Backward</option>
                             </select>
                           </div>
                         </div>
@@ -2664,7 +1876,7 @@ export default function PlanInfo() {
                                 <th className="py-1 px-10 w-auto" rowSpan="2">
                                   Time/Proce/Sche
                                 </th>
-                                <th className="py-1 px-3 w-auto" rowSpan="2">
+                                <th className="py-1 px-10 w-auto" rowSpan="2">
                                   Plan_Date
                                 </th>
                                 <th className="py-1 px-20 w-auto" rowSpan="2">
@@ -2728,9 +1940,13 @@ export default function PlanInfo() {
                                       </div>
                                     </td>
                                     <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
-                                      <button className="bg-gray-300 py-1 px-2 rounded text-xs text-gray-500 h-8 font-bold">
+                                    <div>
+                                    
+                                      <button  className="bg-gray-300 py-1 px-2 rounded text-xs text-gray-500 h-8 font-bold">
                                         ➔
                                       </button>
+                                   
+                                      </div>
                                     </td>
                                     <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
                                       <div className="text-center">
@@ -2811,9 +2027,9 @@ export default function PlanInfo() {
                       </div>
                     </div>
                   </div>
-                  <div class="gap-4 flex mb-4  mt-4 ml-16 flex-row flex-wrap min-w-[2000px] justify-between ">
-                    <div class="bg-white p-3 mt-5">
-                      <div class="flex flex-wrap gap-4">
+                  <div className="gap-4 flex mb-4  mt-4 ml-16 flex-row flex-wrap min-w-[2000px] justify-between ">
+                    <div className="bg-white p-3 mt-5">
+                      <div className="flex flex-wrap gap-4">
                         <button
                           className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
                             !isSearchOrderNoFilled
@@ -2933,83 +2149,83 @@ export default function PlanInfo() {
                       </div>
                     </div>
 
-                    <div class="p-4  max-w-lg mr-32">
-                      <div class="grid grid-cols-6 gap-2 p-1">
+                    <div className="p-4  max-w-lg mr-32">
+                      <div className="grid grid-cols-6 gap-2 p-1">
                         <label
-                          for="max-end-no"
-                          class="col-span-1 flex items-center text-xs"
+                          htmlFor="max-end-no"
+                          className="col-span-1 flex items-center text-xs"
                         >
                           MaxEnd_No
                         </label>
                         <input
                           id="max-end-no"
                           type="text"
-                          class="col-span-1 border-2 border-gray-500 rounded-md p-1 w-16"
+                          className="col-span-1 border-2 border-gray-500 rounded-md p-1 w-16"
                         />
                         <input
                           id="max-end-no-2"
                           type="text"
-                          class="col-span-1 border-2 border-gray-500 rounded-md p-1 w-16"
+                          className="col-span-1 border-2 border-gray-500 rounded-md p-1 w-16"
                         />
 
                         <label
-                          for="total"
-                          class="col-span-1 flex items-center text-xs mr-1"
+                          htmlFor="total"
+                          className="col-span-1 flex items-center text-xs mr-1"
                         >
                           Total
                         </label>
                         <input
                           id="total"
                           type="text"
-                          class="col-span-2 border-2 border-gray-500 rounded-md p-1 w-24"
+                          className="col-span-2 border-2 border-gray-500 rounded-md p-1 w-24"
                         />
 
                         <label
-                          for="now-no"
-                          class="col-span-1 flex items-center text-xs"
+                          htmlFor="now-no"
+                          className="col-span-1 flex items-center text-xs"
                         >
                           Now_No
                         </label>
                         <input
                           id="now-no"
                           type="text"
-                          class="col-span-1 border-2 border-gray-500 rounded-md p-1 w-16"
+                          className="col-span-1 border-2 border-gray-500 rounded-md p-1 w-16"
                         />
 
                         <label
-                          for="re-total"
-                          class="col-span-1 flex items-center text-xs ml-20"
+                          htmlFor="re-total"
+                          className="col-span-1 flex items-center text-xs ml-20"
                         >
                           Re_Total
                         </label>
                         <input
                           id="re-total"
                           type="text"
-                          class="col-span-3 border-2 border-gray-500 rounded-md p-1 w-24 ml-20"
+                          className="col-span-3 border-2 border-gray-500 rounded-md p-1 w-24 ml-20"
                         />
 
                         <label
-                          for="re-pr-qty"
-                          class="col-span-1 flex items-center text-xs"
+                          htmlFor="re-pr-qty"
+                          className="col-span-1 flex items-center text-xs"
                         >
                           Re_Pr_Qty
                         </label>
                         <input
                           id="re-pr-qty"
                           type="text"
-                          class="col-span-1 border-2 border-gray-500 rounded-md p-1 w-16"
+                          className="col-span-1 border-2 border-gray-500 rounded-md p-1 w-16"
                         />
 
                         <label
-                          for="re-total-n"
-                          class="col-span-1 flex items-center text-xs ml-16"
+                          htmlFor="re-total-n"
+                          className="col-span-1 flex items-center text-xs ml-16"
                         >
                           Re_Total_N
                         </label>
                         <input
                           id="re-total-n"
                           type="text"
-                          class="col-span-3 border-2 border-gray-500 rounded-md p-1 w-24 ml-20"
+                          className="col-span-3 border-2 border-gray-500 rounded-md p-1 w-24 ml-20"
                         />
                       </div>
                     </div>
