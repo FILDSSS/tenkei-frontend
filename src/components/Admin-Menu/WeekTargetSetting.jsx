@@ -62,37 +62,57 @@ export function WeekTargetSetting() {
     }
   }, [data]);
 
-  const handleChange = (e, workgCd, field) => {
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+
+    if (isNaN(date)) return "";
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
+  const handleChange = (e, orderNo, field) => {
     const newValue = e.target.value;
-    setIsChanged(true);
 
-    if (editedDataRef.current[workgCd]?.[field] !== newValue) {
-      const updatedEditedData = { ...editedDataRef.current };
-      updatedEditedData[workgCd] = updatedEditedData[workgCd] || {};
-      updatedEditedData[workgCd][field] = newValue;
+    if (editedDataRef.current[orderNo]?.[field] !== newValue) {
+      setIsChanged(true);
 
-      setEditedData(updatedEditedData);
-      editedDataRef.current = updatedEditedData;
+      const updatedData = { ...editedDataRef.current };
+
+      updatedData[orderNo] = updatedData[orderNo] || {};
+      updatedData[orderNo][field] = newValue;
+
+      setEditedData(updatedData);
+      editedDataRef.current = updatedData;
     }
   };
 
-  const handleSave = (workgCd, field) => {
-    const newValue = editedData[workgCd]?.[field];
-    const oldValue = data.find((row) => row.WorkG_CD === workgCd)?.[field];
+  const handleSave = (Id, field) => {
+    const newValue = editedData[Id]?.[field];
+    const oldValue = data.find((row) => row.ID === Id)?.[field];
 
     if (newValue !== oldValue) {
-      const updatedData = [...data];
-      const rowIndex = updatedData.findIndex((row) => row.WorkG_CD === workgCd);
+      try {
+        const updatedData = [...data];
+        const rowIndex = updatedData.findIndex((row) => row.ID === Id);
 
-      if (rowIndex !== -1) {
-        updatedData[rowIndex][field] = newValue;
-        setData(updatedData);
+        if (rowIndex !== -1) {
+          updatedData[rowIndex][field] = newValue;
+          setData(updatedData);
+
+          localStorage.setItem("weekTargetData", JSON.stringify(updatedData));
+          alert("Edit Successfully!");
+        }
+
+        setIsChanged(false);
+      } catch (error) {
+        alert("Something went wrong!");
+        console.error(error);
       }
-
-      localStorage.setItem("weekTargetData", JSON.stringify(updatedData));
-
-      alert("Edit Successfully!");
-      setIsChanged(false);
     }
   };
 
@@ -103,39 +123,22 @@ export function WeekTargetSetting() {
     }
   };
 
-  const handleBlur = (index, field) => {
-    if (isChanged) {
-      setEditedData((prevState) => {
-        const updatedData = { ...prevState };
-        updatedData[index] = { ...data[index] };
-        return updatedData;
-      });
-      setIsChanged(false);
-    }
+  const formatDateForSearch = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    if (isNaN(date)) return "";
+  
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const year = date.getFullYear();
+  
+    return `${month}/${day}/${year}`;
   };
 
-  // สำหรับ Dummy Data
-  const handleEdit = (index, field, newValue) => {
-    const updatedData = [...data];
-    updatedData[index][field] = newValue;
-    setData(updatedData);
-  };
-
-  // การค้นหาวันที่ ที่ถูกแปลง
   const filteredData = data.filter((row) => {
     return Object.values(row).some((value) => {
-      const formattedDate = (value) => {
-        const date = new Date(value);
-        if (isNaN(date)) return "";
-        const day = String(date.getDate()).padStart(2, "0");
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const year = date.getFullYear() + 543;
-        return `${day}/${month}/${year}`;
-      };
-
-      return formattedDate(value)
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+      const formattedValue = formatDateForSearch(value);
+      return formattedValue.includes(searchTerm);
     });
   });
 
@@ -144,121 +147,261 @@ export function WeekTargetSetting() {
       name: "St_Target_Week1",
       selector: (row) => {
         const date = row.St_Target_Week1 ? new Date(row.St_Target_Week1) : null;
-        if (!date) return "";
+        if (!date || isNaN(date)) return "";
+
         const day = String(date.getDate()).padStart(2, "0");
         const month = String(date.getMonth() + 1).padStart(2, "0");
         const year = date.getFullYear() + 543;
+
         return `${day}/${month}/${year}`;
       },
-      width: "220px",
+      width: "180px",
+      cell: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="date"
+          value={
+            editedData[row.ID]?.St_Target_Week1 ||
+            formatDateForInput(row.St_Target_Week1)
+          }
+          onChange={(e) => handleChange(e, row.ID, "St_Target_Week1")}
+          onKeyDown={(e) => handleKeyDown(e, row.ID, "St_Target_Week1")}
+        />
+      ),
     },
     {
       name: "Ed_Target_Week1",
       selector: (row) => {
         const date = row.Ed_Target_Week1 ? new Date(row.Ed_Target_Week1) : null;
-        if (!date) return "";
+        if (!date || isNaN(date)) return "";
+
         const day = String(date.getDate()).padStart(2, "0");
         const month = String(date.getMonth() + 1).padStart(2, "0");
         const year = date.getFullYear() + 543;
+
         return `${day}/${month}/${year}`;
       },
-      width: "220px",
+      width: "180px",
+      cell: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="date"
+          value={
+            editedData[row.ID]?.Ed_Target_Week1 ||
+            formatDateForInput(row.Ed_Target_Week1)
+          }
+          onChange={(e) => handleChange(e, row.ID, "Ed_Target_Week1")}
+          onKeyDown={(e) => handleKeyDown(e, row.ID, "Ed_Target_Week1")}
+        />
+      ),
     },
     {
       name: "St_Target_Week2",
       selector: (row) => {
         const date = row.St_Target_Week2 ? new Date(row.St_Target_Week2) : null;
-        if (!date) return "";
+        if (!date || isNaN(date)) return "";
+
         const day = String(date.getDate()).padStart(2, "0");
         const month = String(date.getMonth() + 1).padStart(2, "0");
         const year = date.getFullYear() + 543;
+
         return `${day}/${month}/${year}`;
       },
-      width: "220px",
+      width: "180px",
+      cell: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="date"
+          value={
+            editedData[row.ID]?.St_Target_Week2 ||
+            formatDateForInput(row.St_Target_Week2)
+          }
+          onChange={(e) => handleChange(e, row.ID, "St_Target_Week2")}
+          onKeyDown={(e) => handleKeyDown(e, row.ID, "St_Target_Week2")}
+        />
+      ),
     },
     {
       name: "Ed_Target_Week2",
       selector: (row) => {
         const date = row.Ed_Target_Week2 ? new Date(row.Ed_Target_Week2) : null;
-        if (!date) return "";
+        if (!date || isNaN(date)) return "";
+
         const day = String(date.getDate()).padStart(2, "0");
         const month = String(date.getMonth() + 1).padStart(2, "0");
         const year = date.getFullYear() + 543;
+
         return `${day}/${month}/${year}`;
       },
-      width: "220px",
+      width: "180px",
+      cell: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="date"
+          value={
+            editedData[row.ID]?.Ed_Target_Week2 ||
+            formatDateForInput(row.Ed_Target_Week2)
+          }
+          onChange={(e) => handleChange(e, row.ID, "Ed_Target_Week2")}
+          onKeyDown={(e) => handleKeyDown(e, row.ID, "Ed_Target_Week2")}
+        />
+      ),
     },
     {
       name: "St_Target_Week3",
       selector: (row) => {
         const date = row.St_Target_Week3 ? new Date(row.St_Target_Week3) : null;
-        if (!date) return "";
+        if (!date || isNaN(date)) return "";
+
         const day = String(date.getDate()).padStart(2, "0");
         const month = String(date.getMonth() + 1).padStart(2, "0");
         const year = date.getFullYear() + 543;
+
         return `${day}/${month}/${year}`;
       },
-      width: "220px",
+      width: "180px",
+      cell: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="date"
+          value={
+            editedData[row.ID]?.St_Target_Week3 ||
+            formatDateForInput(row.St_Target_Week3)
+          }
+          onChange={(e) => handleChange(e, row.ID, "St_Target_Week3")}
+          onKeyDown={(e) => handleKeyDown(e, row.ID, "St_Target_Week3")}
+        />
+      ),
     },
     {
       name: "Ed_Target_Week3",
       selector: (row) => {
         const date = row.Ed_Target_Week3 ? new Date(row.Ed_Target_Week3) : null;
-        if (!date) return "";
+        if (!date || isNaN(date)) return "";
+
         const day = String(date.getDate()).padStart(2, "0");
         const month = String(date.getMonth() + 1).padStart(2, "0");
         const year = date.getFullYear() + 543;
+
         return `${day}/${month}/${year}`;
       },
-      width: "220px",
+      width: "180px",
+      cell: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="date"
+          value={
+            editedData[row.ID]?.Ed_Target_Week3 ||
+            formatDateForInput(row.Ed_Target_Week3)
+          }
+          onChange={(e) => handleChange(e, row.ID, "Ed_Target_Week3")}
+          onKeyDown={(e) => handleKeyDown(e, row.ID, "Ed_Target_Week3")}
+        />
+      ),
     },
     {
       name: "St_Target_Week4",
       selector: (row) => {
         const date = row.St_Target_Week4 ? new Date(row.St_Target_Week4) : null;
-        if (!date) return "";
+        if (!date || isNaN(date)) return "";
+
         const day = String(date.getDate()).padStart(2, "0");
         const month = String(date.getMonth() + 1).padStart(2, "0");
         const year = date.getFullYear() + 543;
+
         return `${day}/${month}/${year}`;
       },
-      width: "220px",
+      width: "180px",
+      cell: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="date"
+          value={
+            editedData[row.ID]?.St_Target_Week4 ||
+            formatDateForInput(row.St_Target_Week4)
+          }
+          onChange={(e) => handleChange(e, row.ID, "St_Target_Week4")}
+          onKeyDown={(e) => handleKeyDown(e, row.ID, "St_Target_Week4")}
+        />
+      ),
     },
     {
       name: "Ed_Target_Week4",
       selector: (row) => {
         const date = row.Ed_Target_Week4 ? new Date(row.Ed_Target_Week4) : null;
-        if (!date) return "";
+        if (!date || isNaN(date)) return "";
+
         const day = String(date.getDate()).padStart(2, "0");
         const month = String(date.getMonth() + 1).padStart(2, "0");
         const year = date.getFullYear() + 543;
+
         return `${day}/${month}/${year}`;
       },
-      width: "220px",
+      width: "180px",
+      cell: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="date"
+          value={
+            editedData[row.ID]?.Ed_Target_Week4 ||
+            formatDateForInput(row.Ed_Target_Week4)
+          }
+          onChange={(e) => handleChange(e, row.ID, "Ed_Target_Week4")}
+          onKeyDown={(e) => handleKeyDown(e, row.ID, "Ed_Target_Week4")}
+        />
+      ),
     },
     {
       name: "St_Target_Week5",
       selector: (row) => {
         const date = row.St_Target_Week5 ? new Date(row.St_Target_Week5) : null;
-        if (!date) return "";
+        if (!date || isNaN(date)) return "";
+
         const day = String(date.getDate()).padStart(2, "0");
         const month = String(date.getMonth() + 1).padStart(2, "0");
         const year = date.getFullYear() + 543;
+
         return `${day}/${month}/${year}`;
       },
-      width: "220px",
+      width: "180px",
+      cell: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="date"
+          value={
+            editedData[row.ID]?.St_Target_Week5 ||
+            formatDateForInput(row.St_Target_Week5)
+          }
+          onChange={(e) => handleChange(e, row.ID, "St_Target_Week5")}
+          onKeyDown={(e) => handleKeyDown(e, row.ID, "St_Target_Week5")}
+        />
+      ),
     },
     {
       name: "Ed_Target_Week5",
       selector: (row) => {
         const date = row.Ed_Target_Week5 ? new Date(row.Ed_Target_Week5) : null;
-        if (!date) return "";
+        if (!date || isNaN(date)) return "";
+
         const day = String(date.getDate()).padStart(2, "0");
         const month = String(date.getMonth() + 1).padStart(2, "0");
         const year = date.getFullYear() + 543;
+
         return `${day}/${month}/${year}`;
       },
-      width: "220px",
+      width: "180px",
+      cell: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="date"
+          value={
+            editedData[row.ID]?.Ed_Target_Week5 ||
+            formatDateForInput(row.Ed_Target_Week5)
+          }
+          onChange={(e) => handleChange(e, row.ID, "Ed_Target_Week5")}
+          onKeyDown={(e) => handleKeyDown(e, row.ID, "Ed_Target_Week5")}
+        />
+      ),
     },
   ];
 
