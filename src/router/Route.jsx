@@ -47,6 +47,15 @@ import SystemSetPage from "../pages/Admin-Menu/SystemSetPage";
 import ASP_CSV2Page from "../pages/Admin-Menu/ASP_CSV2Page";
 import Tenkei_FG_SumPage from "../pages/Admin-Menu/Tenkei_FG_SumPage";
 import BlessedUpdatePage from "../pages/Admin-Menu/BlessedUpdatePage";
+import { CustomerPage } from "../pages/Master/CustomerPage";
+import { VenderPage } from "../pages/Master/VenderPage";
+import { WorkGPage } from "../pages/Master/WorkGPage";
+import { WorkerPage } from "../pages/Master/WorkerPage";
+import { CoatingPage } from "../pages/Master/CoatingPage";
+import { ProcessGPage } from "../pages/Master/ProcessGPage";
+import { ProcessPage } from "../pages/Master/ProcessPage";
+import { MachinePage } from "../pages/Master/MachinePage";
+import { HolidayPage } from "../pages/Master/HolidayPage";
 
 const router = createBrowserRouter([
   {
@@ -72,10 +81,6 @@ const router = createBrowserRouter([
   {
     path: "/plan",
     element: <PlanDashboardPage />,
-  },
-  {
-    path: "/process",
-    element: <ProcessDashboardPage />,
   },
   {
     path: "/production",
@@ -240,6 +245,42 @@ const router = createBrowserRouter([
   {
     path: "/blessed-update",
     element: <BlessedUpdatePage />,
+  },
+  {
+    path: "/customer",
+    element: <CustomerPage />,
+  },
+  {
+    path: "/vendor",
+    element: <VenderPage />,
+  },
+  {
+    path: "/workG",
+    element: <WorkGPage />,
+  },
+  {
+    path: "/worker",
+    element: <WorkerPage />,
+  },
+  {
+    path: "/coating",
+    element: <CoatingPage />,
+  },
+  {
+    path: "/processG",
+    element: <ProcessGPage />,
+  },
+  {
+    path: "/process",
+    element: <ProcessPage />,
+  },
+  {
+    path: "/machine",
+    element: <MachinePage />,
+  },
+  {
+    path: "/holiday",
+    element: <HolidayPage />,
   },
 ]);
 
