@@ -4,27 +4,27 @@ import Sidebar from "../Sidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
 
-export function None_WI_Data_Tenkei() {
+export function None_FG_Data_Tenkei() {
   const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState([]);
   const [editedData, setEditedData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
   const editedDataRef = useRef(editedData);
 
-  const fetchNAVWI = async () => {
+  const fetchNAVFG = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/NAVWI/fetch-navwi"
+        "http://localhost:4000/NAVFG/fetch-navfg"
       );
       // console.log("Fetched data:", response.data);
-      setData(response.data.data.NAVWI || []);
+      setData(response.data.data.NAVFG || []);
     } catch (error) {
       // console.error("Error fetching orders:", error);
     }
   };
 
   useEffect(() => {
-    fetchNAVWI();
+    fetchNAVFG();
   }, []);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export function None_WI_Data_Tenkei() {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
 
-          localStorage.setItem("navWiTenkeiData", JSON.stringify(updatedData));
+          localStorage.setItem("navFgTenkeiData", JSON.stringify(updatedData));
           alert("Edit Successfully!");
         }
 
@@ -145,23 +145,6 @@ export function None_WI_Data_Tenkei() {
       width: "180px",
     },
     {
-      name: "Order_No",
-      selector: (row) => (
-        <input
-          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={
-            editedData[row.Order_No]?.Order_No !== undefined
-              ? editedData[row.Order_No]?.Order_No
-              : row.Order_No || ""
-          }
-          onChange={(e) => handleChange(e, row.Order_No, "Order_No")}
-          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Order_No")}
-        />
-      ),
-      width: "180px",
-    },
-    {
       name: "Order_Date",
       selector: (row) => {
         const date = row.Order_Date ? new Date(row.Order_Date) : null;
@@ -186,6 +169,23 @@ export function None_WI_Data_Tenkei() {
           onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Order_Date")}
         />
       ),
+    },
+    {
+      name: "Order_No",
+      selector: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="text"
+          value={
+            editedData[row.Order_No]?.Order_No !== undefined
+              ? editedData[row.Order_No]?.Order_No
+              : row.Order_No || ""
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "Order_No")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Order_No")}
+        />
+      ),
+      width: "180px",
     },
     {
       name: "Request_Delivery",
@@ -214,6 +214,68 @@ export function None_WI_Data_Tenkei() {
           onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Request_Delivery")}
         />
       ),
+    },
+    {
+      name: "I_Completed_Date",
+      selector: (row) => {
+        const date = row.I_Completed_Date
+          ? new Date(row.I_Completed_Date)
+          : null;
+        if (!date || isNaN(date)) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
+      width: "180px",
+      cell: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="date"
+          value={
+            editedData[row.Order_No]?.I_Completed_Date ||
+            formatDateForInput(row.I_Completed_Date)
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "I_Completed_Date")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "I_Completed_Date")}
+        />
+      ),
+    },
+    {
+      name: "Order_No",
+      selector: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="text"
+          value={
+            editedData[row.Order_No]?.Order_No !== undefined
+              ? editedData[row.Order_No]?.Order_No
+              : row.Order_No || ""
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "Order_No")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Order_No")}
+        />
+      ),
+      width: "180px",
+    },
+    {
+      name: "Date_of_Delay",
+      selector: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="number"
+          value={
+            editedData[row.Order_No]?.Date_of_Delay !== undefined
+              ? editedData[row.Order_No]?.Date_of_Delay
+              : row.Date_of_Delay || ""
+          }
+          onChange={(e) => handleChange(e, row.Order_No, "Date_of_Delay")}
+          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Date_of_Delay")}
+        />
+      ),
+      width: "180px",
     },
     {
       name: "NAV_Name",
@@ -338,7 +400,7 @@ export function None_WI_Data_Tenkei() {
           <div className="bg-white grid grid-cols-1">
             <div className="bg-white grid grid-cols-1">
               <h1 className="text-2xl font-bold text-center mt-3">
-                None WI DATA In Tenkei
+                None FG DATA In Tenkei
               </h1>
               <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
 
@@ -353,7 +415,7 @@ export function None_WI_Data_Tenkei() {
               </div>
               <div className="flex justify-center items-center mt-5">
                 <div className="w-full text-center px-5">
-                  <DataTable
+                <DataTable
                     columns={columns}
                     data={filteredData}
                     pagination
