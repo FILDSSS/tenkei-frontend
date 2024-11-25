@@ -124,15 +124,17 @@ export function None_FG_Data() {
 
   const handleChange = (e, workgCd, field) => {
     const newValue = e.target.value;
-    setIsChanged(true);
 
     if (editedDataRef.current[workgCd]?.[field] !== newValue) {
-      const updatedEditedData = { ...editedDataRef.current };
-      updatedEditedData[workgCd] = updatedEditedData[workgCd] || {};
-      updatedEditedData[workgCd][field] = newValue;
+      setIsChanged(true);
 
-      setEditedData(updatedEditedData);
-      editedDataRef.current = updatedEditedData;
+      const updatedData = { ...editedDataRef.current };
+
+      updatedData[workgCd] = updatedData[workgCd] || {};
+      updatedData[workgCd][field] = newValue;
+
+      setEditedData(updatedData);
+      editedDataRef.current = updatedData;
     }
   };
 
@@ -141,18 +143,25 @@ export function None_FG_Data() {
     const oldValue = data.find((row) => row.WorkG_CD === workgCd)?.[field];
 
     if (newValue !== oldValue) {
-      const updatedData = [...data];
-      const rowIndex = updatedData.findIndex((row) => row.WorkG_CD === workgCd);
+      try {
+        const updatedData = [...data];
+        const rowIndex = updatedData.findIndex(
+          (row) => row.WorkG_CD === workgCd
+        );
 
-      if (rowIndex !== -1) {
-        updatedData[rowIndex][field] = newValue;
-        setData(updatedData);
+        if (rowIndex !== -1) {
+          updatedData[rowIndex][field] = newValue;
+          setData(updatedData);
+
+          localStorage.setItem("noneFgData", JSON.stringify(updatedData));
+          alert("Edit Successfully!");
+        }
+
+        setIsChanged(false);
+      } catch (error) {
+        alert("Something went wrong!");
+        console.error(error);
       }
-
-      localStorage.setItem("workgData", JSON.stringify(updatedData));
-
-      alert("Edit Successfully!");
-      setIsChanged(false);
     }
   };
 
@@ -163,18 +172,18 @@ export function None_FG_Data() {
     }
   };
 
+  const filteredData = data.filter((row) => {
+    return Object.values(row).some((value) =>
+      String(value).toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
   // สำหรับ Dummy Data
   const handleEdit = (index, field, newValue) => {
     const updatedData = [...data];
     updatedData[index][field] = newValue;
     setData(updatedData);
   };
-
-  const filteredData = data.filter((row) => {
-    return Object.values(row).some((value) =>
-      String(value).toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
 
   const columns = [
     {
