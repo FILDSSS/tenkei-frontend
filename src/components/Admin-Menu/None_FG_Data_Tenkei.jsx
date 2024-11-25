@@ -5,8 +5,8 @@ import DataTable from "react-data-table-component";
 import axios from "axios";
 
 export function None_FG_Data_Tenkei() {
-  const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [editedData, setEditedData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
   const editedDataRef = useRef(editedData);
@@ -19,7 +19,7 @@ export function None_FG_Data_Tenkei() {
       // console.log("Fetched data:", response.data);
       setData(response.data.data.NAVFG || []);
     } catch (error) {
-      // console.error("Error fetching orders:", error);
+      // console.error("Error fetching NAVFG:", error);
     }
   };
 
