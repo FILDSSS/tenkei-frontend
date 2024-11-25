@@ -6,46 +6,144 @@ export const PlanContext = createContext();
 export default function PlanContextProvider({ children }) {
   const [planData, setPlanData] = useState(null);
   const [selectedPlanNo, setSelectedPlanNo] = useState(null);
-
-  const searchPartsData = async (orderNo) => { 
+  const [qmprocessData, setQMprocessData] = useState(null);
+  const [processData, setProcessData] = useState(null);
+  const [plprogressData, setPlProgressData] = useState(null);
+  const [ScheduleData, setScheduleData] = useState(null);
+  const [PartsData, setPartsData] = useState(null);
+  const searchPartsData = async (orderNo) => {
     try {
-        const response = await axios.post("/plan/search-order-plan", { Order_No: orderNo });
+      const response = await axios.post("/plan/search-order-plan", {
+        Order_No: orderNo,
+      });
 
-      
-        if (response.data && response.data.data && Array.isArray(response.data.data.partsNo)) {
-            setSelectedPlanNo(response.data.data.partsNo); 
-            return true; 
-        } else {
-            return false; 
-        }
-    } catch (error) {
-        console.error("Error fetching order data:", error);
-        return false; 
-    }
-
-    
-};
-
-const selectPartsData = async (orderNo,partsNO) => { 
-  try {
-      const response = await axios.post("/plan/search-part-plan", { Order_No: orderNo,Parts_No: partsNO });
-
-    
-      if (response.data && response.data.data && Array.isArray(response.data.data)) {
-        setPlanData(response.data.data); 
-          return true; 
+      if (
+        response.data &&
+        response.data.data &&
+        Array.isArray(response.data.data.partsNo)
+      ) {
+        setSelectedPlanNo(response.data.data.partsNo);
+        return true;
       } else {
-          return false; 
+        return false;
       }
-  } catch (error) {
+    } catch (error) {
       console.error("Error fetching order data:", error);
-      return false; 
-  }
+      return false;
+    }
+  };
 
-  
-};
+  const selectPartsData = async (orderNo, partsNO) => {
+    try {
+      const response = await axios.post("/plan/search-part-plan", {
+        Order_No: orderNo,
+        Parts_No: partsNO,
+      });
+
+      if (
+        response.data &&
+        response.data.data &&
+        Array.isArray(response.data.data)
+      ) {
+        setPlanData(response.data.data);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error("Error fetching order data:", error);
+      return false;
+    }
+  };
+
+  const QM_Process = async () => {
+    try {
+      const response = await axios.get("/process/fetch-qmprocess");
+      console.log("Fetched Data:", response.data.data.process); // ตรวจสอบข้อมูล
+      setQMprocessData(response.data.data.process); // เข้าถึงข้อมูล process อย่างถูกต้อง
+      return response;
+    } catch (error) {
+      console.error("Error fetching process groups:", error);
+      throw error;
+    }
+  };
+
+  const Process = async () => {
+    try {
+      const response = await axios.get("/process/fetch-process");
+      console.log("Fetched Data:", response.data.data.process); // ตรวจสอบข้อมูล
+      setProcessData(response.data.data.process); // เข้าถึงข้อมูล process อย่างถูกต้อง
+      return response;
+    } catch (error) {
+      console.error("Error fetching process groups:", error);
+      throw error;
+    }
+  };
+
+  const fetchPlprogress = async () => {
+    try {
+      const response = await axios.get("/plprogress/fetch-plprogress");
+      console.log("Fetched Data:", response.data.data.plprogress); 
+      setPlProgressData(response.data.data.plprogress); 
+      return response;
+    } catch (error) {
+      console.error("Error fetching plprogress groups:", error);
+      throw error;
+    }
+  };
+
+  const fetchSchedule = async () => {
+    try {
+      const response = await axios.get("/schedule/fetch-schedule");
+      console.log("Fetched Data:", response.data.data.schedule); 
+      setScheduleData(response.data.data.schedule); 
+      return response;
+    } catch (error) {
+      console.error("Error fetching schedule groups:", error);
+      throw error;
+    }
+  };
+
+  const fetchParts = async () => {
+    try {
+      const response = await axios.get("/parts/fetch-parts");
+      console.log("Fetched Data:", response.data.data.parts); 
+      setPartsData(response.data.data.parts); 
+      return response;
+    } catch (error) {
+      console.error("Error fetching parts groups:", error);
+      throw error;
+    }
+  };
+
+
+  useEffect(() => {
+    QM_Process();
+    Process();
+    fetchPlprogress();
+    fetchSchedule();
+    fetchParts();
+  }, []);
 
   return (
-    <PlanContext.Provider value={{planData,setPlanData,selectedPlanNo,setSelectedPlanNo,searchPartsData,selectPartsData}}>{children}</PlanContext.Provider>
+    <PlanContext.Provider
+      value={{
+        planData,
+        setPlanData,
+        selectedPlanNo,
+        setSelectedPlanNo,
+        searchPartsData,
+        selectPartsData,
+        qmprocessData,
+        processData,
+        plprogressData,
+        setPlProgressData,
+        ScheduleData, 
+        setScheduleData,
+        PartsData,
+      }}
+    >
+      {children}
+    </PlanContext.Provider>
   );
 }
