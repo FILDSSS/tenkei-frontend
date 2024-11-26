@@ -885,12 +885,10 @@ function Searchplan() {
                             Parts_Material
                           </label>
                           <div className="w-auto flex gap-2">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
-                            </select>
+                          <input
+                              type="text"
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 "
+                            />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ml-5">
@@ -898,12 +896,10 @@ function Searchplan() {
                             Instructions
                           </label>
                           <div className="w-auto flex gap-2">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs  w-24 h-8 bg-[#ccffff]">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
-                            </select>
+                          <input
+                              type="text"
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#ccffff]"
+                            />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ml-4">
@@ -911,12 +907,10 @@ function Searchplan() {
                             Part_Remark
                           </label>
                           <div className="w-auto flex gap-2">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs  w-24 h-8 bg-[#ccffff]">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
-                            </select>
+                          <input
+                              type="text"
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#ccffff]"
+                            />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ml-4">
@@ -924,12 +918,10 @@ function Searchplan() {
                             Information
                           </label>
                           <div className="w-auto flex gap-2">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs  w-24 h-8 bg-[#ccffff]">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
-                            </select>
+                          <input
+                              type="text"
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#ccffff]"
+                            />
                           </div>
                         </div>
                         <div className="flex items-center space-x-2 ml-6">
