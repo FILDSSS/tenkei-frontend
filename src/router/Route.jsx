@@ -56,6 +56,7 @@ import { ProcessPage } from "../pages/Master/ProcessPage";
 import { MachinePage } from "../pages/Master/MachinePage";
 import { HolidayPage } from "../pages/Master/HolidayPage";
 import { VendorPage } from "../pages/Master/VendorPage";
+import SearchplanPage from "../pages/SearchplanPage";
 
 const router = createBrowserRouter([
   {
@@ -281,6 +282,10 @@ const router = createBrowserRouter([
   {
     path: "/holiday",
     element: <HolidayPage />,
+  },
+  {
+    path: "/search",
+    element: <SearchplanPage />,
   },
 ]);
 
