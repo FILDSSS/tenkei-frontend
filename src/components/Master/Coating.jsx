@@ -28,17 +28,15 @@ export function Coating() {
   }, []);
 
   useEffect(() => {
-    const initialEditedData = data.reduce((acc, row, index) => {
-      if (!editedData[index]) {
-        acc[index] = { ...row };
-      }
-      return acc;
-    }, {});
-
-    if (Object.keys(initialEditedData).length > 0) {
+    if (Object.keys(editedData).length === 0 && data.length > 0) {
+      const initialEditedData = data.reduce((acc, row) => {
+        acc[row.Coating_CD] = { ...row };
+        return acc;
+      }, {});
       setEditedData(initialEditedData);
     }
   }, [data]);
+  
 
   const handleChange = (e, coatingCd, field) => {
     const newValue = e.target.value;
@@ -56,25 +54,32 @@ export function Coating() {
     }
   };
 
-  const handleSave = (coatingCd, field) => {
+  const handleSave = async (coatingCd, field) => {
     const newValue = editedData[coatingCd]?.[field];
     const oldValue = data.find((row) => row.Coating_CD === coatingCd)?.[field];
 
     if (newValue !== oldValue) {
       try {
+        const payload = {
+          Coating_CD: coatingCd,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/coating/update-coating",
+          payload
+        );
+
         const updatedData = [...data];
         const rowIndex = updatedData.findIndex(
           (row) => row.Coating_CD === coatingCd
         );
-
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("coatingData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -110,6 +115,7 @@ export function Coating() {
           }
           onChange={(e) => handleChange(e, row.Coating_CD, "Coating_CD")}
           onKeyDown={(e) => handleKeyDown(e, row.Coating_CD, "Coating_CD")}
+          disabled
         />
       ),
       width: "170px",

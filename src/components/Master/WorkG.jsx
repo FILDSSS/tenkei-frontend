@@ -56,25 +56,32 @@ export function WorkG() {
     }
   };
 
-  const handleSave = (workgCd, field) => {
+  const handleSave = async (workgCd, field) => {
     const newValue = editedData[workgCd]?.[field];
     const oldValue = data.find((row) => row.WorkG_CD === workgCd)?.[field];
 
     if (newValue !== oldValue) {
       try {
+        const payload = {
+          WorkG_CD: workgCd,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/workg/update-workg",
+          payload
+        );
+
         const updatedData = [...data];
         const rowIndex = updatedData.findIndex(
           (row) => row.WorkG_CD === workgCd
         );
-
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("workGData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -122,6 +129,7 @@ export function WorkG() {
           }
           onChange={(e) => handleChange(e, row.WorkG_CD, "WorkG_CD")}
           onKeyDown={(e) => handleKeyDown(e, row.WorkG_CD, "WorkG_CD")}
+          disabled
         />
       ),
       width: "170px",
@@ -263,12 +271,12 @@ export function WorkG() {
             maxWidth: "100%",
           }}
           value={
-            editedData[row.WorkG_CD]?.WorkG_Remark !== undefined
-              ? editedData[row.WorkG_CD]?.WorkG_Remark
-              : row.WorkG_Remark || ""
+            editedData[row.WorkG_CD]?.WorkG_Mark !== undefined
+              ? editedData[row.WorkG_CD]?.WorkG_Mark
+              : row.WorkG_Mark || ""
           }
-          onChange={(e) => handleChange(e, row.WorkG_CD, "WorkG_Remark")}
-          onKeyDown={(e) => handleKeyDown(e, row.WorkG_CD, "WorkG_Remark")}
+          onChange={(e) => handleChange(e, row.WorkG_CD, "WorkG_Mark")}
+          onKeyDown={(e) => handleKeyDown(e, row.WorkG_CD, "WorkG_Mark")}
         />
       ),
       width: "280px",

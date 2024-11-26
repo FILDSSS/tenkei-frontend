@@ -11,7 +11,7 @@ export function Vendor() {
   const [isChanged, setIsChanged] = useState(false);
   const editedDataRef = useRef(editedData);
 
-  const fetchCustomer = async () => {
+  const fetchVendor = async () => {
     try {
       const response = await axios.get(
         "http://localhost:4000/vendor/fetch-vendor"
@@ -24,7 +24,7 @@ export function Vendor() {
   };
 
   useEffect(() => {
-    fetchCustomer();
+    fetchVendor();
   }, []);
 
   useEffect(() => {
@@ -56,25 +56,32 @@ export function Vendor() {
     }
   };
 
-  const handleSave = (vendorCd, field) => {
+  const handleSave = async (vendorCd, field) => {
     const newValue = editedData[vendorCd]?.[field];
-    const oldValue = data.find((row) => row.vendor_CD === vendorCd)?.[field];
+    const oldValue = data.find((row) => row.Vendor_CD === vendorCd)?.[field];
 
     if (newValue !== oldValue) {
       try {
-        const updatedData = [...data];
-        const rowIndex = updatedData.findIndex(
-          (row) => row.vendor_CD === vendorCd
+        const payload = {
+          Vendor_CD: vendorCd,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/vendor/update-vendor",
+          payload
         );
 
+        const updatedData = [...data];
+        const rowIndex = updatedData.findIndex(
+          (row) => row.Vendor_CD === vendorCd
+        );
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("vendorData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -122,6 +129,7 @@ export function Vendor() {
           }
           onChange={(e) => handleChange(e, row.Vendor_CD, "Vendor_CD")}
           onKeyDown={(e) => handleKeyDown(e, row.Vendor_CD, "Vendor_CD")}
+          disabled
         />
       ),
       width: "190px",
@@ -413,6 +421,11 @@ export function Vendor() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
+          style={{
+            width: "fit-content",
+            minWidth: "250px",
+            maxWidth: "100%",
+          }}
           value={
             editedData[row.Vendor_CD]?.Vendor_Remark !== undefined
               ? editedData[row.Vendor_CD]?.Vendor_Remark
@@ -422,7 +435,7 @@ export function Vendor() {
           onKeyDown={(e) => handleKeyDown(e, row.Vendor_CD, "Vendor_Remark")}
         />
       ),
-      width: "190px",
+      width: "300px",
     },
   ];
 

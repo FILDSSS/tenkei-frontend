@@ -5,82 +5,27 @@ import DataTable from "react-data-table-component";
 import axios from "axios";
 
 export function ProcessG() {
-  const [data, setData] = useState([
-    {
-      ProcessG_CD: "PG001",
-      Change_CD: "CH001",
-      ManageG_CD: "MG001",
-      ProcessG_Name: "Assembly",
-      ProcessG_Abb: "ASM",
-      ProcessG_Symbol: "",
-      ProcessG_Mark: "ASSFSD",
-      Use: true,
-      Use_Object: false,
-      Graph: true,
-      List: false,
-      Coefficient: "1",
-      M_Coefficient: "1",
-      P_Coefficient: "1",
-      Std_M_CAT: 2.5,
-      Std_M_Time: 3.5,
-      Std_P_CAT: 1.8,
-      Std_P_Time: 4.0,
-      M_Resource_N: "Machine A",
-      S_Resource_N: "Worker B",
-      ProcessG_Remark: "Critical process for product assembly",
-    },
-    {
-      ProcessG_CD: "PG002",
-      Change_CD: "CH002",
-      ManageG_CD: "MG002",
-      ProcessG_Name: "Inspection",
-      ProcessG_Abb: "INS",
-      ProcessG_Symbol: "",
-      ProcessG_Mark: "ADFHFHG",
-      Use: true,
-      Use_Object: false,
-      Graph: true,
-      List: false,
-      Coefficient: "1",
-      M_Coefficient: "1",
-      P_Coefficient: "1",
-      Std_M_CAT: 1.5,
-      Std_M_Time: 2.5,
-      Std_P_CAT: 1.2,
-      Std_P_Time: 3.0,
-      M_Resource_N: "Machine C",
-      S_Resource_N: "Inspector D",
-      ProcessG_Remark: "Mandatory process for quality check before shipping",
-    },
-    {
-      ProcessG_CD: "PG003",
-      Change_CD: "CH003",
-      ManageG_CD: "MG003",
-      ProcessG_Name: "Packaging",
-      ProcessG_Abb: "PKG",
-      ProcessG_Symbol: "",
-      ProcessG_Mark: "LKHFFKJFG",
-      Use: true,
-      Use_Object: false,
-      Graph: true,
-      List: false,
-      Coefficient: "1",
-      M_Coefficient: "1",
-      P_Coefficient: "1",
-      Std_M_CAT: 2.0,
-      Std_M_Time: 3.0,
-      Std_P_CAT: 1.7,
-      Std_P_Time: 4.5,
-      M_Resource_N: "Machine B",
-      S_Resource_N: "Worker E",
-      ProcessG_Remark: "Final step before dispatch to customers",
-    },
-  ]);
-  
   const [searchTerm, setSearchTerm] = useState("");
+  const [data, setData] = useState([]);
   const [editedData, setEditedData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
   const editedDataRef = useRef(editedData);
+
+  const fetchProcessg = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:4000/processg/fetch-processg"
+      );
+      // console.log("Fetched data:", response.data);
+      setData(response.data.data.processg || []);
+    } catch (error) {
+      // console.error("Error fetching coating:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProcessg();
+  }, []);
 
   useEffect(() => {
     const initialEditedData = data.reduce((acc, row, index) => {
@@ -95,43 +40,48 @@ export function ProcessG() {
     }
   }, [data]);
 
-  const handleChange = (e, customerCd, field) => {
+  const handleChange = (e, processgCd, field) => {
     const newValue = e.target.value;
 
-    if (editedDataRef.current[customerCd]?.[field] !== newValue) {
+    if (editedDataRef.current[processgCd]?.[field] !== newValue) {
       setIsChanged(true);
 
       const updatedData = { ...editedDataRef.current };
 
-      updatedData[customerCd] = updatedData[customerCd] || {};
-      updatedData[customerCd][field] = newValue;
+      updatedData[processgCd] = updatedData[processgCd] || {};
+      updatedData[processgCd][field] = newValue;
 
       setEditedData(updatedData);
       editedDataRef.current = updatedData;
     }
   };
 
-  const handleSave = (customerCd, field) => {
-    const newValue = editedData[customerCd]?.[field];
-    const oldValue = data.find((row) => row.Customer_CD === customerCd)?.[
-      field
-    ];
+  const handleSave = async (processgCd, field) => {
+    const newValue = editedData[processgCd]?.[field];
+    const oldValue = data.find((row) => row.ProcessG_CD === processgCd)?.[field];
 
     if (newValue !== oldValue) {
       try {
-        const updatedData = [...data];
-        const rowIndex = updatedData.findIndex(
-          (row) => row.Customer_CD === customerCd
+        const payload = {
+          ProcessG_CD: processgCd,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/coating/update-coating",
+          payload
         );
 
+        const updatedData = [...data];
+        const rowIndex = updatedData.findIndex(
+          (row) => row.ProcessG_CD === processgCd
+        );
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("processGData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -152,13 +102,6 @@ export function ProcessG() {
       String(value).toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
-
-  // สำหรับ Dummy Data
-  const handleEdit = (index, field, newValue) => {
-    const updatedData = [...data];
-    updatedData[index][field] = newValue;
-    setData(updatedData);
-  };
 
   const columns = [
     {

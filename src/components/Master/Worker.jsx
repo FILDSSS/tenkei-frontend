@@ -5,52 +5,25 @@ import DataTable from "react-data-table-component";
 import axios from "axios";
 
 export function Worker() {
-  const [data, setData] = useState([
-    {
-      Worker_CD: "WR001",
-      Worker_Pass: "pass123",
-      WorkerG_CD: "WG001",
-      WorkG_CD: "WK001",
-      Worker_Name: "Taro Yamada",
-      Worker_Abb: "TY",
-      Worker_JPN: "山田 太郎",
-      Access_Lv: 3,
-      Worker_Level: "Senior",
-      Worker_Menu: "Main Menu",
-      Worker_Remark: "Experienced in management",
-    },
-    {
-      Worker_CD: "WR002",
-      Worker_Pass: "pass456",
-      WorkerG_CD: "WG002",
-      WorkG_CD: "WK002",
-      Worker_Name: "Hanako Suzuki",
-      Worker_Abb: "HS",
-      Worker_JPN: "鈴木 花子",
-      Access_Lv: 2,
-      Worker_Level: "Intermediate",
-      Worker_Menu: "Admin Menu",
-      Worker_Remark: "Specialized in customer support",
-    },
-    {
-      Worker_CD: "WR003",
-      Worker_Pass: "pass789",
-      WorkerG_CD: "WG003",
-      WorkG_CD: "WK003",
-      Worker_Name: "Kenji Tanaka",
-      Worker_Abb: "KT",
-      Worker_JPN: "田中 健二",
-      Access_Lv: 1,
-      Worker_Level: "Junior",
-      Worker_Menu: "Restricted Menu",
-      Worker_Remark: "New employee in training",
-    },
-  ]);
-
+  const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [editedData, setEditedData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
   const editedDataRef = useRef(editedData);
+
+  const fetchWorker = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/order/worker");
+      // console.log("Fetched data:", response.data);
+      setData(response.data.data.worker || []);
+    } catch (error) {
+      // console.error("Error fetching worker:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchWorker();
+  }, []);
 
   useEffect(() => {
     const initialEditedData = data.reduce((acc, row, index) => {
@@ -65,43 +38,48 @@ export function Worker() {
     }
   }, [data]);
 
-  const handleChange = (e, customerCd, field) => {
+  const handleChange = (e, workerCd, field) => {
     const newValue = e.target.value;
 
-    if (editedDataRef.current[customerCd]?.[field] !== newValue) {
+    if (editedDataRef.current[workerCd]?.[field] !== newValue) {
       setIsChanged(true);
 
       const updatedData = { ...editedDataRef.current };
 
-      updatedData[customerCd] = updatedData[customerCd] || {};
-      updatedData[customerCd][field] = newValue;
+      updatedData[workerCd] = updatedData[workerCd] || {};
+      updatedData[workerCd][field] = newValue;
 
       setEditedData(updatedData);
       editedDataRef.current = updatedData;
     }
   };
 
-  const handleSave = (customerCd, field) => {
-    const newValue = editedData[customerCd]?.[field];
-    const oldValue = data.find((row) => row.Customer_CD === customerCd)?.[
-      field
-    ];
+  const handleSave = async (workerCd, field) => {
+    const newValue = editedData[workerCd]?.[field];
+    const oldValue = data.find((row) => row.Worker_CD === workerCd)?.[field];
 
     if (newValue !== oldValue) {
       try {
-        const updatedData = [...data];
-        const rowIndex = updatedData.findIndex(
-          (row) => row.Customer_CD === customerCd
+        const payload = {
+          Worker_CD: workerCd,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/order/update-worker",
+          payload
         );
 
+        const updatedData = [...data];
+        const rowIndex = updatedData.findIndex(
+          (row) => row.Worker_CD === workerCd
+        );
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("workerData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -123,147 +101,196 @@ export function Worker() {
     );
   });
 
-  // สำหรับ Dummy Data
-  const handleEdit = (index, field, newValue) => {
-    const updatedData = [...data];
-    updatedData[index][field] = newValue;
-    setData(updatedData);
-  };
-
   const columns = [
     {
       name: "Worker_CD",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Worker_CD}
-          onChange={(e) => handleEdit(index, "Worker_CD", e.target.value)}
+          value={
+            editedData[row.Worker_CD]?.Worker_CD !== undefined
+              ? editedData[row.Worker_CD]?.Worker_CD
+              : row.Worker_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Worker_CD, "Worker_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Worker_CD, "Worker_CD")}
+          disabled
         />
       ),
-      width: "150px",
+      width: "170px",
     },
     {
       name: "Worker_Pass",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Worker_Pass}
-          onChange={(e) => handleEdit(index, "Worker_Pass", e.target.value)}
+          value={
+            editedData[row.Worker_CD]?.Worker_Pass !== undefined
+              ? editedData[row.Worker_CD]?.Worker_Pass
+              : row.Worker_Pass || ""
+          }
+          onChange={(e) => handleChange(e, row.Worker_CD, "Worker_Pass")}
+          onKeyDown={(e) => handleKeyDown(e, row.Worker_CD, "Worker_Pass")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "WorkerG_CD",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.WorkerG_CD}
-          onChange={(e) => handleEdit(index, "WorkerG_CD", e.target.value)}
+          value={
+            editedData[row.Worker_CD]?.WorkerG_CD !== undefined
+              ? editedData[row.Worker_CD]?.WorkerG_CD
+              : row.WorkerG_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Worker_CD, "WorkerG_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Worker_CD, "WorkerG_CD")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "WorkG_CD",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.WorkG_CD}
-          onChange={(e) => handleEdit(index, "WorkG_CD", e.target.value)}
+          value={
+            editedData[row.Worker_CD]?.WorkG_CD !== undefined
+              ? editedData[row.Worker_CD]?.WorkG_CD
+              : row.WorkG_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Worker_CD, "WorkG_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Worker_CD, "WorkG_CD")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "Worker_Name",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Worker_Name}
-          onChange={(e) => handleEdit(index, "Worker_Name", e.target.value)}
+          value={
+            editedData[row.Worker_CD]?.Worker_Name !== undefined
+              ? editedData[row.Worker_CD]?.Worker_Name
+              : row.Worker_Name || ""
+          }
+          onChange={(e) => handleChange(e, row.Worker_CD, "Worker_Name")}
+          onKeyDown={(e) => handleKeyDown(e, row.Worker_CD, "Worker_Name")}
         />
       ),
       width: "200px",
     },
     {
       name: "Worker_Abb",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Worker_Abb}
-          onChange={(e) => handleEdit(index, "Worker_Abb", e.target.value)}
+          value={
+            editedData[row.Worker_CD]?.Worker_Abb !== undefined
+              ? editedData[row.Worker_CD]?.Worker_Abb
+              : row.Worker_Abb || ""
+          }
+          onChange={(e) => handleChange(e, row.Worker_CD, "Worker_Abb")}
+          onKeyDown={(e) => handleKeyDown(e, row.Worker_CD, "Worker_Abb")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "Worker_JPN",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Worker_JPN}
-          onChange={(e) => handleEdit(index, "Worker_JPN", e.target.value)}
+          value={
+            editedData[row.Worker_CD]?.Worker_JPN !== undefined
+              ? editedData[row.Worker_CD]?.Worker_JPN
+              : row.Worker_JPN || ""
+          }
+          onChange={(e) => handleChange(e, row.Worker_CD, "Worker_JPN")}
+          onKeyDown={(e) => handleKeyDown(e, row.Worker_CD, "Worker_JPN")}
         />
       ),
-      width: "200px",
+      width: "180px",
     },
     {
       name: "Access_Lv",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.Access_Lv}
-          onChange={(e) => handleEdit(index, "Access_Lv", e.target.value)}
+          value={
+            editedData[row.Worker_CD]?.Access_Lv !== undefined
+              ? editedData[row.Worker_CD]?.Access_Lv
+              : row.Access_Lv ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Worker_CD, "Access_Lv")}
+          onKeyDown={(e) => handleKeyDown(e, row.Worker_CD, "Access_Lv")}
         />
       ),
-      width: "100px",
+      width: "180px",
     },
     {
       name: "Worker_Level",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Worker_Level}
-          onChange={(e) => handleEdit(index, "Worker_Level", e.target.value)}
+          value={
+            editedData[row.Worker_CD]?.Worker_Level !== undefined
+              ? editedData[row.Worker_CD]?.Worker_Level
+              : row.Worker_Level ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Worker_CD, "Worker_Level")}
+          onKeyDown={(e) => handleKeyDown(e, row.Worker_CD, "Worker_Level")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "Worker_Menu",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Worker_Menu}
-          onChange={(e) => handleEdit(index, "Worker_Menu", e.target.value)}
+          value={
+            editedData[row.Worker_CD]?.Worker_Menu !== undefined
+              ? editedData[row.Worker_CD]?.Worker_Menu
+              : row.Worker_Menu ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Worker_CD, "Worker_Menu")}
+          onKeyDown={(e) => handleKeyDown(e, row.Worker_CD, "Worker_Menu")}
         />
       ),
-      width: "200px",
+      width: "180px",
     },
     {
       name: "Worker_Remark",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
           style={{
             width: "fit-content",
-            minWidth: "240px",
+            minWidth: "250px",
             maxWidth: "100%",
           }}
-          value={row.Worker_Remark}
-          onChange={(e) => handleEdit(index, "Worker_Remark", e.target.value)}
+          value={
+            editedData[row.Worker_CD]?.Worker_Remark !== undefined
+              ? editedData[row.Worker_CD]?.Worker_Remark
+              : row.Worker_Remark ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Worker_CD, "Worker_Remark")}
+          onKeyDown={(e) => handleKeyDown(e, row.Worker_CD, "Worker_Remark")}
         />
       ),
       width: "300px",
