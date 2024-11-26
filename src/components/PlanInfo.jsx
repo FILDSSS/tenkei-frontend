@@ -13,15 +13,47 @@ export default function PlanInfo() {
     location.state?.searchOrderNo || ""
   );
   const [autoYearChange, setAutoYearChange] = useState(false);
-  const { orderData, searchOrderData, setOrderData,WorkgData,setWorkgData,WorkerData,
-    setWorkerData,SpecificData,setSpecificData,CustomerData, setCustomerData,
-    Request3Data, CoatingData, setCoatingData,OdProgressData,setOdProgressData,
-    DeliveryData, setDeliveryData,PriceData, setPriceData,TargetData, setTargetData,
-    SupplyData, setSupplyData,
+  const {
+    orderData,
+    searchOrderData,
+    setOrderData,
+    WorkgData,
+    setWorkgData,
+    WorkerData,
+    setWorkerData,
+    SpecificData,
+    setSpecificData,
+    CustomerData,
+    setCustomerData,
+    Request3Data,
+    CoatingData,
+    setCoatingData,
+    OdProgressData,
+    setOdProgressData,
+    DeliveryData,
+    setDeliveryData,
+    PriceData,
+    setPriceData,
+    TargetData,
+    setTargetData,
+    SupplyData,
+    setSupplyData,
+  } = useOrder();
+  const {
+    planData,
+    setPlanData,
+    selectedPlanNo,
+    setSelectedPlanNo,
+    searchPartsData,
+    qmprocessData,
+    processData,
+    plprogressData,
+    setPlProgressData,
+    ScheduleData,
+    setScheduleData,
+    PartsData,
+  } = usePlan();
 
-   } = useOrder();
-   const { planData, setPlanData,selectedPlanNo,setSelectedPlanNo,searchPartsData } = usePlan();
-  
   const { purchaseData, setPurchaseData } = usePurchase();
   const [selectedSalesPersonAbb, setSelectedSalesPerson] = useState("");
   const [SpecificName, setSpecificName] = useState("");
@@ -31,7 +63,12 @@ export default function PlanInfo() {
   const [DeliveryName, setDeliveryName] = useState("");
   const [PriceName, setPriceName] = useState("");
   const [targetName, setTargetName] = useState("");
-
+  const [ProgressName, setProgressName] = useState("");
+  const [Person_Name, setPerson_Name] = useState("");
+  const [updPerson_Name, setupdPerson_Name] = useState("");
+  const [Schedule_Name, setSchedule_Name] = useState("");
+  const [Stagnat_Scale, setStagnat_Scale] = useState("");
+  const [ManHour_Scale, setManHour_Scale] = useState("");
   const inputs = Array.from({ length: 36 }, (_, i) => i + 1);
 
   const handleInputChange = (event, isPurchase, isPlan = false) => {
@@ -73,9 +110,6 @@ export default function PlanInfo() {
       ...prevPlanData,
       [id]: type === "checkbox" ? checked : value === "" ? null : value,
     }));
-
-    
-    
   };
 
   const handleSearch_Order_NoChange = async (newOrder_No) => {
@@ -109,8 +143,6 @@ export default function PlanInfo() {
     });
   };
 
-
-
   useEffect(() => {
     if (orderData?.Od_Ctl_Person_CD && WorkerData.length > 0) {
       const selectedGroup = WorkerData.find(
@@ -118,7 +150,26 @@ export default function PlanInfo() {
       );
       setSelectedSalesPerson(selectedGroup ? selectedGroup.Worker_Abb : "");
     }
-  }, [orderData?.Od_Ctl_Person_CD, WorkerData]);
+
+    if (planData?.Pl_Reg_Person_CD && WorkerData.length > 0) {
+      const selectedGroup = WorkerData.find(
+        (item) => item.Worker_CD === planData.Pl_Reg_Person_CD
+      );
+      setPerson_Name(selectedGroup ? selectedGroup.Worker_Abb : "");
+    }
+
+    if (planData?.Pl_Upd_Person_CD && WorkerData.length > 0) {
+      const selectedGroup = WorkerData.find(
+        (item) => item.Worker_CD === planData.Pl_Upd_Person_CD
+      );
+      setupdPerson_Name(selectedGroup ? selectedGroup.Worker_Abb : "");
+    }
+  }, [
+    orderData?.Od_Ctl_Person_CD,
+    planData?.Pl_Reg_Person_CD,
+    planData?.Pl_Upd_Person_CD,
+    WorkerData,
+  ]);
 
   useEffect(() => {
     if (orderData?.Specific_CD && SpecificData.length > 0) {
@@ -135,11 +186,9 @@ export default function PlanInfo() {
       const selectedGroup = CustomerData.find(
         (item) => item.Customer_CD === orderData.Customer_CD
       );
-      
+
       setSelectedCustomerAbb(selectedGroup ? selectedGroup.Customer_Abb : "");
     }
-
-    
   }, [orderData?.Customer_CD, CustomerData]);
 
   useEffect(() => {
@@ -192,6 +241,30 @@ export default function PlanInfo() {
     }
   }, [orderData?.Target_CD, TargetData]);
 
+  useEffect(() => {
+    if (planData?.Pl_Progress_CD && plprogressData.length > 0) {
+      const selectedGroup = plprogressData.find(
+        (item) => item.Pl_Progress_CD === planData.Pl_Progress_CD
+      );
+
+      setProgressName(selectedGroup ? selectedGroup.Pl_Progress_Symbol : "");
+    }
+  }, [planData?.Pl_Progress_CD, plprogressData]);
+
+  useEffect(() => {
+    if (planData?.Pl_Schedule_CD && ScheduleData.length > 0) {
+      const selectedGroup = ScheduleData.find(
+        (item) => item.Schedule_CD === planData.Pl_Schedule_CD
+      );
+
+      setSchedule_Name(selectedGroup ? selectedGroup.Schedule_Symbol : "");
+      setStagnat_Scale(selectedGroup ? selectedGroup.Stagnat_Scale : "");
+      setManHour_Scale(
+        selectedGroup ? Math.round(selectedGroup.ManHour_Scale) : ""
+      );
+    }
+  }, [planData?.Pl_Schedule_CD, ScheduleData]);
+
   const rows = inputs.map((id) => ({
     mp: (
       <div>
@@ -204,7 +277,9 @@ export default function PlanInfo() {
             className="border rounded px-2 py-1 text-xs w-20 h-6 mt-5"
           />
           <div className="flex flex-col items-end w-full">
-            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">▼</button>
+            <button className="bg-gray-300 px-2 py-1 rounded-l text-xs h-5">
+              ▼
+            </button>
             <input
               id={`QRMT${id}`}
               type="text"
@@ -215,14 +290,27 @@ export default function PlanInfo() {
           </div>
         </div>
       </div>
-    ),  
+    ),
     plan_process: (
       <div>
-        <select id={`PPC${id}`} 
-        value={planData?.[`PPC${id}`] || ""}
-        onChange={handlePlanInputChange}    
-        className="border rounded px-2 py-1 text-xs w-full">
-          <option value=""></option>
+        <select
+          id={`PPC${id}`}
+          value={planData?.[`PPC${id}`] || ""}
+          onChange={handlePlanInputChange}
+          className="border rounded px-2 py-1 text-xs w-full"
+        >
+          <option value={planData?.[`PPC${id}`] || ""}>
+            {planData?.[`PPC${id}`] || ""}
+          </option>
+          {Array.isArray(qmprocessData) && qmprocessData.length > 0 ? (
+            qmprocessData.map((item, index) => (
+              <option key={index} value={item.Process_CD}>
+                {item.Process_Abb}
+              </option>
+            ))
+          ) : (
+            <option value="">ไม่มีข้อมูล</option>
+          )}
         </select>
       </div>
     ),
@@ -250,18 +338,27 @@ export default function PlanInfo() {
     ),
     time: (
       <div className="space-x-2">
-        <select id={`T_Type${id}`} className="border rounded px-2 py-1 text-xs w-10">
+        <select
+          id={`T_Type${id}`}
+          className="border rounded px-2 py-1 text-xs w-10"
+        >
           <option value=""></option>
           <option value="P">P</option>
           <option value="L">L</option>
         </select>
-        <select id={`P_Type${id}`} className="border rounded px-2 py-1 text-xs w-10">
+        <select
+          id={`P_Type${id}`}
+          className="border rounded px-2 py-1 text-xs w-10"
+        >
           <option value=""></option>
           <option value="M">M</option>
           <option value="A">A</option>
           <option value="O">O</option>
         </select>
-        <select id={`S_Type${id}`} className="border rounded px-2 py-1 text-xs w-10">
+        <select
+          id={`S_Type${id}`}
+          className="border rounded px-2 py-1 text-xs w-10"
+        >
           <option value=""></option>
           <option value="C">C</option>
           <option value="F">F</option>
@@ -457,18 +554,23 @@ export default function PlanInfo() {
                       <label className="text-xs font-medium">
                         Search_Parts_No
                       </label>
-                      <select id="Search_Parts_No" value={selectedPlanNo || ""} onChange={(e) => handlePlanInputChange(e)} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ccffff] w-18">
-                      <option value="">เลือกข้อมูล</option>
+                      <select
+                        id="Search_Parts_No"
+                        value={selectedPlanNo || ""}
+                        onChange={(e) => handlePlanInputChange(e)}
+                        className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ccffff] w-18"
+                      >
+                        <option value="">เลือกข้อมูล</option>
                         {Array.isArray(selectedPlanNo) &&
                         selectedPlanNo.length > 0 ? (
                           selectedPlanNo.map((item, index) => (
-                          <option key={index} value={item.Parts_No}>
-                            {item.Parts_No}
-                          </option>
-                        ))
-                      ) : (
-                        <option value="">ไม่มีข้อมูล</option>
-                      )}
+                            <option key={index} value={item.Parts_No}>
+                              {item.Parts_No}
+                            </option>
+                          ))
+                        ) : (
+                          <option value="">ไม่มีข้อมูล</option>
+                        )}
                       </select>
                     </div>
 
@@ -531,59 +633,57 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto">
                           <label className="w-auto  text-xs">Od_No</label>
                           <div className="w-32 ml-1">
-                            
-                              <input
-                                disabled
-                                id="Order_No"
-                                value={orderData?.Order_No || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                              />
-                          
+                            <input
+                              disabled
+                              id="Order_No"
+                              value={orderData?.Order_No || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                            />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto item ">
                           <label className="w-16 text-xs">Product_Grp</label>
-                          <select id="Product_Grp_CD"  className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-36">
+                          <select
+                            id="Product_Grp_CD"
+                            className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-36"
+                          >
                             <option value={orderData?.Product_Grp_CD || ""}>
-                                {orderData?.Product_Grp_CD || ""}
+                              {orderData?.Product_Grp_CD || ""}
                             </option>
                             {Array.isArray(WorkgData) &&
-                              WorkgData.length > 0 ? (
-                                WorkgData.map((item, index) => (
-                                  <option key={index} value={item.WorkG_CD}>
-                                    {item.WorkG_CD}
-                                  </option>
-                                ))
-                              ) : (
-                                <option value="">ไม่มีข้อมูล</option>
-                              )}
+                            WorkgData.length > 0 ? (
+                              WorkgData.map((item, index) => (
+                                <option key={index} value={item.WorkG_CD}>
+                                  {item.WorkG_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
                           </select>
                         </div>
                         <div className="flex gap-2 w-auto ml-0.5">
                           <label className="w-auto text-xs">Mate1</label>
                           <div className="w-auto flex gap-1">
-                           
-                              <input
-                                disabled
-                                id="Material1"
-                                value={orderData?.Material1 || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                         
-                            
-                              <input
-                                disabled
-                                id="H_Treatment1"
-                                value={orderData?.H_Treatment1 || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                      
+                            <input
+                              disabled
+                              id="Material1"
+                              value={orderData?.Material1 || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+
+                            <input
+                              disabled
+                              id="H_Treatment1"
+                              value={orderData?.H_Treatment1 || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
@@ -601,11 +701,16 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ">
                           <label className="w-20 text-xs">Od_Ctl_Person</label>
                           <div className="w-auto flex gap-1 mr-1">
-                            <select id="Od_Ctl_Person_CD" value={orderData?.Od_Ctl_Person_CD || ""} onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
-                            <option  value={orderData?.Od_Ctl_Person_CD || ""}>
+                            <select
+                              id="Od_Ctl_Person_CD"
+                              value={orderData?.Od_Ctl_Person_CD || ""}
+                              onChange={handleInputChange}
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] "
+                            >
+                              <option value={orderData?.Od_Ctl_Person_CD || ""}>
                                 {orderData?.Od_Ctl_Person_CD || ""}
-                            </option>
-                            {Array.isArray(WorkerData) &&
+                              </option>
+                              {Array.isArray(WorkerData) &&
                               WorkerData.length > 0 ? (
                                 WorkerData.map((item, index) => (
                                   <option key={index} value={item.Worker_CD}>
@@ -617,8 +722,8 @@ export default function PlanInfo() {
                               )}
                             </select>
                             <input
-                               value={selectedSalesPersonAbb}
-                               onChange={(event) => setWorkerData(event)}
+                              value={selectedSalesPersonAbb}
+                              onChange={(event) => setWorkerData(event)}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                             />
@@ -638,11 +743,16 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ml-10">
                           <label className="w-10 text-xs">Specific</label>
                           <div className="w-auto flex gap-1">
-                            <select id="Specific_CD" value={orderData?.Specific_CD || ""} onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
-                            <option  value={orderData?.Specific_CD || ""}>
+                            <select
+                              id="Specific_CD"
+                              value={orderData?.Specific_CD || ""}
+                              onChange={handleInputChange}
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] "
+                            >
+                              <option value={orderData?.Specific_CD || ""}>
                                 {orderData?.Specific_CD || ""}
-                            </option>
-                            {Array.isArray(SpecificData) &&
+                              </option>
+                              {Array.isArray(SpecificData) &&
                               SpecificData.length > 0 ? (
                                 SpecificData.map((item, index) => (
                                   <option key={index} value={item.Specific_CD}>
@@ -702,11 +812,16 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ">
                           <label className="w-12 text-xs">Customer</label>
                           <div className="w-auto flex gap-1">
-                            <select id="Customer_CD" value={orderData?.Customer_CD || ""}  onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
-                            <option  value={orderData?.Customer_CD || ""}>
+                            <select
+                              id="Customer_CD"
+                              value={orderData?.Customer_CD || ""}
+                              onChange={handleInputChange}
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] "
+                            >
+                              <option value={orderData?.Customer_CD || ""}>
                                 {orderData?.Customer_CD || ""}
-                            </option>
-                            {Array.isArray(CustomerData) &&
+                              </option>
+                              {Array.isArray(CustomerData) &&
                               CustomerData.length > 0 ? (
                                 CustomerData.map((item, index) => (
                                   <option key={index} value={item.Customer_CD}>
@@ -728,35 +843,33 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ">
                           <label className="w-auto text-xs">Mate2</label>
                           <div className="w-auto flex gap-1">
-                         
-                              <input
-                                disabled
-                                id="Material2"
-                                value={orderData?.Material2 || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                        
-                              <input
-                                disabled
-                                id="H_Treatment2"
-                                value={orderData?.H_Treatment2 || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              /> 
-                          
+                            <input
+                              disabled
+                              id="Material2"
+                              value={orderData?.Material2 || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+
+                            <input
+                              disabled
+                              id="H_Treatment2"
+                              value={orderData?.H_Treatment2 || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Req3</label>
                           <div className="w-auto flex gap-1 mr-1">
                             <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-24">
-                            <option  value={orderData?.Request3_CD || ""}>
+                              <option value={orderData?.Request3_CD || ""}>
                                 {orderData?.Request3_CD || ""}
-                            </option>
-                            {Array.isArray(Request3Data) &&
+                              </option>
+                              {Array.isArray(Request3Data) &&
                               Request3Data.length > 0 ? (
                                 Request3Data.map((item, index) => (
                                   <option key={index} value={item.Request3_CD}>
@@ -772,11 +885,16 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Coating</label>
                           <div className="w-auto flex gap-1 ">
-                            <select id="Coating_CD" value={orderData?.Coating_CD || ""}  onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] ">
-                            <option  value={orderData?.Coating_CD || ""}>
+                            <select
+                              id="Coating_CD"
+                              value={orderData?.Coating_CD || ""}
+                              onChange={handleInputChange}
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] "
+                            >
+                              <option value={orderData?.Coating_CD || ""}>
                                 {orderData?.Coating_CD || ""}
-                            </option>
-                            {Array.isArray(CoatingData) &&
+                              </option>
+                              {Array.isArray(CoatingData) &&
                               CoatingData.length > 0 ? (
                                 CoatingData.map((item, index) => (
                                   <option key={index} value={item.Coating_CD}>
@@ -812,14 +930,22 @@ export default function PlanInfo() {
                             Od_Progress
                           </label>
                           <div className="w-auto flex gap-1">
-                            <select id="Od_Progress_CD" value={orderData?.Od_Progress_CD || ""} onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  ">
-                            <option  value={orderData?.Od_Progress_CD || ""}>
+                            <select
+                              id="Od_Progress_CD"
+                              value={orderData?.Od_Progress_CD || ""}
+                              onChange={handleInputChange}
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  "
+                            >
+                              <option value={orderData?.Od_Progress_CD || ""}>
                                 {orderData?.Od_Progress_CD || ""}
-                            </option>
-                            {Array.isArray(OdProgressData) &&
+                              </option>
+                              {Array.isArray(OdProgressData) &&
                               OdProgressData.length > 0 ? (
                                 OdProgressData.map((item, index) => (
-                                  <option key={index} value={item.Od_Progress_CD}>
+                                  <option
+                                    key={index}
+                                    value={item.Od_Progress_CD}
+                                  >
                                     {item.Od_Progress_CD}
                                   </option>
                                 ))
@@ -876,56 +1002,49 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Pd_name</label>
                           <div className="w-40 ml-2">
-                  
-                              <input
-                                disabled
-                                id="Product_Name"
-                                value={orderData?.Product_Name || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                              />
-                        
+                            <input
+                              disabled
+                              id="Product_Name"
+                              value={orderData?.Product_Name || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                            />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-auto text-xs">Mate3</label>
                           <div className="w-auto flex gap-1">
-                          
-                              <input
-                                disabled
-                                id="Material3"
-                                value={orderData?.Material3 || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                     
-                              <input
-                                disabled
-                                id="H_Treatment3"
-                                value={orderData?.H_Treatment3 || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                        
+                            <input
+                              disabled
+                              id="Material3"
+                              value={orderData?.Material3 || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+
+                            <input
+                              disabled
+                              id="H_Treatment3"
+                              value={orderData?.H_Treatment3 || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Qty</label>
                           <div className="w-auto flex gap-1 mr-1">
-                          
-                              <input
-                                disabled
-                                id="Quantity"
-                                value={orderData?.Quantity || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-12"
-                              />
-                     
-                         
+                            <input
+                              disabled
+                              id="Quantity"
+                              value={orderData?.Quantity || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-12"
+                            />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ml-3">
@@ -941,9 +1060,9 @@ export default function PlanInfo() {
                           <label className="w-20 text-xs">Product_Docu</label>
                           <div className="w-auto flex gap-1">
                             <input
-                               id="Product_Docu"
-                               value={orderData?.Product_Docu || ""}
-                               onChange={handleInputChange}
+                              id="Product_Docu"
+                              value={orderData?.Product_Docu || ""}
+                              onChange={handleInputChange}
                               type="text"
                               className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-30"
                             />
@@ -952,11 +1071,16 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ml-6">
                           <label className="w-10 text-xs ml-5">Delivery</label>
                           <div className="w-auto flex gap-1">
-                            <select id="Delivery_CD"  value={orderData?.Delivery_CD || ""} onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  ">
-                            <option  value={orderData?.Delivery_CD || ""}>
+                            <select
+                              id="Delivery_CD"
+                              value={orderData?.Delivery_CD || ""}
+                              onChange={handleInputChange}
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  "
+                            >
+                              <option value={orderData?.Delivery_CD || ""}>
                                 {orderData?.Delivery_CD || ""}
-                            </option>
-                            {Array.isArray(DeliveryData) &&
+                              </option>
+                              {Array.isArray(DeliveryData) &&
                               DeliveryData.length > 0 ? (
                                 DeliveryData.map((item, index) => (
                                   <option key={index} value={item.Delivery_CD}>
@@ -969,7 +1093,7 @@ export default function PlanInfo() {
                             </select>
                             <input
                               value={DeliveryName || ""}
-                              onChange={(event) => setDeliveryData(event)}  
+                              onChange={(event) => setDeliveryData(event)}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                             />
@@ -1016,50 +1140,51 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Pd_Size</label>
                           <div className="w-40 ml-2">
-                           
-                              <input
-                                disabled
-                                id="Product_Size"
-                                value={orderData?.Product_Size || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                              />
-                       
+                            <input
+                              disabled
+                              id="Product_Size"
+                              value={orderData?.Product_Size || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                            />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-auto text-xs">Mate4</label>
                           <div className="w-auto flex gap-1">
-                            
-                              <input
-                                disabled
-                                id="Material4"
-                                value={orderData?.Material4 || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                          
-                              <input
-                                disabled
-                                id="H_Treatment4"
-                                value={orderData?.H_Treatment4 || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                           
+                            <input
+                              disabled
+                              id="Material4"
+                              value={orderData?.Material4 || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+
+                            <input
+                              disabled
+                              id="H_Treatment4"
+                              value={orderData?.H_Treatment4 || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Price</label>
                           <div className="w-auto flex gap-1 mr-1">
-                            <select id="Price_CD" value={orderData?.Price_CD || ""} onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-12">
-                            <option  value={orderData?.Price_CD || ""}>
+                            <select
+                              id="Price_CD"
+                              value={orderData?.Price_CD || ""}
+                              onChange={handleInputChange}
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-12"
+                            >
+                              <option value={orderData?.Price_CD || ""}>
                                 {orderData?.Price_CD || ""}
-                            </option>
-                            {Array.isArray(PriceData) &&
+                              </option>
+                              {Array.isArray(PriceData) &&
                               PriceData.length > 0 ? (
                                 PriceData.map((item, index) => (
                                   <option key={index} value={item.Price_CD}>
@@ -1106,11 +1231,16 @@ export default function PlanInfo() {
                             Target
                           </label>
                           <div className="w-auto flex gap-1">
-                            <select  id="Target_CD" value={orderData?.Target_CD || ""}  onChange={handleInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  ">
-                               <option  value={orderData?.Target_CD || ""}>
+                            <select
+                              id="Target_CD"
+                              value={orderData?.Target_CD || ""}
+                              onChange={handleInputChange}
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  "
+                            >
+                              <option value={orderData?.Target_CD || ""}>
                                 {orderData?.Target_CD || ""}
-                            </option>
-                            {Array.isArray(TargetData) &&
+                              </option>
+                              {Array.isArray(TargetData) &&
                               TargetData.length > 0 ? (
                                 TargetData.map((item, index) => (
                                   <option key={index} value={item.Target_CD}>
@@ -1135,7 +1265,7 @@ export default function PlanInfo() {
                             <input
                               id="Shipment_Date"
                               value={orderData?.Shipment_Date || ""}
-                              onChange={handleInputChange}  
+                              onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
                             />
@@ -1151,7 +1281,7 @@ export default function PlanInfo() {
                             <input
                               id="NAV_Delivery"
                               value={orderData?.NAV_Delivery || ""}
-                              onChange={handleInputChange}  
+                              onChange={handleInputChange}
                               type="text"
                               className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-32 ml-5"
                             />
@@ -1160,50 +1290,46 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Pd_Draw</label>
                           <div className="w-40 ml-2">
-                           
-                              <input
-                                disabled
-                                id="Product_Draw"
-                                value={orderData?.Product_Draw || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                              />
-                          
+                            <input
+                              disabled
+                              id="Product_Draw"
+                              value={orderData?.Product_Draw || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                            />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-auto text-xs">Mate5</label>
                           <div className="w-auto flex gap-1">
-                           
-                              <input
-                                disabled
-                                id="Material5"
-                                value={orderData?.Material5 || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                          
-                              <input
-                                disabled
-                                id="H_Treatment5"
-                                value={orderData?.H_Treatment5 || ""}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
-                              />
-                           
+                            <input
+                              disabled
+                              id="Material5"
+                              value={orderData?.Material5 || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
+
+                            <input
+                              disabled
+                              id="H_Treatment5"
+                              value={orderData?.H_Treatment5 || ""}
+                              onChange={handleInputChange}
+                              type="text"
+                              className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-24"
+                            />
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
                           <label className="w-10 text-xs">Supple</label>
                           <div className="w-auto flex gap-1 mr-1">
                             <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-24">
-                            <option  value={orderData?.Supply_CD || ""}>
+                              <option value={orderData?.Supply_CD || ""}>
                                 {orderData?.Supply_CD || ""}
-                            </option>
-                            {Array.isArray(SupplyData) &&
+                              </option>
+                              {Array.isArray(SupplyData) &&
                               SupplyData.length > 0 ? (
                                 SupplyData.map((item, index) => (
                                   <option key={index} value={item.Supply_CD}>
@@ -1299,21 +1425,30 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ml-9">
                           <label className="w-14 text-xs">RegPerson</label>
                           <div className="w-auto flex gap-1 mr-1">
-                            <select id="Pl_Reg_Person_CD" value={planData?.Pl_Reg_Person_CD} onChange={handlePlanInputChange} className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-24">
-                              <option value=""></option>
+                            <select
+                              id="Pl_Reg_Person_CD"
+                              value={planData?.Pl_Reg_Person_CD}
+                              onChange={handlePlanInputChange}
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-24"
+                            >
+                              <option value={planData?.Pl_Reg_Person_CD}>
+                                {planData?.Pl_Reg_Person_CD}
+                              </option>
                               {Array.isArray(WorkerData) &&
                               WorkerData.length > 0 ? (
-                              WorkerData.map((item, index) => (
-                                <option key={index} value={item.Worker_CD}>
-                                  {item.Worker_CD}
-                                </option>
-                              ))
-                            ) : (
-                              <option value="">ไม่มีข้อมูล</option>
-                            )}
+                                WorkerData.map((item, index) => (
+                                  <option key={index} value={item.Worker_CD}>
+                                    {item.Worker_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
                             </select>
                             <input
                               id="Pl_Reg_Person_Name"
+                              value={Person_Name || ""}
+                              onChange={(event) => setWorkerData(event)}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24 ml-1.5"
                             />
@@ -1350,14 +1485,34 @@ export default function PlanInfo() {
                             Progress
                           </label>
                           <div className="w-auto flex gap-1">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  ">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
+                            <select
+                              id="Pl_Progress_CD"
+                              value={planData?.Pl_Progress_CD || ""}
+                              onChange={handlePlanInputChange}
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  "
+                            >
+                              <option value={planData?.Pl_Progress_CD || ""}>
+                                {planData?.Pl_Progress_CD || ""}
+                              </option>
+                              {Array.isArray(plprogressData) &&
+                              plprogressData.length > 0 ? (
+                                plprogressData.map((item, index) => (
+                                  <option
+                                    key={index}
+                                    value={item.Pl_Progress_CD}
+                                  >
+                                    {item.Pl_Progress_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
                             </select>
                             <input
                               type="text"
+                              id="Pl_Progress_Name"
+                              value={ProgressName || ""}
+                              onChange={(event) => setPlProgressData(event)}
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24"
                             />
                           </div>
@@ -1379,11 +1534,28 @@ export default function PlanInfo() {
                           <div className="flex items-center gap-2">
                             <label className="w-11 text-xs">Pt_Name</label>
                             <div className="w-auto">
-                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-24">
-                                <option value=""></option>
-                                <option value="part1">Part 1</option>
-                                <option value="part2">Part 2</option>
-                                <option value="part3">Part 3</option>
+                              <select
+                                id="Parts_CD"
+                                value={planData?.Parts_CD || ""}
+                                onChange={handlePlanInputChange}
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-24"
+                              >
+                                {/* หากมี Parts_CD ใน planData ให้แสดงตัวเลือกแรก */}
+                                      <option value={planData?.Parts_CD || ""}>
+                                    {Array.isArray(PartsData) && PartsData.find(item => item?.Parts_CD === planData?.Parts_CD)?.Parts_Abb || ""}
+ 
+                                    </option>
+
+                                {Array.isArray(PartsData) &&
+                                PartsData.length > 0 ? (
+                                  PartsData.map((item, index) => (
+                                    <option key={index} value={item.Parts_CD}>
+                                      {item.Parts_Abb}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
 
@@ -1398,8 +1570,15 @@ export default function PlanInfo() {
 
                           <div className="flex items-center gap-2">
                             <label className="w-11 text-xs">Pt_Qty</label>
-                            <div className="w-auto">
-                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-24 ">
+                            <div className="w-auto flex gap-1">
+                              <input
+                                id="Pt_Qty"
+                                value={planData?.Pt_Qty || ""}
+                                onChange={handlePlanInputChange}
+                                type="text"
+                                className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-10 h-7"
+                              />
+                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-14 ">
                                 <option value=""></option>
                                 <option value="part1">Part 1</option>
                                 <option value="part2">Part 2</option>
@@ -1549,60 +1728,35 @@ export default function PlanInfo() {
 
                         <div className="flex gap-2 w-auto ml-[18px] h-20">
                           <div className="w-auto flex flex-col gap-2">
-                            <div className="flex items-center">
-                              <label className="text-xs mr-2">1</label>
-                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24">
-                                <option value=""></option>
-                                <option value="part1">Part 1</option>
-                                <option value="part2">Part 2</option>
-                                <option value="part3">Part 3</option>
-                              </select>
-                            </div>
-                            <div className="flex items-center">
-                              <label className="text-xs mr-2">2</label>
-                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24">
-                                <option value=""></option>
-                                <option value="part1">Part 1</option>
-                                <option value="part2">Part 2</option>
-                                <option value="part3">Part 3</option>
-                              </select>
-                            </div>
-                            <div className="flex items-center">
-                              <label className="text-xs mr-2">3</label>
-                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24">
-                                <option value=""></option>
-                                <option value="part1">Part 1</option>
-                                <option value="part2">Part 2</option>
-                                <option value="part3">Part 3</option>
-                              </select>
-                            </div>
-                            <div className="flex items-center">
-                              <label className="text-xs mr-2">4</label>
-                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24">
-                                <option value=""></option>
-                                <option value="part1">Part 1</option>
-                                <option value="part2">Part 2</option>
-                                <option value="part3">Part 3</option>
-                              </select>
-                            </div>
-                            <div className="flex items-center">
-                              <label className="text-xs mr-2">5</label>
-                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24">
-                                <option value=""></option>
-                                <option value="part1">Part 1</option>
-                                <option value="part2">Part 2</option>
-                                <option value="part3">Part 3</option>
-                              </select>
-                            </div>
-                            <div className="flex items-center">
-                              <label className="text-xs mr-2">6</label>
-                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24">
-                                <option value=""></option>
-                                <option value="part1">Part 1</option>
-                                <option value="part2">Part 2</option>
-                                <option value="part3">Part 3</option>
-                              </select>
-                            </div>
+                            {[1, 2, 3, 4, 5, 6].map((info) => (
+                              <div
+                                className="flex items-center mb-2"
+                                key={info}
+                              >
+                                <label className="text-xs mr-2">{info}</label>
+                                <select
+                                  id={`Info${info}`}
+                                  value={planData?.[`Info${info}`] || ""}
+                                  onChange={handlePlanInputChange}
+                                  className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24"
+                                >
+                                  <option value=""></option>
+                                  {Array.isArray(processData) &&
+                                  processData.length > 0 ? (
+                                    processData.map((item, index) => (
+                                      <option
+                                        key={index}
+                                        value={item.Process_CD}
+                                      >
+                                        {item.Process_Abb}
+                                      </option>
+                                    ))
+                                  ) : (
+                                    <option value="">ไม่มีข้อมูล</option>
+                                  )}
+                                </select>
+                              </div>
+                            ))}
                           </div>
                         </div>
 
@@ -1705,13 +1859,30 @@ export default function PlanInfo() {
                           <div className="flex gap-2 w-auto ml-4">
                             <label className="w-auto text-xs">UpdPerson</label>
                             <div className="w-auto">
-                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-full ">
-                                <option value=""></option>
-                                <option value="part1">Part 1</option>
-                                <option value="part2">Part 2</option>
-                                <option value="part3">Part 3</option>
+                              <select
+                                id="Pl_Upd_Person_CD"
+                                value={planData?.Pl_Upd_Person_CD}
+                                onChange={handlePlanInputChange}
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-full "
+                              >
+                                <option value={planData?.Pl_Upd_Person_CD}>
+                                  {planData?.Pl_Upd_Person_CD}
+                                </option>
+                                {Array.isArray(WorkerData) &&
+                                WorkerData.length > 0 ? (
+                                  WorkerData.map((item, index) => (
+                                    <option key={index} value={item.Worker_CD}>
+                                      {item.Worker_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                               <input
+                                id="Pl_Upd_Person_Name"
+                                value={updPerson_Name || ""}
+                                onChange={(event) => setWorkerData(event)}
                                 type="text"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full mt-1"
                               />
@@ -1721,13 +1892,33 @@ export default function PlanInfo() {
                           <div className="flex gap-2 w-auto ml-7">
                             <label className="w-auto text-xs">Schedule</label>
                             <div className="flex gap-2 w-auto">
-                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-full ">
-                                <option value=""></option>
-                                <option value="part1">Part 1</option>
-                                <option value="part2">Part 2</option>
-                                <option value="part3">Part 3</option>
+                              <select
+                                id="Pl_Schedule_CD"
+                                value={planData?.Pl_Schedule_CD || ""}
+                                onChange={handlePlanInputChange}
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-full "
+                              >
+                                <option value={planData?.Pl_Schedule_CD || ""}>
+                                  {planData?.Pl_Schedule_CD || ""}
+                                </option>
+                                {Array.isArray(ScheduleData) &&
+                                ScheduleData.length > 0 ? (
+                                  ScheduleData.map((item, index) => (
+                                    <option
+                                      key={index}
+                                      value={item.Schedule_CD}
+                                    >
+                                      {item.Schedule_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                               <input
+                                id="Pl_Schedule_Name"
+                                value={Schedule_Name || ""}
+                                onChange={(event) => setScheduleData(event)}
                                 type="text"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1740,10 +1931,16 @@ export default function PlanInfo() {
                             </label>
                             <div className="flex gap-2 w-auto">
                               <input
+                                id="Stagnat_Scale"
+                                value={Stagnat_Scale || ""}
+                                onChange={(event) => setScheduleData(event)}
                                 type="text"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-14"
                               />
                               <input
+                                id="ManHour_Scale"
+                                value={ManHour_Scale || ""}
+                                onChange={(event) => setScheduleData(event)}
                                 type="text"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-16"
                               />
@@ -1940,12 +2137,10 @@ export default function PlanInfo() {
                                       </div>
                                     </td>
                                     <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
-                                    <div>
-                                    
-                                      <button  className="bg-gray-300 py-1 px-2 rounded text-xs text-gray-500 h-8 font-bold">
-                                        ➔
-                                      </button>
-                                   
+                                      <div>
+                                        <button className="bg-gray-300 py-1 px-2 rounded text-xs text-gray-500 h-8 font-bold">
+                                          ➔
+                                        </button>
                                       </div>
                                     </td>
                                     <td className="py-1 px-2 border border-gray-300 text-center w-auto align-center">
