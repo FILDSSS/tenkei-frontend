@@ -5,8 +5,8 @@ import DataTable from "react-data-table-component";
 import axios from "axios";
 
 export function None_FG_Data_Tenkei() {
-  const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [data, setData] = useState([]);
   const [editedData, setEditedData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
   const editedDataRef = useRef(editedData);
@@ -55,39 +55,46 @@ export function None_FG_Data_Tenkei() {
 
   const handleChange = (e, orderNo, field) => {
     const newValue = e.target.value;
-  
+
     if (editedDataRef.current[orderNo]?.[field] !== newValue) {
-      setIsChanged(true); 
-  
+      setIsChanged(true);
+
       const updatedData = { ...editedDataRef.current };
-  
+
       updatedData[orderNo] = updatedData[orderNo] || {};
       updatedData[orderNo][field] = newValue;
-  
+
       setEditedData(updatedData);
       editedDataRef.current = updatedData;
     }
   };
 
-  const handleSave = (orderNo, field) => {
+  const handleSave = async (orderNo, field) => {
     const newValue = editedData[orderNo]?.[field];
     const oldValue = data.find((row) => row.Order_No === orderNo)?.[field];
 
     if (newValue !== oldValue) {
       try {
+        const payload = {
+          Order_No: orderNo,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/navfg/update-navfg",
+          payload
+        );
+
         const updatedData = [...data];
         const rowIndex = updatedData.findIndex(
           (row) => row.Order_No === orderNo
         );
-
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("navFgTenkeiData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -183,6 +190,7 @@ export function None_FG_Data_Tenkei() {
           }
           onChange={(e) => handleChange(e, row.Order_No, "Order_No")}
           onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Order_No")}
+          disabled
         />
       ),
       width: "180px",
@@ -415,7 +423,7 @@ export function None_FG_Data_Tenkei() {
               </div>
               <div className="flex justify-center items-center mt-5">
                 <div className="w-full text-center px-5">
-                <DataTable
+                  <DataTable
                     columns={columns}
                     data={filteredData}
                     pagination

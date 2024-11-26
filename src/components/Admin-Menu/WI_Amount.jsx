@@ -140,6 +140,7 @@ export function WI_Amount() {
           }
           onChange={(e) => handleChange(e, row.Order_No, "Order_No")}
           onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Order_No")}
+          disabled
         />
       ),
       width: "180px",
