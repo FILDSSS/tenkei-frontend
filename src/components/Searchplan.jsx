@@ -1105,7 +1105,7 @@ function Searchplan() {
                   
                 >
                     Show<br />
-                    照会 (F3)
+                    照会(F3)
                 </button>
                 <button
                   className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white  "
