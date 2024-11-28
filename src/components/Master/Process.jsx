@@ -5,118 +5,27 @@ import DataTable from "react-data-table-component";
 import axios from "axios";
 
 export function Process() {
-  const [data, setData] = useState([
-    {
-      Process_CD: "P001",
-      Change_CD: "CH01",
-      ProcessG_CD: "PG01",
-      ResourceG_CD: "RG01",
-      ManageG_CD: null,
-      Manhour_Calc: null,
-      Days_Calc: null,
-      Process_Name: "Process 1",
-      Process_Abb: "P1",
-      Process_Symbol: "SYM1",
-      Process_Mark: "Mark1",
-      Use: true,
-      For_Plan: false,
-      For_Info: true,
-      Graph: false,
-      List: true,
-      Outside_On: false,
-      Outside_Off: true,
-      End: false,
-      Coefficient: null,
-      M_Coefficient: null,
-      P_Coefficient: null,
-      Before: null,
-      After: 1.5,
-      Operation_Time: 2.0,
-      Std_M_CAT: 1.2,
-      Std_M_Time: 1.0,
-      Std_P_CAT: 1.3,
-      Std_P_Time: 1.1,
-      T_Type: "T1",
-      P_Type: "P1",
-      S_Type: "S1",
-      Process_Remark: "Remark for process 1",
-    },
-    {
-      Process_CD: "P002",
-      Change_CD: "CH02",
-      ProcessG_CD: "PG02",
-      ResourceG_CD: "RG02",
-      ManageG_CD: "MG02",
-      Manhour_Calc: "Calc1",
-      Days_Calc: "Day1",
-      Process_Name: "Process 2",
-      Process_Abb: "P2",
-      Process_Symbol: "SYM2",
-      Process_Mark: "Mark2",
-      Use: false,
-      For_Plan: true,
-      For_Info: false,
-      Graph: true,
-      List: false,
-      Outside_On: true,
-      Outside_Off: false,
-      End: true,
-      Coefficient: "1.1",
-      M_Coefficient: "1.2",
-      P_Coefficient: "1.3",
-      Before: "Before2",
-      After: 2.5,
-      Operation_Time: 3.0,
-      Std_M_CAT: 2.2,
-      Std_M_Time: 2.0,
-      Std_P_CAT: 2.3,
-      Std_P_Time: 2.1,
-      T_Type: "T2",
-      P_Type: "P2",
-      S_Type: "S2",
-      Process_Remark: "Remark for process 2",
-    },
-    {
-      Process_CD: "P003",
-      Change_CD: "CH03",
-      ProcessG_CD: "PG03",
-      ResourceG_CD: "RG03",
-      ManageG_CD: "MG03",
-      Manhour_Calc: "Calc1",
-      Days_Calc: "Day1",
-      Process_Name: "Process 3",
-      Process_Abb: "P3",
-      Process_Symbol: "SYM3",
-      Process_Mark: "Mark3",
-      Use: false,
-      For_Plan: true,
-      For_Info: false,
-      Graph: true,
-      List: false,
-      Outside_On: true,
-      Outside_Off: false,
-      End: true,
-      Coefficient: "1.1",
-      M_Coefficient: "1.2",
-      P_Coefficient: "1.3",
-      Before: "Before2",
-      After: 2.5,
-      Operation_Time: 3.0,
-      Std_M_CAT: 2.2,
-      Std_M_Time: 2.0,
-      Std_P_CAT: 2.3,
-      Std_P_Time: 2.1,
-      T_Type: "T3",
-      P_Type: "P3",
-      S_Type: "S3",
-      Process_Remark: "Remark for process 2",
-    },
-  ]);
-
   const [searchTerm, setSearchTerm] = useState("");
+  const [data, setData] = useState([]);
   const [editedData, setEditedData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
   const editedDataRef = useRef(editedData);
+
+  const fetchAllProcess = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:4000/process/fetch-all-process"
+      );
+      // console.log("Fetched data:", response.data);
+      setData(response.data.data.process || []);
+    } catch (error) {
+      // console.error("Error fetching process:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllProcess();
+  }, []);
 
   useEffect(() => {
     const initialEditedData = data.reduce((acc, row, index) => {
@@ -147,25 +56,32 @@ export function Process() {
     }
   };
 
-  const handleSave = (processCd, field) => {
+  const handleSave = async (processCd, field) => {
     const newValue = editedData[processCd]?.[field];
     const oldValue = data.find((row) => row.Process_CD === processCd)?.[field];
 
     if (newValue !== oldValue) {
       try {
+        const payload = {
+          Process_CD: processCd,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/process/update-process",
+          payload
+        );
+
         const updatedData = [...data];
         const rowIndex = updatedData.findIndex(
           (row) => row.Process_CD === processCd
         );
-
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("processData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -187,13 +103,6 @@ export function Process() {
     );
   });
 
-  // สำหรับ Dummy Data
-  const handleEdit = (index, field, newValue) => {
-    const updatedData = [...data];
-    updatedData[index][field] = newValue;
-    setData(updatedData);
-  };
-
   const columns = [
     {
       name: "Process_CD",
@@ -201,11 +110,17 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Process_CD}
-          onChange={(e) => handleEdit(row, "Process_CD", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.Process_CD !== undefined
+              ? editedData[row.Process_CD]?.Process_CD
+              : row.Process_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Process_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Process_CD")}
+          disabled
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "Change_CD",
@@ -213,11 +128,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Change_CD}
-          onChange={(e) => handleEdit(row, "Change_CD", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.Change_CD !== undefined
+              ? editedData[row.Process_CD]?.Change_CD
+              : row.Change_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Change_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Change_CD")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "ProcessG_CD",
@@ -225,11 +145,17 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.ProcessG_CD}
-          onChange={(e) => handleEdit(row, "ProcessG_CD", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.ProcessG_CD !== undefined
+              ? editedData[row.Process_CD]?.ProcessG_CD
+              : row.ProcessG_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "ProcessG_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "ProcessG_CD")}
+          disabled
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "ResourceG_CD",
@@ -237,11 +163,17 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.ResourceG_CD}
-          onChange={(e) => handleEdit(row, "ResourceG_CD", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.ResourceG_CD !== undefined
+              ? editedData[row.Process_CD]?.ResourceG_CD
+              : row.ResourceG_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "ResourceG_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "ResourceG_CD")}
+          disabled
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "ManageG_CD",
@@ -249,11 +181,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.ManageG_CD}
-          onChange={(e) => handleEdit(row, "ManageG_CD", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.ManageG_CD !== undefined
+              ? editedData[row.Process_CD]?.ManageG_CD
+              : row.ManageG_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "ManageG_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "ManageG_CD")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "Manhour_Calc",
@@ -261,11 +198,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Manhour_Calc}
-          onChange={(e) => handleEdit(row, "Manhour_Calc", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.Manhour_Calc !== undefined
+              ? editedData[row.Process_CD]?.Manhour_Calc
+              : row.Manhour_Calc || ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Manhour_Calc")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Manhour_Calc")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "Days_Calc",
@@ -273,11 +215,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Days_Calc}
-          onChange={(e) => handleEdit(row, "Days_Calc", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.Days_Calc !== undefined
+              ? editedData[row.Process_CD]?.Days_Calc
+              : row.Days_Calc || ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Days_Calc")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Days_Calc")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "Process_Name",
@@ -285,11 +232,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Process_Name}
-          onChange={(e) => handleEdit(row, "Process_Name", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.Process_Name !== undefined
+              ? editedData[row.Process_CD]?.Process_Name
+              : row.Process_Name || ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Process_Name")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Process_Name")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "Process_Abb",
@@ -297,11 +249,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Process_Abb}
-          onChange={(e) => handleEdit(row, "Process_Abb", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.Process_Abb !== undefined
+              ? editedData[row.Process_CD]?.Process_Abb
+              : row.Process_Abb || ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Process_Abb")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Process_Abb")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "Process_Symbol",
@@ -309,11 +266,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Process_Symbol}
-          onChange={(e) => handleEdit(row, "Process_Symbol", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.Process_Symbol !== undefined
+              ? editedData[row.Process_CD]?.Process_Symbol
+              : row.Process_Symbol || ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Process_Symbol")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Process_Symbol")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "Process_Mark",
@@ -321,11 +283,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Process_Mark}
-          onChange={(e) => handleEdit(row, "Process_Mark", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.Process_Mark !== undefined
+              ? editedData[row.Process_CD]?.Process_Mark
+              : row.Process_Mark || ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Process_Mark")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Process_Mark")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "Use",
@@ -334,6 +301,8 @@ export function Process() {
           type="checkbox"
           checked={row.Use}
           onChange={(e) => handleEdit(row, "Use", e.target.checked)}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "150px",
@@ -345,6 +314,8 @@ export function Process() {
           type="checkbox"
           checked={row.For_Plan}
           onChange={(e) => handleEdit(row, "For_Plan", e.target.checked)}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "150px",
@@ -356,6 +327,8 @@ export function Process() {
           type="checkbox"
           checked={row.For_Info}
           onChange={(e) => handleEdit(row, "For_Info", e.target.checked)}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "150px",
@@ -367,6 +340,8 @@ export function Process() {
           type="checkbox"
           checked={row.Graph}
           onChange={(e) => handleEdit(row, "Graph", e.target.checked)}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "150px",
@@ -378,6 +353,8 @@ export function Process() {
           type="checkbox"
           checked={row.List}
           onChange={(e) => handleEdit(row, "List", e.target.checked)}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "150px",
@@ -389,6 +366,8 @@ export function Process() {
           type="checkbox"
           checked={row.Outside_On}
           onChange={(e) => handleEdit(row, "Outside_On", e.target.checked)}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "150px",
@@ -400,6 +379,8 @@ export function Process() {
           type="checkbox"
           checked={row.Outside_Off}
           onChange={(e) => handleEdit(row, "Outside_Off", e.target.checked)}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "150px",
@@ -411,6 +392,8 @@ export function Process() {
           type="checkbox"
           checked={row.End}
           onChange={(e) => handleEdit(row, "End", e.target.checked)}
+          style={{ pointerEvents: "none" }}
+          className="mx-auto"
         />
       ),
       width: "150px",
@@ -420,48 +403,68 @@ export function Process() {
       selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Coefficient}
-          onChange={(e) => handleEdit(row, "Coefficient", e.target.value)}
+          type="number"
+          value={
+            editedData[row.Process_CD]?.Coefficient !== undefined
+              ? editedData[row.Process_CD]?.Coefficient
+              : row.Coefficient ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Coefficient")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Coefficient")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "M_Coefficient",
       selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.M_Coefficient}
-          onChange={(e) => handleEdit(row, "M_Coefficient", e.target.value)}
+          type="number"
+          value={
+            editedData[row.Process_CD]?.M_Coefficient !== undefined
+              ? editedData[row.Process_CD]?.M_Coefficient
+              : row.M_Coefficient ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "M_Coefficient")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "M_Coefficient")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "P_Coefficient",
       selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.P_Coefficient}
-          onChange={(e) => handleEdit(row, "P_Coefficient", e.target.value)}
+          type="number"
+          value={
+            editedData[row.Process_CD]?.P_Coefficient !== undefined
+              ? editedData[row.Process_CD]?.P_Coefficient
+              : row.P_Coefficient ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "P_Coefficient")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "P_Coefficient")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "Before",
       selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Before}
-          onChange={(e) => handleEdit(row, "Before", e.target.value)}
+          type="number"
+          value={
+            editedData[row.Process_CD]?.Before !== undefined
+              ? editedData[row.Process_CD]?.Before
+              : row.Before ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Before")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Before")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "After",
@@ -469,11 +472,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.After}
-          onChange={(e) => handleEdit(row, "After", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.After !== undefined
+              ? editedData[row.Process_CD]?.After
+              : row.After ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "After")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "After")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "Operation_Time",
@@ -481,11 +489,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.Operation_Time}
-          onChange={(e) => handleEdit(row, "Operation_Time", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.Operation_Time !== undefined
+              ? editedData[row.Process_CD]?.Operation_Time
+              : row.Operation_Time ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Operation_Time")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Operation_Time")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "Std_M_CAT",
@@ -493,11 +506,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.Std_M_CAT}
-          onChange={(e) => handleEdit(row, "Std_M_CAT", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.Std_M_CAT !== undefined
+              ? editedData[row.Process_CD]?.Std_M_CAT
+              : row.Std_M_CAT ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Std_M_CAT")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Std_M_CAT")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "Std_M_Time",
@@ -505,11 +523,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.Std_M_Time}
-          onChange={(e) => handleEdit(row, "Std_M_Time", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.Std_M_Time !== undefined
+              ? editedData[row.Process_CD]?.Std_M_Time
+              : row.Std_M_Time ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Std_M_Time")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Std_M_Time")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "Std_P_CAT",
@@ -517,11 +540,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.Std_P_CAT}
-          onChange={(e) => handleEdit(row, "Std_P_CAT", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.Std_P_CAT !== undefined
+              ? editedData[row.Process_CD]?.Std_P_CAT
+              : row.Std_P_CAT ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Std_P_CAT")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Std_P_CAT")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "Std_P_Time",
@@ -529,11 +557,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.Std_P_Time}
-          onChange={(e) => handleEdit(row, "Std_P_Time", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.Std_P_Time !== undefined
+              ? editedData[row.Process_CD]?.Std_P_Time
+              : row.Std_P_Time ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Std_P_Time")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Std_P_Time")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "T_Type",
@@ -541,11 +574,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.T_Type}
-          onChange={(e) => handleEdit(row, "T_Type", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.T_Type !== undefined
+              ? editedData[row.Process_CD]?.T_Type
+              : row.T_Type || ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "T_Type")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "T_Type")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "P_Type",
@@ -553,11 +591,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.P_Type}
-          onChange={(e) => handleEdit(row, "P_Type", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.P_Type !== undefined
+              ? editedData[row.Process_CD]?.P_Type
+              : row.P_Type || ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "P_Type")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "P_Type")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "S_Type",
@@ -565,11 +608,16 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.S_Type}
-          onChange={(e) => handleEdit(row, "S_Type", e.target.value)}
+          value={
+            editedData[row.Process_CD]?.S_Type !== undefined
+              ? editedData[row.Process_CD]?.S_Type
+              : row.S_Type || ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "S_Type")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "S_Type")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "Process_Remark",
@@ -577,16 +625,26 @@ export function Process() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Process_Remark}
-          onChange={(e) => handleEdit(row, "Process_Remark", e.target.value)}
+          style={{
+            width: "fit-content",
+            minWidth: "340px",
+            maxWidth: "100%",
+          }}
+          value={
+            editedData[row.Process_CD]?.Process_Remark !== undefined
+              ? editedData[row.Process_CD]?.Process_Remark
+              : row.Process_Remark || ""
+          }
+          onChange={(e) => handleChange(e, row.Process_CD, "Process_Remark")}
+          onKeyDown={(e) => handleKeyDown(e, row.Process_CD, "Process_Remark")}
         />
       ),
-      width: "200px",
+      width: "400px",
     },
   ];
 
   return (
-    <div className="flex bg-[#E9EFEC] h-[150vh]">
+    <div className="flex bg-[#E9EFEC] h-[100vh]">
       <Sidebar />
       <div className="flex flex-col w-full mr-2 ml-2">
         <Navbar />
@@ -596,7 +654,7 @@ export function Process() {
               <h1 className="text-2xl font-bold text-center mt-3">
                 Process <br /> 工程マスタ
               </h1>
-              <hr className="my-6 h-0.5 bg-gray-500 opacity-150 dark:opacity-50 border-y-[1px] border-gray-300" />
+              <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
 
               <div className="ml-5 text-lg">
                 <input

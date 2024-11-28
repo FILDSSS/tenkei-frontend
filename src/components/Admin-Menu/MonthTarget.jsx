@@ -19,7 +19,7 @@ export function MonthTarget() {
       // console.log("Fetched data:", response.data);
       setData(response.data.data.workg || []);
     } catch (error) {
-      // console.error("Error fetching orders:", error);
+      // console.error("Error fetching workg:", error);
     }
   };
 
@@ -56,25 +56,32 @@ export function MonthTarget() {
     }
   };
 
-  const handleSave = (workgCd, field) => {
+  const handleSave = async (workgCd, field) => {
     const newValue = editedData[workgCd]?.[field];
     const oldValue = data.find((row) => row.WorkG_CD === workgCd)?.[field];
 
     if (newValue !== oldValue) {
       try {
+        const payload = {
+          WorkG_CD: workgCd,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/workg/update-workg",
+          payload
+        );
+
         const updatedData = [...data];
         const rowIndex = updatedData.findIndex(
           (row) => row.WorkG_CD === workgCd
         );
-
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("monthTargetData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -110,6 +117,7 @@ export function MonthTarget() {
           }
           onChange={(e) => handleChange(e, row.WorkG_CD, "WorkG_CD")}
           onKeyDown={(e) => handleKeyDown(e, row.WorkG_CD, "WorkG_CD")}
+          disabled
         />
       ),
       width: "170px",

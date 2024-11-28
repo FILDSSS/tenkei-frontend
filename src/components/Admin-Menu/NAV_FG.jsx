@@ -19,7 +19,7 @@ export function NAV_FG() {
       // console.log("Fetched data:", response.data);
       setData(response.data.data.NAVFG || []);
     } catch (error) {
-      // console.error("Error fetching orders:", error);
+      // console.error("Error fetching NAVFG:", error);
     }
   };
 
@@ -69,25 +69,32 @@ export function NAV_FG() {
     }
   };
 
-  const handleSave = (orderNo, field) => {
+  const handleSave = async (orderNo, field) => {
     const newValue = editedData[orderNo]?.[field];
     const oldValue = data.find((row) => row.Order_No === orderNo)?.[field];
-
+  
     if (newValue !== oldValue) {
       try {
+        const payload = {
+          Order_No: orderNo,
+          [field]: newValue === "" ? null : newValue, 
+        };
+  
+        const response = await axios.put(
+          "http://localhost:4000/navfg/update-navfg",
+          payload
+        );
+  
         const updatedData = [...data];
         const rowIndex = updatedData.findIndex(
           (row) => row.Order_No === orderNo
         );
-
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("navFgData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
-
+  
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -95,6 +102,7 @@ export function NAV_FG() {
       }
     }
   };
+  
 
   const handleKeyDown = (e, index, field) => {
     if (e.key === "Enter") {
@@ -183,6 +191,7 @@ export function NAV_FG() {
           }
           onChange={(e) => handleChange(e, row.Order_No, "Order_No")}
           onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Order_No")}
+          disabled
         />
       ),
       width: "180px",
@@ -242,23 +251,6 @@ export function NAV_FG() {
           onKeyDown={(e) => handleKeyDown(e, row.Order_No, "I_Completed_Date")}
         />
       ),
-    },
-    {
-      name: "Order_No",
-      selector: (row) => (
-        <input
-          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={
-            editedData[row.Order_No]?.Order_No !== undefined
-              ? editedData[row.Order_No]?.Order_No
-              : row.Order_No || ""
-          }
-          onChange={(e) => handleChange(e, row.Order_No, "Order_No")}
-          onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Order_No")}
-        />
-      ),
-      width: "180px",
     },
     {
       name: "Date_of_Delay",

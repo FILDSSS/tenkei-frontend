@@ -19,7 +19,7 @@ export function None_WI_Data_Tenkei() {
       // console.log("Fetched data:", response.data);
       setData(response.data.data.NAVWI || []);
     } catch (error) {
-      // console.error("Error fetching orders:", error);
+      // console.error("Error fetching NAVWI:", error);
     }
   };
 
@@ -55,39 +55,46 @@ export function None_WI_Data_Tenkei() {
 
   const handleChange = (e, orderNo, field) => {
     const newValue = e.target.value;
-  
+
     if (editedDataRef.current[orderNo]?.[field] !== newValue) {
-      setIsChanged(true); 
-  
+      setIsChanged(true);
+
       const updatedData = { ...editedDataRef.current };
-  
+
       updatedData[orderNo] = updatedData[orderNo] || {};
       updatedData[orderNo][field] = newValue;
-  
+
       setEditedData(updatedData);
       editedDataRef.current = updatedData;
     }
   };
 
-  const handleSave = (orderNo, field) => {
+  const handleSave = async (orderNo, field) => {
     const newValue = editedData[orderNo]?.[field];
     const oldValue = data.find((row) => row.Order_No === orderNo)?.[field];
 
     if (newValue !== oldValue) {
       try {
+        const payload = {
+          Order_No: orderNo,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/navwi/update-navwi",
+          payload
+        );
+
         const updatedData = [...data];
         const rowIndex = updatedData.findIndex(
           (row) => row.Order_No === orderNo
         );
-
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("navWiTenkeiData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -157,6 +164,7 @@ export function None_WI_Data_Tenkei() {
           }
           onChange={(e) => handleChange(e, row.Order_No, "Order_No")}
           onKeyDown={(e) => handleKeyDown(e, row.Order_No, "Order_No")}
+          disabled
         />
       ),
       width: "180px",
