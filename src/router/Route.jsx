@@ -57,6 +57,7 @@ import { MachinePage } from "../pages/Master/MachinePage";
 import { HolidayPage } from "../pages/Master/HolidayPage";
 import { VendorPage } from "../pages/Master/VendorPage";
 import SearchplanPage from "../pages/SearchplanPage";
+import Tenkei_WI_SumPage from "../pages/Admin-Menu/Tenkei_WI_SumPage";
 
 const router = createBrowserRouter([
   {
@@ -241,7 +242,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/tenkei-wi-sum",
-    element: <Tenkei_FG_SumPage />,
+    element: <Tenkei_WI_SumPage />,
   },
   {
     path: "/blessed-update",
