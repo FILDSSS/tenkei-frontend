@@ -18,10 +18,7 @@ export function Tenkei_FG_Sum() {
     const newValue = !allSelected;
     setAllSelected(newValue);
     setCheckboxes((prev) =>
-      Object.keys(prev).reduce(
-        (acc, key) => ({ ...acc, [key]: newValue }),
-        {}
-      )
+      Object.keys(prev).reduce((acc, key) => ({ ...acc, [key]: newValue }), {})
     );
   };
 
@@ -39,22 +36,26 @@ export function Tenkei_FG_Sum() {
             <div className="flex justify-center items-center">
               <h1 className="text-2xl font-bold ">TENKEI FG SUM</h1>
             </div>
-            <div className="space-x-4 p-4 bg-gray-200 flex justify-center mt-10">
+            <div className="space-x-4 p-4 bg-gray-200 flex mt-5 overflow-x-auto min-w-[100px] items-center lg:justify-center justify-start">
               {/* First Column */}
               <div className="flex flex-col space-y-2">
-                {["Order_FG", "FG_SUM", "FG_SUM_Date", "FG_SUM_Item1", "FG_SUM_Item1G"].map(
-                  (key) => (
-                    <label key={key} className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        className="form-checkbox"
-                        checked={checkboxes[key]}
-                        onChange={() => handleCheckboxChange(key)}
-                      />
-                      <span>{key}</span>
-                    </label>
-                  )
-                )}
+                {[
+                  "Order_FG",
+                  "FG_SUM",
+                  "FG_SUM_Date",
+                  "FG_SUM_Item1",
+                  "FG_SUM_Item1G",
+                ].map((key) => (
+                  <label key={key} className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      className="form-checkbox"
+                      checked={checkboxes[key]}
+                      onChange={() => handleCheckboxChange(key)}
+                    />
+                    <span>{key}</span>
+                  </label>
+                ))}
               </div>
               {/* Second Column */}
               <div className="flex flex-col space-y-2">
