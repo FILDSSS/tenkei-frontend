@@ -11,21 +11,17 @@ export default function PlanContextProvider({ children }) {
   const [plprogressData, setPlProgressData] = useState(null);
   const [ScheduleData, setScheduleData] = useState(null);
   const [PartsData, setPartsData] = useState(null);
+  const [UnitsData, setUnitsData] = useState(null);
   const searchPartsData = async (orderNo) => {
     try {
       const response = await axios.post("/plan/search-order-plan", {
         Order_No: orderNo,
       });
 
-      if (
-        response.data &&
-        response.data.data &&
-        Array.isArray(response.data.data.partsNo)
-      ) {
+
+      if (response.data.data.partsNo) {
         setSelectedPlanNo(response.data.data.partsNo);
-        return true;
-      } else {
-        return false;
+   
       }
     } catch (error) {
       console.error("Error fetching order data:", error);
@@ -33,23 +29,19 @@ export default function PlanContextProvider({ children }) {
     }
   };
 
-  const selectPartsData = async (orderNo, partsNO) => {
+  const selectPartsData = async (orderNo,partsNo) => {
     try {
       const response = await axios.post("/plan/search-part-plan", {
         Order_No: orderNo,
-        Parts_No: partsNO,
+        Parts_No: partsNo,
+       
       });
-
-      if (
-        response.data &&
-        response.data.data &&
-        Array.isArray(response.data.data)
-      ) {
+      if (response.data.data) {
         setPlanData(response.data.data);
-        return true;
-      } else {
-        return false;
+    
       }
+
+      
     } catch (error) {
       console.error("Error fetching order data:", error);
       return false;
@@ -116,6 +108,63 @@ export default function PlanContextProvider({ children }) {
     }
   };
 
+  const fetchUnits = async () => {
+    try {
+      const response = await axios.get("/unit/fetch-unit");
+      console.log("Fetched Data:", response.data.data.unit); 
+      setUnitsData(response.data.data.unit); 
+      return response;
+    } catch (error) {
+      console.error("Error fetching parts groups:", error);
+      throw error;
+    }
+  };
+
+  const createPlan = async () => {
+    try {
+        const response = await axios.post('/plan/create-plan', planData); 
+        console.log('Plan created successfully:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error creating order:", error.response?.data || error.message);
+        throw new Error('Failed to create order');
+    }
+};
+
+const createSchedule = async () => {
+  try {
+      const response = await axios.post('/plan/create-schedule', planData); 
+      console.log('schedule created successfully:', response.data);
+      return response.data;
+  } catch (error) {
+      console.error("Error creating order:", error.response?.data || error.message);
+      throw new Error('Failed to create order');
+  }
+};
+
+const createResult = async () => {
+  try {
+      const response = await axios.post('/plan/create-result', planData); 
+      console.log('result created successfully:', response.data);
+      return response.data;
+  } catch (error) {
+      console.error("Error creating order:", error.response?.data || error.message);
+      throw new Error('Failed to create order');
+  }
+};
+
+const createWip = async () => {
+  try {
+      const response = await axios.post('/plan/create-wip', planData); 
+      console.log('Wip created successfully:', response.data);
+      return response.data;
+  } catch (error) {
+      console.error("Error creating order:", error.response?.data || error.message);
+      throw new Error('Failed to create order');
+  }
+};
+
+
 
   useEffect(() => {
     QM_Process();
@@ -123,6 +172,7 @@ export default function PlanContextProvider({ children }) {
     fetchPlprogress();
     fetchSchedule();
     fetchParts();
+    fetchUnits();
   }, []);
 
   return (
@@ -141,6 +191,12 @@ export default function PlanContextProvider({ children }) {
         ScheduleData, 
         setScheduleData,
         PartsData,
+        UnitsData,
+        createPlan,
+        createSchedule,
+        createResult,
+        createWip,
+        
       }}
     >
       {children}
