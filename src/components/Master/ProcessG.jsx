@@ -19,7 +19,7 @@ export function ProcessG() {
       // console.log("Fetched data:", response.data);
       setData(response.data.data.processg || []);
     } catch (error) {
-      // console.error("Error fetching coating:", error);
+      // console.error("Error fetching processg:", error);
     }
   };
 
@@ -58,7 +58,9 @@ export function ProcessG() {
 
   const handleSave = async (processgCd, field) => {
     const newValue = editedData[processgCd]?.[field];
-    const oldValue = data.find((row) => row.ProcessG_CD === processgCd)?.[field];
+    const oldValue = data.find((row) => row.ProcessG_CD === processgCd)?.[
+      field
+    ];
 
     if (newValue !== oldValue) {
       try {
@@ -68,7 +70,7 @@ export function ProcessG() {
         };
 
         const response = await axios.put(
-          "http://localhost:4000/coating/update-coating",
+          "http://localhost:4000/processg/update-processg",
           payload
         );
 
@@ -106,84 +108,120 @@ export function ProcessG() {
   const columns = [
     {
       name: "ProcessG_CD",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.ProcessG_CD}
-          onChange={(e) => handleEdit(index, "ProcessG_CD", e.target.value)}
+          value={
+            editedData[row.ProcessG_CD]?.ProcessG_CD !== undefined
+              ? editedData[row.ProcessG_CD]?.ProcessG_CD
+              : row.ProcessG_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "ProcessG_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "ProcessG_CD")}
+          disabled
         />
       ),
-      width: "190px",
+      width: "170px",
     },
     {
       name: "Change_CD",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Change_CD}
-          onChange={(e) => handleEdit(index, "Change_CD", e.target.value)}
+          value={
+            editedData[row.ProcessG_CD]?.Change_CD !== undefined
+              ? editedData[row.ProcessG_CD]?.Change_CD
+              : row.Change_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "Change_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "Change_CD")}
         />
       ),
       width: "190px",
     },
     {
       name: "ManageG_CD",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.ManageG_CD}
-          onChange={(e) => handleEdit(index, "ManageG_CD", e.target.value)}
+          value={
+            editedData[row.ProcessG_CD]?.ManageG_CD !== undefined
+              ? editedData[row.ProcessG_CD]?.ManageG_CD
+              : row.ManageG_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "ManageG_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "ManageG_CD")}
         />
       ),
       width: "190px",
     },
     {
       name: "ProcessG_Name",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.ProcessG_Name}
-          onChange={(e) => handleEdit(index, "ProcessG_Name", e.target.value)}
+          value={
+            editedData[row.ProcessG_CD]?.ProcessG_Name !== undefined
+              ? editedData[row.ProcessG_CD]?.ProcessG_Name
+              : row.ProcessG_Name || ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "ProcessG_Name")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "ProcessG_Name")}
         />
       ),
       width: "190px",
     },
     {
       name: "ProcessG_Abb",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.ProcessG_Abb}
-          onChange={(e) => handleEdit(index, "ProcessG_Abb", e.target.value)}
+          value={
+            editedData[row.ProcessG_CD]?.ProcessG_Abb !== undefined
+              ? editedData[row.ProcessG_CD]?.ProcessG_Abb
+              : row.ProcessG_Abb || ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "ProcessG_Abb")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "ProcessG_Abb")}
         />
       ),
       width: "190px",
     },
     {
       name: "ProcessG_Symbol",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.ProcessG_Symbol}
-          onChange={(e) => handleEdit(index, "ProcessG_Symbol", e.target.value)}
+          value={
+            editedData[row.ProcessG_CD]?.ProcessG_Symbol !== undefined
+              ? editedData[row.ProcessG_CD]?.ProcessG_Symbol
+              : row.ProcessG_Symbol || ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "ProcessG_Symbol")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "ProcessG_Symbol")}
         />
       ),
       width: "190px",
     },
     {
       name: "ProcessG_Mark",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.ProcessG_Mark}
-          onChange={(e) => handleEdit(index, "ProcessG_Mark", e.target.value)}
+          value={
+            editedData[row.ProcessG_CD]?.ProcessG_Mark !== undefined
+              ? editedData[row.ProcessG_CD]?.ProcessG_Mark
+              : row.ProcessG_Mark || ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "ProcessG_Mark")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "ProcessG_Mark")}
         />
       ),
       width: "190px",
@@ -242,115 +280,160 @@ export function ProcessG() {
     },
     {
       name: "Coefficient",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Coefficient}
-          onChange={(e) => handleEdit(index, "Coefficient", e.target.value)}
+          value={
+            editedData[row.ProcessG_CD]?.Coefficient !== undefined
+              ? editedData[row.ProcessG_CD]?.Coefficient
+              : row.Coefficient || ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "Coefficient")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "Coefficient")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "M_Coefficient",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.M_Coefficient}
-          onChange={(e) => handleEdit(index, "M_Coefficient", e.target.value)}
+          value={
+            editedData[row.ProcessG_CD]?.M_Coefficient !== undefined
+              ? editedData[row.ProcessG_CD]?.M_Coefficient
+              : row.M_Coefficient || ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "M_Coefficient")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "M_Coefficient")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "P_Coefficient",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.P_Coefficient}
-          onChange={(e) => handleEdit(index, "P_Coefficient", e.target.value)}
+          value={
+            editedData[row.ProcessG_CD]?.P_Coefficient !== undefined
+              ? editedData[row.ProcessG_CD]?.P_Coefficient
+              : row.P_Coefficient || ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "P_Coefficient")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "P_Coefficient")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "Std_M_CAT",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Std_M_CAT}
-          onChange={(e) => handleEdit(index, "Std_M_CAT", e.target.value)}
+          value={
+            editedData[row.ProcessG_CD]?.Std_M_CAT !== undefined
+              ? editedData[row.ProcessG_CD]?.Std_M_CAT
+              : row.Std_M_CAT || ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "Std_M_CAT")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "Std_M_CAT")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "Std_M_Time",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.Std_M_Time}
-          onChange={(e) => handleEdit(index, "Std_M_Time", e.target.value)}
+          value={
+            editedData[row.ProcessG_CD]?.Std_M_Time !== undefined
+              ? editedData[row.ProcessG_CD]?.Std_M_Time
+              : row.Std_M_Time ?? ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "Std_M_Time")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "Std_M_Time")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "Std_P_CAT",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.Std_P_CAT}
-          onChange={(e) => handleEdit(index, "Std_P_CAT", e.target.value)}
+          value={
+            editedData[row.ProcessG_CD]?.Std_P_CAT !== undefined
+              ? editedData[row.ProcessG_CD]?.Std_P_CAT
+              : row.Std_P_CAT ?? ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "Std_P_CAT")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "Std_P_CAT")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "Std_P_Time",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.Std_P_Time}
-          onChange={(e) => handleEdit(index, "Std_P_Time", e.target.value)}
+          value={
+            editedData[row.ProcessG_CD]?.Std_P_Time !== undefined
+              ? editedData[row.ProcessG_CD]?.Std_P_Time
+              : row.Std_P_Time ?? ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "Std_P_Time")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "Std_P_Time")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "M_Resource_N",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.M_Resource_N}
-          onChange={(e) => handleEdit(index, "M_Resource_N", e.target.value)}
+          type="number"
+          value={
+            editedData[row.ProcessG_CD]?.M_Resource_N !== undefined
+              ? editedData[row.ProcessG_CD]?.M_Resource_N
+              : row.M_Resource_N ?? ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "M_Resource_N")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "M_Resource_N")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "S_Resource_N",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.S_Resource_N}
-          onChange={(e) => handleEdit(index, "S_Resource_N", e.target.value)}
+          type="number"
+          value={
+            editedData[row.ProcessG_CD]?.S_Resource_N !== undefined
+              ? editedData[row.ProcessG_CD]?.S_Resource_N
+              : row.S_Resource_N ?? ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "S_Resource_N")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "S_Resource_N")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "ProcessG_Remark",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -359,8 +442,13 @@ export function ProcessG() {
             minWidth: "340px",
             maxWidth: "100%",
           }}
-          value={row.ProcessG_Remark}
-          onChange={(e) => handleEdit(index, "ProcessG_Remark", e.target.value)}
+          value={
+            editedData[row.ProcessG_CD]?.ProcessG_Remark !== undefined
+              ? editedData[row.ProcessG_CD]?.ProcessG_Remark
+              : row.ProcessG_Remark || ""
+          }
+          onChange={(e) => handleChange(e, row.ProcessG_CD, "ProcessG_Remark")}
+          onKeyDown={(e) => handleKeyDown(e, row.ProcessG_CD, "ProcessG_Remark")}
         />
       ),
       width: "400px",

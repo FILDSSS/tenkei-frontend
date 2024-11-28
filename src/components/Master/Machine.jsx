@@ -5,73 +5,27 @@ import DataTable from "react-data-table-component";
 import axios from "axios";
 
 export function Machine() {
-  const [data, setData] = useState([
-    {
-      Resource_CD: "R001",
-      Change_CD: null,
-      ResourceG_CD: null,
-      CostG_CD: "CG01",
-      ManageG_CD: "MG01",
-      Resource_Name: "Resource A",
-      Resource_Abb: "RA",
-      Resource_Symbol: "SYM1",
-      Resource_Mark: "Mark1",
-      Use: true,
-      End: false,
-      M_Coefficient: 1.2,
-      P_Coefficient: 1.5,
-      Before: "Setup A",
-      After: "Clean A",
-      T_Type: "T1",
-      P_Type: "P1",
-      Resource_Remark: "Remark for Resource A",
-    },
-    {
-      Resource_CD: "R002",
-      Change_CD: null,
-      ResourceG_CD: null,
-      CostG_CD: "CG02",
-      ManageG_CD: "MG02",
-      Resource_Name: "Resource B",
-      Resource_Abb: "RB",
-      Resource_Symbol: "SYM2",
-      Resource_Mark: "Mark2",
-      Use: false,
-      End: true,
-      M_Coefficient: 1.0,
-      P_Coefficient: 1.3,
-      Before: "Setup B",
-      After: "Clean B",
-      T_Type: "T2",
-      P_Type: "P2",
-      Resource_Remark: "Remark for Resource B",
-    },
-    {
-      Resource_CD: "R003",
-      Change_CD: null,
-      ResourceG_CD: null,
-      CostG_CD: "CG03",
-      ManageG_CD: "MG03",
-      Resource_Name: "Resource C",
-      Resource_Abb: "RC",
-      Resource_Symbol: "SYM3",
-      Resource_Mark: "Mark3",
-      Use: true,
-      End: true,
-      M_Coefficient: 1.1,
-      P_Coefficient: 1.4,
-      Before: "Setup C",
-      After: "Clean C",
-      T_Type: "T3",
-      P_Type: "P3",
-      Resource_Remark: "Remark for Resource C",
-    },
-  ]);
-
   const [searchTerm, setSearchTerm] = useState("");
+  const [data, setData] = useState([]);
   const [editedData, setEditedData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
   const editedDataRef = useRef(editedData);
+
+  const fetchResource = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:4000/resource/fetch-resource"
+      );
+      // console.log("Fetched data:", response.data);
+      setData(response.data.data.resource || []);
+    } catch (error) {
+      // console.error("Error fetching resource:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchResource();
+  }, []);
 
   useEffect(() => {
     const initialEditedData = data.reduce((acc, row, index) => {
@@ -102,7 +56,7 @@ export function Machine() {
     }
   };
 
-  const handleSave = (resourceCd, field) => {
+  const handleSave = async (resourceCd, field) => {
     const newValue = editedData[resourceCd]?.[field];
     const oldValue = data.find((row) => row.Resource_CD === resourceCd)?.[
       field
@@ -110,19 +64,26 @@ export function Machine() {
 
     if (newValue !== oldValue) {
       try {
-        const updatedData = [...data];
-        const rowIndex = updatedData.findIndex(
-          (row) => row.Customer_CD === customerCd
+        const payload = {
+          Resource_CD: resourceCd,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/resource/update-resource",
+          payload
         );
 
+        const updatedData = [...data];
+        const rowIndex = updatedData.findIndex(
+          (row) => row.Resource_CD === resourceCd
+        );
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("resourceData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -144,118 +105,159 @@ export function Machine() {
     );
   });
 
-  // สำหรับ Dummy Data
-  const handleEdit = (index, field, newValue) => {
-    const updatedData = [...data];
-    updatedData[index][field] = newValue;
-    setData(updatedData);
-  };
-
   const columns = [
     {
-      name: "Resource_CD	",
-      selector: (row, index) => (
+      name: "Resource_CD",
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Resource_CD}
-          onChange={(e) => handleEdit(index, "Resource_CD	", e.target.value)}
+          value={
+            editedData[row.Resource_CD]?.Resource_CD !== undefined
+              ? editedData[row.Resource_CD]?.Resource_CD
+              : row.Resource_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "Resource_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Resource_CD, "Resource_CD")}
+          disabled
         />
       ),
       width: "190px",
     },
     {
-      name: "Change_CD	",
-      selector: (row, index) => (
+      name: "Change_CD",
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Change_CD}
-          onChange={(e) => handleEdit(index, "Change_CD	", e.target.value)}
+          value={
+            editedData[row.Resource_CD]?.Change_CD !== undefined
+              ? editedData[row.Resource_CD]?.Change_CD
+              : row.Change_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "Change_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Resource_CD, "Change_CD")}
         />
       ),
       width: "190px",
     },
     {
-      name: "ResourceG_CD	",
-      selector: (row, index) => (
+      name: "ResourceG_CD",
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.ResourceG_CD}
-          onChange={(e) => handleEdit(index, "ResourceG_CD	", e.target.value)}
+          value={
+            editedData[row.Resource_CD]?.ResourceG_CD !== undefined
+              ? editedData[row.Resource_CD]?.ResourceG_CD
+              : row.ResourceG_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "ResourceG_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Resource_CD, "ResourceG_CD")}
         />
       ),
       width: "190px",
     },
     {
-      name: "CostG_CD	",
-      selector: (row, index) => (
+      name: "CostG_CD",
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.CostG_CD}
-          onChange={(e) => handleEdit(index, "CostG_CD	", e.target.value)}
-        />
-      ),
-      width: "170px",
-    },
-    {
-      name: "ManageG_CD	",
-      selector: (row, index) => (
-        <input
-          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.ManageG_CD}
-          onChange={(e) => handleEdit(index, "ManageG_CD	", e.target.value)}
+          value={
+            editedData[row.Resource_CD]?.CostG_CD !== undefined
+              ? editedData[row.Resource_CD]?.CostG_CD
+              : row.CostG_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "CostG_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Resource_CD, "CostG_CD")}
         />
       ),
       width: "190px",
     },
     {
-      name: "Resource_Name	",
-      selector: (row, index) => (
+      name: "ManageG_CD",
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Resource_Name}
-          onChange={(e) => handleEdit(index, "Resource_Name	", e.target.value)}
+          value={
+            editedData[row.Resource_CD]?.ManageG_CD !== undefined
+              ? editedData[row.Resource_CD]?.ManageG_CD
+              : row.ManageG_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "ManageG_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Resource_CD, "ManageG_CD")}
         />
       ),
       width: "190px",
     },
     {
-      name: "Resource_Abb	",
-      selector: (row, index) => (
+      name: "Resource_Name",
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Resource_Abb}
-          onChange={(e) => handleEdit(index, "Resource_Abb	", e.target.value)}
+          value={
+            editedData[row.Resource_CD]?.Resource_Name !== undefined
+              ? editedData[row.Resource_CD]?.Resource_Name
+              : row.Resource_Name || ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "Resource_Name")}
+          onKeyDown={(e) => handleKeyDown(e, row.Resource_CD, "Resource_Name")}
         />
       ),
       width: "190px",
     },
     {
-      name: "Resource_Symbol	",
-      selector: (row, index) => (
+      name: "Resource_Abb",
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Resource_Symbol}
-          onChange={(e) => handleEdit(index, "Resource_Symbol	", e.target.value)}
+          value={
+            editedData[row.Resource_CD]?.Resource_Abb !== undefined
+              ? editedData[row.Resource_CD]?.Resource_Abb
+              : row.Resource_Abb || ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "Resource_Abb")}
+          onKeyDown={(e) => handleKeyDown(e, row.Resource_CD, "Resource_Abb")}
         />
       ),
       width: "190px",
     },
     {
-      name: "Resource_Mark	",
-      selector: (row, index) => (
+      name: "Resource_Symbol",
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Resource_Mark}
-          onChange={(e) => handleEdit(index, "Resource_Mark	", e.target.value)}
+          value={
+            editedData[row.Resource_CD]?.Resource_Symbol !== undefined
+              ? editedData[row.Resource_CD]?.Resource_Symbol
+              : row.Resource_Symbol || ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "Resource_Symbol")}
+          onKeyDown={(e) =>
+            handleKeyDown(e, row.Resource_CD, "Resource_Symbol")
+          }
+        />
+      ),
+      width: "190px",
+    },
+    {
+      name: "Resource_Mark",
+      selector: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="text"
+          value={
+            editedData[row.Resource_CD]?.Resource_Mark !== undefined
+              ? editedData[row.Resource_CD]?.Resource_Mark
+              : row.Resource_Mark || ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "Resource_Mark")}
+          onKeyDown={(e) => handleKeyDown(e, row.Resource_CD, "Resource_Mark")}
         />
       ),
       width: "190px",
@@ -271,7 +273,7 @@ export function Machine() {
           className="mx-auto"
         />
       ),
-      width: "100px",
+      width: "120px",
     },
     {
       name: "End",
@@ -284,43 +286,58 @@ export function Machine() {
           className="mx-auto"
         />
       ),
-      width: "100px",
+      width: "120px",
     },
     {
       name: "M_Coefficient",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.M_Coefficient}
-          onChange={(e) => handleEdit(index, "M_Coefficient", e.target.value)}
+          value={
+            editedData[row.Resource_CD]?.M_Coefficient !== undefined
+              ? editedData[row.Resource_CD]?.M_Coefficient
+              : row.M_Coefficient || ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "M_Coefficient")}
+          onKeyDown={(e) => handleKeyDown(e, row.Resource_CD, "M_Coefficient")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "P_Coefficient",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.P_Coefficient}
-          onChange={(e) => handleEdit(index, "P_Coefficient", e.target.value)}
+          type="number"
+          value={
+            editedData[row.Resource_CD]?.P_Coefficient !== undefined
+              ? editedData[row.Resource_CD]?.P_Coefficient
+              : row.P_Coefficient ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "P_Coefficient")}
+          onKeyDown={(e) => handleKeyDown(e, row.Resource_CD, "P_Coefficient")}
         />
       ),
-      width: "150px",
+      width: "170px",
     },
     {
       name: "Before",
       selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Before}
-          onChange={(e) => handleEdit(row, "Before", e.target.value)}
+          type="number"
+          value={
+            editedData[row.Resource_CD]?.Before !== undefined
+              ? editedData[row.Resource_CD]?.Before
+              : row.Before ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "Before")}
+          onKeyDown={(e) => handleKeyDown(e, row.Resource_CD, "Before")}
         />
       ),
-      width: "150px",
+      width: "170px",
     },
     {
       name: "After",
@@ -328,11 +345,16 @@ export function Machine() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.After}
-          onChange={(e) => handleEdit(row, "After", e.target.value)}
+          value={
+            editedData[row.Resource_CD]?.After !== undefined
+              ? editedData[row.Resource_CD]?.After
+              : row.After ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "After")}
+          onKeyDown={(e) => handleKeyDown(e, row.Resource_CD, "After")}
         />
       ),
-      width: "150px",
+      width: "170px",
     },
     {
       name: "T_Type",
@@ -340,11 +362,16 @@ export function Machine() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.T_Type}
-          onChange={(e) => handleEdit(row, "T_Type", e.target.value)}
+          value={
+            editedData[row.Resource_CD]?.T_Type !== undefined
+              ? editedData[row.Resource_CD]?.T_Type
+              : row.T_Type || ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "T_Type")}
+          onKeyDown={(e) => handleKeyDown(e, row.Resource_CD, "T_Type")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "P_Type",
@@ -352,11 +379,16 @@ export function Machine() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.P_Type}
-          onChange={(e) => handleEdit(row, "P_Type", e.target.value)}
+          value={
+            editedData[row.Resource_CD]?.P_Type !== undefined
+              ? editedData[row.Resource_CD]?.P_Type
+              : row.P_Type || ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "P_Type")}
+          onKeyDown={(e) => handleKeyDown(e, row.Resource_CD, "P_Type")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "Resource_Remark",
@@ -364,11 +396,21 @@ export function Machine() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Resource_Remark}
-          onChange={(e) => handleEdit(row, "Resource_Remark", e.target.value)}
+          style={{
+            width: "fit-content",
+            minWidth: "340px",
+            maxWidth: "100%",
+          }}
+          value={
+            editedData[row.Resource_CD]?.Resource_Remark !== undefined
+              ? editedData[row.Resource_CD]?.Resource_Remark
+              : row.Resource_Remark || ""
+          }
+          onChange={(e) => handleChange(e, row.Resource_CD, "Resource_Remark")}
+          onKeyDown={(e) => handleKeyDown(e, row.Resource_CD, "Resource_Remark")}
         />
       ),
-      width: "240px",
+      width: "400px",
     },
   ];
 
