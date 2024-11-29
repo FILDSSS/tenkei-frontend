@@ -122,6 +122,44 @@ export default function PlanInfo() {
     handleSearch_Order_NoChange();
   }, [searchOrderNo]);
 
+
+ const handleF10Click = (planId) => {
+  // Confirm the delete action with SweetAlert
+  Swal.fire({
+    title: "Are you sure?",
+    text: "This action will mark the plan as deleted!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No, cancel",
+    reverseButtons: true,
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        // Call your API to perform the soft delete
+        const response = await fetch(`/api/plan/${planId}/soft-delete`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ deleted: true }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to delete');
+        }
+
+        // Optionally update the UI (e.g., remove the plan from the UI)
+        // You can either call a method to refresh the data or remove it from the state
+
+        Swal.fire("Deleted!", "The plan has been marked as deleted.", "success");
+      } catch (error) {
+        Swal.fire("Error!", "There was an issue deleting the plan.", "error");
+      }
+    }
+  });
+};
+
   const handleF12Click = () => {
     Swal.fire({
       title: "Are you sure?",
