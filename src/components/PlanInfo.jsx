@@ -137,55 +137,6 @@ export default function PlanInfo() {
     handleSearch_Order_NoChange();
   }, [searchOrderNo]);
 
-  const handleF9Click = async () => {
-    try {
-      const orderExists = await searchOrderData(orderData.Order_No);
-      if (orderExists) {
-        const PlanExists = await searchPartsData(planData?.Parts_No);
-
-        if (PlanExists) {
-          
-          const result = await Swal.fire({
-            title: "ต้องการแก้ไขข้อมูลหรือไม่",
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonText: "ใช่",
-            cancelButtonText: "ไม่ใช่",
-          });
-          if (result.isConfirmed) {
-            await createResult();
-            await createPlan();
-            await createSchedule();
-            await createWip();
-            }
-
-        } else {
-          const result = await Swal.fire({
-            title: "ต้องการบันทึกข้อมูลหรือไม่",
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonText: "ใช่",
-            cancelButtonText: "ไม่ใช่",
-          });
-          if (result.isConfirmed) {
-          await createResult();
-          await createPlan();
-          await createSchedule();
-          await createWip();
-          }
-        }
-      } 
-    } catch (error) {
-      console.error("Error in handleF9Click:", error);
-      Swal.fire({
-        title: "เกิดข้อผิดพลาด",
-        text: "กรุณาติดต่อผู้ดูแลระบบ",
-        icon: "error",
-        confirmButtonText: "ตกลง",
-      });
-    }
-  };
-
   const handleF12Click = () => {
     Swal.fire({
       title: "Are you sure?",

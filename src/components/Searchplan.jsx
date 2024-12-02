@@ -9,7 +9,10 @@ function Searchplan() {
       <div className="flex flex-col w-full mr-2 ml-2">
         <Navbar />
         <div className="flex-1 flex-col p-2 overflow-x-auto">
-          <div className="bg-white grid grid-cols-1">
+
+
+          
+          <div className="bg-white grid grid-cols-1 pr-4">
             <div className="flex items-center justify-between w-full px-4">
               <h1 className="text-2xl font-bold text-center flex-grow">
                 Search_Plan
@@ -18,7 +21,7 @@ function Searchplan() {
                 <label className="text-xs font-medium">Date:</label>
                 <input
                   type="text"
-                  className="border-2 border-gray-500 rounded-md px-2 py-1 text-sm w-32"
+                  className="border-2 border-gray-500 rounded-md px-2 py-1 text-sm w-32 text-center"
                   value={new Date().toLocaleDateString("th-TH", {
                     day: "2-digit",
                     month: "2-digit",
@@ -31,36 +34,38 @@ function Searchplan() {
 
             <hr className="border-y-[1px] border-gray-300" />
 
-            <div className="overflow-x-auto w-full">
-              <div className="grid grid-cols-12 min-w-[1500px]">
+            <div className="overflow-x-auto w-full ">
+              <div className="grid grid-cols-12 min-w-[1800px] ">
                 <div className="w-full content-start ms-5 mt-4">
                   <label className=" text-xs">Order_Info_Search_LBL</label>
                 </div>
                 <br />
                 <div className="col-span-12 me-5 mt-5 ml-14 ">
-                  <div className="grid grid-cols-12 gap-4">
+                  <div className="grid grid-cols-12 gap-4 ">
                     <div className="col-span-12 md:col-span-9">
-                      {/* Group 1 */}
-                      <div className="gap-2 flex mb-4 justify-start ">
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-20 text-xs mt-1">
-                            Search_Type
-                          </label>
-                          <div className="w-auto">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-24">
+                   
+                        {/* Group 1 */}
+                        <div className="gap-10 flex mb-4 justify-start me-5 ">
+                          <div className="flex gap-6 w-48 ">
+                            <label className="w-24 text-xs mt-2">
+                              Search_Type
+                            </label>
+                            <div className="w-auto">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-32 h-8">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
                               <option value="part3">Part 3</option>
                             </select>
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-[735px]">
-                          <label className="w-20 text-xs mt-1">
-                            Otl_Person_CD
-                          </label>
-                          <div className="w-auto flex gap-2">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ccffff] w-24 h-8">
+                          </div>
+                       
+                          <div className="flex  w-auto w-48 gap-7 ml-[734px]">
+                            <label className="w-auto text-xs mt-2">
+                              Otl_Person_CD
+                            </label>
+                            <div className="w-auto flex gap-2">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#ccffff]">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
@@ -71,61 +76,64 @@ function Searchplan() {
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
                             />
                           </div>
-                        </div>
-                        <div className="flex items-center space-x-2 ml-6">
+                          </div>
+                          <div className="flex items-center space-x-2 gap-2">
                           <label className="w-24 text-xs -mt-1">
                             Od_Progress_CD
                           </label>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
                           />
                           <span className="text-lg font-bold">~</span>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
                           />
                         </div>
-                      </div>
+                        </div>
+
 
                       {/* Group 2 */}
-                      <div className="gap-2 flex mb-4 justify-start ">
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-20 text-xs mt-1">
-                            S_Material1
-                          </label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8"
-                            />
+                      <div className="gap-10 flex mb-4 justify-start me-5 ">
+                          <div className="flex gap-7 w-48 ">
+                            <label className="w-24 text-xs mt-2">
+                              S_Material1
+                            </label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8"
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-10">
-                          <label className="w-20 text-xs mt-1">Material1</label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
-                            />
+                          <div className="flex w-48 gap-7 ml-8">
+                            <label className="w-auto text-xs mt-2">
+                              Material1
+                            </label>
+                            <div className="w-auto ml-[14px]">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-22 text-xs mt-1">
-                            S_H_Treatment1
-                          </label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
-                            />
+                          <div className="flex w-48 gap-7 ml-4">
+                            <label className="mt-2 w-auto text-xs">
+                              S_H_Treatment1
+                            </label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-[290px]">
-                          <label className="w-16 text-xs mt-1">
-                            S_St_Grp_CD
-                          </label>
-                          <div className="w-auto flex gap-2">
+                          <div className="flex  w-auto w-48 gap-7 ml-[239px]">
+                            <label className="w-auto text-xs mt-2">
+                              S_St_Grp_CD
+                            </label>
+                            <div className="w-auto flex gap-2">
                             <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-white w-24 h-8">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
@@ -137,61 +145,62 @@ function Searchplan() {
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
                             />
                           </div>
-                        </div>
-                        <div className="flex items-center space-x-2 ml-[25px]">
+                          </div>
+                          <div className="flex items-center space-x-2 gap-2">
                           <label className="w-24 text-xs -mt-1">
                             Request_Delivery
                           </label>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
                           />
                           <span className="text-lg font-bold">~</span>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
                           />
                         </div>
-                      </div>
-
+                        </div>
                       {/* Group 3 */}
-                      <div className="gap-2 flex mb-4 justify-start ">
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-20 text-xs mt-1">
-                            S_Material2
-                          </label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8"
-                            />
+                      <div className="gap-10 flex mb-4 justify-start me-5 ">
+                          <div className="flex gap-7 w-48 ">
+                            <label className="w-24 text-xs mt-2">
+                              S_Material2
+                            </label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8"
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-10">
-                          <label className="w-20 text-xs mt-1">Material2</label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
-                            />
+                          <div className="flex w-48 gap-7 ml-8">
+                            <label className="w-auto text-xs mt-2">
+                              Material2
+                            </label>
+                            <div className="w-auto ml-[14px]">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-22 text-xs mt-1">
-                            S_H_Treatment2
-                          </label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
-                            />
+                          <div className="flex w-48 gap-7 ml-4">
+                            <label className="mt-2 w-auto text-xs">
+                              S_H_Treatment2
+                            </label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-[265px]">
-                          <label className="w-22 text-xs mt-1">
-                            S_St_Person_CDP
-                          </label>
-                          <div className="w-auto flex gap-2">
+                          <div className="flex  w-auto w-48 gap-7 ml-[214px]">
+                            <label className="w-auto text-xs mt-2">
+                              S_St_Person_CDP
+                            </label>
+                            <div className="w-auto flex gap-2">
                             <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-white w-24 h-8">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
@@ -203,42 +212,41 @@ function Searchplan() {
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
                             />
                           </div>
-                        </div>
-                        <div className="flex items-center space-x-2 ml-[36px]">
-                          <label className="w-26 text-xs -mt-1">
-                            St_NAV_Delivery
+                          </div>
+                          <div className="flex items-center space-x-2 gap-2 ">
+                          <label className="w-24 text-xs -mt-1">
+                            St_NAV__Delivery
                           </label>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
                           />
                           <span className="text-lg font-bold">~</span>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
                           />
                         </div>
-                      </div>
-
-                      {/* Group 4 */}
-                      <div className="gap-2 flex mb-4 justify-start mr-10">
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-20 text-xs mt-1">
-                            Product_Name
-                          </label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8 bg-[#ccffff]"
-                            />
-                          </div>
                         </div>
-                        <div className="flex gap-2 w-auto ml-10">
-                          <label className="w-20 text-xs mt-1">
-                            Request_CD
-                          </label>
-                          <div className="w-[450px]">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-white w-14 h-8">
+                         {/* Group 4 */}
+                      <div className="gap-10 flex mb-4 justify-start me-5 ">
+                          <div className="flex gap-2 w-48 ">
+                            <label className="w-24 text-xs mt-2">
+                              Product_Name
+                            </label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8 bg-[#ccffff]"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex w-48 gap-7 ml-8">
+                            <label className="w-auto text-xs mt-2">
+                              Request_CD
+                            </label>
+                            <div className="flex gap-2 w-[450px]">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-white w-14 h-8 ">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
@@ -269,10 +277,9 @@ function Searchplan() {
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-14 h-8"
                             />
                           </div>
-                        </div>
-
-                        <div className="flex gap-2 w-auto ml-[135px]">
-                          <label className="w-16 text-xs mt-1">
+                          </div>
+                          <div className="flex  w-auto w-48 gap-7  ml-[475px] ">
+                          <label className="w-16 text-xs mt-1 mr-2">
                             S_Specific_CD
                           </label>
                           <div className="w-auto flex gap-2">
@@ -288,63 +295,65 @@ function Searchplan() {
                             />
                           </div>
                         </div>
-                        <div className="flex items-center space-x-2 ml-[16px]">
-                          <label className="w-26 text-xs -mt-1">
+                        <div className="flex items-center space-x-2 gap-2 ">
+                          <label className="w-24 text-xs -mt-1">
                             St_Confirm_Delivery
                           </label>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
                           />
                           <span className="text-lg font-bold">~</span>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
                           />
                         </div>
-                      </div>
-
-                      {/* Group 5 */}
-                      <div className="gap-2 flex mb-4 justify-start ">
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-20 text-xs mt-1">NAV_Size</label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8"
-                            />
-                          </div>
+                         
+                          
                         </div>
-                        <div className="flex gap-2 w-auto ml-10">
-                          <label className="w-20 text-xs mt-1">
-                            St_Coating_CD
-                          </label>
-                          <div className="w-[120px]">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ccffff] w-14 h-8">
+
+                         {/* Group 5*/}
+                      <div className="gap-10 flex mb-4 justify-start me-5 ">
+                          <div className="flex gap-10 w-48 ">
+                            <label className="w-24 text-xs mt-2">
+                              NAV_Size
+                            </label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8 "
+                              />
+                            </div>
+                          </div>
+                          <div className="flex w-48 gap-[14px] ml-[30px]">
+                            <label className="w-auto text-xs mt-2">
+                              St_Coating_CD
+                            </label>
+                            <div className="flex gap-2 w-[450px]">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ccffff] w-14 h-8  ">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
                               <option value="part3">Part 3</option>
                             </select>
+                            
                             <input
                               type="text"
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-14 h-8"
                             />
-                          </div>
-                        </div>
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-22 text-xs mt-1">
-                            S_Coating_CD
-                          </label>
-                          <div className="w-auto">
+                            <label className="w-auto text-xs mt-2">
+                              St_Coating_CD
+                            </label>
                             <input
                               type="text"
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8"
                             />
+                            
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-64">
-                          <label className="w-14 text-xs mt-1">
+                          </div>
+                          <div className="flex  w-auto w-48 gap-7  ml-[484px] ">
+                          <label className="w-16 text-xs mt-1 ">
                             S_Item1_CD
                           </label>
                           <div className="w-auto flex gap-2">
@@ -360,40 +369,42 @@ function Searchplan() {
                             />
                           </div>
                         </div>
-                        <div className="flex items-center space-x-2 ml-[15px]">
-                          <label className="w-26 text-xs -mt-1">
+                        <div className="flex items-center space-x-2 gap-2 ">
+                          <label className="w-24 text-xs -mt-1">
                             St_Product_Delivery
                           </label>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32 bg-[#ccffff]"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32 bg-[#ccffff]"
                           />
                           <span className="text-lg font-bold">~</span>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32 bg-[#ccffff]"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32 bg-[#ccffff]"
                           />
                         </div>
-                      </div>
-
-                      {/* Group 6 */}
-                      <div className="gap-2 flex mb-4 justify-start ">
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-20 text-xs mt-1">
-                            Product_Size
-                          </label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8 bg-[#ccffff] "
-                            />
-                          </div>
+                         
+                          
                         </div>
-                        <div className="flex gap-2 w-auto ml-10">
-                          <label className="w-20 text-xs mt-1">
-                            St_Customer_CD
-                          </label>
-                          <div className="w-[250px]">
+
+                        {/* Group 6*/}
+                      <div className="gap-10 flex mb-4 justify-start me-5 ">
+                          <div className="flex gap-5 w-48 ">
+                            <label className="w-24 text-xs mt-2">
+                              Product_Size
+                            </label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8 bg-[#ccffff]"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex w-48 gap-1 ml-[29px]">
+                            <label className="w-auto text-xs mt-2">
+                              St_Customer_CD
+                            </label>
+                            <div className="flex gap-2 w-[250px]">
                             <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ccffff] w-24 h-8">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
@@ -404,21 +415,18 @@ function Searchplan() {
                               type="text"
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-36 h-8 "
                             />
-                          </div>
-                        </div>
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-22 text-xs mt-1">
-                            Customer_Name
-                          </label>
-                          <div className="w-auto">
+                            <label className="w-auto text-xs mt-2">
+                              Customer_Name
+                            </label>
                             <input
                               type="text"
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8 bg-[#ccffff]"
                             />
+                            
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-28">
-                          <label className="w-14 text-xs mt-1">
+                          </div>
+                          <div className="flex  w-auto w-48 gap-7  ml-[484px] ">
+                          <label className="w-16 text-xs mt-1 ">
                             S_Item2_CD
                           </label>
                           <div className="w-auto flex gap-2">
@@ -434,40 +442,39 @@ function Searchplan() {
                             />
                           </div>
                         </div>
-                        <div className="flex items-center space-x-2 ml-[28px]">
-                          <label className="w-26 text-xs -mt-1">
-                            St_Received_Date
+                        <div className="flex items-center space-x-2 gap-2 ">
+                          <label className="w-24 text-xs -mt-1">
+                            St_Recieve_Date
                           </label>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32 bg-[#ccffff]"
                           />
                           <span className="text-lg font-bold">~</span>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32 bg-[#ccffff]"
                           />
                         </div>
-                      </div>
-
-                      {/* Group 7 */}
-                      <div className="gap-2 flex mb-4 justify-start ">
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-20 text-xs mt-1">
-                            Customer_Draw
-                          </label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8"
-                            />
-                          </div>
                         </div>
-                        <div className="flex gap-2 w-auto ml-10">
-                          <label className="w-20 text-xs mt-1">
-                            St_Customer_CD
-                          </label>
-                          <div className="w-[250px]">
+                       {/* Group 7*/}
+                       <div className="gap-10 flex mb-4 justify-start me-5 ">
+                          <div className="flex gap-[2px] w-48 ">
+                            <label className="w-24 text-xs mt-2">
+                              Customer_Draw
+                            </label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8 "
+                              />
+                            </div>
+                          </div>
+                          <div className="flex w-48 gap-1 ml-[29px]">
+                            <label className="w-auto text-xs mt-2">
+                              St_Customer_CD
+                            </label>
+                            <div className="flex gap-2 w-[250px]">
                             <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ff99cc] w-24 h-8">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
@@ -476,23 +483,20 @@ function Searchplan() {
                             </select>
                             <input
                               type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-36 h-8"
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-36 h-8 "
                             />
-                          </div>
-                        </div>
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-22 text-xs mt-1">
-                            No_of_Customer
-                          </label>
-                          <div className="w-auto">
+                            <label className="w-auto text-xs mt-2">
+                              No_of_Customer
+                            </label>
                             <input
                               type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8"
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8 "
                             />
+                            
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-28">
-                          <label className="w-14 text-xs mt-1">
+                          </div>
+                          <div className="flex  w-auto w-48 gap-7  ml-[484px] ">
+                          <label className="w-16 text-xs mt-1 ">
                             S_Item3_CD
                           </label>
                           <div className="w-auto flex gap-2">
@@ -508,40 +512,40 @@ function Searchplan() {
                             />
                           </div>
                         </div>
-                        <div className="flex items-center space-x-2 ml-[24px]">
-                          <label className="w-26 text-xs -mt-1">
+                        <div className="flex items-center space-x-2 gap-2 ">
+                          <label className="w-24 text-xs -mt-1">
                             St_Complete_Date
                           </label>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32 "
                           />
                           <span className="text-lg font-bold">~</span>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32 "
                           />
                         </div>
-                      </div>
-
-                      {/* Group 8 */}
-                      <div className="gap-2 flex mb-4 justify-start ">
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-20 text-xs mt-1">
-                            Company_Draw
-                          </label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8"
-                            />
-                          </div>
                         </div>
-                        <div className="flex gap-2 w-Uto ml-10">
-                          <label className="w-20 text-xs mt-1">
-                            St_Pd_Grp_CD
-                          </label>
-                          <div className="w-[500px]">
+                           {/* Group 8*/}
+                       <div className="gap-10 flex mb-4 justify-start me-5 ">
+                          <div className="flex gap-[2px] w-48 ">
+                            <label className="w-24 text-xs mt-2">
+                              Company_Draw
+                            </label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8 "
+                              />
+                            </div>
+                          </div>
+                          <div className="flex w-48 gap-[18px] ml-[29px]">
+                            <label className="w-auto text-xs mt-2">
+                              St_Pd_Grp_CD
+                            </label>
+                            <div className="flex gap-2 w-[500px]">
+                            <div className="flex gap-2 w-[500px]">
                             <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ccffff] w-24 h-8">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
@@ -564,93 +568,11 @@ function Searchplan() {
                               className="border border-black rounded px-2 py-1 text-xs w-32"
                             />
                           </div>
-                        </div>
-
-                        <div className="flex gap-2 w-auto ml-24">
-                          <label className="w-14 text-xs mt-1">
-                            S_Item4_CD
-                          </label>
-                          <div className="w-auto flex gap-2">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
-                            </select>
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
-                            />
+                            
                           </div>
-                        </div>
-                        <div className="flex items-center space-x-2 ml-[22px]">
-                          <label className="w-26 text-xs -mt-1">
-                            St_Complete_Date
-                          </label>
-                          <input
-                            type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
-                          />
-                          <span className="text-lg font-bold">~</span>
-                          <input
-                            type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Group 9 */}
-                      <div className="gap-2 flex mb-4 justify-start ">
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-20 text-xs mt-1">
-                            Product_Draw
-                          </label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8"
-                            />
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-10">
-                          <label className="w-20 text-xs mt-1">
-                            St_Pd_Grp_CD1
-                          </label>
-                          <div className="w-[250px]">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ff99cc] w-24 h-8">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
-                            </select>
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-36 h-8"
-                            />
-                          </div>
-                        </div>
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-22 text-xs mt-1">
-                            Instructions
-                          </label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#ccffff]"
-                            />
-                          </div>
-                        </div>
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-22 text-xs mt-1">Pd_Remark</label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
-                            />
-                          </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-1">
-                          <label className="w-14 text-xs mt-1">
+                          <div className="flex  w-auto w-48 gap-7  ml-[484px] ">
+                          <label className="w-16 text-xs mt-1 ">
                             S_Item4_CD
                           </label>
                           <div className="w-auto flex gap-2">
@@ -666,40 +588,39 @@ function Searchplan() {
                             />
                           </div>
                         </div>
-                        <div className="flex items-center space-x-2 ml-[20px]">
-                          <label className="w-26 text-xs -mt-1">
+                        <div className="flex items-center space-x-2 gap-2 ">
+                          <label className="w-24 text-xs -mt-1">
                             St_Complete_Date
                           </label>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32 "
                           />
                           <span className="text-lg font-bold">~</span>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32 "
                           />
                         </div>
-                      </div>
-
-                      {/* Group 10 */}
-                      <div className="gap-2 flex mb-4 justify-start ">
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-20 text-xs mt-1">
-                            Instructions
-                          </label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8"
-                            />
-                          </div>
                         </div>
-                        <div className="flex gap-2 w-auto ml-10">
-                          <label className="w-20 text-xs mt-1">
-                            St_Pd_Grp_CD2
-                          </label>
-                          <div className="w-[250px]">
+                      {/* Group 9*/}
+                      <div className="gap-10 flex mb-4 justify-start me-5 ">
+                          <div className="flex gap-3 w-48 ">
+                            <label className="w-24 text-xs mt-2">
+                              Product_Draw
+                            </label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex w-48 gap-3 ml-[28px]">
+                            <label className="w-auto text-xs mt-2">
+                              St_Pd_Grp_CD1
+                            </label>
+                            <div className="flex gap-2 w-[600px]">
                             <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ff99cc] w-24 h-8">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
@@ -708,33 +629,27 @@ function Searchplan() {
                             </select>
                             <input
                               type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-36 h-8"
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-36 h-8 "
                             />
-                          </div>
-                        </div>
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-22 text-xs mt-1">S_Od_CAT1</label>
-                          <div className="w-auto">
+                            <label className="w-auto text-xs mt-2">
+                              Instructions
+                            </label>
                             <input
                               type="text"
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#ccffff]"
                             />
-                          </div>
-                        </div>
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-22 text-xs mt-1">
-                            S_Od_CAT_2
-                          </label>
-                          <div className="w-auto">
+                              <label className="w-auto text-xs mt-2">
+                              Pd_Remark
+                            </label>
                             <input
                               type="text"
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
                             />
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-14 text-xs mt-1">
-                            S_Item4_CD
+                          </div>
+                          <div className="flex  w-auto w-48 gap-7  ml-[484px] ">
+                          <label className="w-16 text-xs mt-1">
+                            S_I_Remark
                           </label>
                           <div className="w-auto flex gap-2">
                             <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs  w-24 h-8">
@@ -749,21 +664,99 @@ function Searchplan() {
                             />
                           </div>
                         </div>
-                        <div className="flex items-center space-x-2 ml-[20px]">
-                          <label className="w-26 text-xs -mt-1">
-                            St_Complete_Date
+                        <div className="flex items-center space-x-2 gap-2 ">
+                          <label className="w-24 text-xs -mt-1">
+                            Shipment_Date
                           </label>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
                           />
                           <span className="text-lg font-bold">~</span>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
                           />
                         </div>
-                      </div>
+                        </div>
+                  
+                       {/* Group 10*/}
+                       <div className="gap-10 flex mb-4 justify-start me-5 ">
+                          <div className="flex gap-6 w-48 ">
+                            <label className="w-24 text-xs mt-2">
+                              Instructions
+                            </label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-32 h-8"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex w-48 gap-3 ml-[28px]">
+                            <label className="w-auto text-xs mt-2">
+                              St_Pd_Grp_CD2
+                            </label>
+                            <div className="flex gap-2 w-[600px]">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ff99cc] w-24 h-8">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                            <input
+                              type="text"
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-36 h-8 "
+                            />
+                            <label className="w-auto text-xs mt-2">
+                              S_Od_CAT1
+                            </label>
+                            <input
+                              type="text"
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#ccffff]"
+                            />
+                              <label className="w-auto text-xs mt-2">
+                              S_Od_CAT_2
+                            </label>
+                            <input
+                              type="text"
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
+                            />
+                          </div>
+                          </div>
+                          <div className="flex  w-auto w-48 gap-7  ml-[483px] ">
+                          <label className="w-16 text-xs mt-1 ">
+                            S_Od_CAT_3
+                          </label>
+                          <div className="w-auto flex gap-2">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs  w-24 h-8">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                            <input
+                              type="text"
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2 gap-2 ">
+                          <label className="w-24 text-xs -mt-1">
+                            S_St_Calc_Date
+                          </label>
+                          <input
+                            type="text"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
+                          />
+                          <span className="text-lg font-bold">~</span>
+                          <input
+                            type="text"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
+                          />
+                        </div>
+                        </div>
+
                     </div>
                   </div>
                 </div>
@@ -775,222 +768,247 @@ function Searchplan() {
                 <div className="col-span-12 me-5 mt-5 ml-14 ">
                   <div className="grid grid-cols-12 gap-4">
                     <div className="col-span-12 md:col-span-9">
-                      {/* Group 1 */}
-                      <div className="gap-2 flex mb-4 justify-start ">
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-20 text-xs mt-1">
+                      
+
+
+
+                     {/* Group 1*/}
+                     <div className="gap-8 flex mb-4 justify-start me-5 ">
+                      <div>
+                     <label className="w-20 text-xs mt-2">
                             [Plan_Info_Search]
                           </label>
-                          <label className="w-12 text-xs mt-1 ml-14">
-                            S_Part_No
-                          </label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
-                            />
                           </div>
-                        </div>
+                          <div className="flex gap-6 w-48 ">
+                            <label className="w-24 text-xs mt-2">
+                              S_Part_No
+                            </label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex w-48 gap-8 ml-[10px]">
+                            <label className="w-auto text-xs mt-2">
+                              Parts_CAT1
+                            </label>
+                            <div className="flex gap-2 w-[600px]">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8">
+                              <option value=""></option>
+                              <option value="part1">Part 1</option>
+                              <option value="part2">Part 2</option>
+                              <option value="part3">Part 3</option>
+                            </select>
+                           
+                          </div>
+                          </div>
 
-                        <div className="flex gap-2 w-auto ml-3">
-                          <label className="w-14 text-xs mt-1">
-                            Parts_CAT1
-                          </label>
-                          <div className="w-auto flex gap-2">
+                          <div className="flex w-48 gap-8 ml-[10px]">
+                            <label className="w-auto text-xs mt-2">
+                              Parts_Pending
+                            </label>
+                            <div className="flex gap-2 w-[600px]">
                             <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
                               <option value="part3">Part 3</option>
                             </select>
+                           
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-3">
-                          <label className="w-[70px] text-xs mt-1">
-                            Parts_Pending
-                          </label>
-                          <div className="w-auto flex gap-2">
+                          </div>
+                          <div className="flex w-48 gap-8 ml-[10px]">
+                            <label className="w-auto text-xs mt-2">
+                              Parts_CAT2
+                            </label>
+                            <div className="flex gap-2 w-[600px]">
                             <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
                               <option value="part3">Part 3</option>
                             </select>
+                           
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-4">
-                          <label className="w-14 text-xs mt-1">
-                            Parts_CAT2
-                          </label>
-                          <div className="w-auto flex gap-2">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs  w-24 h-8">
+                          </div>
+                          <div className="flex w-48 gap-8 ml-[10px]">
+                            <label className="w-auto text-xs mt-2">
+                              Parts_CAT3
+                            </label>
+                            <div className="flex gap-2 w-[600px]">
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
                               <option value="part3">Part 3</option>
                             </select>
+                           
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-4">
-                          <label className="w-14 text-xs mt-1">
-                            Parts_CAT3
-                          </label>
-                          <div className="w-auto flex gap-2">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs  w-24 h-8">
-                              <option value=""></option>
-                              <option value="part1">Part 1</option>
-                              <option value="part2">Part 2</option>
-                              <option value="part3">Part 3</option>
-                            </select>
                           </div>
-                        </div>
-                        <div className="flex items-center space-x-2 ml-6">
+                         
+                        <div className="flex items-center space-x-2 gap-2 ">
                           <label className="w-24 text-xs -mt-1">
-                            Parts_Delivery
+                           Parts_Delivery
                           </label>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
                           />
                           <span className="text-lg font-bold">~</span>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
                           />
                         </div>
-                      </div>
+                        </div>
 
-                      {/* Group 2 */}
-                      <div className="gap-2 flex mb-4 justify-start ">
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-20 text-xs mt-1">
+                            {/* Group2 */}
+                        <div className="gap-8 flex mb-4 justify-start me-5 ">
+                      <div>
+                        <label className="w-20 text-xs mt-2">
                             [Reg_Person_CD]
                           </label>
-                          <div className="w-[180px] ml-14">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-14 h-8 bg-[#ccffff]">
+                          </div>
+                          <div className="flex gap-6 w-48 ml-[6px]">
+                        
+                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#ccffff]">
                               <option value=""></option>
                               <option value="part1">Part 1</option>
                               <option value="part2">Part 2</option>
                               <option value="part3">Part 3</option>
                             </select>
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
-                            />
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8"
+                              />
+                            </div>
                           </div>
-                        </div>
-
-                        <div className="flex gap-2 w-auto -ml-7">
-                          <label className="w-[70px] text-xs mt-1">
-                            Parts_Material
-                          </label>
-                          <div className="w-auto flex gap-2">
+                          <div className="flex w-48 gap-4 ml-[10px]">
+                            <label className="w-auto text-xs mt-2">
+                              Parts_Material
+                            </label>
+                            <div className="w-auto flex gap-2 ">
                           <input
                               type="text"
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 "
                             />
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-5">
-                          <label className="w-14 text-xs mt-1">
-                            Instructions
-                          </label>
-                          <div className="w-auto flex gap-2">
+                          </div>
+
+                          <div className="flex w-48 gap-11 ml-[15px]">
+                            <label className="w-auto text-xs mt-2">
+                              Instructions
+                            </label>
+                            <div className="w-auto flex gap-2 ml-1">
                           <input
                               type="text"
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#ccffff]"
                             />
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-4">
-                          <label className="w-[60px] text-xs mt-1">
-                            Part_Remark
-                          </label>
-                          <div className="w-auto flex gap-2">
+                          </div>
+                          <div className="flex w-48 gap-5 ml-[10px]">
+                            <label className="w-auto text-xs mt-2">
+                              Parts_Remark
+                            </label>
+                            <div className="w-auto flex gap-2 ml-[1px]">
                           <input
                               type="text"
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#ccffff]"
                             />
                           </div>
-                        </div>
-                        <div className="flex gap-2 w-auto ml-4">
-                          <label className="w-14 text-xs mt-1">
-                            Information
-                          </label>
-                          <div className="w-auto flex gap-2">
+                          </div>
+                          <div className="flex w-48 gap-7 ml-[10px]">
+                            <label className="w-auto text-xs mt-2">
+                              Imformaton
+                            </label>
+                            <div className="w-auto flex gap-2 ml-1">
                           <input
                               type="text"
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#ccffff]"
                             />
                           </div>
-                        </div>
-                        <div className="flex items-center space-x-2 ml-6">
+                          </div>
+                         
+                        <div className="flex items-center space-x-2 gap-2 ml-1 ">
                           <label className="w-24 text-xs -mt-1">
-                            St_Complete_Date
+                           St_Complete_Date
                           </label>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
                           />
                           <span className="text-lg font-bold">~</span>
                           <input
                             type="text"
-                            className="border border-black rounded px-2 py-1 text-xs w-32"
+                            className="border border-black rounded px-2 py-1 text-xs h-8 w-32"
                           />
                         </div>
-                      </div>
+                        </div>
 
-                      {/* Group 3 */}
-                      <div className="gap-2 flex mb-4 justify-start ">
-                        <div className="flex gap-2 w-auto">
-                          <label className="w-20 text-xs mt-1">[List]</label>
-                          <label className="w-20 text-xs mt-1 ml-6">
-                            Select_Od_No
+                        {/* Group 3*/}
+                        <div className="gap-8 flex mb-4 justify-start me-5 ">
+                      <div>
+                     <label className="w-20 text-xs mt-2">
+                            [List]
                           </label>
-                          <div className="w-auto">
+                          </div>
+                          <div className="flex gap-6 w-48 ml-16">
+                            <label className="w-24 text-xs mt-2 ml-1">
+                              Select_Od_No
+                            </label>
+                            <div className="w-auto">
+                              <input
+                                type="text"
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#cc99ff]"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex w-48 gap-[18px] ml-[15px]">
+                            <label className="w-auto text-xs mt-2">
+                              Select_Pt_No
+                            </label>
+                            <div className="w-auto ml-1">
                             <input
                               type="text"
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#cc99ff]"
                             />
                           </div>
-
-                          <label className="w-16 text-xs mt-1 ml-5">
-                            Select_Pt_No
-                          </label>
-                          <div className="w-auto">
-                            <input
-                              type="text"
-                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#cc99ff]"
-                            />
                           </div>
 
-                          <label className="w-36 text-xs mt-1 ml-5">
-                            PI_List_ViewW(22.8~40cm)
-                          </label>
-                          <div className="w-auto">
+                          <div className="flex w-48 gap-8 ml-[14px]">
+                            <label className="w-auto text-xs mt-2">
+                              Pl_List_ViewW(22.8~40cm)
+                            </label>
+                            <div className="w-auto">
                             <input
                               type="text"
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#ffff99]"
                             />
                           </div>
-
-                          <label className="w-32 text-xs mt-1 ml-5">
-                            PI_List_ViewH(3~15cm)
-                          </label>
-                          <div className="w-auto">
+                          </div>
+                          <div className="flex w-48 gap-8 ml-[106px]">
+                            <label className="w-auto text-xs mt-2">
+                             Pl_List_ViewH(3~15cm)
+                            </label>
+                            <div className="w-auto">
                             <input
                               type="text"
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-24 h-8 bg-[#ffff99]"
                             />
                           </div>
-
-                          <div className="w-auto ml-10">
+                          </div>
+                          <div className="w-auto ml-20">
                             <button className="bg-blue-500 text-white text-xs py-2 px-4 rounded-full hover:bg-blue-600 w-48">
                               Change_View
                             </button>
                           </div>
                         </div>
-                      </div>
+
+                      
+                      
 
                       {/* Group 4 table */}
                       <div className="gap-2 flex mb-4 justify-start ">
