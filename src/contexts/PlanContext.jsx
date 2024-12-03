@@ -156,19 +156,24 @@ export const PlanContext = createContext();
 export default function PlanContextProvider({ children }) {
   const [planData, setPlanData] = useState([]); // Default to empty array
   const [selectedPlanNo, setSelectedPlanNo] = useState(null);
-  const [qmprocessData, setQMprocessData] = useState([]);
-  const [processData, setProcessData] = useState([]);
-  const [plprogressData, setPlProgressData] = useState([]);
-  const [scheduleData, setScheduleData] = useState([]);
-  const [partsData, setPartsData] = useState([]);
-
+  const [qmprocessData, setQMprocessData] = useState(null);
+  const [processData, setProcessData] = useState(null);
+  const [plprogressData, setPlProgressData] = useState(null);
+  const [ScheduleData, setScheduleData] = useState(null);
+  const [PartsData, setPartsData] = useState(null);
   const searchPartsData = async (orderNo) => {
     try {
       const response = await axios.post("/plan/search-order-plan", { Order_No: orderNo });
 
-      if (response.data?.data?.partsNo) {
+      if (
+        response.data &&
+        response.data.data &&
+        Array.isArray(response.data.data.partsNo)
+      ) {
         setSelectedPlanNo(response.data.data.partsNo);
         return true;
+      } else {
+        return false;
       }
       return false;
     } catch (error) {
@@ -177,18 +182,23 @@ export default function PlanContextProvider({ children }) {
     }
   };
 
-  const selectPartsData = async (orderNo, partsNo) => {
+  const selectPartsData = async (orderNo, partsNO) => {
     try {
       const response = await axios.post("/plan/search-part-plan", {
         Order_No: orderNo,
-        Parts_No: partsNo,
+        Parts_No: partsNO,
       });
 
-      if (response.data?.data) {
+      if (
+        response.data &&
+        response.data.data &&
+        Array.isArray(response.data.data)
+      ) {
         setPlanData(response.data.data);
         return true;
+      } else {
+        return false;
       }
-      return false;
     } catch (error) {
       console.error("Error fetching part data:", error);
       return false;
@@ -236,30 +246,11 @@ export default function PlanContextProvider({ children }) {
       const response = await axios.get("/parts/fetch-parts");
       setPartsData(response.data?.data?.parts || []);
     } catch (error) {
-      console.error("Error fetching parts data:", error);
+      console.error("Error fetching parts groups:", error);
+      throw error;
     }
   };
 
-  const deletePlan = async (orderNo, partsNo) => {
-    try {
-      const response = await axios.post("/plan/delete", { Order_No: orderNo, Parts_No: partsNo });
-
-      if (response.status === 200) {
-        setPlanData((prevPlanData) =>
-          prevPlanData.map((plan) =>
-            plan.Order_No === orderNo && plan.Parts_No === partsNo
-              ? { ...plan, isDeleted: true }
-              : plan
-          )
-        );
-        return true;
-      }
-      return false;
-    } catch (error) {
-      console.error("Error performing soft delete:", error);
-      return false;
-    }
-  };
 
   useEffect(() => {
     QM_Process();
@@ -267,6 +258,7 @@ export default function PlanContextProvider({ children }) {
     fetchPlprogress();
     fetchSchedule();
     fetchParts();
+    fetchUnits();
   }, []);
 
   return (
@@ -282,10 +274,9 @@ export default function PlanContextProvider({ children }) {
         processData,
         plprogressData,
         setPlProgressData,
-        scheduleData,
+        ScheduleData,
         setScheduleData,
-        partsData,
-        deletePlan,
+        PartsData,
       }}
     >
       {children}

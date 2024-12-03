@@ -52,6 +52,12 @@ export default function PlanInfo() {
     ScheduleData,
     setScheduleData,
     PartsData,
+    UnitsData,
+    createPlan,
+    createSchedule,
+    createResult,
+    createWip,
+    selectPartsData,
   } = usePlan();
 
   const { purchaseData, setPurchaseData } = usePurchase();
@@ -69,6 +75,7 @@ export default function PlanInfo() {
   const [Schedule_Name, setSchedule_Name] = useState("");
   const [Stagnat_Scale, setStagnat_Scale] = useState("");
   const [ManHour_Scale, setManHour_Scale] = useState("");
+  const [Search_Odpt_No, setSearch_Odpt_No] = useState("");
   const inputs = Array.from({ length: 36 }, (_, i) => i + 1);
 
   const handleInputChange = (event, isPurchase, isPlan = false) => {
@@ -104,12 +111,20 @@ export default function PlanInfo() {
 
   const handlePlanInputChange = async (event) => {
     const { id, value, type, checked } = event.target;
-
-    // อัปเดต purchaseData ตามค่าที่ผู้ใช้กรอก
+  
+    // อัปเดต PlanData โดยไม่ลบข้อมูลเดิม
     setPlanData((prevPlanData) => ({
       ...prevPlanData,
       [id]: type === "checkbox" ? checked : value === "" ? null : value,
     }));
+  
+    if (id === "Search_Parts_No") {
+      setSelectedPlanNo(value);
+      setSearch_Odpt_No(`${searchOrderNo || ""}${value}`);
+    }
+
+
+    
   };
 
   const handleSearch_Order_NoChange = async (newOrder_No) => {
@@ -121,44 +136,6 @@ export default function PlanInfo() {
   useEffect(() => {
     handleSearch_Order_NoChange();
   }, [searchOrderNo]);
-
-
- const handleF10Click = (planId) => {
-  // Confirm the delete action with SweetAlert
-  Swal.fire({
-    title: "Are you sure?",
-    text: "This action will mark the plan as deleted!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Yes, delete it!",
-    cancelButtonText: "No, cancel",
-    reverseButtons: true,
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        // Call your API to perform the soft delete
-        const response = await fetch(`/api/plan/${planId}/soft-delete`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ deleted: true }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to delete');
-        }
-
-        // Optionally update the UI (e.g., remove the plan from the UI)
-        // You can either call a method to refresh the data or remove it from the state
-
-        Swal.fire("Deleted!", "The plan has been marked as deleted.", "success");
-      } catch (error) {
-        Swal.fire("Error!", "There was an issue deleting the plan.", "error");
-      }
-    }
-  });
-};
 
   const handleF12Click = () => {
     Swal.fire({
@@ -302,6 +279,12 @@ export default function PlanInfo() {
       );
     }
   }, [planData?.Pl_Schedule_CD, ScheduleData]);
+
+  useEffect(() => {
+    if (Search_Odpt_No) {
+      selectPartsData(searchOrderNo,selectedPlanNo); 
+    }
+  }, [Search_Odpt_No]);
 
   const rows = inputs.map((id) => ({
     mp: (
@@ -595,7 +578,7 @@ export default function PlanInfo() {
                       <select
                         id="Search_Parts_No"
                         value={selectedPlanNo || ""}
-                        onChange={(e) => handlePlanInputChange(e)}
+                        onChange={handlePlanInputChange}
                         className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ccffff] w-18"
                       >
                         <option value="">เลือกข้อมูล</option>
@@ -617,6 +600,10 @@ export default function PlanInfo() {
                         Search_Odpt_No
                       </label>
                       <input
+                        disabled
+                        id="Search_Odpt_No"
+                        value={Search_Odpt_No || ""}
+                        onChange={(e) =>  handlePlanInputChange(e)}
                         type="text"
                         className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-20"
                       />
@@ -625,6 +612,9 @@ export default function PlanInfo() {
                     <div className="flex items-center space-x-2">
                       <label className="text-xs font-medium">Order_No</label>
                       <input
+                        disabled
+                        value={planData?.Order_No || "" }
+                        onChange={handlePlanInputChange}
                         type="text"
                         className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-20"
                       />
@@ -633,6 +623,10 @@ export default function PlanInfo() {
                     <div className="flex items-center space-x-2">
                       <label className="text-xs font-medium">Odpt_No</label>
                       <input
+                        disabled
+                        id="OdPt_No"
+                        value={planData?.OdPt_No || ""}
+                        onChange={handlePlanInputChange}
                         type="text"
                         className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-20"
                       />
@@ -674,7 +668,7 @@ export default function PlanInfo() {
                             <input
                               disabled
                               id="Order_No"
-                              value={orderData?.Order_No || ""}
+                              value={orderData?.Order_No || ""} 
                               onChange={handleInputChange}
                               type="text"
                               className="bg-whtie border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -1443,6 +1437,9 @@ export default function PlanInfo() {
                           <label className="w-10  text-xs">Parts_No</label>
                           <div className="w-auto">
                             <input
+                              id="Parts_No"
+                              value={planData?.Parts_No || ""}
+                              onChange={handlePlanInputChange}
                               type="text"
                               className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24 ml-1"
                             />
@@ -1452,7 +1449,14 @@ export default function PlanInfo() {
                           <label className="w-16 text-xs">Parts_Delivery</label>
                           <div className="w-auto flex gap-1">
                             <input
-                              type="text"
+                              id="Pt_Delivery"
+                              value={
+                                planData?.Pt_Delivery
+                                  ? planData.Pt_Delivery.substring(0, 10)
+                                  : ""
+                              }
+                              onChange={(event) => handlePlanInputChange(event)}
+                              type="date"
                               className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24 ml-1.5"
                             />
                           </div>
@@ -1465,7 +1469,7 @@ export default function PlanInfo() {
                           <div className="w-auto flex gap-1 mr-1">
                             <select
                               id="Pl_Reg_Person_CD"
-                              value={planData?.Pl_Reg_Person_CD}
+                              value={planData?.Pl_Reg_Person_CD || "" }
                               onChange={handlePlanInputChange}
                               className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99]  w-24"
                             >
@@ -1501,16 +1505,25 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ml-[18px]">
                           <div className="w-auto flex gap-1 ">
                             <input
+                              id="Pt_CAT1"
+                              value={planData?.Pt_CAT1 || ""}
+                              onChange={handlePlanInputChange}
                               type="checkbox"
                               className="form-checkbox border-gray-400 rounded ml-5 "
                             />
                             <label className="text-xs mt-2">Pt_CAT1</label>
                             <input
+                              id="Pt_CAT2"
+                              value={planData?.Pt_CAT2 || ""}
+                              onChange={handlePlanInputChange}
                               type="checkbox"
                               className="form-checkbox border-gray-400 rounded ml-5"
                             />
                             <label className="text-xs mt-2">Pt_CAT2</label>
                             <input
+                              id="Pt_CAT3"
+                              value={planData?.Pt_CAT3 || ""}
+                              onChange={handlePlanInputChange}
                               type="checkbox"
                               className="form-checkbox border-gray-400 rounded ml-5"
                             />
@@ -1555,11 +1568,18 @@ export default function PlanInfo() {
                             />
                           </div>
                         </div>
-                        <div className="flex gap-2 w-auto ml-6">
+                        <div className="flex gap-2 w-auto ml-12">
                           <label className="w-auto  text-xs">Plan_Reg</label>
                           <div className="w-auto">
                             <input
-                              type="text"
+                              id="Pl_Reg_Date"
+                              value={
+                                planData?.Pl_Reg_Date
+                                  ? planData.Pl_Reg_Date.substring(0, 10)
+                                  : ""
+                              }
+                              onChange={(event) => handlePlanInputChange(event)}
+                              type="date"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
                             />
                           </div>
@@ -1579,10 +1599,14 @@ export default function PlanInfo() {
                                 className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-24"
                               >
                                 {/* หากมี Parts_CD ใน planData ให้แสดงตัวเลือกแรก */}
-                                      <option value={planData?.Parts_CD || ""}>
-                                    {Array.isArray(PartsData) && PartsData.find(item => item?.Parts_CD === planData?.Parts_CD)?.Parts_Abb || ""}
- 
-                                    </option>
+                                <option value={planData?.Parts_CD || ""}>
+                                  {(Array.isArray(PartsData) &&
+                                    PartsData.find(
+                                      (item) =>
+                                        item?.Parts_CD === planData?.Parts_CD
+                                    )?.Parts_Abb) ||
+                                    ""}
+                                </option>
 
                                 {Array.isArray(PartsData) &&
                                 PartsData.length > 0 ? (
@@ -1616,20 +1640,40 @@ export default function PlanInfo() {
                                 type="text"
                                 className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-10 h-7"
                               />
-                              <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-14 ">
-                                <option value=""></option>
-                                <option value="part1">Part 1</option>
-                                <option value="part2">Part 2</option>
-                                <option value="part3">Part 3</option>
+                              <select
+                                id="Pt_Unit_CD"
+                                value={planData?.Pt_Unit_CD || ""}
+                                onChange={handlePlanInputChange}
+                                className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-14 "
+                              >
+                                <option value={planData?.Pt_Unit_CD || ""}>
+                                  {planData?.Pt_Unit_CD || ""}
+                                </option>
+                                {Array.isArray(UnitsData) &&
+                                UnitsData.length > 0 ? (
+                                  UnitsData.map((item, index) => (
+                                    <option key={index} value={item.Unit_CD}>
+                                      {item.Unit_Abb}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <input
+                              id="Pt_Split"
+                              value={planData?.Pt_Split || ""}
+                              onChange={handlePlanInputChange}
                               type="checkbox"
                               className="form-checkbox border-gray-400 rounded ml-2"
                             />
                             <label className="text-xs ">Split</label>
                             <label className="w-7 text-xs ml-4">Sp_Qty</label>
                             <input
+                              id="Pt_Spare_Qty"
+                              value={planData?.Pt_Spare_Qty || ""}
+                              onChange={handlePlanInputChange}
                               type="text"
                               className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-14 ml-1.5 h-7"
                             />
@@ -1641,6 +1685,9 @@ export default function PlanInfo() {
                             </label>
                             <div className="w-auto">
                               <input
+                                id="Connect_Od_No"
+                                value={planData?.Connect_Od_No || ""}
+                                onChange={handlePlanInputChange}
                                 type="text"
                                 className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-32  h-7"
                               />
@@ -1648,6 +1695,9 @@ export default function PlanInfo() {
                             <label className="w-8 text-xs ml-1">NG_Qty</label>
                             <div className="w-auto flex gap-1">
                               <input
+                                id="Pt_NG_Qty"
+                                value={planData?.Pt_NG_Qty || ""}
+                                onChange={handlePlanInputChange}
                                 type="text"
                                 className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-14 ml-1.5 h-7"
                               />
@@ -1660,15 +1710,24 @@ export default function PlanInfo() {
                             </label>
                             <div className="w-auto flex gap-1">
                               <input
+                                id="Connect_Pt_No"
+                                value={planData?.Connect_Pt_No || ""}
+                                onChange={handlePlanInputChange}
                                 type="text"
                                 className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-10 h-7"
                               />
                               <input
+                                id="Connect_Pt_Abb"
+                                value={planData?.Connect_Pt_Abb || ""}
+                                onChange={handlePlanInputChange}
                                 type="text"
                                 className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-20 h-7"
                               />
                             </div>
                             <input
+                              id="Pt_Pending"
+                              value={planData?.Pt_Pending || ""}
+                              onChange={handlePlanInputChange}
                               type="checkbox"
                               className="form-checkbox border-gray-400 rounded ml-2"
                             />
@@ -1681,15 +1740,24 @@ export default function PlanInfo() {
                             </label>
                             <div className="w-auto flex gap-1">
                               <input
+                                id="Connect_Pr_No"
+                                value={planData?.Connect_Pr_No || ""}
+                                onChange={handlePlanInputChange}
                                 type="text"
                                 className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-10 h-7"
                               />
                               <input
+                                id="Connect_Pr_Abb"
+                                value={planData?.Connect_Pr_Abb || ""}
+                                onChange={handlePlanInputChange}
                                 type="text"
                                 className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md  w-20 h-7"
                               />
                             </div>
                             <input
+                              id="Outside"
+                              value={planData?.Outside || ""}
+                              onChange={handlePlanInputChange}
                               type="checkbox"
                               className="form-checkbox border-gray-400 rounded ml-2"
                             />
@@ -1721,34 +1789,29 @@ export default function PlanInfo() {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
+                                {Array.isArray(selectedPlanNo) &&
+                        selectedPlanNo.length > 0 ? (
+                          selectedPlanNo.map((item, index) => (
+                          
+                              <tr key={index}>
+                              <td className="border border-gray-300 h-8">{item.Parts_No}</td>
+                              <td className="border border-gray-300 h-8">{item.Pl_Progress_CD}</td>
+                              <td className="border border-gray-300 h-8">{item.Parts_No}</td>
+                              <td className="border border-gray-300 h-8">{item.Pt_Delivery}</td>
+                              <td className="border border-gray-300 h-8">{item.Pt_Material}</td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
                                     <td className="border border-gray-300 h-8"></td>
                                     <td className="border border-gray-300 h-8"></td>
                                     <td className="border border-gray-300 h-8"></td>
                                     <td className="border border-gray-300 h-8"></td>
                                     <td className="border border-gray-300 h-8"></td>
-                                  </tr>
-                                  <tr>
-                                    <td className="border border-gray-300 h-8"></td>
-                                    <td className="border border-gray-300 h-8"></td>
-                                    <td className="border border-gray-300 h-8"></td>
-                                    <td className="border border-gray-300 h-8"></td>
-                                    <td className="border border-gray-300 h-8"></td>
-                                  </tr>
-                                  <tr>
-                                    <td className="border border-gray-300 h-8"></td>
-                                    <td className="border border-gray-300 h-8"></td>
-                                    <td className="border border-gray-300 h-8"></td>
-                                    <td className="border border-gray-300 h-8"></td>
-                                    <td className="border border-gray-300 h-8"></td>
-                                  </tr>
-                                  <tr>
-                                    <td className="border border-gray-300 h-8"></td>
-                                    <td className="border border-gray-300 h-8"></td>
-                                    <td className="border border-gray-300 h-8"></td>
-                                    <td className="border border-gray-300 h-8"></td>
-                                    <td className="border border-gray-300 h-8"></td>
-                                  </tr>
+                          </tr>
+                        )}
+                                
+                               
                                 </tbody>
                               </table>
 
@@ -1800,48 +1863,23 @@ export default function PlanInfo() {
 
                         <div className="flex gap-2 w-auto ml-[18px] h-10">
                           <div className="w-16 flex flex-col gap-2">
-                            <div className="flex items-center h-full py-2">
-                              <label className="text-xs mr-2">Chk 1</label>
-                              <input
-                                type="checkbox"
-                                className="form-checkbox border-gray-400 rounded ml-2"
-                              />
-                            </div>
-                            <div className="flex items-center h-full py-1">
-                              <label className="text-xs mr-2">Chk 2</label>
-                              <input
-                                type="checkbox"
-                                className="form-checkbox border-gray-400 rounded ml-2"
-                              />
-                            </div>
-                            <div className="flex items-center h-full py-2">
-                              <label className="text-xs mr-2">Chk 3</label>
-                              <input
-                                type="checkbox"
-                                className="form-checkbox border-gray-400 rounded ml-2"
-                              />
-                            </div>
-                            <div className="flex items-center h-full py-1">
-                              <label className="text-xs mr-2">Chk 4</label>
-                              <input
-                                type="checkbox"
-                                className="form-checkbox border-gray-400 rounded ml-2"
-                              />
-                            </div>
-                            <div className="flex items-center h-full py-1">
-                              <label className="text-xs mr-2">Chk 5</label>
-                              <input
-                                type="checkbox"
-                                className="form-checkbox border-gray-400 rounded ml-2"
-                              />
-                            </div>
-                            <div className="flex items-center h-full py-2">
-                              <label className="text-xs mr-2">Chk 6</label>
-                              <input
-                                type="checkbox"
-                                className="form-checkbox border-gray-400 rounded ml-2"
-                              />
-                            </div>
+                            {[1, 2, 3, 4, 5, 6].map((chk) => (
+                              <div
+                                className="flex items-center h-full py-2"
+                                key={chk}
+                              >
+                                <label className="text-xs mr-2">
+                                  Chk {chk}
+                                </label>
+                                <input
+                                  id={`Info_Chk${chk}`}
+                                  value={planData?.[`Info_Chk${chk}`] || ""}
+                                  onChange={handlePlanInputChange}
+                                  type="checkbox"
+                                  className="form-checkbox border-gray-400 rounded ml-2"
+                                />
+                              </div>
+                            ))}
                           </div>
                         </div>
                         <div className="flex gap-2 w-auto ">
@@ -1865,10 +1903,19 @@ export default function PlanInfo() {
 
                         <div className="flex flex-col gap-2 w-auto ">
                           <div className="flex gap-2 w-auto ml-[50px]">
-                            <label className="w-auto text-xs">Plan_Reg</label>
+                            <label className="w-auto text-xs">Pt_Comp</label>
                             <div className="w-auto">
                               <input
-                                type="text"
+                                id="Pt_Complete_Date"
+                                value={
+                                  planData?.Pt_Complete_Date
+                                    ? planData.Pt_Complete_Date.substring(0, 10)
+                                    : ""
+                                }
+                                onChange={(event) =>
+                                  handlePlanInputChange(event)
+                                }
+                                type="date"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
                               />
                             </div>
@@ -1878,7 +1925,16 @@ export default function PlanInfo() {
                             <label className="w-auto text-xs">QC_Comp</label>
                             <div className="w-auto">
                               <input
-                                type="text"
+                                id="Pt_I_Date"
+                                value={
+                                  planData?.Pt_I_Date
+                                    ? planData.Pt_I_Date.substring(0, 10)
+                                    : ""
+                                }
+                                onChange={(event) =>
+                                  handlePlanInputChange(event)
+                                }
+                                type="date"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
                               />
                             </div>
@@ -1888,7 +1944,16 @@ export default function PlanInfo() {
                             <label className="w-auto text-xs">Plan_Upd</label>
                             <div className="w-auto">
                               <input
-                                type="text"
+                                id="Pl_Upd_Date"
+                                value={
+                                  planData?.Pl_Upd_Date
+                                    ? planData.Pl_Upd_Date.substring(0, 10)
+                                    : ""
+                                }
+                                onChange={(event) =>
+                                  handlePlanInputChange(event)
+                                }
+                                type="date"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
                               />
                             </div>
@@ -1995,6 +2060,9 @@ export default function PlanInfo() {
                           </label>
                           <div className="w-auto">
                             <input
+                              id="Pl_Quote_OdPt_No"
+                              value={planData?.Pl_Quote_OdPt_No || ""}
+                              onChange={handlePlanInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-40 ml-1"
                             />
@@ -2004,6 +2072,9 @@ export default function PlanInfo() {
                           <label className="w-20 text-xs">Start_Rev_Days</label>
                           <div className="w-auto flex gap-1">
                             <input
+                              id="Pl_St_Rev_Day"
+                              value={planData?.Pl_St_Rev_Day || ""}
+                              onChange={handlePlanInputChange}
                               type="text"
                               className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-14 ml-1"
                             />
@@ -2013,6 +2084,9 @@ export default function PlanInfo() {
                           <label className="w-20 text-xs">End_Rev_Days</label>
                           <div className="w-auto flex gap-1">
                             <input
+                              id="Pl_Ed_Rev_Day"
+                              value={planData?.Pl_Ed_Rev_Day || ""}
+                              onChange={handlePlanInputChange}
                               type="text"
                               className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-14 ml-1"
                             />
@@ -2036,6 +2110,9 @@ export default function PlanInfo() {
                           <label className="w-10  text-xs">PI_Quote</label>
                           <div className="w-auto">
                             <input
+                              id="PI_Quote"
+                              value={planData?.PI_Quote || ""}
+                              onChange={handlePlanInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-40 ml-1"
                             />
@@ -2054,7 +2131,12 @@ export default function PlanInfo() {
                         <div className="flex gap-2 w-auto ml-5">
                           <label className="w-10 text-xs">Type</label>
                           <div className="w-auto flex gap-1">
-                            <select className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-24 ">
+                            <select
+                              id="Sc_Make_Type"
+                              value={planData?.Sc_Make_Type || ""}
+                              onChange={handlePlanInputChange}
+                              className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-24 "
+                            >
                               <option value=""></option>
                               <option value="Forward">Forward</option>
                               <option value="Equality">Equality</option>
@@ -2064,6 +2146,9 @@ export default function PlanInfo() {
                         </div>
                         <div className="flex gap-2 w-auto ml-5">
                           <input
+                            id="Money_Object"
+                            value={planData?.Money_Object || ""}
+                            onChange={handlePlanInputChange}
                             type="checkbox"
                             className="form-checkbox border-gray-400 rounded ml-2"
                           />
@@ -2073,6 +2158,9 @@ export default function PlanInfo() {
 
                           <div className="w-auto flex gap-1">
                             <input
+                              id="Amount"
+                              value={planData?.Amount || ""}
+                              onChange={handlePlanInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-24ml-1"
                             />
@@ -2344,12 +2432,8 @@ export default function PlanInfo() {
                           NextParts <br /> 別部 (F8)
                         </button>
                         <button
-                          className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
-                            !isSearchOrderNoFilled
-                              ? "opacity-50 cursor-not-allowed"
-                              : ""
-                          }`}
-                          disabled={!isSearchOrderNoFilled}
+                          className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center"
+                          onClick={handleF9Click}
                         >
                           Save <br /> 登録 (F9)
                         </button>
