@@ -8,6 +8,8 @@ import { usePlan } from "../hooks/use-plan";
 
 export default function ResultInfo() {
   const inputs = Array.from({ length: 12 }, (_, i) => i + 1);
+  const inputs2 = Array.from({ length: 12 }, (_, i) => i + 13);
+  const inputs3 = Array.from({ length: 12 }, (_, i) => i + 25);
   const { ResultData, setResultData } = useResult();
   const { planData, setPlanData } = usePlan();
   const { orderData, setOrderData } = useOrder();
@@ -1221,18 +1223,11 @@ export default function ResultInfo() {
                   <div className="grid grid-cols-12 mx-5 pb-7">
                     <div></div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 text-center">
-                      <label className="font-medium text-xs">No13</label>
-                      <label className="font-medium text-xs">No14</label>
-                      <label className="font-medium text-xs">No15</label>
-                      <label className="font-medium text-xs">No16</label>
-                      <label className="font-medium text-xs">No17</label>
-                      <label className="font-medium text-xs">No18</label>
-                      <label className="font-medium text-xs">No19</label>
-                      <label className="font-medium text-xs">No20</label>
-                      <label className="font-medium text-xs">No21</label>
-                      <label className="font-medium text-xs">No22</label>
-                      <label className="font-medium text-xs">No23</label>
-                      <label className="font-medium text-xs">No24</label>
+                      {inputs2.map((id) => (
+                        <label key={id} className="font-medium text-xs">
+                          No{id}
+                        </label>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">
@@ -1240,280 +1235,55 @@ export default function ResultInfo() {
                       </label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
+                      {inputs2.map((id) => (
+                        <div key={id}>
+                          <select
+                            id={`PPC${id}`}
+                            value={planData?.[`PPC${id}`] || ""}
+                            onChange={handlePlanInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-white w-full"
+                          >
+                            <option value=""></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                          </select>
+                        </div>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">Plan_M_Time</label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/L</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
+                      {inputs2.map((id) => (
+                        <div className="flex gap-2 items-center" key={id}>
+                          <input
+                            id={`PMT${id}`}
+                            value={planData?.[`PMT${id}`] || ""}
+                            onChange={handlePlanInputChange}
+                            type="text"
+                            className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          />
+                          <label className="font-medium text-xs">min/L</label>
+                        </div>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">Plan_P_Time</label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/L</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
+                      {inputs2.map((id) => (
+                        <div className="flex gap-2 items-center" key={id}>
+                          <input
+                            id={`PPT${id}`}
+                            value={planData?.[`PPT${id}`] || ""}
+                            onChange={handlePlanInputChange}
+                            type="text"
+                            className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          />
+                          <label className="font-medium text-xs">min/L</label>
+                        </div>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">
@@ -1521,155 +1291,33 @@ export default function ResultInfo() {
                       </label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
+                      {inputs2.map((id) => (
+                        <div key={id}>
+                          <input
+                            id={`PPD${id}`}
+                            value={planData?.[`PPD${id}`] || ""}
+                            onChange={handlePlanInputChange}
+                            type="text"
+                            className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          />
+                        </div>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">Result_Date</label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
+                      {inputs2.map((id) => (
+                        <div key={id}>
+                          <input
+                            id={`RPD${id}`}
+                            value={ResultData?.[`RPD${id}`] || ""}
+                            onChange={handleResultInputChange}
+                            type="text"
+                            className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          />
+                        </div>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">
@@ -1677,78 +1325,17 @@ export default function ResultInfo() {
                       </label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
+                      {inputs2.map((id) => (
+                        <div key={id}>
+                          <input
+                            id={`RMT${id}`}
+                            value={ResultData?.[`RMT${id}`] || ""}
+                            onChange={handleResultInputChange}
+                            type="text"
+                            className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          />
+                        </div>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">
@@ -1756,155 +1343,33 @@ export default function ResultInfo() {
                       </label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
+                      {inputs2.map((id) => (
+                        <div key={id}>
+                          <input
+                            id={`RPT${id}`}
+                            value={ResultData?.[`RPT${id}`] || ""}
+                            onChange={handleResultInputChange}
+                            type="text"
+                            className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          />
+                        </div>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">Result_Qty</label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
+                      {inputs2.map((id) => (
+                        <div key={id}>
+                          <input
+                            id={`RPN${id}`}
+                            value={ResultData?.[`RPN${id}`] || ""}
+                            onChange={handleResultInputChange}
+                            type="text"
+                            className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          />
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -1917,18 +1382,11 @@ export default function ResultInfo() {
                   <div className="grid grid-cols-12 mx-5 pb-7">
                     <div></div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 text-center">
-                      <label className="font-medium text-xs">No25</label>
-                      <label className="font-medium text-xs">No26</label>
-                      <label className="font-medium text-xs">No27</label>
-                      <label className="font-medium text-xs">No28</label>
-                      <label className="font-medium text-xs">No29</label>
-                      <label className="font-medium text-xs">No30</label>
-                      <label className="font-medium text-xs">No31</label>
-                      <label className="font-medium text-xs">No32</label>
-                      <label className="font-medium text-xs">No33</label>
-                      <label className="font-medium text-xs">No34</label>
-                      <label className="font-medium text-xs">No35</label>
-                      <label className="font-medium text-xs">No36</label>
+                      {inputs3.map((id) => (
+                        <label key={id} className="font-medium text-xs">
+                          No{id}
+                        </label>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">
@@ -1936,280 +1394,55 @@ export default function ResultInfo() {
                       </label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
-                      <div>
-                        <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
-                          <option value=""></option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                        </select>
-                      </div>
+                      {inputs3.map((id) => (
+                        <div key={id}>
+                          <select
+                            id={`PPC${id}`}
+                            value={planData?.[`PPC${id}`] || ""}
+                            onChange={handlePlanInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-white w-full"
+                          >
+                            <option value=""></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                          </select>
+                        </div>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">Plan_M_Time</label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/L</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
+                      {inputs3.map((id) => (
+                        <div className="flex gap-2 items-center" key={id}>
+                          <input
+                            id={`PMT${id}`}
+                            value={planData?.[`PMT${id}`] || ""}
+                            onChange={handlePlanInputChange}
+                            type="text"
+                            className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          />
+                          <label className="font-medium text-xs">min/L</label>
+                        </div>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">Plan_P_Time</label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/L</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                        <label className="font-medium text-xs">min/P</label>
-                      </div>
+                      {inputs3.map((id) => (
+                        <div className="flex gap-2 items-center" key={id}>
+                          <input
+                            id={`PPT${id}`}
+                            value={planData?.[`PPT${id}`] || ""}
+                            onChange={handlePlanInputChange}
+                            type="text"
+                            className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          />
+                          <label className="font-medium text-xs">min/L</label>
+                        </div>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">
@@ -2217,155 +1450,33 @@ export default function ResultInfo() {
                       </label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
+                      {inputs3.map((id) => (
+                        <div key={id}>
+                          <input
+                            id={`PPD${id}`}
+                            value={planData?.[`PPD${id}`] || ""}
+                            onChange={handlePlanInputChange}
+                            type="text"
+                            className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          />
+                        </div>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">Result_Date</label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
+                      {inputs3.map((id) => (
+                        <div key={id}>
+                          <input
+                            id={`RPD${id}`}
+                            value={ResultData?.[`RPD${id}`] || ""}
+                            onChange={handleResultInputChange}
+                            type="text"
+                            className="bg-[#fecc99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          />
+                        </div>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">
@@ -2373,78 +1484,17 @@ export default function ResultInfo() {
                       </label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
+                      {inputs3.map((id) => (
+                        <div key={id}>
+                          <input
+                            id={`RMT${id}`}
+                            value={ResultData?.[`RMT${id}`] || ""}
+                            onChange={handleResultInputChange}
+                            type="text"
+                            className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          />
+                        </div>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">
@@ -2452,155 +1502,33 @@ export default function ResultInfo() {
                       </label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
+                      {inputs3.map((id) => (
+                        <div key={id}>
+                          <input
+                            id={`RPT${id}`}
+                            value={ResultData?.[`RPT${id}`] || ""}
+                            onChange={handleResultInputChange}
+                            type="text"
+                            className="bg-[#ccffcc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          />
+                        </div>
+                      ))}
                     </div>
                     <div className="mt-3">
                       <label className="font-medium text-xs">Result_Qty</label>
                     </div>
                     <div className="col-span-11 grid grid-cols-12 gap-2 mt-3">
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="text"
-                          className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                        />
-                      </div>
+                      {inputs3.map((id) => (
+                        <div key={id}>
+                          <input
+                            id={`RPN${id}`}
+                            value={ResultData?.[`RPN${id}`] || ""}
+                            onChange={handleResultInputChange}
+                            type="text"
+                            className="bg-[#99ccff] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          />
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
