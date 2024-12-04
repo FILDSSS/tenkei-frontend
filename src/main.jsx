@@ -6,6 +6,7 @@ import OrderContextProvider from './contexts/orderContext';
 import OrderListContextProvider from './contexts/OrderListContext.jsx';
 import PurchaseContextProvider from './contexts/PurchaseContext.jsx';
 import PlanContextProvider from './contexts/PlanContext';
+import ResultContextProvider from './contexts/ResultContext.jsx'
 import './index.css';
 
 createRoot(document.getElementById('root')).render(
@@ -15,7 +16,9 @@ createRoot(document.getElementById('root')).render(
     <OrderListContextProvider>
     <PurchaseContextProvider>
     <PlanContextProvider>
+      <ResultContextProvider>
       <App />
+      </ResultContextProvider>
       </PlanContextProvider>
       </PurchaseContextProvider>
       </OrderListContextProvider>
