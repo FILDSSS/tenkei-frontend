@@ -155,12 +155,13 @@ export const PlanContext = createContext();
 
 export default function PlanContextProvider({ children }) {
   const [planData, setPlanData] = useState([]); // Default to empty array
-  const [selectedPlanNo, setSelectedPlanNo] = useState(null);
+  const [selectedPlanNo, setSelectedPlanNo] = useState([]);
   const [qmprocessData, setQMprocessData] = useState(null);
   const [processData, setProcessData] = useState(null);
   const [plprogressData, setPlProgressData] = useState(null);
   const [ScheduleData, setScheduleData] = useState(null);
   const [PartsData, setPartsData] = useState(null);
+
   const searchPartsData = async (orderNo) => {
     try {
       const response = await axios.post("/plan/search-order-plan", { Order_No: orderNo });
@@ -175,7 +176,7 @@ export default function PlanContextProvider({ children }) {
       } else {
         return false;
       }
-      return false;
+
     } catch (error) {
       console.error("Error fetching order data:", error);
       return false;
@@ -189,16 +190,15 @@ export default function PlanContextProvider({ children }) {
         Parts_No: partsNO,
       });
 
-      if (
-        response.data &&
-        response.data.data &&
-        Array.isArray(response.data.data)
-      ) {
-        setPlanData(response.data.data);
-        return true;
-      } else {
-        return false;
-      }
+      if (response.data && response.data.data && response.data.data.plan) {
+                
+        setPlanData(response.data.data.plan);
+        return true; 
+    } else {
+       
+        return false; 
+    }
+      
     } catch (error) {
       console.error("Error fetching part data:", error);
       return false;
