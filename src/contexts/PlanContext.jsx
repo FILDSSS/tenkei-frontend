@@ -232,6 +232,16 @@ export default function PlanContextProvider({ children }) {
     }
   };
 
+  const fetchUnits = async () => {
+    try {
+      const response = await axios.get("/unit/fetch-unit");
+      setScheduleData(response.data?.data?.schedule || []);
+    } catch (error) {
+      console.error("Error fetching schedule data:", error);
+    }
+  };
+
+
   const fetchSchedule = async () => {
     try {
       const response = await axios.get("/schedule/fetch-schedule");
