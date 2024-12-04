@@ -43,7 +43,7 @@ const CostInfo = () => {
               <label className="text-xs font-bold">Search Part No.</label>
               <div className="relative w-full">
                 <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
-                  <option value="" disabled hidden></option>
+                  <option value=""></option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -55,7 +55,7 @@ const CostInfo = () => {
               <label className="text-xs font-bold">Search Cost No.</label>
               <div className="relative w-full">
                 <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8">
-                  <option value="" disabled hidden></option>
+                  <option value=""></option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -78,7 +78,7 @@ const CostInfo = () => {
               <label className="text-xs font-bold">Search Part No.</label>
               <div className="relative w-full">
                 <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8">
-                  <option value="" disabled hidden></option>
+                  <option value=""></option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -137,7 +137,7 @@ const CostInfo = () => {
               <div className="flex items-center gap-2">
                 <div className="relative w-full sm:w-20 lg:w-20 xl:w-20">
                   <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
-                    <option value="" disabled hidden></option>
+                    <option value=""></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -161,7 +161,7 @@ const CostInfo = () => {
                   <div className="flex items-center gap-2">
                     <div className="relative w-full xl:w-28">
                       <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffcc] w-full h-8">
-                        <option value="" disabled hidden></option>
+                        <option value=""></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -195,7 +195,7 @@ const CostInfo = () => {
                   <div className="flex items-center gap-2">
                     <div className="relative w-full xl:w-28">
                       <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffcc] w-full h-8">
-                        <option value="" disabled hidden></option>
+                        <option value=""></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -253,7 +253,7 @@ const CostInfo = () => {
                   <div className="flex items-center gap-2">
                     <div className="relative w-full xl:w-28">
                       <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8">
-                        <option value="" disabled hidden></option>
+                        <option value=""></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
