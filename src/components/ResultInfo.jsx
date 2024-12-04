@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import { IoIosArrowRoundForward } from "react-icons/io";
@@ -11,25 +11,47 @@ export default function ResultInfo() {
   const inputs2 = Array.from({ length: 12 }, (_, i) => i + 13);
   const inputs3 = Array.from({ length: 12 }, (_, i) => i + 25);
   const { ResultData, setResultData } = useResult();
-  const { planData, setPlanData } = usePlan();
-  const { orderData, setOrderData } = useOrder();
+  const {
+    planData,
+    setPlanData,
+    searchPartsData,
+    selectedPlanNo,
+    selectPartsData,
+  } = usePlan();
+  const { orderData, setOrderData, searchOrderData } = useOrder();
+  const [searchOrderNo, setSearchOrderNo] = useState("");
+  const [searchPlanNo, setSearchPlanNo] = useState("");
+  const [Search_Odpt_No, setSearch_Odpt_No] = useState("");
 
   const handleOrderInputChange = async (event) => {
     const { id, value, type, checked } = event.target;
 
-    setOrderData((prevResultData) => ({
-      ...prevResultData,
+    setOrderData((prevOrdertData) => ({
+      ...prevOrdertData,
       [id]: type === "checkbox" ? checked : value === "" ? null : value,
     }));
+
+    if (id === "Search_Order_No") {
+      setSearchOrderNo(value);
+      if (value) {
+        searchOrderData(value);
+        searchPartsData(value);
+      }
+    }
   };
 
   const handlePlanInputChange = async (event) => {
     const { id, value, type, checked } = event.target;
 
-    setPlanData((prevResultData) => ({
-      ...prevResultData,
+    setPlanData((prevPlanData) => ({
+      ...prevPlanData,
       [id]: type === "checkbox" ? checked : value === "" ? null : value,
     }));
+
+    if (id === "Search_Parts_No") {
+      setSearchPlanNo(value);
+      setSearch_Odpt_No(`${searchOrderNo || ""}-${value}`);
+    }
   };
 
   const handleResultInputChange = async (event) => {
@@ -40,6 +62,12 @@ export default function ResultInfo() {
       [id]: type === "checkbox" ? checked : value === "" ? null : value,
     }));
   };
+
+  useEffect(() => {
+    if (Search_Odpt_No) {
+      selectPartsData(searchOrderNo, searchPlanNo);
+    }
+  }, [Search_Odpt_No]);
 
   return (
     <div className="flex bg-[#E9EFEC] h-[100vh]">
@@ -62,6 +90,9 @@ export default function ResultInfo() {
                         </label>
                         <div className="w-3/5">
                           <input
+                            id="Search_Order_No"
+                            value={searchOrderNo || ""}
+                            onChange={handleOrderInputChange}
                             type="text"
                             className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -72,11 +103,23 @@ export default function ResultInfo() {
                           Search_Parts_No
                         </label>
                         <div className="w-3/5">
-                          <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full">
-                            <option value=""></option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                          <select
+                            id="Search_Parts_No"
+                            value={searchPlanNo || ""}
+                            onChange={(e) => handlePlanInputChange(e)}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
+                          >
+                            <option value="">เลือกข้อมูล</option>
+                            {Array.isArray(selectedPlanNo) &&
+                            selectedPlanNo.length > 0 ? (
+                              selectedPlanNo.map((item, index) => (
+                                <option key={index} value={item.Parts_No}>
+                                  {item.Parts_No}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
                           </select>
                         </div>
                       </div>
@@ -86,6 +129,9 @@ export default function ResultInfo() {
                         </label>
                         <div className="w-3/5">
                           <input
+                            id="Search_Odpt_No"
+                            value={Search_Odpt_No || ""}
+                            onChange={(e) => handlePlanInputChange(e)}
                             type="text"
                             className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
@@ -653,13 +699,22 @@ export default function ResultInfo() {
                             </label>
                             <div className="w-3/5">
                               <input
+                                id="OdPt_No"
+                                value={planData?.OdPt_No || ""}
+                                onChange={handlePlanInputChange}
                                 type="text"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
                             </div>
                           </div>
                           <div className="flex justify-center items-center gap-2">
-                            <input type="checkbox" className="w-6 h-6" />
+                            <input
+                              id="Pt_Pending"
+                              value={planData?.Pt_Pending || ""}
+                              onChange={handlePlanInputChange}
+                              type="checkbox"
+                              className="w-6 h-6"
+                            />
                             <label className="w-2/5 font-medium text-xs">
                               Pt_Pending
                             </label>
@@ -682,6 +737,8 @@ export default function ResultInfo() {
                           </label>
                           <div className="w-3/5">
                             <input
+                              value={planData?.Pl_Ed_Rev_Day || ""}
+                              onChange={handlePlanInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
@@ -761,6 +818,9 @@ export default function ResultInfo() {
                             </label>
                             <div className="w-7/12">
                               <input
+                                id="Connect_Od_No"
+                                value={planData?.Connect_Od_No || ""}
+                                onChange={handlePlanInputChange}
                                 type="text"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -893,6 +953,9 @@ export default function ResultInfo() {
                           </label>
                           <div className="w-3/5">
                             <input
+                              id="Pt_Complete"
+                              value={planData?.Pt_Complete || ""}
+                              onChange={handlePlanInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
