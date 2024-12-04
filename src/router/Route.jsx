@@ -58,6 +58,7 @@ import { HolidayPage } from "../pages/Master/HolidayPage";
 import { VendorPage } from "../pages/Master/VendorPage";
 import SearchplanPage from "../pages/SearchplanPage";
 import Tenkei_WI_SumPage from "../pages/Admin-Menu/Tenkei_WI_SumPage";
+import Processg_Plan_CfmPage from "../pages/Processg_Plan_CfmPage";
 
 const router = createBrowserRouter([
   {
@@ -287,6 +288,10 @@ const router = createBrowserRouter([
   {
     path: "/search",
     element: <SearchplanPage />,
+  },
+  {
+    path: "/processg-plan-cfm",
+    element: <Processg_Plan_CfmPage />,
   },
 ]);
 

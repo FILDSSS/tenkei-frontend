@@ -13,11 +13,22 @@ export function WeekTargetSetting() {
 
   const fetchSet = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:4000/set/fetch-set"
-      );
+      const response = await axios.get("http://localhost:4000/set/fetch-set");
+      const formattedData = response.data.data.set.map((row) => ({
+        ...row,
+        St_Target_Week1: formatDateForInput(row.St_Target_Week1),
+        Ed_Target_Week1: formatDateForInput(row.Ed_Target_Week1),
+        St_Target_Week2: formatDateForInput(row.St_Target_Week2),
+        Ed_Target_Week2: formatDateForInput(row.Ed_Target_Week2),
+        St_Target_Week3: formatDateForInput(row.St_Target_Week3),
+        Ed_Target_Week3: formatDateForInput(row.Ed_Target_Week3),
+        St_Target_Week4: formatDateForInput(row.St_Target_Week4),
+        Ed_Target_Week4: formatDateForInput(row.Ed_Target_Week4),
+        St_Target_Week5: formatDateForInput(row.St_Target_Week5),
+        Ed_Target_Week5: formatDateForInput(row.Ed_Target_Week5),
+      }));
       // console.log("Fetched data:", response.data);
-      setData(response.data.data.set || []);
+      setData(formattedData);
     } catch (error) {
       // console.error("Error fetching set:", error);
     }
@@ -28,9 +39,9 @@ export function WeekTargetSetting() {
   }, []);
 
   useEffect(() => {
-    const initialEditedData = data.reduce((acc, row, index) => {
-      if (!editedData[index]) {
-        acc[index] = { ...row };
+    const initialEditedData = data.reduce((acc, row) => {
+      if (!editedData[row.ID]) {
+        acc[row.ID] = { ...row };
       }
       return acc;
     }, {});
@@ -86,9 +97,7 @@ export function WeekTargetSetting() {
         );
 
         const updatedData = [...data];
-        const rowIndex = updatedData.findIndex(
-          (row) => row.ID === Id
-        );
+        const rowIndex = updatedData.findIndex((row) => row.ID === Id);
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
@@ -114,11 +123,11 @@ export function WeekTargetSetting() {
     if (!dateString) return "";
     const date = new Date(dateString);
     if (isNaN(date)) return "";
-  
+
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     const year = date.getFullYear();
-  
+
     return `${month}/${day}/${year}`;
   };
 
