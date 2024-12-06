@@ -60,7 +60,7 @@ function Searchplan() {
                           </div>
                           </div>
                        
-                          <div className="flex  w-auto w-48 gap-7 ml-[734px]">
+                          <div className="flex  w-auto  gap-7 ml-[734px]">
                             <label className="w-auto text-xs mt-2">
                               Otl_Person_CD
                             </label>
@@ -129,7 +129,7 @@ function Searchplan() {
                               />
                             </div>
                           </div>
-                          <div className="flex  w-auto w-48 gap-7 ml-[239px]">
+                          <div className="flex  w-auto  gap-7 ml-[239px]">
                             <label className="w-auto text-xs mt-2">
                               S_St_Grp_CD
                             </label>
@@ -196,7 +196,7 @@ function Searchplan() {
                               />
                             </div>
                           </div>
-                          <div className="flex  w-auto w-48 gap-7 ml-[214px]">
+                          <div className="flex  w-auto gap-7 ml-[214px]">
                             <label className="w-auto text-xs mt-2">
                               S_St_Person_CDP
                             </label>
@@ -278,7 +278,7 @@ function Searchplan() {
                             />
                           </div>
                           </div>
-                          <div className="flex  w-auto w-48 gap-7  ml-[475px] ">
+                          <div className="flex  w-auto  gap-7  ml-[475px] ">
                           <label className="w-16 text-xs mt-1 mr-2">
                             S_Specific_CD
                           </label>
@@ -352,7 +352,7 @@ function Searchplan() {
                             
                           </div>
                           </div>
-                          <div className="flex  w-auto w-48 gap-7  ml-[484px] ">
+                          <div className="flex  w-auto  gap-7  ml-[484px] ">
                           <label className="w-16 text-xs mt-1 ">
                             S_Item1_CD
                           </label>
@@ -425,7 +425,7 @@ function Searchplan() {
                             
                           </div>
                           </div>
-                          <div className="flex  w-auto w-48 gap-7  ml-[484px] ">
+                          <div className="flex  w-auto gap-7  ml-[484px] ">
                           <label className="w-16 text-xs mt-1 ">
                             S_Item2_CD
                           </label>
@@ -495,7 +495,7 @@ function Searchplan() {
                             
                           </div>
                           </div>
-                          <div className="flex  w-auto w-48 gap-7  ml-[484px] ">
+                          <div className="flex  w-auto  gap-7  ml-[484px] ">
                           <label className="w-16 text-xs mt-1 ">
                             S_Item3_CD
                           </label>
@@ -571,7 +571,7 @@ function Searchplan() {
                             
                           </div>
                           </div>
-                          <div className="flex  w-auto w-48 gap-7  ml-[484px] ">
+                          <div className="flex  w-auto gap-7  ml-[484px] ">
                           <label className="w-16 text-xs mt-1 ">
                             S_Item4_CD
                           </label>
@@ -647,7 +647,7 @@ function Searchplan() {
                             />
                           </div>
                           </div>
-                          <div className="flex  w-auto w-48 gap-7  ml-[484px] ">
+                          <div className="flex  w-auto  gap-7  ml-[484px] ">
                           <label className="w-16 text-xs mt-1">
                             S_I_Remark
                           </label>
@@ -724,7 +724,7 @@ function Searchplan() {
                             />
                           </div>
                           </div>
-                          <div className="flex  w-auto w-48 gap-7  ml-[483px] ">
+                          <div className="flex  w-auto  gap-7  ml-[483px] ">
                           <label className="w-16 text-xs mt-1 ">
                             S_Od_CAT_3
                           </label>
