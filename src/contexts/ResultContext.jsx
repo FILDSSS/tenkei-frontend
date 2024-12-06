@@ -14,16 +14,13 @@ export default function ResultContextProvider({ children }) {
             Parts_No: partsNO,
           });
     
-          if (
-            response.data &&
-            response.data.data &&
-            Array.isArray(response.data.data)
-          ) {
-            setResultData(response.data.data);
-            return true;
+          if (response.data && response.data.data && response.data.data.result) { 
+            setResultData(response.data.data.result);
+            return true; 
           } else {
             return false;
           }
+         
         } catch (error) {
           console.error("Error fetching Result data:", error);
           return false;
