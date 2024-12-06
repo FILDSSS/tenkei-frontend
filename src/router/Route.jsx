@@ -61,6 +61,11 @@ import Tenkei_WI_SumPage from "../pages/Admin-Menu/Tenkei_WI_SumPage";
 import Processg_Plan_CfmPage from "../pages/Processg_Plan_CfmPage";
 import { NAV_OrderCSV_ImportPage } from "../pages/NAV_OrderCSV_ImportPage";
 import { NAV_PurchaseCSV_ImportPage } from "../pages/NAV_PurchaseCSV_ImportPage";
+import { Master1Page } from "../pages/Master/Master1Page";
+import { Master2Page } from "../pages/Master/Master2Page";
+import { Master3Page } from "../pages/Master/Master3Page";
+import { StatusPage } from "../pages/StatusPage";
+import { EC1Page } from "../pages/EC1Page";
 
 const router = createBrowserRouter([
   {
@@ -108,8 +113,16 @@ const router = createBrowserRouter([
     element: <PrintDashboradPage />,
   },
   {
-    path: "/master",
-    element: <MasterDashboardPage />,
+    path: "/master1",
+    element: <Master1Page />,
+  },
+  {
+    path: "/master2",
+    element: <Master2Page />,
+  },
+  {
+    path: "/master3",
+    element: <Master3Page />,
   },
   {
     path: "/import",
@@ -302,6 +315,14 @@ const router = createBrowserRouter([
   {
     path: "/nav-purchase-csv-import",
     element: <NAV_PurchaseCSV_ImportPage />,
+  },
+  {
+    path: "/status",
+    element: <StatusPage />,
+  },
+  {
+    path: "/ec-1",
+    element: <EC1Page />,
   },
 ]);
 
