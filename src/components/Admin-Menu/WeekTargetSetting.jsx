@@ -402,7 +402,7 @@ export function WeekTargetSetting() {
   ];
 
   return (
-    <div className="flex bg-[#E9EFEC] h-[150vh]">
+    <div className="flex bg-[#E9EFEC] h-[100vh]">
       <Sidebar />
       <div className="flex flex-col w-full mr-2 ml-2">
         <Navbar />

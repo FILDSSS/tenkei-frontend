@@ -23,6 +23,7 @@ export default function CostList() {
                     <label className="w-[100px] font-medium">Search_Type</label>
                     <div className="w-24">
                       <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                        <option value=""></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -34,6 +35,7 @@ export default function CostList() {
                     <label className="w-[70px] font-medium">Delivery</label>
                     <div className="w-24">
                       <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                        <option value=""></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -44,6 +46,7 @@ export default function CostList() {
                     <label className="w-[80px] font-medium">Delivery2</label>
                     <div className="w-24">
                       <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                        <option value=""></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -54,6 +57,7 @@ export default function CostList() {
                     <label className="w-[80px] font-medium">Delivery3</label>
                     <div className="w-24">
                       <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                        <option value=""></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -66,6 +70,7 @@ export default function CostList() {
                     </label>
                     <div className="w-24">
                       <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                        <option value=""></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -76,6 +81,7 @@ export default function CostList() {
                     <label className="w-[100px] font-medium">Plan_Target</label>
                     <div className="w-24">
                       <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                        <option value=""></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -181,6 +187,7 @@ export default function CostList() {
                             </label>
                             <div className="w-24">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -213,6 +220,7 @@ export default function CostList() {
                             </label>
                             <div className="w-24">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -231,6 +239,7 @@ export default function CostList() {
 
                             <div className="w-24 ">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -250,6 +259,7 @@ export default function CostList() {
                             </label>
                             <div className="w-24">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -282,6 +292,7 @@ export default function CostList() {
                             </label>
                             <div className="w-24">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -300,6 +311,7 @@ export default function CostList() {
                             </label>
                             <div className=" w-16">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -318,6 +330,7 @@ export default function CostList() {
                             </label>
                             <div className="w-24">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -350,6 +363,7 @@ export default function CostList() {
                             </label>
                             <div className="w-24">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -368,6 +382,7 @@ export default function CostList() {
                             </label>
                             <div className="w-16">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -381,6 +396,7 @@ export default function CostList() {
                             </div>
                             <div className="w-16">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -394,6 +410,7 @@ export default function CostList() {
                             </div>
                             <div className="w-16">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -428,6 +445,7 @@ export default function CostList() {
                                 </label>
                                 <div className="w-28">
                                   <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                    <option value=""></option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -488,6 +506,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -517,6 +536,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -560,6 +580,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -589,6 +610,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="h-6 border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -632,6 +654,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -661,6 +684,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -704,6 +728,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -722,6 +747,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="h-6 border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -740,6 +766,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -783,6 +810,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -801,6 +829,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -819,6 +848,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -856,6 +886,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -874,6 +905,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -892,6 +924,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -929,6 +962,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -947,6 +981,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -965,6 +1000,7 @@ export default function CostList() {
                             </label>
                             <div className="w-28">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -993,6 +1029,7 @@ export default function CostList() {
                             </label>
                             <div className="w-24">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -1003,6 +1040,7 @@ export default function CostList() {
                             </label>
                             <div className="w-24">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -1018,6 +1056,7 @@ export default function CostList() {
                             </label>
                             <div className="w-24">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -1028,6 +1067,7 @@ export default function CostList() {
                             </label>
                             <div className="w-24">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -1043,6 +1083,7 @@ export default function CostList() {
                             </label>
                             <div className="w-24">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -1053,6 +1094,7 @@ export default function CostList() {
                             </label>
                             <div className="w-24">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -1068,6 +1110,7 @@ export default function CostList() {
                             </label>
                             <div className="w-24">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -1078,6 +1121,7 @@ export default function CostList() {
                             </label>
                             <div className="w-24">
                               <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-full">
+                                <option value=""></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -1314,6 +1358,7 @@ export default function CostList() {
                       </label>
                       <div className="items-center w-full mr-5">
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-24 h-6">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1326,6 +1371,7 @@ export default function CostList() {
                       </label>
                       <div className="items-center w-full mr-5">
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-24 h-6">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1337,6 +1383,7 @@ export default function CostList() {
                         </label>
                         <div className="items-center w-full">
                           <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-24 h-6">
+                            <option value=""></option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -1353,6 +1400,7 @@ export default function CostList() {
                       </label>
                       <div className="items-center w-full mr-5">
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-24 h-6">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1365,6 +1413,7 @@ export default function CostList() {
                       </label>
                       <div className="items-center w-full">
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-24 h-6">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1380,6 +1429,7 @@ export default function CostList() {
                       </label>
                       <div className="items-center w-full mr-5">
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-24 h-6">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1392,6 +1442,7 @@ export default function CostList() {
                       </label>
                       <div className="items-center w-full mr-5">
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-24 h-6">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1403,6 +1454,7 @@ export default function CostList() {
                         </label>
                         <div className="items-center w-full">
                           <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-24 h-6">
+                            <option value=""></option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -1419,6 +1471,7 @@ export default function CostList() {
                       </label>
                       <div className="items-center w-full mr-5">
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-24 h-6">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1431,6 +1484,7 @@ export default function CostList() {
                       </label>
                       <div className="items-center w-full">
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-24 h-6">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1464,6 +1518,7 @@ export default function CostList() {
                       </label>
                       <div className="w-full">
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-24 h-6">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -1472,6 +1527,7 @@ export default function CostList() {
                       <label className="font-medium text-sm">~</label>
                       <div className=" w-full pr-2">
                         <select className="border-gray-500 border-solid border-2 rounded-md bg-white w-24 h-6">
+                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
