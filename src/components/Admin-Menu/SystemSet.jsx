@@ -134,11 +134,10 @@ export function SystemSet() {
     // );
   };
 
-  const filteredData = data.filter((row) => {
-    return Object.values(row).some((value) =>
-      String(value).toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
+  const filteredData = data.filter((row) =>
+    String(row.ID).toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
 
   const columns = [
     {
@@ -148,7 +147,7 @@ export function SystemSet() {
     },
     {
       name: "Use",
-      selector: (row) => (
+      cell: (row) => (
         <input
           type="checkbox"
           checked={row.Use ?? false}
@@ -161,7 +160,7 @@ export function SystemSet() {
     },
     {
       name: "Version",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -174,7 +173,7 @@ export function SystemSet() {
     },
     {
       name: "Password",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -187,7 +186,7 @@ export function SystemSet() {
     },
     {
       name: "Language",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -200,7 +199,7 @@ export function SystemSet() {
     },
     {
       name: "Od_No_Digits",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -213,7 +212,7 @@ export function SystemSet() {
     },
     {
       name: "SV_Name",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -226,7 +225,7 @@ export function SystemSet() {
     },
     {
       name: "TENKEI",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -239,7 +238,7 @@ export function SystemSet() {
     },
     {
       name: "Sales_Docu",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -252,7 +251,7 @@ export function SystemSet() {
     },
     {
       name: "Sales_Docu_Type",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -267,7 +266,7 @@ export function SystemSet() {
     },
     {
       name: "Product_Docu",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -285,7 +284,7 @@ export function SystemSet() {
     },
     {
       name: "Product_Docu_Type",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -300,7 +299,7 @@ export function SystemSet() {
     },
     {
       name: "Procure_Docu",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -313,7 +312,7 @@ export function SystemSet() {
     },
     {
       name: "Procure_Docu_Type",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -328,7 +327,7 @@ export function SystemSet() {
     },
     {
       name: "Outside_Docu",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -341,7 +340,7 @@ export function SystemSet() {
     },
     {
       name: "Outside_Docu_Type",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -356,7 +355,7 @@ export function SystemSet() {
     },
     {
       name: "Inspect_Docu",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -369,7 +368,7 @@ export function SystemSet() {
     },
     {
       name: "Inspect_Docu_Type",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -384,7 +383,7 @@ export function SystemSet() {
     },
     {
       name: "Send_Docu",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -397,7 +396,7 @@ export function SystemSet() {
     },
     {
       name: "Send_Docu_Type",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -410,7 +409,7 @@ export function SystemSet() {
     },
     {
       name: "Supple_Docu",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -428,7 +427,7 @@ export function SystemSet() {
     },
     {
       name: "Supple_Docu_Type",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -443,7 +442,7 @@ export function SystemSet() {
     },
     {
       name: "SOrder_CSV",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -456,7 +455,7 @@ export function SystemSet() {
     },
     {
       name: "SOrder_CSV_BK",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -469,7 +468,7 @@ export function SystemSet() {
     },
     {
       name: "SOrder_CSV_CP",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -482,7 +481,7 @@ export function SystemSet() {
     },
     {
       name: "Order_CSV",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -500,7 +499,7 @@ export function SystemSet() {
     },
     {
       name: "Order_CSV_BK",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -518,7 +517,7 @@ export function SystemSet() {
     },
     {
       name: "Order_CSV_CP",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -536,7 +535,7 @@ export function SystemSet() {
     },
     {
       name: "Procure_CSV",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -554,7 +553,7 @@ export function SystemSet() {
     },
     {
       name: "Procure_CSV_BK",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -572,7 +571,7 @@ export function SystemSet() {
     },
     {
       name: "Procure_CSV_CP",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -590,7 +589,7 @@ export function SystemSet() {
     },
     {
       name: "Cost_CSV",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -648,7 +647,7 @@ export function SystemSet() {
     },
     {
       name: "Cost_Write",
-      selector: (row) => (
+      cell: (row) => (
         <input
           type="checkbox"
           checked={row.Cost_Write}
@@ -688,7 +687,7 @@ export function SystemSet() {
     },
     {
       name: "WIP_CSV",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -701,7 +700,7 @@ export function SystemSet() {
     },
     {
       name: "WIP_CSV_Writing",
-      selector: (row) => (
+      cell: (row) => (
         <input
           type="checkbox"
           checked={row.WIP_CSV_Writing}
@@ -714,7 +713,7 @@ export function SystemSet() {
     },
     {
       name: "TENKEI_CSV",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -727,7 +726,7 @@ export function SystemSet() {
     },
     {
       name: "Delivery_CSV",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -740,7 +739,7 @@ export function SystemSet() {
     },
     {
       name: "Label_CSV",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -758,7 +757,7 @@ export function SystemSet() {
     },
     {
       name: "Label_CSV_FG",
-      selector: (row) => (
+      cell: (row) => (
         <input
           type="checkbox"
           checked={row.Label_CSV_FG}
@@ -771,7 +770,7 @@ export function SystemSet() {
     },
     {
       name: "ASPROVA",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -784,7 +783,7 @@ export function SystemSet() {
     },
     {
       name: "As_Operation_Csv",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -799,7 +798,7 @@ export function SystemSet() {
     },
     {
       name: "As_Resource_Csv",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -814,7 +813,7 @@ export function SystemSet() {
     },
     {
       name: "As_Plan_Csv",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -827,7 +826,7 @@ export function SystemSet() {
     },
     {
       name: "As_Use_Csv",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -840,7 +839,7 @@ export function SystemSet() {
     },
     {
       name: "As_Input_Csv",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -853,7 +852,7 @@ export function SystemSet() {
     },
     {
       name: "As_Schedule_Csv",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -868,7 +867,7 @@ export function SystemSet() {
     },
     {
       name: "Us_Group_CD",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -881,7 +880,7 @@ export function SystemSet() {
     },
     {
       name: "Us_Group_Name",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -894,7 +893,7 @@ export function SystemSet() {
     },
     {
       name: "Us_Group_Abb",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -907,7 +906,7 @@ export function SystemSet() {
     },
     {
       name: "Us_Group_Symbol",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -922,7 +921,7 @@ export function SystemSet() {
     },
     {
       name: "Us_Group_Mark",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -935,7 +934,7 @@ export function SystemSet() {
     },
     {
       name: "Us_Group_TEL",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -948,7 +947,7 @@ export function SystemSet() {
     },
     {
       name: "Us_Group_FAX",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -961,7 +960,7 @@ export function SystemSet() {
     },
     {
       name: "Us_Office_CD",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -974,7 +973,7 @@ export function SystemSet() {
     },
     {
       name: "Us_Office_Name",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -987,7 +986,7 @@ export function SystemSet() {
     },
     {
       name: "Us_Office_Abb",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1000,7 +999,7 @@ export function SystemSet() {
     },
     {
       name: "Us_Office_Symbol",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1015,7 +1014,7 @@ export function SystemSet() {
     },
     {
       name: "Us_Office_Mark",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1298,7 +1297,7 @@ export function SystemSet() {
     },
     {
       name: "Od_DrawNo_Reflect",
-      selector: (row) => (
+      cell: (row) => (
         <input
           type="checkbox"
           checked={row.Od_DrawNo_Reflect}
@@ -1311,7 +1310,7 @@ export function SystemSet() {
     },
     {
       name: "Pl_Quote_Delivery",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1326,7 +1325,7 @@ export function SystemSet() {
     },
     {
       name: "Pl_Abst_St_Days",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1341,7 +1340,7 @@ export function SystemSet() {
     },
     {
       name: "Pl_Abst_Ed_Days",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1356,7 +1355,7 @@ export function SystemSet() {
     },
     {
       name: "Sc_Make_Type",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1369,7 +1368,7 @@ export function SystemSet() {
     },
     {
       name: "Sc_Stagnat_Time",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1384,7 +1383,7 @@ export function SystemSet() {
     },
     {
       name: "Sc_Stagnat_Scale",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1399,7 +1398,7 @@ export function SystemSet() {
     },
     {
       name: "Sc_Person_Scale",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1414,7 +1413,7 @@ export function SystemSet() {
     },
     {
       name: "Sc_Machine_Scale",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1429,7 +1428,7 @@ export function SystemSet() {
     },
     {
       name: "Sc_Outside_Scale",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1444,7 +1443,7 @@ export function SystemSet() {
     },
     {
       name: "Sc_ManHour_Scale",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1459,7 +1458,7 @@ export function SystemSet() {
     },
     {
       name: "Ps_Delivery1",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1472,7 +1471,7 @@ export function SystemSet() {
     },
     {
       name: "Ps_Delivery2",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1485,7 +1484,7 @@ export function SystemSet() {
     },
     {
       name: "Ps_Delivery3",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1498,7 +1497,7 @@ export function SystemSet() {
     },
     {
       name: "Ps_Delivery4",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1511,7 +1510,7 @@ export function SystemSet() {
     },
     {
       name: "Ps_Draw_No_View",
-      selector: (row) => (
+      cell: (row) => (
         <input
           type="checkbox"
           checked={row.Ps_Draw_No_View}
@@ -1524,7 +1523,7 @@ export function SystemSet() {
     },
     {
       name: "Ps_Entry_Text1",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1537,7 +1536,7 @@ export function SystemSet() {
     },
     {
       name: "Ps_Entry_Text2",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1550,7 +1549,7 @@ export function SystemSet() {
     },
     {
       name: "Ps_Entry_Text3",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1563,7 +1562,7 @@ export function SystemSet() {
     },
     {
       name: "Ps_Under_Text",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1576,7 +1575,7 @@ export function SystemSet() {
     },
     {
       name: "Rs_BarCode_Input",
-      selector: (row) => (
+      cell: (row) => (
         <input
           type="checkbox"
           checked={row.Rs_BarCode_Input}
@@ -1589,7 +1588,7 @@ export function SystemSet() {
     },
     {
       name: "Rs_Move_Range",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1602,7 +1601,7 @@ export function SystemSet() {
     },
     {
       name: "Rs_Time_Input",
-      selector: (row) => (
+      cell: (row) => (
         <input
           type="checkbox"
           checked={row.Rs_Time_Input}
@@ -1615,7 +1614,7 @@ export function SystemSet() {
     },
     {
       name: "Rs_Auto_Finish",
-      selector: (row) => (
+      cell: (row) => (
         <input
           type="checkbox"
           checked={row.Rs_Auto_Finish}
@@ -1628,7 +1627,7 @@ export function SystemSet() {
     },
     {
       name: "Od_List_ViewW",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1641,7 +1640,7 @@ export function SystemSet() {
     },
     {
       name: "Od_List_ViewH",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1654,7 +1653,7 @@ export function SystemSet() {
     },
     {
       name: "Pc_List_ViewW",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1667,7 +1666,7 @@ export function SystemSet() {
     },
     {
       name: "Pc_List_ViewH",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1680,7 +1679,7 @@ export function SystemSet() {
     },
     {
       name: "Pl_List_ViewW",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1693,7 +1692,7 @@ export function SystemSet() {
     },
     {
       name: "Pl_List_ViewH",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1706,7 +1705,7 @@ export function SystemSet() {
     },
     {
       name: "Rs_List_ViewW",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1719,7 +1718,7 @@ export function SystemSet() {
     },
     {
       name: "Rs_List_ViewH",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1732,7 +1731,7 @@ export function SystemSet() {
     },
     {
       name: "Od_Search_ViewW",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1747,7 +1746,7 @@ export function SystemSet() {
     },
     {
       name: "Od_Search_ViewH",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1762,7 +1761,7 @@ export function SystemSet() {
     },
     {
       name: "Pl_Search_ViewW",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1777,7 +1776,7 @@ export function SystemSet() {
     },
     {
       name: "Pl_Search_ViewH",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1792,7 +1791,7 @@ export function SystemSet() {
     },
     {
       name: "Pc_Change_Page",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1805,7 +1804,7 @@ export function SystemSet() {
     },
     {
       name: "Pl_Change_Page",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1818,7 +1817,7 @@ export function SystemSet() {
     },
     {
       name: "Pl_Schedule",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1831,7 +1830,7 @@ export function SystemSet() {
     },
     {
       name: "Pl_Color_Separate",
-      selector: (row) => (
+      cell: (row) => (
         <input
           type="checkbox"
           checked={row.Pl_Color_Separate}
@@ -1844,7 +1843,7 @@ export function SystemSet() {
     },
     {
       name: "Pl_Delivery1",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1857,7 +1856,7 @@ export function SystemSet() {
     },
     {
       name: "Pl_Delivery2",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1870,7 +1869,7 @@ export function SystemSet() {
     },
     {
       name: "Pl_Delivery3",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -1883,7 +1882,7 @@ export function SystemSet() {
     },
     {
       name: "Job_Find_St_Days",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1898,7 +1897,7 @@ export function SystemSet() {
     },
     {
       name: "Job_Find_Ed_Days",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1913,7 +1912,7 @@ export function SystemSet() {
     },
     {
       name: "Settles",
-      selector: (row) => (
+      cell: (row) => (
         <input
           type="checkbox"
           checked={row.Settles}
@@ -1953,7 +1952,7 @@ export function SystemSet() {
     },
     {
       name: "Pd_Revision_Days",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1968,7 +1967,7 @@ export function SystemSet() {
     },
     {
       name: "Od_Sach_S_Years",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1983,7 +1982,7 @@ export function SystemSet() {
     },
     {
       name: "Pl_Sach_S_Years",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
@@ -1998,7 +1997,7 @@ export function SystemSet() {
     },
     {
       name: "LINK_Name1",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2011,7 +2010,7 @@ export function SystemSet() {
     },
     {
       name: "LINK1",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2024,7 +2023,7 @@ export function SystemSet() {
     },
     {
       name: "LINK_Name2",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2037,7 +2036,7 @@ export function SystemSet() {
     },
     {
       name: "LINK2",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2050,7 +2049,7 @@ export function SystemSet() {
     },
     {
       name: "LINK_Name3",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2063,7 +2062,7 @@ export function SystemSet() {
     },
     {
       name: "LINK3",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2076,7 +2075,7 @@ export function SystemSet() {
     },
     {
       name: "LINK_Name4",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2089,7 +2088,7 @@ export function SystemSet() {
     },
     {
       name: "LINK4",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2102,7 +2101,7 @@ export function SystemSet() {
     },
     {
       name: "LINK_Name5",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2115,7 +2114,7 @@ export function SystemSet() {
     },
     {
       name: "LINK5",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2128,7 +2127,7 @@ export function SystemSet() {
     },
     {
       name: "LINK_Name6",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2141,7 +2140,7 @@ export function SystemSet() {
     },
     {
       name: "LINK6",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2154,7 +2153,7 @@ export function SystemSet() {
     },
     {
       name: "LINK_Name7",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2167,7 +2166,7 @@ export function SystemSet() {
     },
     {
       name: "LINK7",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2180,7 +2179,7 @@ export function SystemSet() {
     },
     {
       name: "LINK_Name8",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2193,7 +2192,7 @@ export function SystemSet() {
     },
     {
       name: "LINK8",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2206,7 +2205,7 @@ export function SystemSet() {
     },
     {
       name: "LINK_Name9",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2219,7 +2218,7 @@ export function SystemSet() {
     },
     {
       name: "LINK9",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2232,7 +2231,7 @@ export function SystemSet() {
     },
     {
       name: "LINK_Name10",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
@@ -2245,7 +2244,7 @@ export function SystemSet() {
     },
     {
       name: "LINK10",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
