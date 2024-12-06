@@ -18,6 +18,8 @@ import {
   HiOutlineCloudUpload,
   HiOutlineCloudDownload,
   HiSearch,
+  HiOutlineStatusOnline,
+  HiOutlineDocument,
 } from "react-icons/hi";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { useAuth } from "../hooks/use-auth";
@@ -38,9 +40,13 @@ const menuItems = [
   { icon: HiOutlineLink, label: "Link", to: "/link" },
   { icon: HiOutlineFolder, label: "Finish", to: "/finish" },
   { icon: HiOutlinePrinter, label: "Print", to: "/print" },
-  { icon: HiOutlineCog, label: "Master", to: "/master" },
+  { icon: HiOutlineCog, label: "Master 1", to: "/master1" },
+  { icon: HiOutlineCog, label: "Master 2", to: "/master2" },
+  { icon: HiOutlineCog, label: "Master 3", to: "/master3" },
   { icon: HiOutlineCloudUpload, label: "Import", to: "/import" },
   { icon: HiOutlineCloudDownload, label: "Export", to: "/export" },
+  { icon: HiOutlineStatusOnline, label: "Status", to: "/status" },
+  { icon: HiOutlineDocument, label: "EC 1", to: "/ec-1" },
 ];
 
 function Sidebar() {
