@@ -69,7 +69,7 @@ export default function CalcComplete() {
                     name="txtAction_Pd_Calc_Date"
                   />
                   <select className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-1/3">
-                    <option value="" disabled hidden></option>
+                    <option value=""></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>

@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
-export function Processg_Plan_Cfm() {
+export function NAV_PurchaseCSV_Import() {
   return (
     <div>
       <div className="flex bg-[#E9EFEC] h-[100vh]">
@@ -12,7 +12,7 @@ export function Processg_Plan_Cfm() {
           <div className="flex-1 flex-col overflow-x-hidden flex-grow p-2 bg-white mt-2 rounded-md">
             <div className="grid grid-cols-1">
               <h1 className="text-2xl font-bold mt-3 text-center">
-                Processg Plan Cfm
+                NAV Purchase CSV Import
               </h1>
               <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
             </div>
