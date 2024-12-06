@@ -288,7 +288,7 @@ export default function LinkDashborad() {
                         <div className="w-auto flex gap-2">
                           <input
                             type="text"
-                            className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-80 h-8 ml-[36px]"
+                            className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs w-80 h-8 ml-[34px]"
                           />
                         </div>
                       </div>
