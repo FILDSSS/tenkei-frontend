@@ -2258,7 +2258,7 @@ export function SystemSet() {
   ];
 
   return (
-    <div className="flex bg-[#E9EFEC] h-[150vh]">
+    <div className="flex bg-[#E9EFEC] h-[100vh]">
       <Sidebar />
       <div className="flex flex-col w-full mr-2 ml-2">
         <Navbar />
@@ -2274,7 +2274,7 @@ export function SystemSet() {
                 <input
                   className="border-2 border-gray-500 rounded-md w-52 h-9"
                   type="text"
-                  placeholder=" Search..."
+                  placeholder=" Search By ID ..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
