@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   HiBars3BottomRight,
@@ -57,6 +57,13 @@ function Sidebar() {
   const [searchTerm, setSearchTerm] = useState("");
   const location = useLocation();
   const { authUser, logout } = useAuth();
+  const [activeMenu, setActiveMenu] = useState(localStorage.getItem('activeMenu') || location.pathname);
+
+  useEffect(() => {
+    // Update the active menu in localStorage whenever the location changes
+    localStorage.setItem('activeMenu', location.pathname);
+    setActiveMenu(location.pathname);
+  }, [location.pathname]);
 
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);
 
@@ -66,7 +73,7 @@ function Sidebar() {
 
   const renderMenuItems = () =>
     filteredMenuItems.map((item, index) => {
-      const isActive = location.pathname === item.to;
+      const isActive = activeMenu === item.to;
       return (
         <li
           key={index}
