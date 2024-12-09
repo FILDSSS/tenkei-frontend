@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 
-const Button = ({ label, subLabel, to }) => (
+const Button = ({ label, subLabel, to, textColor = "text-white" }) => (
   <Link
     to={to}
     className="bg-[#6A9C89] hover:bg-[#45695C] text-white font-medium h-24 w-full py-4 px-4 rounded-lg shadow-md flex justify-center items-center text-center transition-all duration-300 ease-in-out transform hover:scale-105"
   >
-    <div className="text-sm md:text-base lg:text-lg">
+    <div className={`text-sm md:text-base lg:text-lg ${textColor}`}>
       {label} <br />
       {subLabel && (
         <span className="text-xs md:text-sm lg:text-base">{subLabel}</span>
@@ -17,17 +17,12 @@ const Button = ({ label, subLabel, to }) => (
   </Link>
 );
 
-export default function MasterDashboardPage() {
+export function ConvertDashboardPage() {
   const buttonsData = [
-    { label: "Customer", subLabel: "(受注一覧)", to: "/customer" },
-    { label: "Vendor", subLabel: "仕入先マスタ", to: "/vendor" },
-    { label: "WorkG", subLabel: "部門マスタ", to: "/workG" },
-    { label: "Worker", subLabel: "社員マスタ", to: "/worker" },
-    { label: "Coating", subLabel: "（CVD･PVD･DLC）", to: "/coating" },
-    { label: "ProcessG", subLabel: "工程Gマスタ", to: "/processG" },
-    { label: "Process", subLabel: "工程マスタ", to: "/process" },
-    { label: "Machine", subLabel: "機械マスタ", to: "/machine" },
-    { label: "Holiday", subLabel: "休日設定", to: "/holiday" },
+    { label: "区分変換" },
+    { label: "工程CD変換" },
+    { label: "生産資料更新" },
+    { label: "補足資料更新" },
   ];
 
   return (
@@ -45,6 +40,7 @@ export default function MasterDashboardPage() {
               label={btn.label}
               subLabel={btn.subLabel}
               to={btn.to}
+              textColor={btn.textColor}
             />
           ))}
         </div>

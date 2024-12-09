@@ -24,11 +24,9 @@ import QcDashboardPage from "../pages/QcDashboardPage";
 import LinkDashborad from "../pages/LinkDashborad";
 import FinishDashboardPage from "../pages/FinishDashboardPage";
 import PrintDashboradPage from "../pages/PrintDashboradPage";
-import MasterDashboardPage from "../pages/MasterDashboardPage";
 import ImportDashboardPage from "../pages/ImportDashboardPage";
 import ExportDashboardPage from "../pages/ExportDashboardPage";
 import ResultListPage from "../pages/ResultListPage";
-import GotoAdminMenuPage from "../pages/GotoAdminMenu";
 import NAV_FGPage from "../pages/Admin-Menu/NAV_FGPage";
 import NAV_WIPage from "../pages/Admin-Menu/NAV_WIPage";
 import DeliveryDatePage from "../pages/Admin-Menu/DeliveryDatePage";
@@ -66,6 +64,9 @@ import { Master2Page } from "../pages/Master/Master2Page";
 import { Master3Page } from "../pages/Master/Master3Page";
 import { StatusPage } from "../pages/StatusPage";
 import { EC1Page } from "../pages/EC1Page";
+import { AdminMenuDashboardPage } from "../pages/AdminMenuDashboardPage";
+import { ConvertDashboardPage } from "../pages/ConvertDashboardPage";
+import { Reserve1DashboardPage } from "../pages/Reserve1DashboardPage";
 
 const router = createBrowserRouter([
   {
@@ -186,7 +187,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin-menu",
-    element: <GotoAdminMenuPage />,
+    element: <AdminMenuDashboardPage />,
   },
   {
     path: "/nav-fg",
@@ -323,6 +324,14 @@ const router = createBrowserRouter([
   {
     path: "/ec-1",
     element: <EC1Page />,
+  },
+  {
+    path: "/convert",
+    element: <ConvertDashboardPage />,
+  },
+  {
+    path: "/reserve-1",
+    element: <Reserve1DashboardPage />,
   },
 ]);
 
