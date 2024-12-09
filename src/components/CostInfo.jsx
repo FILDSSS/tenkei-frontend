@@ -316,7 +316,7 @@ const CostInfo = () => {
                 value={searchOrderNo || ""}
                 onChange={handleOrderInputChange}
                 type="text"
-                className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full xl:w-60"
+                className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full xl:w-46"
               />
             </div>
 
@@ -553,7 +553,7 @@ const CostInfo = () => {
                       value={Resource_Name || ""}
                       onChange={(event) => setResourceData(event)}
                       type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full xl:w-[150px]"
+                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full xl:w-[110px]"
                     />
                   </div>
                 </div>
@@ -606,7 +606,7 @@ const CostInfo = () => {
                       value={Person_Name || ""}
                       onChange={(event) => setWorkerData(event)}
                       type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full xl:w-[150px]"
+                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full xl:w-[110px]"
                     />
                   </div>
                 </div>
@@ -824,7 +824,7 @@ const CostInfo = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-2 mb-2">
                 <div className="flex items-center lg:space-x-9">
-                  <div className="flex items-center -mt-9">
+                  <div className="flex items-center -mt-9 ">
                     <label className="text-xs font-bold w-28 whitespace-nowrap">
                       Sequence_No
                     </label>
@@ -833,7 +833,7 @@ const CostInfo = () => {
                       value={CostData?.Sequence_No || ""}
                       onChange={handleCostInputChange}
                       type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-20 sm:w-[182px] xl:w-[182px]"
+                      className="bg-white border-solid border-2 border-gray-500 rounded-md -ml-0.5 py-0.5 w-20 sm:w-[182px] xl:w-[182px]"
                     />
                   </div>
                   <div className="flex items-center flex-wrap">
