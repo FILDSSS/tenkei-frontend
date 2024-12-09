@@ -67,6 +67,7 @@ import { EC1Page } from "../pages/EC1Page";
 import { AdminMenuDashboardPage } from "../pages/AdminMenuDashboardPage";
 import { ConvertDashboardPage } from "../pages/ConvertDashboardPage";
 import { Reserve1DashboardPage } from "../pages/Reserve1DashboardPage";
+import { SearchDashboardPage } from "../pages/SearchDashboardPage";
 
 const router = createBrowserRouter([
   {
@@ -332,6 +333,14 @@ const router = createBrowserRouter([
   {
     path: "/reserve-1",
     element: <Reserve1DashboardPage />,
+  },
+  {
+    path: "/search-dashboard",
+    element: <SearchDashboardPage />,
+  },
+  {
+    path: "/process-dashboard",
+    element: <ProcessDashboardPage />,
   },
 ]);
 
