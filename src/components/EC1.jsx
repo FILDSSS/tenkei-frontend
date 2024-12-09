@@ -1931,7 +1931,7 @@ export function EC1() {
                     {/* Start */}
                     <div className="px-2 w-auto text-center pr-[52px]">
                       <label className="font-bold text-xs">
-                        [Order_Info_Search]
+                        [List]
                       </label>
                     </div>
                     {/* End */}
@@ -1942,7 +1942,7 @@ export function EC1() {
                     <div className="relative w-40 lg:w-56">
                       <input
                         type="text"
-                        className="bg-[#CC99FF] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
+                        className="bg-[#cc99ff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
                       />
                     </div>
                     {/* End */}
@@ -1953,7 +1953,7 @@ export function EC1() {
                     <div className="relative w-40 lg:w-56">
                       <input
                         type="text"
-                        className="bg-[#CC99FF] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
+                        className="bg-[#cc99ff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
                       />
                     </div>
                     {/* End */}

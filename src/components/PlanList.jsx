@@ -1941,59 +1941,66 @@ export default function PlanList() {
               <label className="mr-2">List</label>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2 mb-2 mt-3">
-              <div className="flex flex-col xl:flex-row xl:items-center space-y-1 relative xl:ml-3">
-                <label className="text-xs font-bold">Select_Od_No</label>
-                <div className="relative w-full lg:w-60 xl:w-44">
+            <div className="w-full mt-5 overflow-x-auto pr-10">
+              <div className="min-w-[1400px] w-full mb-7">
+                {/* Start Group 1 */}
+                <div className="flex pl-5 items-center gap-3">
+                  {/* Start */}
+                  <div className="px-2 w-auto text-center">
+                    <label className="font-bold text-xs">Select_Od_No</label>
+                  </div>
                   <input
                     type="text"
-                    className="bg-[#cc99ff] border-2 border-gray-500 rounded-md w-full xl:ml-2"
+                    className="bg-[#cc99ff] border-2 border-gray-500 rounded-md w-32 h-8"
                   />
-                </div>
-              </div>
-
-              <div className="flex flex-col xl:flex-row xl:items-center space-y-1 relative xl:ml-6">
-                <label className="text-xs font-bold">Select_Od_No</label>
-                <div className="relative w-full lg:w-60 xl:w-44">
+                  {/* End */}
+                  {/* Start */}
+                  <div className="px-2 w-auto text-center">
+                    <label className="font-bold text-xs">Select_Od_No</label>
+                  </div>
                   <input
                     type="text"
-                    className="bg-[#cc99ff] border-2 border-gray-500 rounded-md w-full xl:w-20 xl:ml-2"
+                    className="bg-[#cc99ff] border-2 border-gray-500 rounded-md w-32 h-8"
                   />
-                </div>
-              </div>
-
-              <div className="flex flex-col xl:flex-row xl:items-center space-y-1 relative xl:ml-2">
-                <label className="text-xs font-bold">
-                  List_View_W(22.8~40cm)
-                </label>
-                <div className="relative w-full lg:w-60 xl:w-44">
+                  {/* End */}
+                  {/* Start */}
+                  <div className="px-2 w-auto text-center">
+                    <label className="font-bold text-xs">
+                      List_View_W(22.8~40cm)
+                    </label>
+                  </div>
                   <input
                     type="text"
-                    className="bg-[#ffff99] border-2 border-gray-500 rounded-md w-full xl:w-20 xl:ml-2"
+                    className="bg-[#ffff99] border-2 border-gray-500 rounded-md w-32 h-8"
                   />
-                </div>
-              </div>
-
-              <div className="flex flex-col xl:flex-row xl:items-center space-y-1 relative xl:ml-10">
-                <label className="text-xs font-bold">List_View_H(3~15cm)</label>
-                <div className="relative w-full lg:w-60 xl:w-44">
+                  {/* End */}
+                  {/* Start */}
+                  <div className="px-2 w-auto text-center">
+                    <label className="font-bold text-xs">
+                      List_View_H(3~15cm)
+                    </label>
+                  </div>
                   <input
                     type="text"
-                    className="bg-[#ffff99] border-2 border-gray-500 rounded-md w-full xl:w-20 xl:ml-2"
+                    className="bg-[#ffff99] border-2 border-gray-500 rounded-md w-32 h-8"
                   />
+                  {/* End */}
+                  {/* Start */}
+                  <div className="px-2 w-auto text-center flex-none">
+                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-[150px]">
+                      Change_View
+                    </button>
+                  </div>
+                  {/* End */}
+                  {/* Start */}
+                  <div className="px-2 w-auto text-center flex-none pr-10">
+                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-[150px]">
+                      Plan_Result_Data
+                    </button>
+                  </div>
+                  {/* End */}
                 </div>
-              </div>
-
-              <div className="flex flex-col xl:flex-row xl:items-center space-y-1 relative xl:ml-16">
-                <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-[150px]">
-                  Change_View
-                </button>
-              </div>
-
-              <div className="flex flex-col xl:flex-row xl:items-center space-y-1 relative xl:ml-5">
-                <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-[150px]">
-                  Plan_Result_Data
-                </button>
+                {/* End Group 1 */}
               </div>
             </div>
 
