@@ -186,9 +186,6 @@ export default function PlanList() {
                         Order_Progress
                       </label>
                       <select className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-20">
-                        <option value="">
-                          Select
-                        </option>
                         <option value=""></option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -215,9 +212,6 @@ export default function PlanList() {
 
                     <div className="relative">
                       <select className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-20">
-                        <option value="">
-                          Select
-                        </option>
                         <option value=""></option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -320,9 +314,6 @@ export default function PlanList() {
                         Delivery_CAT
                       </label>
                       <select className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-20">
-                        <option value="">
-                          Select
-                        </option>
                         <option value=""></option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -349,9 +340,6 @@ export default function PlanList() {
 
                     <div className="relative">
                       <select className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-20">
-                        <option value="">
-                          Select
-                        </option>
                         <option value=""></option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -447,9 +435,6 @@ export default function PlanList() {
                         Schedule_CAT
                       </label>
                       <select className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-20">
-                        <option value="">
-                          Select
-                        </option>
                         <option value=""></option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -476,9 +461,6 @@ export default function PlanList() {
 
                     <div className="relative">
                       <select className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-20">
-                        <option value="">
-                          Select
-                        </option>
                         <option value=""></option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -576,9 +558,6 @@ export default function PlanList() {
                         Target__CAT
                       </label>
                       <select className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-20">
-                        <option value="">
-                          Select
-                        </option>
                         <option value=""></option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -605,9 +584,6 @@ export default function PlanList() {
 
                     <div className="relative">
                       <select className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-20">
-                        <option value="">
-                          Select
-                        </option>
                         <option value=""></option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -1179,7 +1155,7 @@ export default function PlanList() {
                 {/* Start Group 11 */}
                 <div className="flex pl-5 mt-5">
                   {/* Start */}
-                  <div className="px-2 w-auto text-center pr-12">
+                  <div className="px-2 w-auto text-center pr-[45px]">
                     <label className="font-bold text-xs">Pd_Note</label>
                   </div>
                   <div className="relative w-40 lg:w-44">
@@ -1277,7 +1253,7 @@ export default function PlanList() {
                 {/* Start Group 12 */}
                 <div className="flex pl-5 mt-5">
                   {/* Start */}
-                  <div className="px-2 w-auto text-center pr-8">
+                  <div className="px-2 w-auto text-center pr-[30px]">
                     <label className="font-bold text-xs">Pd_Remark</label>
                   </div>
                   <div className="relative w-40 lg:w-44">
@@ -1386,7 +1362,7 @@ export default function PlanList() {
                   </div>
                   {/* End */}
                   {/* Start */}
-                  <div className="px-2 w-auto text-center pl-[30px]">
+                  <div className="px-2 w-auto text-center pl-[28px]">
                     <label className="font-bold text-xs">Not_Specific2</label>
                   </div>
                   <div className="relative w-24">
@@ -1631,9 +1607,6 @@ export default function PlanList() {
                         Plan_Progress
                       </label>
                       <select className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-20">
-                        <option value="">
-                          Select
-                        </option>
                         <option value=""></option>
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -1660,9 +1633,6 @@ export default function PlanList() {
 
                     <div className="relative">
                       <select className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-20">
-                        <option value="">
-                          Select
-                        </option>
                         <option value=""></option>
                         <option value="0">0</option>
                         <option value="1">1</option>
