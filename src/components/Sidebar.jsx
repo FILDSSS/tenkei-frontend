@@ -22,20 +22,18 @@ import {
   HiOutlineDocument,
 } from "react-icons/hi";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import { FaCalendarAlt } from 'react-icons/fa';
+import { SiConvertio } from "react-icons/si";
 import { useAuth } from "../hooks/use-auth";
 
 const menuItems = [
   { icon: HiHome, label: "Main", to: "/dashboard" },
-  { icon: HiHome, label: "Admin Menu", to: "/admin-menu" },
   { icon: HiClipboardCheck, label: "Sales", to: "/sales" },
   { icon: HiOutlineUserGroup, label: "Sub-Con (手配)", to: "/sub-con" },
   { icon: HiOutlineCalendar, label: "Plan", to: "/plan" },
   { icon: HiOutlineDocumentText, label: "Process", to: "/process" },
-  {
-    icon: MdOutlineProductionQuantityLimits,
-    label: "Production",
-    to: "/production",
-  },
+  { icon: MdOutlineProductionQuantityLimits, label: "Production", to: "/production" },
   { icon: HiOutlineClipboardList, label: "QC", to: "/qc" },
   { icon: HiOutlineLink, label: "Link", to: "/link" },
   { icon: HiOutlineFolder, label: "Finish", to: "/finish" },
@@ -45,8 +43,11 @@ const menuItems = [
   { icon: HiOutlineCog, label: "Master 3", to: "/master3" },
   { icon: HiOutlineCloudUpload, label: "Import", to: "/import" },
   { icon: HiOutlineCloudDownload, label: "Export", to: "/export" },
+  { icon: SiConvertio, label: "Convert", to: "/convert" },
+  { icon: MdOutlineAdminPanelSettings, label: "Admin", to: "/admin-menu" },
   { icon: HiOutlineStatusOnline, label: "Status", to: "/status" },
   { icon: HiOutlineDocument, label: "EC 1", to: "/ec-1" },
+  { icon: FaCalendarAlt, label: "Reserve 1", to: "/reserve-1" },
 ];
 
 function Sidebar() {
