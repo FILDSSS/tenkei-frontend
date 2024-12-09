@@ -79,7 +79,7 @@ function Sidebar() {
           <Link to={item.to} className="flex items-center w-full">
             <item.icon
               size={isCollapsed ? 18 : 16}
-              className={isCollapsed ? "ml-2" : "mr-4"}
+              className={isCollapsed ? "ml-3 sm:ml-3 md:ml-4 xl:ml-2" : "mr-4"}
             />
             {!isCollapsed && (
               <span className="text-sm lg:text-base xl:text-lg">
