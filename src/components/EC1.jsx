@@ -1927,7 +1927,7 @@ export function EC1() {
               <div className="w-full mt-5 overflow-x-auto pr-10">
                 <div className="min-w-[1000px] w-full mb-7">
                   {/* Start Group 1 */}
-                  <div className="flex pl-5 mt-5">
+                  <div className="flex pl-5">
                     {/* Start */}
                     <div className="px-2 w-auto text-center pr-[52px]">
                       <label className="font-bold text-xs">
