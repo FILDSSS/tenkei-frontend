@@ -6,31 +6,128 @@ import axios from "axios";
 
 export function None_FG_Data() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([
+    {
+      Order_No: "ORD001",
+      Parts_No: "PART001",
+      Cost_No: "COST001",
+      Process_No: "PROC001",
+      OdPt_No: "ODPT001",
+      OdPtCs_No: "ODPTCS001",
+      OdPtPr_No: "ODPTPR001",
+      CMC: "CMC001",
+      CMT: 100,
+      CPC: "CPC001",
+      CPT: 10,
+      CPD: "CPD001",
+      CPN: 80,
+      Cs_Progress_CD: "P001",
+      Cs_Complete_Date: "2024-11-01",
+      Cs_Complete_Qty: 150,
+      Cs_Label_CSV: "Label001",
+      Cs_All_Complete: true,
+      Cs_Order_All_Complete: true,
+      Cs_Parts_Complete: true,
+      Cs_Final_Complete: false,
+      Cs_Remark: "First Order",
+      Cs_Register_Date: "2024-10-01",
+      Cs_Modify_Date: "2024-11-15",
+      Cs_Reg_Person_CD: "USER001",
+      Cs_Upd_Person_CD: "USER002",
+      Sequence_No: 1,
+      ProcessCD: "P001",
+      Comp_Month: "2024-11",
+      Amount: 1500.0,
+    },
+    {
+      Order_No: "ORD002",
+      Parts_No: "PART002",
+      Cost_No: "COST002",
+      Process_No: "PROC002",
+      OdPt_No: "ODPT002",
+      OdPtCs_No: "ODPTCS002",
+      OdPtPr_No: "ODPTPR002",
+      CMC: "CMC002",
+      CMT: 50,
+      CPC: "CPC002",
+      CPT: 100,
+      CPD: "CPD002",
+      CPN: 30,
+      Cs_Progress_CD: "P002",
+      Cs_Complete_Date: "2024-11-05",
+      Cs_Complete_Qty: 200,
+      Cs_Label_CSV: "Label002",
+      Cs_All_Complete: false,
+      Cs_Order_All_Complete: false,
+      Cs_Parts_Complete: true,
+      Cs_Final_Complete: false,
+      Cs_Remark: "Second Order",
+      Cs_Register_Date: "2024-10-05",
+      Cs_Modify_Date: "2024-11-17",
+      Cs_Reg_Person_CD: "USER003",
+      Cs_Upd_Person_CD: "USER004",
+      Sequence_No: 2,
+      ProcessCD: "P002",
+      Comp_Month: "2024-11",
+      Amount: 2000.0,
+    },
+    {
+      Order_No: "ORD003",
+      Parts_No: "PART003",
+      Cost_No: "COST003",
+      Process_No: "PROC003",
+      OdPt_No: "ODPT003",
+      OdPtCs_No: "ODPTCS003",
+      OdPtPr_No: "ODPTPR003",
+      CMC: "CMC003",
+      CMT: 10,
+      CPC: "CPC003",
+      CPT: 90,
+      CPD: "CPD003",
+      CPN: 20,
+      Cs_Progress_CD: "P003",
+      Cs_Complete_Date: "2024-11-10",
+      Cs_Complete_Qty: 300,
+      Cs_Label_CSV: "Label003",
+      Cs_All_Complete: true,
+      Cs_Order_All_Complete: true,
+      Cs_Parts_Complete: false,
+      Cs_Final_Complete: true,
+      Cs_Remark: "Third Order",
+      Cs_Register_Date: "2024-10-10",
+      Cs_Modify_Date: "2024-11-18",
+      Cs_Reg_Person_CD: "USER005",
+      Cs_Upd_Person_CD: "USER006",
+      Sequence_No: 3,
+      ProcessCD: "P003",
+      Comp_Month: "2024-11",
+      Amount: 3000.0,
+    },
+  ]);
   const [editedData, setEditedData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
   const editedDataRef = useRef(editedData);
 
-  const fetchCost = async () => {
-    try {
-      const response = await axios.get("http://localhost:4000/cost/fetch-cost");
-      const formattedData = response.data.data.cost.map((row) => ({
-        ...row,
-        CPD: formatDateForInput(row.CPD),
-        Cs_Complete_Date: formatDateForInput(row.Cs_Complete_Date),
-        Cs_Register_Date: formatDateForInput(row.Cs_Register_Date),
-        Cs_Modify_Date: formatDateForInput(row.Cs_Modify_Date),
-      }));
-      // console.log("Fetched data:", response.data);
-      setData(formattedData);
-    } catch (error) {
-      // console.error("Error fetching cost:", error);
-    }
-  };
+  // const fetchCost = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:4000/cost/fetch-cost");
+  //     const formattedData = response.data.data.cost.map((row) => ({
+  //       ...row,
+  //       CPD: formatDateForInput(row.CPD),
+  //       Cs_Complete_Date: formatDateForInput(row.Cs_Complete_Date),
+  //       Cs_Register_Date: formatDateForInput(row.Cs_Register_Date),
+  //       Cs_Modify_Date: formatDateForInput(row.Cs_Modify_Date),
+  //     }));
+  //     // console.log("Fetched data:", response.data);
+  //     setData(formattedData);
+  //   } catch (error) {
+  //     // console.error("Error fetching cost:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchCost();
-  }, []);
+  // useEffect(() => {
+  //   fetchCost();
+  // }, []);
 
   useEffect(() => {
     const initialEditedData = data.reduce((acc, row) => {
@@ -74,54 +171,54 @@ export function None_FG_Data() {
     }
   };
 
-  const handleSave = async (costNo, field) => {
-    const newValue = editedData[costNo]?.[field];
-    const oldValue = data.find((row) => row.Cost_No === costNo)?.[field];
+  // const handleSave = async (costNo, field) => {
+  //   const newValue = editedData[costNo]?.[field];
+  //   const oldValue = data.find((row) => row.Cost_No === costNo)?.[field];
 
-    if (newValue !== oldValue) {
-      try {
-        // หาข้อมูล `Order_No` และ `Parts_No` ที่เกี่ยวข้องกับ `costNo`
-        const rowData = data.find((row) => row.Cost_No === costNo);
+  //   if (newValue !== oldValue) {
+  //     try {
+  //       // หาข้อมูล `Order_No` และ `Parts_No` ที่เกี่ยวข้องกับ `costNo`
+  //       const rowData = data.find((row) => row.Cost_No === costNo);
 
-        // สร้าง payload ที่ส่งค่า `Order_No`, `Parts_No`, และ `Cost_No` เสมอ
-        const payload = {
-          Order_No: rowData?.Order_No, // ใช้ข้อมูลเดิมจาก row
-          Parts_No: rowData?.Parts_No,
-          Cost_No: costNo,
-          [field]: newValue === "" ? null : newValue, // ฟิลด์ที่ต้องการอัปเดต
-        };
+  //       // สร้าง payload ที่ส่งค่า `Order_No`, `Parts_No`, และ `Cost_No` เสมอ
+  //       const payload = {
+  //         Order_No: rowData?.Order_No, // ใช้ข้อมูลเดิมจาก row
+  //         Parts_No: rowData?.Parts_No,
+  //         Cost_No: costNo,
+  //         [field]: newValue === "" ? null : newValue, // ฟิลด์ที่ต้องการอัปเดต
+  //       };
 
-        console.log("Payload to be sent:", payload);
+  //       console.log("Payload to be sent:", payload);
 
-        // ส่ง request ไปยัง backend
-        const response = await axios.put(
-          "http://localhost:4000/cost/update-cost",
-          payload
-        );
+  //       // ส่ง request ไปยัง backend
+  //       const response = await axios.put(
+  //         "http://localhost:4000/cost/update-cost",
+  //         payload
+  //       );
 
-        // อัปเดตข้อมูลใน frontend
-        const updatedData = [...data];
-        const rowIndex = updatedData.findIndex((row) => row.Cost_No === costNo);
-        if (rowIndex !== -1) {
-          updatedData[rowIndex][field] = newValue;
-          setData(updatedData);
-        }
+  //       // อัปเดตข้อมูลใน frontend
+  //       const updatedData = [...data];
+  //       const rowIndex = updatedData.findIndex((row) => row.Cost_No === costNo);
+  //       if (rowIndex !== -1) {
+  //         updatedData[rowIndex][field] = newValue;
+  //         setData(updatedData);
+  //       }
 
-        alert("Edit Successfully!");
-        setIsChanged(false);
-      } catch (error) {
-        alert("Something went wrong!");
-        console.error(error);
-      }
-    }
-  };
+  //       alert("Edit Successfully!");
+  //       setIsChanged(false);
+  //     } catch (error) {
+  //       alert("Something went wrong!");
+  //       console.error(error);
+  //     }
+  //   }
+  // };
 
-  const handleKeyDown = (e, index, field) => {
-    if (e.key === "Enter") {
-      handleSave(index, field);
-      setIsChanged(false);
-    }
-  };
+  // const handleKeyDown = (e, index, field) => {
+  //   if (e.key === "Enter") {
+  //     handleSave(index, field);
+  //     setIsChanged(false);
+  //   }
+  // };
 
   const handleCheckboxChange = (e, row, field) => {
     const isChecked = e.target.checked;
@@ -134,6 +231,13 @@ export function None_FG_Data() {
     //   )
     // );
   };
+
+    // สำหรับ Dummy Data
+    const handleEdit = (index, field, newValue) => {
+      const updatedData = [...data];
+      updatedData[index][field] = newValue;
+      setData(updatedData);
+    };
 
   const filteredData = data.filter((row) => {
     return Object.values(row).some((value) =>
