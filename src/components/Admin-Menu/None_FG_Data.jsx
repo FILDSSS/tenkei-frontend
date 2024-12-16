@@ -3,6 +3,7 @@ import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
+import Papa from "papaparse";
 
 export function None_FG_Data() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -232,18 +233,67 @@ export function None_FG_Data() {
     // );
   };
 
-    // สำหรับ Dummy Data
-    const handleEdit = (index, field, newValue) => {
-      const updatedData = [...data];
-      updatedData[index][field] = newValue;
-      setData(updatedData);
-    };
+  // สำหรับ Dummy Data
+  const handleEdit = (index, field, newValue) => {
+    const updatedData = [...data];
+    updatedData[index][field] = newValue;
+    setData(updatedData);
+  };
 
   const filteredData = data.filter((row) => {
     return Object.values(row).some((value) =>
       String(value).toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
+
+  // ฟังก์ชันสำหรับ Export ข้อมูลเป็น CSV
+  const exportToCsv = () => {
+    const csvData = data.map((row) => ({
+      Order_No: row.Order_No,
+      Parts_No: row.Parts_No,
+      Cost_No: row.Cost_No,
+      Process_No: row.Process_No,
+      OdPt_No: row.OdPt_No,
+      OdPtCs_No: row.OdPtCs_No,
+      OdPtPr_No: row.OdPtPr_No,
+      CMC: row.CMC,
+      CMT: row.CMT,
+      CPC: row.CPC,
+      CPT: row.CPT,
+      CPD: row.CPD,
+      CPN: row.CPN,
+      Cs_Progress_CD: row.Cs_Progress_CD,
+      Cs_Complete_Date: row.Cs_Complete_Date,
+      Cs_Complete_Qty: row.Cs_Complete_Qty,
+      Cs_Label_CSV: row.Cs_Label_CSV,
+      Cs_All_Complete: row.Cs_All_Complete,
+      Cs_Order_All_Complete: row.Cs_Order_All_Complete,
+      Cs_Parts_Complete: row.Cs_Parts_Complete,
+      Cs_Final_Complete: row.Cs_Final_Complete,
+      Cs_Remark: row.Cs_Remark,
+      Cs_Register_Date: row.Cs_Register_Date,
+      Cs_Modify_Date: row.Cs_Modify_Date,
+      Cs_Reg_Person_CD: row.Cs_Reg_Person_CD,
+      Cs_Upd_Person_CD: row.Cs_Upd_Person_CD,
+      Sequence_No: row.Sequence_No,
+      ProcessCD: row.ProcessCD,
+      Comp_Month: row.Comp_Month,
+      Amount: row.Amount,
+    }));
+
+    const csv = Papa.unparse(csvData); // แปลง JSON เป็น CSV
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+
+    // ดาวน์โหลดไฟล์ CSV
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "None_FG_Data.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const columns = [
     {
@@ -725,7 +775,7 @@ export function None_FG_Data() {
               </h1>
               <hr className="my-6 h-0.5 bg-gray-500 opacity-150 dark:opacity-50 border-y-[1px] border-gray-300" />
 
-              <div className="ml-5 text-lg">
+              <div className="ml-5 text-lg flex justify-between">
                 <input
                   className="border-2 border-gray-500 rounded-md w-52 h-9"
                   type="text"
@@ -733,7 +783,14 @@ export function None_FG_Data() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
+                <button
+                  onClick={exportToCsv}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md mr-5"
+                >
+                  Export to CSV
+                </button>
               </div>
+
               <div className="flex justify-center items-center mt-5">
                 <div className="w-full text-center px-5">
                   <DataTable
