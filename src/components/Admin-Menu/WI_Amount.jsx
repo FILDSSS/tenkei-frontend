@@ -388,7 +388,7 @@ export function WI_Amount() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.setAttribute("href", url);
-    link.setAttribute("download", "FG_Amount_Data.csv");
+    link.setAttribute("download", "WI_Amount_Data.csv");
     link.style.visibility = "hidden";
     document.body.appendChild(link);
     link.click();
