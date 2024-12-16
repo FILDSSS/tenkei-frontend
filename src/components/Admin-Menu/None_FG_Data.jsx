@@ -233,13 +233,6 @@ export function None_FG_Data() {
     // );
   };
 
-  // สำหรับ Dummy Data
-  const handleEdit = (index, field, newValue) => {
-    const updatedData = [...data];
-    updatedData[index][field] = newValue;
-    setData(updatedData);
-  };
-
   const filteredData = data.filter((row) => {
     return Object.values(row).some((value) =>
       String(value).toLowerCase().includes(searchTerm.toLowerCase())
@@ -730,8 +723,9 @@ export function None_FG_Data() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.ProcessCD}
-          onChange={(e) => handleEdit(index, "ProcessCD", e.target.value)}
+          value={editedData[row.Cost_No]?.ProcessCD ?? row.ProcessCD ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "ProcessCD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "ProcessCD")}
         />
       ),
       width: "150px",
@@ -742,8 +736,9 @@ export function None_FG_Data() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Comp_Month}
-          onChange={(e) => handleEdit(index, "Comp_Month", e.target.value)}
+          value={editedData[row.Cost_No]?.Comp_Month ?? row.Comp_Month ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "Comp_Month")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Comp_Month")}
         />
       ),
       width: "150px",
@@ -754,8 +749,9 @@ export function None_FG_Data() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Amount}
-          onChange={(e) => handleEdit(index, "Amount", e.target.value)}
+          value={editedData[row.Cost_No]?.Amount ?? row.Amount ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "Amount")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Amount")}
         />
       ),
       width: "150px",
