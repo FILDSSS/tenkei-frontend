@@ -24,11 +24,9 @@ import QcDashboardPage from "../pages/QcDashboardPage";
 import LinkDashborad from "../pages/LinkDashborad";
 import FinishDashboardPage from "../pages/FinishDashboardPage";
 import PrintDashboradPage from "../pages/PrintDashboradPage";
-import MasterDashboardPage from "../pages/MasterDashboardPage";
 import ImportDashboardPage from "../pages/ImportDashboardPage";
 import ExportDashboardPage from "../pages/ExportDashboardPage";
 import ResultListPage from "../pages/ResultListPage";
-import GotoAdminMenuPage from "../pages/GotoAdminMenu";
 import NAV_FGPage from "../pages/Admin-Menu/NAV_FGPage";
 import NAV_WIPage from "../pages/Admin-Menu/NAV_WIPage";
 import DeliveryDatePage from "../pages/Admin-Menu/DeliveryDatePage";
@@ -56,6 +54,20 @@ import { ProcessPage } from "../pages/Master/ProcessPage";
 import { MachinePage } from "../pages/Master/MachinePage";
 import { HolidayPage } from "../pages/Master/HolidayPage";
 import { VendorPage } from "../pages/Master/VendorPage";
+import SearchplanPage from "../pages/SearchplanPage";
+import Tenkei_WI_SumPage from "../pages/Admin-Menu/Tenkei_WI_SumPage";
+import Processg_Plan_CfmPage from "../pages/Processg_Plan_CfmPage";
+import { NAV_OrderCSV_ImportPage } from "../pages/NAV_OrderCSV_ImportPage";
+import { NAV_PurchaseCSV_ImportPage } from "../pages/NAV_PurchaseCSV_ImportPage";
+import { Master1Page } from "../pages/Master/Master1Page";
+import { Master2Page } from "../pages/Master/Master2Page";
+import { Master3Page } from "../pages/Master/Master3Page";
+import { StatusPage } from "../pages/StatusPage";
+import { EC1Page } from "../pages/EC1Page";
+import { AdminMenuDashboardPage } from "../pages/AdminMenuDashboardPage";
+import { ConvertDashboardPage } from "../pages/ConvertDashboardPage";
+import { Reserve1DashboardPage } from "../pages/Reserve1DashboardPage";
+import { SearchDashboardPage } from "../pages/SearchDashboardPage";
 
 const router = createBrowserRouter([
   {
@@ -103,8 +115,16 @@ const router = createBrowserRouter([
     element: <PrintDashboradPage />,
   },
   {
-    path: "/master",
-    element: <MasterDashboardPage />,
+    path: "/master1",
+    element: <Master1Page />,
+  },
+  {
+    path: "/master2",
+    element: <Master2Page />,
+  },
+  {
+    path: "/master3",
+    element: <Master3Page />,
   },
   {
     path: "/import",
@@ -168,7 +188,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin-menu",
-    element: <GotoAdminMenuPage />,
+    element: <AdminMenuDashboardPage />,
   },
   {
     path: "/nav-fg",
@@ -240,7 +260,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/tenkei-wi-sum",
-    element: <Tenkei_FG_SumPage />,
+    element: <Tenkei_WI_SumPage />,
   },
   {
     path: "/blessed-update",
@@ -281,6 +301,46 @@ const router = createBrowserRouter([
   {
     path: "/holiday",
     element: <HolidayPage />,
+  },
+  {
+    path: "/search",
+    element: <SearchplanPage />,
+  },
+  {
+    path: "/processg-plan-cfm",
+    element: <Processg_Plan_CfmPage />,
+  },
+  {
+    path: "/nav-order-csv-import",
+    element: <NAV_OrderCSV_ImportPage />,
+  },
+  {
+    path: "/nav-purchase-csv-import",
+    element: <NAV_PurchaseCSV_ImportPage />,
+  },
+  {
+    path: "/status",
+    element: <StatusPage />,
+  },
+  {
+    path: "/ec-1",
+    element: <EC1Page />,
+  },
+  {
+    path: "/convert",
+    element: <ConvertDashboardPage />,
+  },
+  {
+    path: "/reserve-1",
+    element: <Reserve1DashboardPage />,
+  },
+  {
+    path: "/search-dashboard",
+    element: <SearchDashboardPage />,
+  },
+  {
+    path: "/process-dashboard",
+    element: <ProcessDashboardPage />,
   },
 ]);
 

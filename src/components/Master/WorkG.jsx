@@ -3,6 +3,7 @@ import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
+import Papa from "papaparse";
 
 export function WorkG() {
   const [data, setData] = useState([]);
@@ -56,25 +57,32 @@ export function WorkG() {
     }
   };
 
-  const handleSave = (workgCd, field) => {
+  const handleSave = async (workgCd, field) => {
     const newValue = editedData[workgCd]?.[field];
     const oldValue = data.find((row) => row.WorkG_CD === workgCd)?.[field];
 
     if (newValue !== oldValue) {
       try {
+        const payload = {
+          WorkG_CD: workgCd,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/workg/update-workg",
+          payload
+        );
+
         const updatedData = [...data];
         const rowIndex = updatedData.findIndex(
           (row) => row.WorkG_CD === workgCd
         );
-
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("workGData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -108,6 +116,34 @@ export function WorkG() {
     );
   });
 
+  // ฟังก์ชันสำหรับ Export ข้อมูลเป็น CSV
+  const exportToCsv = () => {
+    const csvData = data.map((row) => ({
+      WorkG_CD: row.WorkG_CD,
+      WorkG_Name: row.WorkG_Name,
+      WorkG_Abb: row.WorkG_Abb,
+      WorkG_Symbol: row.WorkG_Symbol,
+      WorkG_Mark: row.WorkG_Mark,
+      Pl_Object_Grp: row.Pl_Object_Grp,
+      Pl_Object: row.Pl_Object,
+      Target_Amount: row.Target_Amount,
+      WorkG_Remark: row.WorkG_Remark,
+    }));
+
+    const csv = Papa.unparse(csvData); // แปลง JSON เป็น CSV
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+
+    // ดาวน์โหลดไฟล์ CSV
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "WorkG_data.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const columns = [
     {
       name: "WorkG_CD",
@@ -122,6 +158,7 @@ export function WorkG() {
           }
           onChange={(e) => handleChange(e, row.WorkG_CD, "WorkG_CD")}
           onKeyDown={(e) => handleKeyDown(e, row.WorkG_CD, "WorkG_CD")}
+          disabled
         />
       ),
       width: "170px",
@@ -188,11 +225,6 @@ export function WorkG() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          style={{
-            width: "fit-content",
-            minWidth: "240px",
-            maxWidth: "100%",
-          }}
           value={
             editedData[row.WorkG_CD]?.WorkG_Mark !== undefined
               ? editedData[row.WorkG_CD]?.WorkG_Mark
@@ -202,7 +234,7 @@ export function WorkG() {
           onKeyDown={(e) => handleKeyDown(e, row.WorkG_CD, "WorkG_Mark")}
         />
       ),
-      width: "280px",
+      width: "220px",
     },
     {
       name: "Pl_Object_Grp",
@@ -288,7 +320,7 @@ export function WorkG() {
               </h1>
               <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
 
-              <div className="ml-5 text-lg">
+              <div className="ml-5 text-lg flex justify-between">
                 <input
                   className="border-2 border-gray-500 rounded-md w-52 h-9"
                   type="text"
@@ -296,7 +328,14 @@ export function WorkG() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
+                <button
+                  onClick={exportToCsv}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md mr-5"
+                >
+                  Export to CSV
+                </button>
               </div>
+
               <div className="flex justify-center items-center mt-5">
                 <div className="w-full text-center px-5">
                   <DataTable

@@ -3,6 +3,7 @@ import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
+import Papa from "papaparse";
 
 export function Vendor() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -11,7 +12,7 @@ export function Vendor() {
   const [isChanged, setIsChanged] = useState(false);
   const editedDataRef = useRef(editedData);
 
-  const fetchCustomer = async () => {
+  const fetchVendor = async () => {
     try {
       const response = await axios.get(
         "http://localhost:4000/vendor/fetch-vendor"
@@ -24,7 +25,7 @@ export function Vendor() {
   };
 
   useEffect(() => {
-    fetchCustomer();
+    fetchVendor();
   }, []);
 
   useEffect(() => {
@@ -56,25 +57,32 @@ export function Vendor() {
     }
   };
 
-  const handleSave = (vendorCd, field) => {
+  const handleSave = async (vendorCd, field) => {
     const newValue = editedData[vendorCd]?.[field];
-    const oldValue = data.find((row) => row.vendor_CD === vendorCd)?.[field];
+    const oldValue = data.find((row) => row.Vendor_CD === vendorCd)?.[field];
 
     if (newValue !== oldValue) {
       try {
-        const updatedData = [...data];
-        const rowIndex = updatedData.findIndex(
-          (row) => row.vendor_CD === vendorCd
+        const payload = {
+          Vendor_CD: vendorCd,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/vendor/update-vendor",
+          payload
         );
 
+        const updatedData = [...data];
+        const rowIndex = updatedData.findIndex(
+          (row) => row.Vendor_CD === vendorCd
+        );
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("vendorData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -108,6 +116,42 @@ export function Vendor() {
     );
   });
 
+  // ฟังก์ชันสำหรับ Export ข้อมูลเป็น CSV
+  const exportToCsv = () => {
+    const csvData = data.map((row) => ({
+      Vendor_CD: row.Vendor_CD,
+      Vendor_Name: row.Vendor_Name,
+      Vendor_Name2: row.Vendor_Name2,
+      Vendor_Abb: row.Vendor_Abb,
+      Vendor_Add: row.Vendor_Add,
+      Vendor_Add2: row.Vendor_Add2,
+      Vendor_Add3: row.Vendor_Add3,
+      Vendor_Contact: row.Vendor_Contact,
+      Vendor_TEL: row.Vendor_TEL,
+      Posting_Group: row.Posting_Group,
+      Payment_CD: row.Payment_CD,
+      Blocked: row.Blocked,
+      VAT_Reg_No: row.VAT_Reg_No,
+      Branch_No: row.Branch_No,
+      Nationality: row.Nationality,
+      Vendor_Group: row.Vendor_Group,
+      Vendor_Remark: row.Vendor_Remark,
+    }));
+
+    const csv = Papa.unparse(csvData); // แปลง JSON เป็น CSV
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+
+    // ดาวน์โหลดไฟล์ CSV
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "Vendor_data.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const columns = [
     {
       name: "Vendor_CD",
@@ -122,6 +166,7 @@ export function Vendor() {
           }
           onChange={(e) => handleChange(e, row.Vendor_CD, "Vendor_CD")}
           onKeyDown={(e) => handleKeyDown(e, row.Vendor_CD, "Vendor_CD")}
+          disabled
         />
       ),
       width: "190px",
@@ -413,6 +458,11 @@ export function Vendor() {
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
+          style={{
+            width: "fit-content",
+            minWidth: "250px",
+            maxWidth: "100%",
+          }}
           value={
             editedData[row.Vendor_CD]?.Vendor_Remark !== undefined
               ? editedData[row.Vendor_CD]?.Vendor_Remark
@@ -422,7 +472,7 @@ export function Vendor() {
           onKeyDown={(e) => handleKeyDown(e, row.Vendor_CD, "Vendor_Remark")}
         />
       ),
-      width: "190px",
+      width: "300px",
     },
   ];
 
@@ -439,7 +489,7 @@ export function Vendor() {
               </h1>
               <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
 
-              <div className="ml-5 text-lg">
+              <div className="ml-5 text-lg flex justify-between">
                 <input
                   className="border-2 border-gray-500 rounded-md w-52 h-9"
                   type="text"
@@ -447,7 +497,14 @@ export function Vendor() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
+                <button
+                  onClick={exportToCsv}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md mr-5"
+                >
+                  Export to CSV
+                </button>
               </div>
+
               <div className="flex justify-center items-center mt-5">
                 <div className="w-full text-center px-5">
                   <DataTable

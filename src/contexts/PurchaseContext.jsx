@@ -15,7 +15,7 @@ export default function PurchaseContextProvider({ children }) {
         try {
             const response = await axios.get("/pcprogress/fetch-pcprogress"); 
             setpoProgress(response.data.data.pcprogress); 
-            console.log(response.data.data.pcprogress);
+           
             return response;
         } catch (error) {
             console.error("Error fetching pcprogress data:", error); 
@@ -27,7 +27,7 @@ export default function PurchaseContextProvider({ children }) {
         try {
             const response = await axios.get("/inoutside/fetch-inoutside"); 
             setInOutside(response.data.data.outside); 
-            console.log(response.data.data.outside);
+          
             return response;
         } catch (error) {
             console.error("Error fetching inoutside data:", error); 
@@ -38,7 +38,7 @@ export default function PurchaseContextProvider({ children }) {
     const createPurchase = async () => {
         try {
             const response = await axios.post('/procure/add-procure', purchaseData); 
-            console.log('Purchase created successfully:', response.data);
+     
             return response.data;
         } catch (error) {
             console.error("Error creating order:", error.response?.data || error.message);

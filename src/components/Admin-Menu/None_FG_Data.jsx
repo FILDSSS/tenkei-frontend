@@ -3,6 +3,7 @@ import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
+import Papa from "papaparse";
 
 export function None_FG_Data() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,11 +17,11 @@ export function None_FG_Data() {
       OdPtCs_No: "ODPTCS001",
       OdPtPr_No: "ODPTPR001",
       CMC: "CMC001",
-      CMT: "CMT001",
+      CMT: 100,
       CPC: "CPC001",
-      CPT: "CPT001",
+      CPT: 10,
       CPD: "CPD001",
-      CPN: "CPN001",
+      CPN: 80,
       Cs_Progress_CD: "P001",
       Cs_Complete_Date: "2024-11-01",
       Cs_Complete_Qty: 150,
@@ -48,11 +49,11 @@ export function None_FG_Data() {
       OdPtCs_No: "ODPTCS002",
       OdPtPr_No: "ODPTPR002",
       CMC: "CMC002",
-      CMT: "CMT002",
+      CMT: 50,
       CPC: "CPC002",
-      CPT: "CPT002",
+      CPT: 100,
       CPD: "CPD002",
-      CPN: "CPN002",
+      CPN: 30,
       Cs_Progress_CD: "P002",
       Cs_Complete_Date: "2024-11-05",
       Cs_Complete_Qty: 200,
@@ -80,11 +81,11 @@ export function None_FG_Data() {
       OdPtCs_No: "ODPTCS003",
       OdPtPr_No: "ODPTPR003",
       CMC: "CMC003",
-      CMT: "CMT003",
+      CMT: 10,
       CPC: "CPC003",
-      CPT: "CPT003",
+      CPT: 90,
       CPD: "CPD003",
-      CPN: "CPN003",
+      CPN: 20,
       Cs_Progress_CD: "P003",
       Cs_Complete_Date: "2024-11-10",
       Cs_Complete_Qty: 300,
@@ -104,15 +105,35 @@ export function None_FG_Data() {
       Amount: 3000.0,
     },
   ]);
-
   const [editedData, setEditedData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
   const editedDataRef = useRef(editedData);
 
+  // const fetchCost = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:4000/cost/fetch-cost");
+  //     const formattedData = response.data.data.cost.map((row) => ({
+  //       ...row,
+  //       CPD: formatDateForInput(row.CPD),
+  //       Cs_Complete_Date: formatDateForInput(row.Cs_Complete_Date),
+  //       Cs_Register_Date: formatDateForInput(row.Cs_Register_Date),
+  //       Cs_Modify_Date: formatDateForInput(row.Cs_Modify_Date),
+  //     }));
+  //     // console.log("Fetched data:", response.data);
+  //     setData(formattedData);
+  //   } catch (error) {
+  //     // console.error("Error fetching cost:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchCost();
+  // }, []);
+
   useEffect(() => {
-    const initialEditedData = data.reduce((acc, row, index) => {
-      if (!editedData[index]) {
-        acc[index] = { ...row };
+    const initialEditedData = data.reduce((acc, row) => {
+      if (!editedData[row.Cost_No]) {
+        acc[row.Cost_No] = { ...row };
       }
       return acc;
     }, {});
@@ -122,54 +143,94 @@ export function None_FG_Data() {
     }
   }, [data]);
 
-  const handleChange = (e, workgCd, field) => {
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+
+    if (isNaN(date)) return "";
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
+  const handleChange = (e, costNo, field) => {
     const newValue = e.target.value;
 
-    if (editedDataRef.current[workgCd]?.[field] !== newValue) {
+    if (editedDataRef.current[costNo]?.[field] !== newValue) {
       setIsChanged(true);
 
       const updatedData = { ...editedDataRef.current };
 
-      updatedData[workgCd] = updatedData[workgCd] || {};
-      updatedData[workgCd][field] = newValue;
+      updatedData[costNo] = updatedData[costNo] || {};
+      updatedData[costNo][field] = newValue;
 
       setEditedData(updatedData);
       editedDataRef.current = updatedData;
     }
   };
 
-  const handleSave = (workgCd, field) => {
-    const newValue = editedData[workgCd]?.[field];
-    const oldValue = data.find((row) => row.WorkG_CD === workgCd)?.[field];
+  // const handleSave = async (costNo, field) => {
+  //   const newValue = editedData[costNo]?.[field];
+  //   const oldValue = data.find((row) => row.Cost_No === costNo)?.[field];
 
-    if (newValue !== oldValue) {
-      try {
-        const updatedData = [...data];
-        const rowIndex = updatedData.findIndex(
-          (row) => row.WorkG_CD === workgCd
-        );
+  //   if (newValue !== oldValue) {
+  //     try {
+  //       // หาข้อมูล `Order_No` และ `Parts_No` ที่เกี่ยวข้องกับ `costNo`
+  //       const rowData = data.find((row) => row.Cost_No === costNo);
 
-        if (rowIndex !== -1) {
-          updatedData[rowIndex][field] = newValue;
-          setData(updatedData);
+  //       // สร้าง payload ที่ส่งค่า `Order_No`, `Parts_No`, และ `Cost_No` เสมอ
+  //       const payload = {
+  //         Order_No: rowData?.Order_No, // ใช้ข้อมูลเดิมจาก row
+  //         Parts_No: rowData?.Parts_No,
+  //         Cost_No: costNo,
+  //         [field]: newValue === "" ? null : newValue, // ฟิลด์ที่ต้องการอัปเดต
+  //       };
 
-          localStorage.setItem("noneFgData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
-        }
+  //       console.log("Payload to be sent:", payload);
 
-        setIsChanged(false);
-      } catch (error) {
-        alert("Something went wrong!");
-        console.error(error);
-      }
-    }
-  };
+  //       // ส่ง request ไปยัง backend
+  //       const response = await axios.put(
+  //         "http://localhost:4000/cost/update-cost",
+  //         payload
+  //       );
 
-  const handleKeyDown = (e, index, field) => {
-    if (e.key === "Enter") {
-      handleSave(index, field);
-      setIsChanged(false);
-    }
+  //       // อัปเดตข้อมูลใน frontend
+  //       const updatedData = [...data];
+  //       const rowIndex = updatedData.findIndex((row) => row.Cost_No === costNo);
+  //       if (rowIndex !== -1) {
+  //         updatedData[rowIndex][field] = newValue;
+  //         setData(updatedData);
+  //       }
+
+  //       alert("Edit Successfully!");
+  //       setIsChanged(false);
+  //     } catch (error) {
+  //       alert("Something went wrong!");
+  //       console.error(error);
+  //     }
+  //   }
+  // };
+
+  // const handleKeyDown = (e, index, field) => {
+  //   if (e.key === "Enter") {
+  //     handleSave(index, field);
+  //     setIsChanged(false);
+  //   }
+  // };
+
+  const handleCheckboxChange = (e, row, field) => {
+    const isChecked = e.target.checked;
+
+    // console.log(`Row Cost_No: ${row.Cost_No}, Field: ${field}, Checked: ${isChecked}`);
+
+    // setData((prevData) =>
+    //   prevData.map((item) =>
+    //     item.Cost_No === row.Cost_No ? { ...item, [field]: isChecked } : item
+    //   )
+    // );
   };
 
   const filteredData = data.filter((row) => {
@@ -178,384 +239,519 @@ export function None_FG_Data() {
     );
   });
 
-  // สำหรับ Dummy Data
-  const handleEdit = (index, field, newValue) => {
-    const updatedData = [...data];
-    updatedData[index][field] = newValue;
-    setData(updatedData);
+  // ฟังก์ชันสำหรับ Export ข้อมูลเป็น CSV
+  const exportToCsv = () => {
+    const csvData = data.map((row) => ({
+      Order_No: row.Order_No,
+      Parts_No: row.Parts_No,
+      Cost_No: row.Cost_No,
+      Process_No: row.Process_No,
+      OdPt_No: row.OdPt_No,
+      OdPtCs_No: row.OdPtCs_No,
+      OdPtPr_No: row.OdPtPr_No,
+      CMC: row.CMC,
+      CMT: row.CMT,
+      CPC: row.CPC,
+      CPT: row.CPT,
+      CPD: row.CPD,
+      CPN: row.CPN,
+      Cs_Progress_CD: row.Cs_Progress_CD,
+      Cs_Complete_Date: row.Cs_Complete_Date,
+      Cs_Complete_Qty: row.Cs_Complete_Qty,
+      Cs_Label_CSV: row.Cs_Label_CSV,
+      Cs_All_Complete: row.Cs_All_Complete,
+      Cs_Order_All_Complete: row.Cs_Order_All_Complete,
+      Cs_Parts_Complete: row.Cs_Parts_Complete,
+      Cs_Final_Complete: row.Cs_Final_Complete,
+      Cs_Remark: row.Cs_Remark,
+      Cs_Register_Date: row.Cs_Register_Date,
+      Cs_Modify_Date: row.Cs_Modify_Date,
+      Cs_Reg_Person_CD: row.Cs_Reg_Person_CD,
+      Cs_Upd_Person_CD: row.Cs_Upd_Person_CD,
+      Sequence_No: row.Sequence_No,
+      ProcessCD: row.ProcessCD,
+      Comp_Month: row.Comp_Month,
+      Amount: row.Amount,
+    }));
+
+    const csv = Papa.unparse(csvData); // แปลง JSON เป็น CSV
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+
+    // ดาวน์โหลดไฟล์ CSV
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "None_FG_Data.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const columns = [
     {
       name: "Order_No",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Order_No}
-          onChange={(e) => handleEdit(index, "Order_No", e.target.value)}
+          value={editedData[row.Cost_No]?.Order_No ?? row.Order_No ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "Order_No")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Order_No")}
+          disabled
         />
       ),
       width: "150px",
     },
     {
       name: "Parts_No",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Parts_No}
-          onChange={(e) => handleEdit(index, "Parts_No", e.target.value)}
+          value={editedData[row.Cost_No]?.Parts_No ?? row.Parts_No ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "Parts_No")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Parts_No")}
+          disabled
         />
       ),
       width: "150px",
     },
     {
       name: "Cost_No",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Cost_No}
-          onChange={(e) => handleEdit(index, "Cost_No", e.target.value)}
+          value={editedData[row.Cost_No]?.Cost_No ?? row.Cost_No ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "Cost_No")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Cost_No")}
+          disabled
         />
       ),
       width: "150px",
     },
     {
       name: "Process_No",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Process_No}
-          onChange={(e) => handleEdit(index, "Process_No", e.target.value)}
+          value={editedData[row.Cost_No]?.Process_No ?? row.Process_No ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "Process_No")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Process_No")}
         />
       ),
       width: "150px",
     },
     {
       name: "OdPt_No",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.OdPt_No}
-          onChange={(e) => handleEdit(index, "OdPt_No", e.target.value)}
+          value={editedData[row.Cost_No]?.OdPt_No ?? row.OdPt_No ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "OdPt_No")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "OdPt_No")}
         />
       ),
       width: "150px",
     },
     {
       name: "OdPtCs_No",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.OdPtCs_No}
-          onChange={(e) => handleEdit(index, "OdPtCs_No", e.target.value)}
+          value={editedData[row.Cost_No]?.OdPtCs_No ?? row.OdPtCs_No ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "OdPtCs_No")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "OdPtCs_No")}
         />
       ),
       width: "150px",
     },
     {
       name: "OdPtPr_No",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.OdPtPr_No}
-          onChange={(e) => handleEdit(index, "OdPtPr_No", e.target.value)}
+          value={editedData[row.Cost_No]?.OdPtPr_No ?? row.OdPtPr_No ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "OdPtPr_No")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "OdPtPr_No")}
         />
       ),
       width: "150px",
     },
     {
       name: "CMC",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.CMC}
-          onChange={(e) => handleEdit(index, "CMC", e.target.value)}
+          value={editedData[row.Cost_No]?.CMC ?? row.CMC ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "CMC")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "CMC")}
         />
       ),
-      width: "150px",
+      width: "200px",
     },
     {
       name: "CMT",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.CMT}
-          onChange={(e) => handleEdit(index, "CMT", e.target.value)}
+          type="number"
+          value={editedData[row.Cost_No]?.CMT ?? row.CMT ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "CMT")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "CMT")}
         />
       ),
       width: "150px",
     },
     {
       name: "CPC",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.CPC}
-          onChange={(e) => handleEdit(index, "CPC", e.target.value)}
+          value={editedData[row.Cost_No]?.CPC ?? row.CPC ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "CPC")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "CPC")}
         />
       ),
-      width: "150px",
+      width: "200px",
     },
     {
       name: "CPT",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.CPT}
-          onChange={(e) => handleEdit(index, "CPT", e.target.value)}
+          type="number"
+          value={editedData[row.Cost_No]?.CPT ?? row.CPT ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "CPT")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "CPT")}
         />
       ),
       width: "150px",
     },
     {
       name: "CPD",
-      selector: (row, index) => (
+      selector: (row) => {
+        const date = row.CPD ? new Date(row.CPD) : null;
+        if (!date || isNaN(date)) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
+      width: "170px",
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.CPD}
-          onChange={(e) => handleEdit(index, "CPD", e.target.value)}
+          type="date"
+          value={
+            editedData[row.Cost_No]?.CPD ?? formatDateForInput(row.CPD) ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Cost_No, "CPD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "CPD")}
         />
       ),
-      width: "150px",
     },
     {
       name: "CPN",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.CPN}
-          onChange={(e) => handleEdit(index, "CPN", e.target.value)}
+          type="number"
+          value={editedData[row.Cost_No]?.CPN ?? row.CPN ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "CPN")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "CPN")}
         />
       ),
       width: "150px",
     },
     {
       name: "Cs_Progress_CD",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Cs_Progress_CD}
-          onChange={(e) => handleEdit(index, "Cs_Progress_CD", e.target.value)}
+          value={
+            editedData[row.Cost_No]?.Cs_Progress_CD ?? row.Cs_Progress_CD ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Cost_No, "Cs_Progress_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Cs_Progress_CD")}
         />
       ),
       width: "180px",
     },
     {
       name: "Cs_Complete_Date",
-      selector: (row, index) => (
+      selector: (row) => {
+        const date = row.Cs_Complete_Date
+          ? new Date(row.Cs_Complete_Date)
+          : null;
+        if (!date || isNaN(date)) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
+      width: "170px",
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Cs_Complete_Date}
-          onChange={(e) =>
-            handleEdit(index, "Cs_Complete_Date", e.target.value)
+          type="date"
+          value={
+            editedData[row.Cost_No]?.Cs_Complete_Date ??
+            formatDateForInput(row.Cs_Complete_Date) ??
+            ""
           }
+          onChange={(e) => handleChange(e, row.Cost_No, "Cs_Complete_Date")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Cs_Complete_Date")}
         />
       ),
-      width: "200px",
     },
     {
       name: "Cs_Complete_Qty",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Cs_Complete_Qty}
-          onChange={(e) => handleEdit(index, "Cs_Complete_Qty", e.target.value)}
+          type="number"
+          value={
+            editedData[row.Cost_No]?.Cs_Complete_Qty ??
+            row.Cs_Complete_Qty ??
+            ""
+          }
+          onChange={(e) => handleChange(e, row.Cost_No, "Cs_Complete_Qty")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Cs_Complete_Qty")}
         />
       ),
       width: "180px",
     },
     {
       name: "Cs_Label_CSV",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
-          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Cs_Label_CSV}
-          onChange={(e) => handleEdit(index, "Cs_Label_CSV", e.target.value)}
+          type="checkbox"
+          checked={row.Cs_Label_CSV ?? false}
+          style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Cs_Label_CSV")}
+          className="mx-auto"
         />
       ),
       width: "180px",
     },
     {
       name: "Cs_All_Complete",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
-          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Cs_All_Complete}
-          onChange={(e) => handleEdit(index, "Cs_All_Complete", e.target.value)}
+          type="checkbox"
+          checked={row.Cs_All_Complete ?? false}
+          style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Cs_All_Complete")}
+          className="mx-auto"
         />
       ),
       width: "180px",
     },
     {
       name: "Cs_Order_All_Complete",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
-          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Cs_Order_All_Complete}
+          type="checkbox"
+          checked={row.Cs_Order_All_Complete ?? false}
+          style={{ pointerEvents: "none" }}
           onChange={(e) =>
-            handleEdit(index, "Cs_Order_All_Complete", e.target.value)
+            handleCheckboxChange(e, row, "Cs_Order_All_Complete")
           }
+          className="mx-auto"
         />
       ),
       width: "220px",
     },
     {
       name: "Cs_Parts_Complete",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
-          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Cs_Parts_Complete}
-          onChange={(e) =>
-            handleEdit(index, "Cs_Parts_Complete", e.target.value)
-          }
+          type="checkbox"
+          checked={row.Cs_Parts_Complete ?? false}
+          style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Cs_Parts_Complete")}
+          className="mx-auto"
         />
       ),
       width: "200px",
     },
     {
       name: "Cs_Final_Complete",
-      selector: (row, index) => (
+      cell: (row) => (
         <input
-          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Cs_Final_Complete}
-          onChange={(e) =>
-            handleEdit(index, "Cs_Final_Complete", e.target.value)
-          }
+          type="checkbox"
+          checked={row.Cs_Final_Complete ?? false}
+          style={{ pointerEvents: "none" }}
+          onChange={(e) => handleCheckboxChange(e, row, "Cs_Final_Complete")}
+          className="mx-auto"
         />
       ),
       width: "200px",
     },
     {
       name: "Cs_Remark",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Cs_Remark}
-          onChange={(e) => handleEdit(index, "Cs_Remark", e.target.value)}
+          value={editedData[row.Cost_No]?.Cs_Remark ?? row.Cs_Remark ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "Cs_Remark")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Cs_Remark")}
         />
       ),
       width: "200px",
     },
     {
       name: "Cs_Register_Date",
-      selector: (row, index) => (
+      selector: (row) => {
+        const date = row.Cs_Register_Date
+          ? new Date(row.Cs_Register_Date)
+          : null;
+        if (!date || isNaN(date)) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
+      width: "170px",
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Cs_Register_Date}
-          onChange={(e) =>
-            handleEdit(index, "Cs_Register_Date", e.target.value)
+          type="date"
+          value={
+            editedData[row.Cost_No]?.Cs_Register_Date ??
+            formatDateForInput(row.Cs_Register_Date) ??
+            ""
           }
+          onChange={(e) => handleChange(e, row.Cost_No, "Cs_Register_Date")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Cs_Register_Date")}
         />
       ),
-      width: "200px",
     },
     {
       name: "Cs_Modify_Date",
-      selector: (row, index) => (
+      selector: (row) => {
+        const date = row.Cs_Modify_Date ? new Date(row.Cs_Modify_Date) : null;
+        if (!date || isNaN(date)) return "";
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear() + 543;
+
+        return `${day}/${month}/${year}`;
+      },
+      width: "170px",
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Cs_Modify_Date}
-          onChange={(e) => handleEdit(index, "Cs_Modify_Date", e.target.value)}
+          type="date"
+          value={
+            editedData[row.Cost_No]?.Cs_Modify_Date ??
+            formatDateForInput(row.Cs_Modify_Date) ??
+            ""
+          }
+          onChange={(e) => handleChange(e, row.Cost_No, "Cs_Modify_Date")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Cs_Modify_Date")}
         />
       ),
-      width: "200px",
     },
     {
       name: "Cs_Reg_Person_CD",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Cs_Reg_Person_CD}
-          onChange={(e) =>
-            handleEdit(index, "Cs_Reg_Person_CD", e.target.value)
+          value={
+            editedData[row.Cost_No]?.Cs_Reg_Person_CD ??
+            row.Cs_Reg_Person_CD ??
+            ""
           }
+          onChange={(e) => handleChange(e, row.Cost_No, "Cs_Reg_Person_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Cs_Reg_Person_CD")}
         />
       ),
       width: "200px",
     },
     {
       name: "Cs_Upd_Person_CD",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Cs_Upd_Person_CD}
-          onChange={(e) =>
-            handleEdit(index, "Cs_Upd_Person_CD", e.target.value)
+          value={
+            editedData[row.Cost_No]?.Cs_Upd_Person_CD ??
+            row.Cs_Upd_Person_CD ??
+            ""
           }
+          onChange={(e) => handleChange(e, row.Cost_No, "Cs_Upd_Person_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Cs_Upd_Person_CD")}
         />
       ),
       width: "200px",
     },
     {
       name: "Sequence_No",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Sequence_No}
-          onChange={(e) => handleEdit(index, "Sequence_No", e.target.value)}
+          type="number"
+          value={editedData[row.Cost_No]?.Sequence_No ?? row.Sequence_No ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "Sequence_No")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Sequence_No")}
         />
       ),
       width: "150px",
     },
     {
       name: "ProcessCD",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.ProcessCD}
-          onChange={(e) => handleEdit(index, "ProcessCD", e.target.value)}
+          value={editedData[row.Cost_No]?.ProcessCD ?? row.ProcessCD ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "ProcessCD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "ProcessCD")}
         />
       ),
       width: "150px",
     },
     {
       name: "Comp_Month",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Comp_Month}
-          onChange={(e) => handleEdit(index, "Comp_Month", e.target.value)}
+          value={editedData[row.Cost_No]?.Comp_Month ?? row.Comp_Month ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "Comp_Month")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Comp_Month")}
         />
       ),
       width: "150px",
     },
     {
       name: "Amount",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Amount}
-          onChange={(e) => handleEdit(index, "Amount", e.target.value)}
+          value={editedData[row.Cost_No]?.Amount ?? row.Amount ?? ""}
+          onChange={(e) => handleChange(e, row.Cost_No, "Amount")}
+          onKeyDown={(e) => handleKeyDown(e, row.Cost_No, "Amount")}
         />
       ),
       width: "150px",
@@ -575,7 +771,7 @@ export function None_FG_Data() {
               </h1>
               <hr className="my-6 h-0.5 bg-gray-500 opacity-150 dark:opacity-50 border-y-[1px] border-gray-300" />
 
-              <div className="ml-5 text-lg">
+              <div className="ml-5 text-lg flex justify-between">
                 <input
                   className="border-2 border-gray-500 rounded-md w-52 h-9"
                   type="text"
@@ -583,7 +779,14 @@ export function None_FG_Data() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
+                <button
+                  onClick={exportToCsv}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md mr-5"
+                >
+                  Export to CSV
+                </button>
               </div>
+
               <div className="flex justify-center items-center mt-5">
                 <div className="w-full text-center px-5">
                   <DataTable

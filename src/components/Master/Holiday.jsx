@@ -3,44 +3,39 @@ import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
+import Papa from "papaparse";
 
 export function Holiday() {
-  const [data, setData] = useState([
-    {
-      Holiday: "2024-12-25",
-      Holiday_Name: "Christmas Day",
-      Coefficient: 1.5,
-      Holiday_Remark: "National holiday",
-    },
-    {
-      Holiday: "2024-01-01",
-      Holiday_Name: "New Year's Day",
-      Coefficient: 1.2,
-      Holiday_Remark: "Start of the new year",
-    },
-    {
-      Holiday: "2024-04-13",
-      Holiday_Name: "Songkran Festival",
-      Coefficient: 1.3,
-      Holiday_Remark: "Traditional Thai New Year",
-    },
-    {
-      Holiday: "2024-05-01",
-      Holiday_Name: "Labor Day",
-      Coefficient: 1.0,
-      Holiday_Remark: "Holiday for workers",
-    },
-  ]);
-
   const [searchTerm, setSearchTerm] = useState("");
+  const [data, setData] = useState([]);
   const [editedData, setEditedData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
   const editedDataRef = useRef(editedData);
 
+  const fetchSet = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:4000/holiday/fetch-holiday"
+      );
+      const formattedData = response.data.data.holiday.map((row) => ({
+        ...row,
+        Holiday: formatDateForInput(row.Holiday),
+      }));
+      // console.log("Fetched data:", response.data);
+      setData(formattedData);
+    } catch (error) {
+      // console.error("Error fetching holiday:", error);
+    }
+  };
+
   useEffect(() => {
-    const initialEditedData = data.reduce((acc, row, index) => {
-      if (!editedData[index]) {
-        acc[index] = { ...row };
+    fetchSet();
+  }, []);
+
+  useEffect(() => {
+    const initialEditedData = data.reduce((acc, row) => {
+      if (!editedData[row.Holiday]) {
+        acc[row.Holiday] = { ...row };
       }
       return acc;
     }, {});
@@ -63,41 +58,48 @@ export function Holiday() {
     return `${year}-${month}-${day}`;
   };
 
-  const handleChange = (e, processCd, field) => {
+  const handleChange = (e, holiday, field) => {
     const newValue = e.target.value;
 
-    if (editedDataRef.current[processCd]?.[field] !== newValue) {
+    if (editedDataRef.current[holiday]?.[field] !== newValue) {
       setIsChanged(true);
 
       const updatedData = { ...editedDataRef.current };
 
-      updatedData[processCd] = updatedData[processCd] || {};
-      updatedData[processCd][field] = newValue;
+      updatedData[holiday] = updatedData[holiday] || {};
+      updatedData[holiday][field] = newValue;
 
       setEditedData(updatedData);
       editedDataRef.current = updatedData;
     }
   };
 
-  const handleSave = (processCd, field) => {
-    const newValue = editedData[processCd]?.[field];
-    const oldValue = data.find((row) => row.Process_CD === processCd)?.[field];
+  const handleSave = async (holiday, field) => {
+    const newValue = editedData[holiday]?.[field];
+    const oldValue = data.find((row) => row.Holiday === holiday)?.[field];
 
     if (newValue !== oldValue) {
       try {
-        const updatedData = [...data];
-        const rowIndex = updatedData.findIndex(
-          (row) => row.Process_CD === processCd
+        const payload = {
+          Holiday: holiday,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/holiday/update-holiday",
+          payload
         );
 
+        const updatedData = [...data];
+        const rowIndex = updatedData.findIndex(
+          (row) => row.Holiday === holiday
+        );
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("holidayData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -119,6 +121,29 @@ export function Holiday() {
     );
   });
 
+  // ฟังก์ชันสำหรับ Export ข้อมูลเป็น CSV
+  const exportToCsv = () => {
+    const csvData = data.map((row) => ({
+      Holiday: row.Holiday,
+      Holiday_Name: row.Holiday_Name,
+      Coefficient: row.Coefficient,
+      Holiday_Remark: row.Holiday_Remark,
+    }));
+
+    const csv = Papa.unparse(csvData); // แปลง JSON เป็น CSV
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+
+    // ดาวน์โหลดไฟล์ CSV
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "Holiday_data.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const columns = [
     {
       name: "Holiday",
@@ -132,40 +157,46 @@ export function Holiday() {
 
         return `${day}/${month}/${year}`;
       },
-      width: "180px",
+      width: "190px",
       cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="date"
           value={
-            editedData[row.ID]?.Holiday ||
-            formatDateForInput(row.Holiday)
+            editedData[row.Holiday]?.Holiday ??
+            formatDateForInput(row.Holiday) ??
+            ""
           }
-          onChange={(e) => handleChange(e, row.ID, "Holiday")}
-          onKeyDown={(e) => handleKeyDown(e, row.ID, "Holiday")}
+          onChange={(e) => handleChange(e, row.Holiday, "Holiday")}
+          onKeyDown={(e) => handleKeyDown(e, row.Holiday, "Holiday")}
+          disabled
         />
       ),
     },
     {
       name: "Holiday_Name",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Holiday_Name}
-          onChange={(e) => handleEdit(row, "Holiday_Name", e.target.value)}
+          value={
+            editedData[row.Holiday]?.Holiday_Name ?? row.Holiday_Name ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Holiday, "Holiday_Name")}
+          onKeyDown={(e) => handleKeyDown(e, row.Holiday, "Holiday_Name")}
         />
       ),
-      width: "200px",
+      width: "190px",
     },
     {
       name: "Coefficient",
-      selector: (row) => (
+      cell: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="number"
-          value={row.Coefficient}
-          onChange={(e) => handleEdit(row, "Coefficient", e.target.value)}
+          value={editedData[row.Holiday]?.Coefficient ?? row.Coefficient ?? ""}
+          onChange={(e) => handleChange(e, row.Holiday, "Coefficient")}
+          onKeyDown={(e) => handleKeyDown(e, row.Holiday, "Coefficient")}
         />
       ),
       width: "150px",
@@ -181,8 +212,11 @@ export function Holiday() {
             minWidth: "240px",
             maxWidth: "100%",
           }}
-          value={row.Holiday_Remark}
-          onChange={(e) => handleEdit(row, "Holiday_Remark", e.target.value)}
+          value={
+            editedData[row.Holiday]?.Holiday_Remark ?? row.Holiday_Remark ?? ""
+          }
+          onChange={(e) => handleChange(e, row.Holiday, "Holiday_Remark")}
+          onKeyDown={(e) => handleKeyDown(e, row.Holiday, "Holiday_Remark")}
         />
       ),
       width: "280px",
@@ -200,7 +234,8 @@ export function Holiday() {
               Holiday <br /> 休日設定
             </h1>
             <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
-            <div className="ml-5 text-lg">
+
+            <div className="ml-5 text-lg flex justify-between">
               <input
                 className="border-2 border-gray-500 rounded-md w-52 h-9"
                 type="text"
@@ -208,7 +243,14 @@ export function Holiday() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
+              <button
+                onClick={exportToCsv}
+                className="bg-blue-500 text-white px-4 py-2 rounded-md mr-5"
+              >
+                Export to CSV
+              </button>
             </div>
+
             <div className="flex justify-left items-center mt-5 mb-3">
               <div className="w-full sm:w-auto text-center px-5">
                 <DataTable

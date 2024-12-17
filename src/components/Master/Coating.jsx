@@ -3,6 +3,7 @@ import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
+import Papa from "papaparse";
 
 export function Coating() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,14 +29,11 @@ export function Coating() {
   }, []);
 
   useEffect(() => {
-    const initialEditedData = data.reduce((acc, row, index) => {
-      if (!editedData[index]) {
-        acc[index] = { ...row };
-      }
-      return acc;
-    }, {});
-
-    if (Object.keys(initialEditedData).length > 0) {
+    if (Object.keys(editedData).length === 0 && data.length > 0) {
+      const initialEditedData = data.reduce((acc, row) => {
+        acc[row.Coating_CD] = { ...row };
+        return acc;
+      }, {});
       setEditedData(initialEditedData);
     }
   }, [data]);
@@ -56,25 +54,32 @@ export function Coating() {
     }
   };
 
-  const handleSave = (coatingCd, field) => {
+  const handleSave = async (coatingCd, field) => {
     const newValue = editedData[coatingCd]?.[field];
     const oldValue = data.find((row) => row.Coating_CD === coatingCd)?.[field];
 
     if (newValue !== oldValue) {
       try {
+        const payload = {
+          Coating_CD: coatingCd,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/coating/update-coating",
+          payload
+        );
+
         const updatedData = [...data];
         const rowIndex = updatedData.findIndex(
           (row) => row.Coating_CD === coatingCd
         );
-
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("coatingData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -96,6 +101,30 @@ export function Coating() {
     );
   });
 
+  // ฟังก์ชันสำหรับ Export ข้อมูลเป็น CSV
+  const exportToCsv = () => {
+    const csvData = data.map((row) => ({
+      Coating_CD: row.Coating_CD,
+      Coating_Name: row.Coating_Name,
+      Coating_Abb: row.Coating_Abb,
+      Coating_Symbol: row.Coating_Symbol,
+      Coating_Remark: row.Coating_Remark,
+    }));
+
+    const csv = Papa.unparse(csvData); // แปลง JSON เป็น CSV
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+
+    // ดาวน์โหลดไฟล์ CSV
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "Coating_data.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const columns = [
     {
       name: "Coating_CD",
@@ -110,6 +139,7 @@ export function Coating() {
           }
           onChange={(e) => handleChange(e, row.Coating_CD, "Coating_CD")}
           onKeyDown={(e) => handleKeyDown(e, row.Coating_CD, "Coating_CD")}
+          disabled
         />
       ),
       width: "170px",
@@ -197,15 +227,22 @@ export function Coating() {
               </h1>
               <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
 
-              <div className="ml-5 text-lg">
+              <div className="ml-5 text-lg flex justify-between">
                 <input
-                  className="border-2 border-gray-500 rounded-md w-52 h-9"
+                  className="border-2 border-gray-500 rounded-md w-36 sm:w-52 h-9"
                   type="text"
                   placeholder=" Search..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
+                <button
+                  onClick={exportToCsv}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md mr-5"
+                >
+                  Export to CSV
+                </button>
               </div>
+
               <div className="flex justify-left items-center mt-5 mb-3">
                 <div className="w-full sm:w-auto text-center px-5">
                   <DataTable

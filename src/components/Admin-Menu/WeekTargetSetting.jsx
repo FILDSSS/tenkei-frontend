@@ -2,57 +2,47 @@ import React, { useState, useEffect, useRef } from "react";
 import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import DataTable from "react-data-table-component";
+import axios from "axios";
+import Papa from "papaparse";
 
 export function WeekTargetSetting() {
   const [searchTerm, setSearchTerm] = useState("");
-
-  const [data, setData] = useState([
-    {
-      St_Target_Week1: "2024-12-01T10:00:00Z",
-      Ed_Target_Week1: "2024-12-07T18:00:00Z",
-      St_Target_Week2: "2024-12-08T09:00:00Z",
-      Ed_Target_Week2: "2024-12-14T17:00:00Z",
-      St_Target_Week3: "2024-12-15T08:00:00Z",
-      Ed_Target_Week3: "2024-12-21T20:00:00Z",
-      St_Target_Week4: "2024-12-22T10:30:00Z",
-      Ed_Target_Week4: "2024-12-28T19:00:00Z",
-      St_Target_Week5: "2024-12-29T11:00:00Z",
-      Ed_Target_Week5: "2025-01-04T21:00:00Z",
-    },
-    {
-      St_Target_Week1: "2024-11-01T08:00:00Z",
-      Ed_Target_Week1: "2024-11-07T18:30:00Z",
-      St_Target_Week2: "2024-11-08T09:30:00Z",
-      Ed_Target_Week2: "2024-11-14T16:30:00Z",
-      St_Target_Week3: "2024-11-15T10:00:00Z",
-      Ed_Target_Week3: "2024-11-21T19:00:00Z",
-      St_Target_Week4: "2024-11-22T08:45:00Z",
-      Ed_Target_Week4: "2024-11-28T17:15:00Z",
-      St_Target_Week5: "2024-11-29T10:30:00Z",
-      Ed_Target_Week5: "2024-12-05T20:00:00Z",
-    },
-    {
-      St_Target_Week1: "2024-10-01T07:00:00Z",
-      Ed_Target_Week1: "2024-10-07T19:00:00Z",
-      St_Target_Week2: "2024-10-08T09:00:00Z",
-      Ed_Target_Week2: "2024-10-14T18:30:00Z",
-      St_Target_Week3: "2024-10-15T08:00:00Z",
-      Ed_Target_Week3: "2024-10-21T20:30:00Z",
-      St_Target_Week4: "2024-10-22T10:30:00Z",
-      Ed_Target_Week4: "2024-10-28T17:00:00Z",
-      St_Target_Week5: "2024-10-29T11:00:00Z",
-      Ed_Target_Week5: "2024-11-04T21:30:00Z",
-    },
-  ]);
-
+  const [data, setData] = useState([]);
   const [editedData, setEditedData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
   const editedDataRef = useRef(editedData);
 
+  const fetchSet = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/set/fetch-set");
+      const formattedData = response.data.data.set.map((row) => ({
+        ...row,
+        St_Target_Week1: formatDateForInput(row.St_Target_Week1),
+        Ed_Target_Week1: formatDateForInput(row.Ed_Target_Week1),
+        St_Target_Week2: formatDateForInput(row.St_Target_Week2),
+        Ed_Target_Week2: formatDateForInput(row.Ed_Target_Week2),
+        St_Target_Week3: formatDateForInput(row.St_Target_Week3),
+        Ed_Target_Week3: formatDateForInput(row.Ed_Target_Week3),
+        St_Target_Week4: formatDateForInput(row.St_Target_Week4),
+        Ed_Target_Week4: formatDateForInput(row.Ed_Target_Week4),
+        St_Target_Week5: formatDateForInput(row.St_Target_Week5),
+        Ed_Target_Week5: formatDateForInput(row.Ed_Target_Week5),
+      }));
+      // console.log("Fetched data:", response.data);
+      setData(formattedData);
+    } catch (error) {
+      // console.error("Error fetching set:", error);
+    }
+  };
+
   useEffect(() => {
-    const initialEditedData = data.reduce((acc, row, index) => {
-      if (!editedData[index]) {
-        acc[index] = { ...row };
+    fetchSet();
+  }, []);
+
+  useEffect(() => {
+    const initialEditedData = data.reduce((acc, row) => {
+      if (!editedData[row.ID]) {
+        acc[row.ID] = { ...row };
       }
       return acc;
     }, {});
@@ -75,39 +65,46 @@ export function WeekTargetSetting() {
     return `${year}-${month}-${day}`;
   };
 
-  const handleChange = (e, orderNo, field) => {
+  const handleChange = (e, Id, field) => {
     const newValue = e.target.value;
 
-    if (editedDataRef.current[orderNo]?.[field] !== newValue) {
+    if (editedDataRef.current[Id]?.[field] !== newValue) {
       setIsChanged(true);
 
       const updatedData = { ...editedDataRef.current };
 
-      updatedData[orderNo] = updatedData[orderNo] || {};
-      updatedData[orderNo][field] = newValue;
+      updatedData[Id] = updatedData[Id] || {};
+      updatedData[Id][field] = newValue;
 
       setEditedData(updatedData);
       editedDataRef.current = updatedData;
     }
   };
 
-  const handleSave = (Id, field) => {
+  const handleSave = async (Id, field) => {
     const newValue = editedData[Id]?.[field];
     const oldValue = data.find((row) => row.ID === Id)?.[field];
 
     if (newValue !== oldValue) {
       try {
+        const payload = {
+          ID: Id,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/set/update-set",
+          payload
+        );
+
         const updatedData = [...data];
         const rowIndex = updatedData.findIndex((row) => row.ID === Id);
-
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("weekTargetData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -127,11 +124,11 @@ export function WeekTargetSetting() {
     if (!dateString) return "";
     const date = new Date(dateString);
     if (isNaN(date)) return "";
-  
+
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     const year = date.getFullYear();
-  
+
     return `${month}/${day}/${year}`;
   };
 
@@ -141,6 +138,35 @@ export function WeekTargetSetting() {
       return formattedValue.includes(searchTerm);
     });
   });
+
+  const exportToCsv = () => {
+    const csvData = data.map((row) => ({
+      St_Target_Week1: row.St_Target_Week1,
+      Ed_Target_Week1: row.Ed_Target_Week1,
+      St_Target_Week2: row.St_Target_Week2,
+      Ed_Target_Week2: row.Ed_Target_Week2,
+      St_Target_Week3: row.St_Target_Week3,
+      Ed_Target_Week3: row.Ed_Target_Week3,
+      St_Target_Week4: row.St_Target_Week4,
+      Ed_Target_Week4: row.Ed_Target_Week4,
+      St_Target_Week5: row.St_Target_Week5,
+      Ed_Target_Week5: row.Ed_Target_Week5,
+    }));
+
+    const csv = Papa.unparse(csvData); // แปลง JSON เป็น CSV
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+
+    // ดาวน์โหลดไฟล์ CSV
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "Week_Target_Setting_data.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
 
   const columns = [
     {
@@ -406,7 +432,7 @@ export function WeekTargetSetting() {
   ];
 
   return (
-    <div className="flex bg-[#E9EFEC] h-[150vh]">
+    <div className="flex bg-[#E9EFEC] h-[100vh]">
       <Sidebar />
       <div className="flex flex-col w-full mr-2 ml-2">
         <Navbar />
@@ -418,7 +444,7 @@ export function WeekTargetSetting() {
               </h1>
               <hr className="my-6 h-0.5 bg-gray-500 opacity-150 dark:opacity-50 border-y-[1px] border-gray-300" />
 
-              <div className="ml-5 text-lg">
+              <div className="ml-5 text-lg flex justify-between">
                 <input
                   className="border-2 border-gray-500 rounded-md w-52 h-9"
                   type="text"
@@ -426,6 +452,12 @@ export function WeekTargetSetting() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
+                <button
+                  onClick={exportToCsv}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md mr-5"
+                >
+                  Export to CSV
+                </button>
               </div>
               <div className="flex justify-center items-center mt-5">
                 <div className="w-full text-center px-5">
@@ -469,6 +501,8 @@ export function WeekTargetSetting() {
                   />
                 </div>
               </div>
+
+              
             </div>
           </div>
         </div>

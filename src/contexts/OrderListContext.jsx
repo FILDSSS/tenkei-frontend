@@ -14,7 +14,7 @@ export default function  OrderListContextProvider({ children }) {
         
         if (response.data ) {
             setOrderListData(response.data);
-            console.log("API Response:", response.data);
+         
             return true;
           } else {
             console.log("No data found");
@@ -29,7 +29,7 @@ export default function  OrderListContextProvider({ children }) {
     const fetchSchedule = async () => { 
       try {
           const response = await axios.get("/schedule/fetch-schedule"); 
-          console.log("Fetched Data:", response.data.data.schedule); 
+        
           setScheduleData(response.data.data.schedule);
           return response; 
       } catch (error) {

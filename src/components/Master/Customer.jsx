@@ -3,78 +3,28 @@ import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import DataTable from "react-data-table-component";
 import axios from "axios";
+import Papa from "papaparse"; 
 
 export function Customer() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [data, setData] = useState([
-    {
-      Customer_CD: "CUST001",
-      Customer_Name: "John Doe",
-      Customer_Name2: "J.D.",
-      Customer_Abb: "JD",
-      Customer_Add: "123 Main Street, Springfield",
-      Customer_Add2: "Apt 4B, Springfield",
-      Customer_Add3: null,
-      Customer_Contact: "john.doe@example.com",
-      Customer_TEL: "+1-555-123-4567",
-      Posting_Group: "PG001",
-      Payment_CD: "PAY001",
-      Sl_Person_CD: "SP001",
-      Blocked: false,
-      Customer_FAX: "+1-555-765-4321",
-      Branch_No: "BR001",
-      Nationality: "American",
-      Customer_Group: "Retail",
-      VAT_Reg_No: "US123456789",
-      Customer_Remark: "Preferred customer",
-    },
-    {
-      Customer_CD: "CUST002",
-      Customer_Name: "Jane Smith",
-      Customer_Name2: null,
-      Customer_Abb: "JS",
-      Customer_Add: "456 Elm Street, Metropolis",
-      Customer_Add2: null,
-      Customer_Add3: null,
-      Customer_Contact: "jane.smith@example.com",
-      Customer_TEL: "+1-555-234-5678",
-      Posting_Group: "PG002",
-      Payment_CD: "PAY002",
-      Sl_Person_CD: "SP002",
-      Blocked: true,
-      Customer_FAX: null,
-      Branch_No: "BR002",
-      Nationality: "Canadian",
-      Customer_Group: "Wholesale",
-      VAT_Reg_No: "CA987654321",
-      Customer_Remark: "Account on hold",
-    },
-    {
-      Customer_CD: "CUST003",
-      Customer_Name: "Michael Johnson",
-      Customer_Name2: "M.J.",
-      Customer_Abb: "MJ",
-      Customer_Add: "789 Oak Street, Gotham",
-      Customer_Add2: "Suite 101, Gotham",
-      Customer_Add3: "Building A, Gotham",
-      Customer_Contact: "michael.j@example.com",
-      Customer_TEL: "+1-555-345-6789",
-      Posting_Group: "PG003",
-      Payment_CD: "PAY003",
-      Sl_Person_CD: "SP003",
-      Blocked: false,
-      Customer_FAX: "+1-555-987-6543",
-      Branch_No: "BR003",
-      Nationality: "British",
-      Customer_Group: "Corporate",
-      VAT_Reg_No: "GB456123789",
-      Customer_Remark: "Key account",
-    },
-  ]);
-
+  const [data, setData] = useState([]);
   const [editedData, setEditedData] = useState({});
   const [isChanged, setIsChanged] = useState(false);
   const editedDataRef = useRef(editedData);
+
+  const fetchCustomer = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/order/customer");
+      // console.log("Fetched data:", response.data);
+      setData(response.data.data.customer || []);
+    } catch (error) {
+      // console.error("Error fetching customer:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCustomer();
+  }, []);
 
   useEffect(() => {
     const initialEditedData = data.reduce((acc, row, index) => {
@@ -105,7 +55,7 @@ export function Customer() {
     }
   };
 
-  const handleSave = (customerCd, field) => {
+  const handleSave = async (customerCd, field) => {
     const newValue = editedData[customerCd]?.[field];
     const oldValue = data.find((row) => row.Customer_CD === customerCd)?.[
       field
@@ -113,19 +63,26 @@ export function Customer() {
 
     if (newValue !== oldValue) {
       try {
+        const payload = {
+          Customer_CD: customerCd,
+          [field]: newValue === "" ? null : newValue,
+        };
+
+        const response = await axios.put(
+          "http://localhost:4000/order/update-customer",
+          payload
+        );
+
         const updatedData = [...data];
         const rowIndex = updatedData.findIndex(
           (row) => row.Customer_CD === customerCd
         );
-
         if (rowIndex !== -1) {
           updatedData[rowIndex][field] = newValue;
           setData(updatedData);
-
-          localStorage.setItem("customerData", JSON.stringify(updatedData));
-          alert("Edit Successfully!");
         }
 
+        alert("Edit Successfully!");
         setIsChanged(false);
       } catch (error) {
         alert("Something went wrong!");
@@ -147,159 +104,276 @@ export function Customer() {
     );
   });
 
-  // สำหรับ Dummy Data
-  const handleEdit = (index, field, newValue) => {
-    const updatedData = [...data];
-    updatedData[index][field] = newValue;
-    setData(updatedData);
+  // ฟังก์ชันสำหรับ Export ข้อมูลเป็น CSV
+  const exportToCsv = () => {
+    const csvData = data.map((row) => ({
+      Customer_CD: row.Customer_CD,
+      Customer_Name: row.Customer_Name,
+      Customer_Name2: row.Customer_Name2,
+      Customer_Abb: row.Customer_Abb,
+      Customer_Add: row.Customer_Add,
+      Customer_Add2: row.Customer_Add2,
+      Customer_Add3: row.Customer_Add3,
+      Customer_Contact: row.Customer_Contact,
+      Customer_TEL: row.Customer_TEL,
+      Posting_Group: row.Posting_Group,
+      Payment_CD: row.Payment_CD,
+      Sl_Person_CD: row.Sl_Person_CD,
+      Blocked: row.Blocked,
+      Customer_FAX: row.Customer_FAX,
+      Branch_No: row.Branch_No,
+      Nationality: row.Nationality,
+      Customer_Group: row.Customer_Group,
+      VAT_Reg_No: row.VAT_Reg_No,
+      Customer_Remark: row.Customer_Remark,
+    }));
+
+    const csv = Papa.unparse(csvData); // แปลง JSON เป็น CSV
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+
+    // ดาวน์โหลดไฟล์ CSV
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "Customer_data.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const columns = [
     {
       name: "Customer_CD",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Customer_CD}
-          onChange={(e) => handleEdit(index, "Customer_CD", e.target.value)}
+          value={
+            editedData[row.Customer_CD]?.Customer_CD !== undefined
+              ? editedData[row.Customer_CD]?.Customer_CD
+              : row.Customer_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Customer_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "Customer_CD")}
+          disabled
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "Customer_Name",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Customer_Name}
-          onChange={(e) => handleEdit(index, "Customer_Name", e.target.value)}
+          style={{
+            width: "fit-content",
+            minWidth: "350px",
+            maxWidth: "100%",
+          }}
+          value={
+            editedData[row.Customer_CD]?.Customer_Name !== undefined
+              ? editedData[row.Customer_CD]?.Customer_Name
+              : row.Customer_Name || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Customer_Name")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "Customer_Name")}
         />
       ),
-      width: "200px",
+      width: "400px",
     },
     {
       name: "Customer_Name2",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Customer_Name2}
-          onChange={(e) => handleEdit(index, "Customer_Name2", e.target.value)}
+          value={
+            editedData[row.Customer_CD]?.Customer_Name2 !== undefined
+              ? editedData[row.Customer_CD]?.Customer_Name2
+              : row.Customer_Name2 || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Customer_Name2")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "Customer_Name2")}
         />
       ),
-      width: "200px",
+      width: "190px",
     },
     {
       name: "Customer_Abb",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Customer_Abb}
-          onChange={(e) => handleEdit(index, "Customer_Abb", e.target.value)}
+          value={
+            editedData[row.Customer_CD]?.Customer_Abb !== undefined
+              ? editedData[row.Customer_CD]?.Customer_Abb
+              : row.Customer_Abb || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Customer_Abb")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "Customer_Abb")}
         />
       ),
-      width: "150px",
+      width: "210px",
     },
     {
       name: "Customer_Add",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Customer_Add}
-          onChange={(e) => handleEdit(index, "Customer_Add", e.target.value)}
+          style={{
+            width: "fit-content",
+            minWidth: "350px",
+            maxWidth: "100%",
+          }}
+          value={
+            editedData[row.Customer_CD]?.Customer_Add !== undefined
+              ? editedData[row.Customer_CD]?.Customer_Add
+              : row.Customer_Add || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Customer_Add")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "Customer_Add")}
         />
       ),
-      width: "300px",
+      width: "400px",
     },
     {
       name: "Customer_Add2",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Customer_Add2}
-          onChange={(e) => handleEdit(index, "Customer_Add2", e.target.value)}
+          style={{
+            width: "fit-content",
+            minWidth: "350px",
+            maxWidth: "100%",
+          }}
+          value={
+            editedData[row.Customer_CD]?.Customer_Add2 !== undefined
+              ? editedData[row.Customer_CD]?.Customer_Add2
+              : row.Customer_Add2 || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Customer_Add2")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "Customer_Add2")}
         />
       ),
-      width: "300px",
+      width: "400px",
     },
     {
       name: "Customer_Add3",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Customer_Add3}
-          onChange={(e) => handleEdit(index, "Customer_Add3", e.target.value)}
+          style={{
+            width: "fit-content",
+            minWidth: "350px",
+            maxWidth: "100%",
+          }}
+          value={
+            editedData[row.Customer_CD]?.Customer_Add3 !== undefined
+              ? editedData[row.Customer_CD]?.Customer_Add3
+              : row.Customer_Add3 || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Customer_Add3")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "Customer_Add3")}
         />
       ),
-      width: "300px",
+      width: "400px",
     },
     {
       name: "Customer_Contact",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Customer_Contact}
-          onChange={(e) =>
-            handleEdit(index, "Customer_Contact", e.target.value)
+          style={{
+            width: "fit-content",
+            minWidth: "300px",
+            maxWidth: "100%",
+          }}
+          value={
+            editedData[row.Customer_CD]?.Customer_Contact !== undefined
+              ? editedData[row.Customer_CD]?.Customer_Contact
+              : row.Customer_Contact || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Customer_Contact")}
+          onKeyDown={(e) =>
+            handleKeyDown(e, row.Customer_CD, "Customer_Contact")
           }
         />
       ),
-      width: "250px",
+      width: "350px",
     },
     {
-      name: "Customer_TEL",
-      selector: (row, index) => (
+      name: "Customer_TEL		",
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Customer_TEL}
-          onChange={(e) => handleEdit(index, "Customer_TEL", e.target.value)}
+          value={
+            editedData[row.Customer_CD]?.Customer_TEL !== undefined
+              ? editedData[row.Customer_CD]?.Customer_TEL
+              : row.Customer_TEL || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Customer_TEL		")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "Customer_TEL		")}
         />
       ),
       width: "200px",
     },
     {
       name: "Posting_Group",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Posting_Group}
-          onChange={(e) => handleEdit(index, "Posting_Group", e.target.value)}
+          value={
+            editedData[row.Customer_CD]?.Posting_Group !== undefined
+              ? editedData[row.Customer_CD]?.Posting_Group
+              : row.Posting_Group || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Posting_Group")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "Posting_Group")}
         />
       ),
-      width: "150px",
+      width: "190px",
     },
     {
       name: "Payment_CD",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Payment_CD}
-          onChange={(e) => handleEdit(index, "Payment_CD", e.target.value)}
+          value={
+            editedData[row.Customer_CD]?.Payment_CD !== undefined
+              ? editedData[row.Customer_CD]?.Payment_CD
+              : row.Payment_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Payment_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "Payment_CD")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "Sl_Person_CD",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
-          value={row.Sl_Person_CD}
-          onChange={(e) => handleEdit(index, "Sl_Person_CD", e.target.value)}
+          value={
+            editedData[row.Customer_CD]?.Sl_Person_CD !== undefined
+              ? editedData[row.Customer_CD]?.Sl_Person_CD
+              : row.Sl_Person_CD || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Sl_Person_CD")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "Sl_Person_CD")}
         />
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "Blocked",
@@ -312,84 +386,121 @@ export function Customer() {
           className="mx-auto"
         />
       ),
-      width: "100px",
+      width: "130px",
     },
     {
       name: "Customer_FAX",
-      selector: (row, index) => (
-        <input
-          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Customer_FAX}
-          onChange={(e) => handleEdit(index, "Customer_FAX", e.target.value)}
-        />
-      ),
-      width: "200px",
-    },
-    {
-      name: "Branch_No",
-      selector: (row, index) => (
-        <input
-          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Branch_No}
-          onChange={(e) => handleEdit(index, "Branch_No", e.target.value)}
-        />
-      ),
-      width: "150px",
-    },
-    {
-      name: "Nationality",
-      selector: (row, index) => (
-        <input
-          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Nationality}
-          onChange={(e) => handleEdit(index, "Nationality", e.target.value)}
-        />
-      ),
-      width: "150px",
-    },
-    {
-      name: "Customer_Group",
-      selector: (row, index) => (
-        <input
-          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.Customer_Group}
-          onChange={(e) => handleEdit(index, "Customer_Group", e.target.value)}
-        />
-      ),
-      width: "150px",
-    },
-    {
-      name: "VAT_Reg_No",
-      selector: (row, index) => (
-        <input
-          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
-          type="text"
-          value={row.VAT_Reg_No}
-          onChange={(e) => handleEdit(index, "VAT_Reg_No", e.target.value)}
-        />
-      ),
-      width: "200px",
-    },
-    {
-      name: "Customer_Remark",
-      selector: (row, index) => (
+      selector: (row) => (
         <input
           className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
           type="text"
           style={{
             width: "fit-content",
-            minWidth: "240px",
+            minWidth: "250px",
             maxWidth: "100%",
           }}
-          value={row.Customer_Remark}
-          onChange={(e) => handleEdit(index, "Customer_Remark", e.target.value)}
+          value={
+            editedData[row.Customer_CD]?.Customer_FAX !== undefined
+              ? editedData[row.Customer_CD]?.Customer_FAX
+              : row.Customer_FAX || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Customer_FAX")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "Customer_FAX")}
         />
       ),
       width: "300px",
+    },
+    {
+      name: "Branch_No",
+      selector: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="text"
+          value={
+            editedData[row.Customer_CD]?.Branch_No !== undefined
+              ? editedData[row.Customer_CD]?.Branch_No
+              : row.Branch_No || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Branch_No")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "Branch_No")}
+        />
+      ),
+      width: "180px",
+    },
+    {
+      name: "Nationality",
+      selector: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="text"
+          value={
+            editedData[row.Customer_CD]?.Nationality !== undefined
+              ? editedData[row.Customer_CD]?.Nationality
+              : row.Nationality || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Nationality")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "Nationality")}
+        />
+      ),
+      width: "180px",
+    },
+    {
+      name: "VAT_Reg_No",
+      selector: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="text"
+          value={
+            editedData[row.Customer_CD]?.VAT_Reg_No !== undefined
+              ? editedData[row.Customer_CD]?.VAT_Reg_No
+              : row.VAT_Reg_No || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "VAT_Reg_No")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "VAT_Reg_No")}
+        />
+      ),
+      width: "180px",
+    },
+    {
+      name: "Customer_Group",
+      selector: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="text"
+          value={
+            editedData[row.Customer_CD]?.Customer_Group !== undefined
+              ? editedData[row.Customer_CD]?.Customer_Group
+              : row.Customer_Group || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Customer_Group")}
+          onKeyDown={(e) => handleKeyDown(e, row.Customer_CD, "Customer_Group")}
+        />
+      ),
+      width: "180px",
+    },
+    {
+      name: "Customer_Remark",
+      selector: (row) => (
+        <input
+          className="w-full p-2 border rounded-md border-white focus:border-blue-500 focus:outline-none"
+          type="text"
+          style={{
+            width: "fit-content",
+            minWidth: "350px",
+            maxWidth: "100%",
+          }}
+          value={
+            editedData[row.Customer_CD]?.Customer_Remark !== undefined
+              ? editedData[row.Customer_CD]?.Customer_Remark
+              : row.Customer_Remark || ""
+          }
+          onChange={(e) => handleChange(e, row.Customer_CD, "Customer_Remark")}
+          onKeyDown={(e) =>
+            handleKeyDown(e, row.Customer_CD, "Customer_Remark")
+          }
+        />
+      ),
+      width: "400px",
     },
   ];
 
@@ -406,7 +517,7 @@ export function Customer() {
               </h1>
               <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
 
-              <div className="ml-5 text-lg">
+              <div className="ml-5 text-lg flex justify-between">
                 <input
                   className="border-2 border-gray-500 rounded-md w-52 h-9"
                   type="text"
@@ -414,7 +525,14 @@ export function Customer() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
+                <button
+                  onClick={exportToCsv}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md mr-5"
+                >
+                  Export to CSV
+                </button>
               </div>
+
               <div className="flex justify-center items-center mt-5">
                 <div className="w-full text-center px-5">
                   <DataTable
