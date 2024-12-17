@@ -261,6 +261,63 @@ export default function PlanContextProvider({ children }) {
     }
   };
 
+  const createResult = async () => {
+    try {
+      const response = await axios.post("/plan/create-result", planData);
+      console.log("result created successfully:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Error creating result:",
+        error.response?.data || error.message
+      );
+      throw new Error("Failed to create result");
+    }
+  };
+
+  const createWip = async () => {
+    try {
+      const response = await axios.post("/plan/create-wip", planData);
+      console.log("wip created successfully:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Error creating wip:",
+        error.response?.data || error.message
+      );
+      throw new Error("Failed to create wip");
+    }
+  };
+
+  const createSchedule = async () => {
+    try {
+      const response = await axios.post("/plan/create-schedule", planData);
+      console.log("schedule created successfully:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Error creating schedule:",
+        error.response?.data || error.message
+      );
+      throw new Error("Failed to create schedule");
+    }
+  };
+
+  const createPlan = async () => {
+    try {
+      const response = await axios.post("/plan/create-plan", planData);
+      console.log("plan created successfully:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Error creating plan:",
+        error.response?.data || error.message
+      );
+      throw new Error("Failed to create plan");
+    }
+  };
+
+
 
   useEffect(() => {
     QM_Process();
@@ -287,6 +344,10 @@ export default function PlanContextProvider({ children }) {
         ScheduleData,
         setScheduleData,
         PartsData,
+        createResult,
+        createWip,
+        createSchedule,
+        createPlan,
       }}
     >
       {children}
