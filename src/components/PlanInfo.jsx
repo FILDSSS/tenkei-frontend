@@ -80,8 +80,6 @@ export default function PlanInfo() {
   const [Search_Odpt_No, setSearch_Odpt_No] = useState("");
   const inputs = Array.from({ length: 36 }, (_, i) => i + 1);
 
-
-
   const handleInputChange = (event, isPurchase, isPlan = false) => {
     const { id, value, type, checked } = event.target;
 
@@ -115,10 +113,23 @@ export default function PlanInfo() {
 
   const handlePlanInputChange = async (event) => {
     const { id, value, type, checked } = event.target;
+    let formattedValue = value;
 
+    // แปลงวันที่และเวลาเป็น ISO8601
+    if (type === "datetime-local" && value) {
+      const dateWithCurrentTime = new Date(value);
+      formattedValue = dateWithCurrentTime.toISOString(); 
+    }
     setPlanData((prevPlanData) => ({
       ...prevPlanData,
-      [id]: type === "checkbox" ? checked : value === "" ? null : value,
+      [id]:
+        type === "checkbox"
+          ? checked
+          : type === "date" && value !== ""
+          ? new Date(`${value}T00:00:00.000Z`).toISOString()
+          : value === ""
+          ? null
+          : value,
     }));
 
     if (id === "Search_Parts_No") {
@@ -186,6 +197,40 @@ export default function PlanInfo() {
       });
     }
   };
+
+    const handleF10Click = async () => {
+      try {
+        // แสดงกล่องยืนยันการลบข้อมูล
+        const result = await Swal.fire({
+          title: "ยืนยันการลบ?",
+          text: "คุณต้องการลบข้อมูลนี้หรือไม่?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "ใช่, ลบเลย!",
+          cancelButtonText: "ยกเลิก",
+        });
+  
+       
+        if (result.isConfirmed) {
+          const response = await deleteOrder(searchOrderNo); 
+          console.log("Delete result:", response);
+  
+          // แสดงข้อความว่าลบเรียบร้อยแล้ว
+          Swal.fire(
+            "ลบเรียบร้อย!",
+            "ข้อมูลของคุณได้ถูกลบเรียบร้อยแล้ว.",
+            "success"
+          );
+        }
+      } catch (error) {
+        // จัดการข้อผิดพลาด
+        alert(
+          "Error occurs when F10_Click\nPlease contact system administrator."
+        );
+      }
+    };
 
   const handleF12Click = () => {
     Swal.fire({
@@ -472,7 +517,9 @@ export default function PlanInfo() {
             id={`PPD${id}`}
             type="date"
             value={
-              planData?.[`PPD${id}`] ? planData?.[`PPD${id}`].split("T")[0] : ""
+              planData?.[`PPD${id}`]
+                ? new Date(planData[`PPD${id}`]).toISOString().split("T")[0]
+                : ""
             }
             onChange={handlePlanInputChange}
             className="border rounded px-2 py-1 text-xs w-full"
@@ -496,7 +543,9 @@ export default function PlanInfo() {
             id={`RPD${id}`}
             type="date"
             value={
-              planData?.[`RPD${id}`] ? planData?.[`RPD${id}`].split("T")[0] : ""
+              planData?.[`RPD${id}`]
+                ? new Date(planData[`RPD${id}`]).toISOString().split("T")[0]
+                : ""
             }
             onChange={handlePlanInputChange}
             className="border rounded px-2 py-1 text-xs w-full"
@@ -1553,7 +1602,7 @@ export default function PlanInfo() {
                               value={planData?.Parts_No || ""}
                               onChange={handlePlanInputChange}
                               type="text"
-                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24 ml-1"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-[45px] ml-1"
                             />
                           </div>
                         </div>
@@ -1569,7 +1618,7 @@ export default function PlanInfo() {
                               }
                               onChange={(event) => handlePlanInputChange(event)}
                               type="date"
-                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24 ml-1.5"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w- ml-1.5"
                             />
                           </div>
                         </div>
@@ -1687,14 +1736,12 @@ export default function PlanInfo() {
                               id="Pl_Reg_Date"
                               value={
                                 planData?.Pl_Reg_Date
-                                  ? planData.Pl_Reg_Date.substring(0, 10)
+                                  ? planData.Pl_Reg_Date.substring(0, 16) // แสดงเป็น YYYY-MM-DDTHH:MM
                                   : ""
                               }
-                              onChange={(event) =>
-                                handlePlanInputChange(event)
-                              }
-                              type="date"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
+                              onChange={handlePlanInputChange}
+                              type="datetime-local"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[170px]"
                             />
                           </div>
                         </div>
@@ -2030,12 +2077,12 @@ export default function PlanInfo() {
                                 id="Pt_Complete_Date"
                                 value={
                                   planData?.Pt_Complete_Date
-                                    ? planData.Pt_Complete_Date.substring(0, 10)
+                                    ? new Date(planData.Pt_Complete_Date)
+                                        .toISOString()
+                                        .split("T")[0]
                                     : ""
                                 }
-                                onChange={(event) =>
-                                  handlePlanInputChange(event)
-                                }
+                                onChange={handlePlanInputChange}
                                 type="date"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
                               />
@@ -2049,12 +2096,12 @@ export default function PlanInfo() {
                                 id="Pt_I_Date"
                                 value={
                                   planData?.Pt_I_Date
-                                    ? planData.Pt_I_Date.substring(0, 10)
+                                    ? new Date(planData.Pt_I_Date)
+                                        .toISOString()
+                                        .split("T")[0]
                                     : ""
                                 }
-                                onChange={(event) =>
-                                  handlePlanInputChange(event)
-                                }
+                                onChange={handlePlanInputChange}
                                 type="date"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
                               />
@@ -2068,14 +2115,12 @@ export default function PlanInfo() {
                                 id="Pl_Upd_Date"
                                 value={
                                   planData?.Pl_Upd_Date
-                                    ? planData.Pl_Upd_Date.substring(0, 10)
+                                    ? planData.Pl_Upd_Date.substring(0, 16) 
                                     : ""
                                 }
-                                onChange={(event) =>
-                                  handlePlanInputChange(event)
-                                }
-                                type="date"
-                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
+                                onChange={handlePlanInputChange}
+                                type="datetime-local"
+                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[170px]"
                               />
                             </div>
                           </div>
@@ -2181,6 +2226,7 @@ export default function PlanInfo() {
                           </label>
                           <div className="w-auto">
                             <input
+                              disabled
                               id="Pl_Quote_OdPt_No"
                               value={planData?.Pl_Quote_OdPt_No || ""}
                               onChange={handlePlanInputChange}
