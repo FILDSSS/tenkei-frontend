@@ -87,9 +87,16 @@ export default function PlanList() {
   const [coatingName2, setCoatingName2] = useState("");
   const [coatingName3, setCoatingName3] = useState("");
   const [coatingName4, setCoatingName4] = useState("");
+  const [plRegPersonName, setPlRegPersonName] = useState("");
 
-  const { planListData, setPlanListData, fetchPlanListData, scheduleData, PlProgressData } =
-    usePlanList();
+  const {
+    planListData,
+    setPlanListData,
+    fetchPlanListData,
+    scheduleData,
+    PlProgressData,
+    partsData,
+  } = usePlanList();
 
   const [formState, setFormState] = useState({
     Order_No: false,
@@ -899,9 +906,18 @@ export default function PlanList() {
 
       setSelectedSalesGrpAbb2(selectedGroup ? selectedGroup.Worker_Abb : "");
     }
+
+    if (planListData?.S_Pl_Reg_Person_CD && WorkerData.length > 0) {
+      const selectedGroup = WorkerData.find(
+        (item) => item.Worker_CD === planListData?.S_Pl_Reg_Person_CD
+      );
+
+      setPlRegPersonName(selectedGroup ? selectedGroup.Worker_Abb : "");
+    }
   }, [
     planListData?.S_Od_Ctl_Person_CD,
     planListData?.S_Sl_Person_CD,
+    planListData?.S_Pl_Reg_Person_CD,
     WorkerData,
   ]);
 
@@ -1167,6 +1183,7 @@ export default function PlanList() {
                         disabled={!formState.Order_Progress_Select2}
                         id="S_Ed_Od_Progress_CD"
                         value={planListData?.S_Ed_Od_Progress_CD || ""}
+                        onChange={(e) => handleInputChange(e)}
                         className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-40"
                       >
                         <option value="4">PC</option>
@@ -1224,6 +1241,7 @@ export default function PlanList() {
                     <input
                       type="checkbox"
                       id="checkbox1"
+                      defaultChecked
                       className="w-5 h-5 rounded-full"
                     />
                     <label htmlFor="checkbox1" className="text-sm bg-[#ffff99]">
@@ -1233,6 +1251,7 @@ export default function PlanList() {
                     <input
                       type="checkbox"
                       id="checkbox2"
+                      defaultChecked
                       className="w-5 h-5 rounded-full"
                     />
                     <label htmlFor="checkbox2" className="text-sm bg-[#ffff99]">
@@ -1242,6 +1261,7 @@ export default function PlanList() {
                     <input
                       type="checkbox"
                       id="checkbox3"
+                      defaultChecked
                       className="w-5 h-5 rounded-full"
                     />
                     <label htmlFor="checkbox3" className="text-sm bg-[#ffff99]">
@@ -3308,7 +3328,7 @@ export default function PlanList() {
             </div>
 
             <div className="w-full mt-5 overflow-x-auto pr-10">
-              <div className="min-w-[1800px] w-full mb-7">
+              <div className="min-w-[1900px] w-full mb-7">
                 {/* Start Group 1 */}
                 <div className="flex pl-5">
                   {/* Start */}
@@ -3318,6 +3338,8 @@ export default function PlanList() {
                   <input
                     disabled={!formState.Parts_No}
                     id="S_St_Parts_No"
+                    value={planListData?.S_St_Parts_No || ""}
+                    onChange={handleInputChange}
                     type="text"
                     className="bg-white border-2 border-gray-500 rounded-md w-32 ml-7"
                   />
@@ -3327,6 +3349,8 @@ export default function PlanList() {
                   <input
                     disabled={!formState.Parts_No_Input2}
                     id="S_Ed_Parts_No"
+                    value={planListData?.S_Ed_Parts_No || ""}
+                    onChange={handleInputChange}
                     type="text"
                     className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
                   />
@@ -3339,6 +3363,8 @@ export default function PlanList() {
                   <input
                     disabled={!formState.Pt_Qty}
                     id="S_St_Pt_Qty"
+                    value={planListData?.S_St_Pt_Qty || ""}
+                    onChange={handleInputChange}
                     type="text"
                     className="bg-white border-2 border-gray-500 rounded-md w-32 ml-4"
                   />
@@ -3348,43 +3374,47 @@ export default function PlanList() {
                   <input
                     disabled={!formState.Pt_Qty_Input2}
                     id="S_Ed_Pt_Qty"
+                    value={planListData?.S_Ed_Pt_Qty || ""}
+                    onChange={handleInputChange}
                     type="text"
                     className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
                   />
                   {/* End */}
 
                   {/* Start */}
-                  <div className="px-2 w-auto text-center pl-20">
+                  <div className="px-2 w-auto text-center pl-[235px]">
                     <label className="font-bold text-xs">Money_Obj</label>
                   </div>
                   <div className="relative w-24">
                     <select
                       disabled={!formState.Money_Obj}
                       id="S_Money_Object"
+                      value={planListData?.S_Money_Object || ""}
+                      onChange={handleInputChange}
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8"
                     >
                       <option value=""></option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
                     </select>
                   </div>
                   {/* End */}
 
                   {/* Start */}
-                  <div className="px-2 w-auto text-center pl-52">
+                  <div className="px-2 w-auto text-center pl-12">
                     <label className="font-bold text-xs">Pt_CAT1</label>
                   </div>
                   <div className="relative w-24">
                     <select
                       disabled={!formState.Pt_CAT1}
                       id="S_Parts_CAT1"
+                      value={planListData?.S_Parts_CAT1 || ""}
+                      onChange={handleInputChange}
                       className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
                     >
                       <option value=""></option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
                     </select>
                   </div>
                   {/* End */}
@@ -3398,12 +3428,21 @@ export default function PlanList() {
                       <select
                         disabled={!formState.Plan_Progress}
                         id="S_St_Pl_Progress_CD"
-                        className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-20"
+                        value={planListData?.S_St_Pl_Progress_CD || ""}
+                        onChange={handleInputChange}
+                        className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-36"
                       >
                         <option value=""></option>
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
+                        {Array.isArray(PlProgressData) &&
+                        PlProgressData.length > 0 ? (
+                          PlProgressData.map((item, index) => (
+                            <option key={index} value={item.Pl_Progress_CD}>
+                              {item.Pl_Progress_Symbol}
+                            </option>
+                          ))
+                        ) : (
+                          <option value="">ไม่มีข้อมูล</option>
+                        )}
                       </select>
                       <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                         <svg
@@ -3428,12 +3467,21 @@ export default function PlanList() {
                       <select
                         disabled={!formState.Plan_Progress_Select2}
                         id="S_Ed_Pl_Progress_CD"
-                        className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-20"
+                        value={planListData?.S_Ed_Pl_Progress_CD || ""}
+                        onChange={handleInputChange}
+                        className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-36"
                       >
                         <option value=""></option>
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
+                        {Array.isArray(PlProgressData) &&
+                        PlProgressData.length > 0 ? (
+                          PlProgressData.map((item, index) => (
+                            <option key={index} value={item.Pl_Progress_CD}>
+                              {item.Pl_Progress_Symbol}
+                            </option>
+                          ))
+                        ) : (
+                          <option value="">ไม่มีข้อมูล</option>
+                        )}
                       </select>
                       <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                         <svg
@@ -3466,12 +3514,20 @@ export default function PlanList() {
                     <select
                       disabled={!formState.Pt_Name}
                       id="S_Parts_CD"
+                      value={planListData?.S_Parts_CD || ""}
+                      onChange={handleInputChange}
                       className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
                     >
                       <option value=""></option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
+                      {Array.isArray(partsData) && partsData.length > 0 ? (
+                        partsData.map((item, index) => (
+                          <option key={index} value={item.Parts_CD}>
+                            {item.Parts_Abb}
+                          </option>
+                        ))
+                      ) : (
+                        <option value="">ไม่มีข้อมูล</option>
+                      )}
                     </select>
                   </div>
                   {/* End */}
@@ -3483,6 +3539,8 @@ export default function PlanList() {
                   <input
                     disabled={!formState.Pt_Sp_Qty}
                     id="S_St_Pt_Sp_Qty"
+                    value={planListData?.S_St_Pt_Sp_Qty || ""}
+                    onChange={handleInputChange}
                     type="text"
                     className="bg-white border-2 border-gray-500 rounded-md w-32 ml-4"
                   />
@@ -3492,43 +3550,47 @@ export default function PlanList() {
                   <input
                     disabled={!formState.Pt_Sp_Qty_Input2}
                     id="S_Ed_Pt_Sp_Qty"
+                    value={planListData?.S_Ed_Pt_Sp_Qty || ""}
+                    onChange={handleInputChange}
                     type="text"
                     className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
                   />
                   {/* End */}
 
                   {/* Start */}
-                  <div className="px-2 w-auto text-center pl-[100px]">
+                  <div className="px-2 w-auto text-center pl-[256px]">
                     <label className="font-bold text-xs">Outside</label>
                   </div>
                   <div className="relative w-24">
                     <select
                       disabled={!formState.Outside}
                       id="S_Outside"
+                      value={planListData?.S_Outside || "false"}
+                      onChange={handleInputChange}
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8"
                     >
                       <option value=""></option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
                     </select>
                   </div>
                   {/* End */}
 
                   {/* Start */}
-                  <div className="px-2 w-auto text-center pl-52">
+                  <div className="px-2 w-auto text-center pl-12">
                     <label className="font-bold text-xs">Pt_CAT2</label>
                   </div>
                   <div className="relative w-24">
                     <select
                       disabled={!formState.Pt_CAT2}
                       id="S_Parts_CAT2"
+                      value={planListData?.Pt_CAT2 || ""}
+                      onChange={handleInputChange}
                       className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
                     >
                       <option value=""></option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
                     </select>
                   </div>
                   {/* End */}
@@ -3542,8 +3604,14 @@ export default function PlanList() {
                       <input
                         disabled={!formState.Parts_Delivery}
                         id="S_St_Parts_Delivery"
-                        type="text"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-20"
+                        value={
+                          planListData?.S_St_Parts_Delivery
+                            ? planListData.S_St_Parts_Delivery.substring(0, 10)
+                            : ""
+                        }
+                        onChange={(event) => handleInputChange(event)}
+                        type="date"
+                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-36"
                       />
                     </div>
 
@@ -3553,8 +3621,14 @@ export default function PlanList() {
                       <input
                         disabled={!formState.Parts_Delivery_Input2}
                         id="S_Ed_Parts_Delivery"
-                        type="text"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-20"
+                        value={
+                          planListData?.S_Ed_Parts_Delivery
+                            ? planListData.S_Ed_Parts_Delivery.substring(0, 10)
+                            : ""
+                        }
+                        onChange={(event) => handleInputChange(event)}
+                        type="date"
+                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-36"
                       />
                     </div>
                   </div>
@@ -3572,17 +3646,27 @@ export default function PlanList() {
                     <select
                       disabled={!formState.Req_Person}
                       id="S_Pl_Reg_Person_CD"
+                      value={planListData?.S_Pl_Reg_Person_CD || ""}
+                      onChange={handleInputChange}
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8"
                     >
                       <option value=""></option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
+                      {Array.isArray(WorkerData) && WorkerData.length > 0 ? (
+                        WorkerData.map((item, index) => (
+                          <option key={index} value={item.Worker_CD}>
+                            {item.Worker_CD}
+                          </option>
+                        ))
+                      ) : (
+                        <option value="">ไม่มีข้อมูล</option>
+                      )}
                     </select>
                   </div>
                   <input
                     disabled={!formState.Req_Person_Input}
                     id="S_Pl_Reg_Person_Name"
+                    value={plRegPersonName}
+                    onChange={(event) => setWorkgData(event)}
                     type="text"
                     className="bg-[#ccffff] border-2 border-gray-500 rounded-md w-32 ml-1"
                   />
@@ -3595,6 +3679,8 @@ export default function PlanList() {
                   <input
                     disabled={!formState.Pt_Mate}
                     id="S_Pt_Material"
+                    value={planListData?.S_Pt_Material || ""}
+                    onChange={handleInputChange}
                     type="text"
                     className="bg-white border-2 border-gray-500 rounded-md w-32 ml-4"
                   />
@@ -3607,6 +3693,8 @@ export default function PlanList() {
                   <input
                     disabled={!formState.Pt_NG_Qty}
                     id="S_St_Pt_NG_Qty"
+                    value={planListData?.S_St_Pt_NG_Qty || ""}
+                    onChange={handleInputChange}
                     type="text"
                     className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
                   />
@@ -3616,6 +3704,8 @@ export default function PlanList() {
                   <input
                     disabled={!formState.Pt_NG_Qty_Input2}
                     id="S_Ed_Pt_NG_Qty"
+                    value={planListData?.S_Ed_Pt_NG_Qty || ""}
+                    onChange={handleInputChange}
                     type="text"
                     className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
                   />
@@ -3629,30 +3719,32 @@ export default function PlanList() {
                     <select
                       disabled={!formState.Pt_Pend}
                       id="S_Parts_Pending"
+                      value={planListData?.S_Parts_Pending || "false"}
+                      onChange={handleInputChange}
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8"
                     >
                       <option value=""></option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
                     </select>
                   </div>
                   {/* End */}
 
                   {/* Start */}
-                  <div className="px-2 w-auto text-center pl-[52px]">
+                  <div className="px-2 w-auto text-center pl-[47px]">
                     <label className="font-bold text-xs">Pt_CAT3</label>
                   </div>
                   <div className="relative w-24">
                     <select
                       disabled={!formState.Pt_CAT3}
                       id="S_Parts_CAT3"
+                      value={planListData?.S_Parts_CAT3 || ""}
+                      onChange={handleInputChange}
                       className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
                     >
                       <option value=""></option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
                     </select>
                   </div>
                   {/* End */}
@@ -3666,8 +3758,14 @@ export default function PlanList() {
                       <input
                         disabled={!formState.Pl_Process_Date}
                         id="S_St_Pl_Process_Date"
-                        type="text"
-                        className="bg-[#00ffff] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-20"
+                        value={
+                          planListData?.S_St_Pl_Process_Date
+                            ? planListData.S_St_Pl_Process_Date.substring(0, 10)
+                            : ""
+                        }
+                        onChange={(event) => handleInputChange(event)}
+                        type="date"
+                        className="bg-[#00ffff] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-36"
                       />
                     </div>
 
@@ -3677,8 +3775,14 @@ export default function PlanList() {
                       <input
                         disabled={!formState.Pl_Process_Date_Input2}
                         id="S_St_Ed_Process_Date"
-                        type="text"
-                        className="bg-[#00ffff] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-20"
+                        value={
+                          planListData?.S_St_Ed_Process_Date
+                            ? planListData.S_St_Ed_Process_Date.substring(0, 10)
+                            : ""
+                        }
+                        onChange={(event) => handleInputChange(event)}
+                        type="date"
+                        className="bg-[#00ffff] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-36"
                       />
                     </div>
                   </div>
@@ -3695,6 +3799,8 @@ export default function PlanList() {
                   <input
                     disabled={!formState.Part_Note}
                     id="S_Parts_Instructions"
+                    value={planListData?.S_Parts_Instructions || ""}
+                    onChange={handleInputChange}
                     type="text"
                     className="bg-white border-2 border-gray-500 rounded-md w-32 ml-6"
                   />
@@ -3707,6 +3813,8 @@ export default function PlanList() {
                   <input
                     disabled={!formState.Pt_Remark}
                     id="S_Parts_Remark"
+                    value={planListData?.S_Parts_Remark || ""}
+                    onChange={handleInputChange}
                     type="text"
                     className="bg-white border-2 border-gray-500 rounded-md w-32 ml-4"
                   />
@@ -3719,6 +3827,8 @@ export default function PlanList() {
                   <input
                     disabled={!formState.Parts_Info}
                     id="S_Parts_Information"
+                    value={planListData?.S_Parts_Information || ""}
+                    onChange={handleInputChange}
                     type="text"
                     className="bg-[#ccffff] border-2 border-gray-500 rounded-md w-40 ml-1"
                   />
@@ -3728,65 +3838,77 @@ export default function PlanList() {
                   <div className="px-2 w-auto text-center pl-10">
                     <label className="font-bold text-xs">Sort1</label>
                   </div>
-                  <div className="relative w-24">
+                  <div className="relative w-40">
                     <select
                       disabled={!formState.Sort1}
                       id="Sort1"
+                      defaultValue="Product_Delivery"
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8"
                     >
-                      <option value=""></option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
+                      <option value="OdPt_No">OdPt_No</option>
+                      <option value="Product_Grp_CD">Product_Grp_CD</option>
+                      <option value="Customer_CD">Customer_CD</option>
+                      <option value="Request_Delivery">Request_Delivery</option>
+                      <option value="Product_Delivery">Product_Delivery</option>
+                      <option value="Confirm_Delivery">Confirm_Delivery</option>
+                      <option value="Pt_Delivery">Pt_Delivery</option>
                     </select>
                   </div>
                   {/* End */}
 
                   {/* Start */}
-                  <div className="px-2 w-auto text-center pl-10">
+                  <div className="px-2 w-auto text-center pl-4">
                     <label className="font-bold text-xs">Sort2</label>
                   </div>
-                  <div className="relative w-24">
+                  <div className="relative w-40">
                     <select
                       disabled={!formState.Sort2}
                       id="Sort2"
+                      defaultValue="Customer_CD"
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8"
                     >
-                      <option value=""></option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
+                      <option value="OdPt_No">OdPt_No</option>
+                      <option value="Product_Grp_CD">Product_Grp_CD</option>
+                      <option value="Customer_CD">Customer_CD</option>
+                      <option value="Request_Delivery">Request_Delivery</option>
+                      <option value="Product_Delivery">Product_Delivery</option>
+                      <option value="Confirm_Delivery">Confirm_Delivery</option>
+                      <option value="Pt_Delivery">Pt_Delivery</option>
                     </select>
                   </div>
                   {/* End */}
 
                   {/* Start */}
-                  <div className="px-2 w-auto text-center pl-[42px]">
+                  <div className="px-2 w-auto text-center pl-4">
                     <label className="font-bold text-xs">Sort3</label>
                   </div>
-                  <div className="relative w-24">
+                  <div className="relative w-40">
                     <select
                       disabled={!formState.Sort3}
                       id="Sort3"
+                      defaultValue="OdPt_No"
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8"
                     >
-                      <option value=""></option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
+                      <option value="OdPt_No">OdPt_No</option>
+                      <option value="Product_Grp_CD">Product_Grp_CD</option>
+                      <option value="Customer_CD">Customer_CD</option>
+                      <option value="Request_Delivery">Request_Delivery</option>
+                      <option value="Product_Delivery">Product_Delivery</option>
+                      <option value="Confirm_Delivery">Confirm_Delivery</option>
+                      <option value="Pt_Delivery">Pt_Delivery</option>
                     </select>
                   </div>
                   {/* End */}
 
                   {/* Start */}
-                  <div className="flex items-center space-x-2 ml-auto">
+                  <div className="flex items-center space-x-2 pl-4">
                     <div className="flex items-center relative">
                       <label className="text-xs font-bold mr-1">Sort..</label>
                       <input
                         disabled={!formState.Sort4}
                         id="Sort"
                         type="text"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-36"
+                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
                       />
                     </div>
                   </div>
@@ -3890,7 +4012,6 @@ export default function PlanList() {
                 </table>
               </div>
             </div>
-
           </div>
         </div>
         <div className="bg-white p-3 mt-5">

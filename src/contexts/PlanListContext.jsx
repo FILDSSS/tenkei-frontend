@@ -7,6 +7,7 @@ export default function PlanListContextProvider({ children }) {
   const [planListData, setPlanListData] = useState(null);
   const [scheduleData, setScheduleData] = useState(null);
   const [PlProgressData, setPlProgressData] = useState(null);
+  const [partsData, setPartsData] = useState(null);
 
   const fetchPlanListData = async (planListData) => {
     try {
@@ -45,18 +46,31 @@ export default function PlanListContextProvider({ children }) {
     try {
       const response = await axios.get("/plprogress/fetch-plprogress");
 
-      setPlProgressData(response.data.data.progress);
+      setPlProgressData(response.data.data.plprogress);
       return response;
     } catch (error) {
-      console.error("Error fetching Unit :", error);
+      console.error("Error fetching PL Progress :", error);
+      throw error;
+    }
+  };
+
+  const fetchParts = async () => {
+    try {
+      const response = await axios.get("/parts/fetch-parts");
+
+      setPartsData(response.data.data.parts);
+      return response;
+    } catch (error) {
+      console.error("Error fetching Parts :", error);
       throw error;
     }
   };
 
   useEffect(() => {
-    fetchSchedule(); 
+    fetchSchedule();
     fetchPlprogress();
-}, []);
+    fetchParts();
+  }, []);
 
   return (
     <PlanListContext.Provider
@@ -69,6 +83,9 @@ export default function PlanListContextProvider({ children }) {
         PlProgressData,
         setPlProgressData,
         fetchPlprogress,
+        fetchParts,
+        partsData,
+        setPartsData,
       }}
     >
       {children}
