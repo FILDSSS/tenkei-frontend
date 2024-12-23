@@ -83,8 +83,8 @@
 //   const fetchPlprogress = async () => {
 //     try {
 //       const response = await axios.get("/plprogress/fetch-plprogress");
-//       console.log("Fetched Data:", response.data.data.plprogress); 
-//       setPlProgressData(response.data.data.plprogress); 
+//       console.log("Fetched Data:", response.data.data.plprogress);
+//       setPlProgressData(response.data.data.plprogress);
 //       return response;
 //     } catch (error) {
 //       console.error("Error fetching plprogress groups:", error);
@@ -95,8 +95,8 @@
 //   const fetchSchedule = async () => {
 //     try {
 //       const response = await axios.get("/schedule/fetch-schedule");
-//       console.log("Fetched Data:", response.data.data.schedule); 
-//       setScheduleData(response.data.data.schedule); 
+//       console.log("Fetched Data:", response.data.data.schedule);
+//       setScheduleData(response.data.data.schedule);
 //       return response;
 //     } catch (error) {
 //       console.error("Error fetching schedule groups:", error);
@@ -107,15 +107,14 @@
 //   const fetchParts = async () => {
 //     try {
 //       const response = await axios.get("/parts/fetch-parts");
-//       console.log("Fetched Data:", response.data.data.parts); 
-//       setPartsData(response.data.data.parts); 
+//       console.log("Fetched Data:", response.data.data.parts);
+//       setPartsData(response.data.data.parts);
 //       return response;
 //     } catch (error) {
 //       console.error("Error fetching parts groups:", error);
 //       throw error;
 //     }
 //   };
-
 
 //   useEffect(() => {
 //     QM_Process();
@@ -138,7 +137,7 @@
 //         processData,
 //         plprogressData,
 //         setPlProgressData,
-//         ScheduleData, 
+//         ScheduleData,
 //         setScheduleData,
 //         PartsData,
 //       }}
@@ -161,10 +160,12 @@ export default function PlanContextProvider({ children }) {
   const [plprogressData, setPlProgressData] = useState(null);
   const [ScheduleData, setScheduleData] = useState(null);
   const [PartsData, setPartsData] = useState(null);
-
+  const [UnitsData, setUnitsData] = useState(null);
   const searchPartsData = async (orderNo) => {
     try {
-      const response = await axios.post("/plan/search-order-plan", { Order_No: orderNo });
+      const response = await axios.post("/plan/search-order-plan", {
+        Order_No: orderNo,
+      });
 
       if (
         response.data &&
@@ -176,7 +177,6 @@ export default function PlanContextProvider({ children }) {
       } else {
         return false;
       }
-
     } catch (error) {
       console.error("Error fetching order data:", error);
       return false;
@@ -191,14 +191,11 @@ export default function PlanContextProvider({ children }) {
       });
 
       if (response.data && response.data.data && response.data.data.plan) {
-                
         setPlanData(response.data.data.plan);
-        return true; 
-    } else {
-       
-        return false; 
-    }
-      
+        return true;
+      } else {
+        return false;
+      }
     } catch (error) {
       console.error("Error fetching part data:", error);
       return false;
@@ -235,12 +232,11 @@ export default function PlanContextProvider({ children }) {
   const fetchUnits = async () => {
     try {
       const response = await axios.get("/unit/fetch-unit");
-      setScheduleData(response.data?.data?.schedule || []);
+      setUnitsData(response.data?.data?.unit || []);
     } catch (error) {
-      console.error("Error fetching schedule data:", error);
+      console.error("Error fetching unit data:", error);
     }
   };
-
 
   const fetchSchedule = async () => {
     try {
@@ -317,7 +313,55 @@ export default function PlanContextProvider({ children }) {
     }
   };
 
+  const deleteWip = async () => {
+    try {
+      const response = await axios.post(`/plan/delete-wip`, planData);
 
+      console.log("WIP deleted successfully:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Error deleting WIP:",
+        error.response?.data || error.message
+      );
+      throw new Error("Failed to delete WIP");
+    }
+  };
+  const deleteSchedule = async () => {
+    try {
+      const response = await axios.post(`/plan/delete-schedule`, planData);
+
+      console.log("Schedule deleted successfully:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting Schedule:", error);
+      throw new Error("Failed to delete Schedule");
+    }
+  };
+
+  const deletePlan = async () => {
+    try {
+      const response = await axios.post(`/plan/delete-plan`, planData);
+
+      console.log("Plan deleted successfully:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting Plan:", error);
+      throw new Error("Failed to delete Plan");
+    }
+  };
+
+  const deleteResult = async () => {
+    try {
+      const response = await axios.post(`/plan/delete-result`, planData);
+
+      console.log("Result deleted successfully:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting Result:", error);
+      throw new Error("Failed to delete Result");
+    }
+  };
 
   useEffect(() => {
     QM_Process();
@@ -331,6 +375,7 @@ export default function PlanContextProvider({ children }) {
   return (
     <PlanContext.Provider
       value={{
+        UnitsData,
         planData,
         setPlanData,
         selectedPlanNo,
@@ -348,6 +393,10 @@ export default function PlanContextProvider({ children }) {
         createWip,
         createSchedule,
         createPlan,
+        deleteResult,
+        deletePlan,
+        deleteSchedule,
+        deleteWip,
       }}
     >
       {children}
