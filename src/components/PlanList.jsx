@@ -6,38 +6,12 @@ import { useOrder } from "../hooks/use-order";
 import { usePlanList } from "../hooks/use-planlist";
 
 export default function PlanList() {
-  // Define table headers
-  const headers = [
-    "Product",
-    "Order_No",
-    "Select_Pt_No",
-    "Cust",
-    "Customer",
-    "Produc",
-    "Proc",
-    "Prod",
-    "Ur",
-    "Ta",
-    "Product",
-  ];
-
-  // Generate table rows with input fields
-  const rows = Array.from({ length: 10 }, (_, rowIndex) => (
-    <tr
-      key={rowIndex}
-      className={rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"}
-    >
-      {headers.map((_, colIndex) => (
-        <td key={colIndex} className="px-4 py-2 border border-black text-sm">
-          <p type="text" className="w-28 h-7 p-1" />
-        </td>
-      ))}
-    </tr>
-  ));
+  const [filteredOrderData, setFilteredOrderData] = useState([]);
 
   const {
     orderData,
     setOrderData,
+    fetchOrders,
     setWorkgData,
     WorkgData,
     CustomerData,
@@ -434,8 +408,6 @@ export default function PlanList() {
         "Product_Grp_Select2",
         "Sales_Grp",
         "Sales_Grp_Input",
-        "Schedule_CAT",
-        "Schedule_CAT_Select2",
         "Pd_Note",
         "Pd_Remark",
         "Not_Pd_Grp1",
@@ -482,11 +454,11 @@ export default function PlanList() {
         "Target_CAT",
         "Target_CAT_Select2",
         "Request_Delivery",
-        "Request_Delivery_Select2",
+        "Request_Delivery_Input2",
         "NAV_Delivery",
-        "NAV_Delivery_Select2",
+        "NAV_Delivery_Input2",
         "Confirm_Delivery",
-        "Confirm_Delivery_Select2",
+        "Confirm_Delivery_Input2",
         "Product_Delivery",
         "Product_Delivery_Select2",
         "Parts_No",
@@ -525,6 +497,8 @@ export default function PlanList() {
         "QC_Remark",
         "Price_CAT",
         "Price_CAT_Input",
+        "Schedule_CAT",
+        "Schedule_CAT_Select2",
         "Request_CAT",
         "Request_CAT_Input",
         "Request_CAT_Select2",
@@ -628,11 +602,11 @@ export default function PlanList() {
         "Target_CAT",
         "Target_CAT_Select2",
         "Request_Delivery",
-        "Request_Delivery_Select2",
+        "Request_Delivery_Input2",
         "NAV_Delivery",
-        "NAV_Delivery_Select2",
+        "NAV_Delivery_Input2",
         "Confirm_Delivery",
-        "Confirm_Delivery_Select2",
+        "Confirm_Delivery_Input2",
         "Product_Delivery",
         "Product_Delivery_Select2",
         "NAV_Name",
@@ -698,6 +672,9 @@ export default function PlanList() {
         "Pt_Mate",
         "Pt_NG_Qty",
         "Pt_NG_Qty_Input2",
+        "Pt_CAT3",
+        "Part_Note",
+        "Pt_Remark",
       ]);
     }
   };
@@ -957,6 +934,63 @@ export default function PlanList() {
     planListData?.S_No_Coating_CD,
     CoatingData,
   ]);
+
+  const handleF3Click = async () => {
+    try {
+      const response = await fetchOrders();
+      const orders = response.data?.data?.orders;
+
+      // console.log("Orders fetched:", orders);
+      // console.log("Filters to apply:", planListData);
+
+      if (!Array.isArray(orders)) {
+        // console.error("Orders data is not an array:", orders);
+        setFilteredOrderData([]);
+        return;
+      }
+
+      const keyMapping = {
+        S_Order_No: "Order_No",
+        S_St_Pd_Grp_CD: "Product_Grp_CD",
+        S_Ed_Pd_Grp_CD: "Product_Grp_CD",
+        // เพิ่ม Key อื่นๆ ตามที่ต้องการ
+      };
+
+      const filters = Object.entries(planListData)
+        .filter(([key, value]) => value)
+        .map(([key, value]) => [keyMapping[key] || key, value]);
+
+      console.log("Filters after mapping:", filters);
+
+      const filteredData = orders.filter((order) =>
+        filters.every(([key, value]) => {
+          console.log(
+            `Checking order[${key}] (${order[key]}) against value (${value})`
+          );
+          if (typeof order[key] === "string") {
+            return order[key]?.toLowerCase().includes(value.toLowerCase());
+          }
+          return order[key] === value;
+        })
+      );
+
+      // console.log("Filtered Data:", filteredData);
+
+      if (filteredData.length > 0) {
+        setFilteredOrderData(filteredData);
+      } else {
+        // console.log("No matching orders found.");
+        setFilteredOrderData([]);
+      }
+    } catch (error) {
+      console.error("Error handling F3 click:", error);
+      setFilteredOrderData([]);
+    }
+  };
+
+  const handleF11Click = () => {
+    window.location.reload();
+  };
 
   return (
     <div className="flex bg-[#E9EFEC] h-[100vh]">
@@ -1232,7 +1266,11 @@ export default function PlanList() {
                       value={planListData?.S_Order_No || ""}
                       onChange={handleInputChange}
                       type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full ${
+                        formState.Order_No
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     />
                   </div>
                   {/* End */}
@@ -1320,7 +1358,11 @@ export default function PlanList() {
                       <select
                         disabled={!formState.Delivery_CAT}
                         id="S_St_Delivery_CD"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 appearance-none ${
+                          formState.Delivery_CAT
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       >
                         <option value=""></option>
                         {Array.isArray(DeliveryData) &&
@@ -1359,7 +1401,11 @@ export default function PlanList() {
                         id="S_Ed_Delivery_CD"
                         value={planListData?.S_Ed_Delivery_CD || ""}
                         onChange={handleInputChange}
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 appearance-none ${
+                          formState.Delivery_CAT_Select2
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       >
                         <option value=""></option>
                         {Array.isArray(DeliveryData) &&
@@ -1407,7 +1453,11 @@ export default function PlanList() {
                       value={planListData?.S_NAV_Name || ""}
                       onChange={handleInputChange}
                       type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full ${
+                        formState.NAV_Name
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     />
                   </div>
                   {/* End */}
@@ -1519,7 +1569,11 @@ export default function PlanList() {
                         id="S_St_Schedule_CD"
                         value={planListData?.S_St_Schedule_CD || ""}
                         onChange={handleInputChange}
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 appearance-none ${
+                          formState.Schedule_CAT
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       >
                         <option value=""></option>
                         {Array.isArray(scheduleData) &&
@@ -1558,7 +1612,11 @@ export default function PlanList() {
                         id="S_Ed_Schedule_CD"
                         value={planListData?.S_Ed_Schedule_CD || ""}
                         onChange={handleInputChange}
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 appearance-none ${
+                          formState.Schedule_CAT_Select2
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       >
                         <option value=""></option>
                         {Array.isArray(scheduleData) &&
@@ -1606,7 +1664,11 @@ export default function PlanList() {
                       value={planListData?.S_Product_Name || ""}
                       onChange={handleInputChange}
                       type="text"
-                      className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full ${
+                        formState.Product_Name
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     />
                   </div>
                   {/* End */}
@@ -1653,7 +1715,11 @@ export default function PlanList() {
                       id="S_Price_CD"
                       value={planListData?.S_Price_CD || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.Price_CAT
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       {Array.isArray(PriceData) && PriceData.length > 0 ? (
@@ -1673,7 +1739,11 @@ export default function PlanList() {
                     value={PriceName || ""}
                     onChange={(event) => setPriceData(event)}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                    className={`border-solid border-2 rounded-md py-0.5 w-32 ml-1 ${
+                      formState.Price_CAT_Input
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   {/* Start */}
@@ -1720,7 +1790,11 @@ export default function PlanList() {
                         id="S_St_Target_CD"
                         value={planListData?.S_St_Target_CD || ""}
                         onChange={handleInputChange}
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 appearance-none ${
+                          formState.Target_CAT
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       >
                         <option value=""></option>
                         {Array.isArray(TargetData) && TargetData.length > 0 ? (
@@ -1758,7 +1832,11 @@ export default function PlanList() {
                         id="S_Ed_Target_CD"
                         value={planListData?.S_Ed_Target_CD || ""}
                         onChange={handleInputChange}
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 appearance-none ${
+                          formState.Target_CAT_Select2
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       >
                         <option value=""></option>
                         {Array.isArray(TargetData) && TargetData.length > 0 ? (
@@ -1805,7 +1883,11 @@ export default function PlanList() {
                       value={planListData?.S_NAV_Size || ""}
                       onChange={handleInputChange}
                       type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full ${
+                        formState.NAV_Size
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     />
                   </div>
                   {/* End */}
@@ -1852,7 +1934,11 @@ export default function PlanList() {
                       id="S_Request1_CD"
                       value={planListData?.S_Request1_CD || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.Request_CAT
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       {Array.isArray(Request1Data) &&
@@ -1873,7 +1959,11 @@ export default function PlanList() {
                     value={request1Name}
                     onChange={(event) => setRequest1Data(event)}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                    className={`border-solid border-2 rounded-md py-0.5 w-32 ml-1 ${
+                      formState.Request_CAT_Input
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
 
                   <div className="relative w-24 ml-1">
@@ -1882,7 +1972,11 @@ export default function PlanList() {
                       id="S_Request2_CD"
                       value={planListData?.S_Request2_CD || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.Request_CAT_Select2
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       {Array.isArray(Request2Data) &&
@@ -1903,7 +1997,11 @@ export default function PlanList() {
                     value={request2Name}
                     onChange={(event) => setRequest2Data(event)}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                    className={`border-solid border-2 rounded-md py-0.5 w-32 ml-1 ${
+                      formState.Request_CAT_Input2
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
 
                   <div className="relative w-24 ml-1">
@@ -1912,7 +2010,11 @@ export default function PlanList() {
                       id="S_Request3_CD"
                       value={planListData?.S_Request3_CD || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.Request_CAT_Select3
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       {Array.isArray(Request3Data) &&
@@ -1933,7 +2035,11 @@ export default function PlanList() {
                     value={request3Name}
                     onChange={(event) => setRequest3Data(event)}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                    className={`border-solid border-2 rounded-md py-0.5 w-32 ml-1 ${
+                      formState.Request_CAT_Input3
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
 
@@ -1956,7 +2062,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.Request_Delivery
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
 
@@ -1976,7 +2086,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.Request_Delivery_Input2
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
                   </div>
@@ -1997,7 +2111,11 @@ export default function PlanList() {
                       value={planListData?.S_Product_Size || ""}
                       onChange={handleInputChange}
                       type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full ${
+                        formState.Product_Size
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     />
                   </div>
                   {/* End */}
@@ -2047,7 +2165,11 @@ export default function PlanList() {
                     value={planListData?.S_Od_No_of_Custom || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-56 ml-1"
+                    className={`border-solid border-2 rounded-md w-56 ml-1 ${
+                      formState.Od_No_of_Customer
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   {/* Start */}
@@ -2060,7 +2182,11 @@ export default function PlanList() {
                     value={planListData?.S_Material1 || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-28 ml-1"
+                    className={`border-solid border-2 rounded-md py-0.5 w-28 ml-1 ${
+                      formState.Mate1
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   {/* Start */}
@@ -2079,7 +2205,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.NAV_Delivery
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
 
@@ -2096,7 +2226,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.NAV_Delivery_Input2
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
                   </div>
@@ -2117,7 +2251,11 @@ export default function PlanList() {
                       value={planListData?.S_Customer_Draw || ""}
                       onChange={handleInputChange}
                       type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full ${
+                        formState.Cus_Draw_No
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     />
                   </div>
                   {/* End */}
@@ -2165,7 +2303,11 @@ export default function PlanList() {
                     value={planListData?.S_Customer_Name1 || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-52 ml-1"
+                    className={`border-solid border-2 rounded-md w-52 ml-1 ${
+                      formState.Cus_Name1
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   {/* Start */}
@@ -2211,7 +2353,11 @@ export default function PlanList() {
                     value={planListData?.S_Material2 || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-28 ml-1"
+                    className={`border-solid border-2 rounded-md py-0.5 w-28 ml-1 ${
+                      formState.Mate2
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   {/* Start */}
@@ -2233,7 +2379,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.Confirm_Delivery
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
 
@@ -2253,7 +2403,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.Confirm_Delivery_Input2
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
                   </div>
@@ -2274,7 +2428,11 @@ export default function PlanList() {
                       value={planListData?.S_Company_Draw || ""}
                       onChange={handleInputChange}
                       type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full ${
+                        formState.Com_Draw_No
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     />
                   </div>
                   {/* End */}
@@ -2322,7 +2480,11 @@ export default function PlanList() {
                     value={planListData?.S_Customer_Name2 || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-52 ml-1"
+                    className={`border-solid border-2 rounded-md w-52 ml-1 ${
+                      formState.Cus_Name2
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   {/* Start */}
@@ -2335,7 +2497,11 @@ export default function PlanList() {
                       id="S_Item2_CD"
                       value={planListData?.S_Item2_CD || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.Item2
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       <option value="1">1</option>
@@ -2349,7 +2515,11 @@ export default function PlanList() {
                     value={planListData?.S_Item2_Name || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                    className={`border-solid border-2 rounded-md py-0.5 w-32 ml-1 ${
+                      formState.Item2_Input
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   {/* Start */}
@@ -2362,7 +2532,11 @@ export default function PlanList() {
                     value={planListData?.S_Material3 || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-28 ml-1"
+                    className={`border-solid border-2 rounded-md py-0.5 w-28 ml-1 ${
+                      formState.Mate3
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   {/* Start */}
@@ -2425,7 +2599,11 @@ export default function PlanList() {
                       value={planListData?.S_Product_Draw || ""}
                       onChange={handleInputChange}
                       type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full ${
+                        formState.Pd_Draw_No
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     />
                   </div>
                   {/* End */}
@@ -2473,7 +2651,11 @@ export default function PlanList() {
                     value={planListData?.S_No_Customer_Name3 || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-52 ml-1"
+                    className={`border-solid border-2 rounded-md w-52 ml-1 ${
+                      formState.Cus_Name3
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   {/* Start */}
@@ -2486,7 +2668,11 @@ export default function PlanList() {
                       id="S_Item3_CD"
                       value={planListData?.S_Item3_CD || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.Item3
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       <option value="1">1</option>
@@ -2500,7 +2686,11 @@ export default function PlanList() {
                     value={planListData?.S_Item3_Name || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                    className={`border-solid border-2 rounded-md py-0.5 w-32 ml-1 ${
+                      formState.Item3_Input
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   {/* Start */}
@@ -2513,7 +2703,11 @@ export default function PlanList() {
                     value={planListData?.S_Material4 || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-28 ml-1"
+                    className={`border-solid border-2 rounded-md py-0.5 w-28 ml-1 ${
+                      formState.Mate4
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   {/* Start */}
@@ -2535,7 +2729,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.Product_Received
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
 
@@ -2555,7 +2753,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.Product_Received_Input2
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
                   </div>
@@ -2576,7 +2778,11 @@ export default function PlanList() {
                       value={planListData?.S_Sl_instructions || ""}
                       onChange={handleInputChange}
                       type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full ${
+                        formState.Sales_Note
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     />
                   </div>
                   {/* End */}
@@ -2657,7 +2863,11 @@ export default function PlanList() {
                       id="S_Item4_CD"
                       value={planListData?.S_Item4_CD || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.Item4
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       <option value="1">1</option>
@@ -2671,7 +2881,11 @@ export default function PlanList() {
                     value={planListData?.S_Item4_Name || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                    className={`border-solid border-2 rounded-md py-0.5 w-32 ml-1 ${
+                      formState.Item4_Input
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   {/* Start */}
@@ -2684,7 +2898,11 @@ export default function PlanList() {
                     value={planListData?.S_Material5 || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-28 ml-1"
+                    className={`border-solid border-2 rounded-md py-0.5 w-28 ml-1 ${
+                      formState.Mate5
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   {/* Start */}
@@ -2706,7 +2924,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.Product_Complete
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
 
@@ -2726,7 +2948,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.Product_Complete_Input2
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
                   </div>
@@ -2747,7 +2973,11 @@ export default function PlanList() {
                       value={planListData?.S_Pd_instructions || ""}
                       onChange={handleInputChange}
                       type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full ${
+                        formState.Pd_Note
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     />
                   </div>
                   {/* End */}
@@ -2837,7 +3067,7 @@ export default function PlanList() {
                   </div>
                   {/* End */}
                   {/* Start */}
-                  <div className="px-2 w-auto text-center pl-[83px]">
+                  <div className="px-2 w-auto text-center pl-[82px]">
                     <label className="font-bold text-xs">Od_CAT1</label>
                   </div>
                   <div className="relative w-28">
@@ -2846,7 +3076,11 @@ export default function PlanList() {
                       id="S_Od_CAT1"
                       value={planListData?.S_Od_CAT1 || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.Od_CAT1
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       <option value="true">Yes</option>
@@ -2870,7 +3104,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.QC_Complete
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
 
@@ -2887,7 +3125,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.QC_Complete_Input2
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
                   </div>
@@ -2908,7 +3150,11 @@ export default function PlanList() {
                       value={planListData?.S_Pd_Remark || ""}
                       onChange={handleInputChange}
                       type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full ${
+                        formState.Pd_Remark
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     />
                   </div>
                   {/* End */}
@@ -2989,7 +3235,11 @@ export default function PlanList() {
                       id="S_Temp_Shipment"
                       value={planListData?.S_Temp_Shipment || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.TempShip
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       <option value="true">Yes</option>
@@ -2998,7 +3248,7 @@ export default function PlanList() {
                   </div>
                   {/* End */}
                   {/* Start */}
-                  <div className="px-2 w-auto text-center pl-[83px]">
+                  <div className="px-2 w-auto text-center pl-[82px]">
                     <label className="font-bold text-xs">Od_CAT2</label>
                   </div>
                   <div className="relative w-28">
@@ -3007,7 +3257,11 @@ export default function PlanList() {
                       id="S_Od_CAT2"
                       value={planListData?.S_Od_CAT2 || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.Od_CAT2
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       <option value="true">Yes</option>
@@ -3031,7 +3285,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.Shipment_Date
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
 
@@ -3048,7 +3306,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.Shipment_Date_Input2
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
                   </div>
@@ -3069,7 +3331,11 @@ export default function PlanList() {
                       value={planListData?.S_I_Remark || ""}
                       onChange={handleInputChange}
                       type="text"
-                      className="bg-white border-solid border-2 border-gray-500 rounded-md py-0.5 w-full"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full ${
+                        formState.QC_Remark
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     />
                   </div>
                   {/* End */}
@@ -3144,13 +3410,17 @@ export default function PlanList() {
                   <div className="px-2 w-auto text-center pl-[76px]">
                     <label className="font-bold text-xs">Unrecive</label>
                   </div>
-                  <div className="relative w-24">
+                  <div className="relative w-24 ml-0.5">
                     <select
                       disabled={!formState.Unrecive}
                       id="S_Unreceived"
                       value={planListData?.S_Unreceived || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.Unrecive
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       <option value="true">Yes</option>
@@ -3159,7 +3429,7 @@ export default function PlanList() {
                   </div>
                   {/* End */}
                   {/* Start */}
-                  <div className="px-2 w-auto text-center pl-[83px]">
+                  <div className="px-2 w-auto text-center pl-[82px]">
                     <label className="font-bold text-xs">Od_CAT3</label>
                   </div>
                   <div className="relative w-28">
@@ -3168,7 +3438,11 @@ export default function PlanList() {
                       id="S_Od_CAT3"
                       value={planListData?.S_Od_CAT3 || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.Od_CAT3
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       <option value="true">Yes</option>
@@ -3192,7 +3466,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.Calc_Date
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
 
@@ -3209,7 +3487,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.Calc_Date_Input2
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
                   </div>
@@ -3291,7 +3573,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.Cale_Process
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
 
@@ -3311,7 +3597,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-40"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-40 ${
+                          formState.Cale_Process_Input2
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
                   </div>
@@ -3341,7 +3631,11 @@ export default function PlanList() {
                     value={planListData?.S_St_Parts_No || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-7"
+                    className={`border-solid border-2 rounded-md w-32 ml-7 ${
+                      formState.Parts_No
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   <span className="text-lg mx-3">~</span>
@@ -3352,7 +3646,11 @@ export default function PlanList() {
                     value={planListData?.S_Ed_Parts_No || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                    className={`border-solid border-2 rounded-md w-32 ml-1 ${
+                      formState.Parts_No_Input2
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
 
@@ -3366,7 +3664,11 @@ export default function PlanList() {
                     value={planListData?.S_St_Pt_Qty || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-4"
+                    className={`border-solid border-2 rounded-md w-32 ml-4 ${
+                      formState.Pt_Qty
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   <span className="text-lg mx-3">~</span>
@@ -3377,7 +3679,11 @@ export default function PlanList() {
                     value={planListData?.S_Ed_Pt_Qty || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                    className={`border-solid border-2 rounded-md w-32 ml-1 ${
+                      formState.Pt_Qty_Input2
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
 
@@ -3410,7 +3716,11 @@ export default function PlanList() {
                       id="S_Parts_CAT1"
                       value={planListData?.S_Parts_CAT1 || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.Pt_CAT1
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       <option value="true">Yes</option>
@@ -3516,7 +3826,11 @@ export default function PlanList() {
                       id="S_Parts_CD"
                       value={planListData?.S_Parts_CD || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.Pt_Name
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       {Array.isArray(partsData) && partsData.length > 0 ? (
@@ -3542,7 +3856,11 @@ export default function PlanList() {
                     value={planListData?.S_St_Pt_Sp_Qty || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-4"
+                    className={`border-solid border-2 rounded-md w-32 ml-4 ${
+                      formState.Pt_Sp_Qty
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   <span className="text-lg mx-3">~</span>
@@ -3553,7 +3871,11 @@ export default function PlanList() {
                     value={planListData?.S_Ed_Pt_Sp_Qty || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                    className={`border-solid border-2 rounded-md w-32 ml-1 ${
+                      formState.Pt_Sp_Qty_Input2
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
 
@@ -3586,7 +3908,11 @@ export default function PlanList() {
                       id="S_Parts_CAT2"
                       value={planListData?.Pt_CAT2 || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.Pt_CAT2
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       <option value="true">Yes</option>
@@ -3611,7 +3937,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-36"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-36 ${
+                          formState.Parts_Delivery
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
 
@@ -3628,7 +3958,11 @@ export default function PlanList() {
                         }
                         onChange={(event) => handleInputChange(event)}
                         type="date"
-                        className="bg-white border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 w-36"
+                        className={`border-solid border-2 rounded-md px-2 py-0.5 w-36 ${
+                          formState.Parts_Delivery_Input2
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                        }`}
                       />
                     </div>
                   </div>
@@ -3682,7 +4016,11 @@ export default function PlanList() {
                     value={planListData?.S_Pt_Material || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-4"
+                    className={`border-solid border-2 rounded-md w-32 ml-4 ${
+                      formState.Pt_Mate
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
 
@@ -3696,7 +4034,11 @@ export default function PlanList() {
                     value={planListData?.S_St_Pt_NG_Qty || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                    className={`border-solid border-2 rounded-md w-32 ml-1 ${
+                      formState.Pt_NG_Qty
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
                   <span className="text-lg mx-3">~</span>
@@ -3707,7 +4049,11 @@ export default function PlanList() {
                     value={planListData?.S_Ed_Pt_NG_Qty || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                    className={`border-solid border-2 rounded-md w-32 ml-1 ${
+                      formState.Pt_NG_Qty_Input2
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
 
@@ -3740,7 +4086,11 @@ export default function PlanList() {
                       id="S_Parts_CAT3"
                       value={planListData?.S_Parts_CAT3 || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
+                      className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
+                        formState.Pt_CAT3
+                          ? "bg-[#ccffff] border-gray-500"
+                          : "bg-gray-200 border-gray-400"
+                      }`}
                     >
                       <option value=""></option>
                       <option value="true">Yes</option>
@@ -3802,7 +4152,11 @@ export default function PlanList() {
                     value={planListData?.S_Parts_Instructions || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-6"
+                    className={`border-solid border-2 rounded-md w-32 ml-6 ${
+                      formState.Part_Note
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
 
@@ -3816,7 +4170,11 @@ export default function PlanList() {
                     value={planListData?.S_Parts_Remark || ""}
                     onChange={handleInputChange}
                     type="text"
-                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-4"
+                    className={`border-solid border-2 rounded-md w-32 ml-4 ${
+                      formState.Pt_Remark
+                        ? "bg-[#ccffff] border-gray-500"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
                   />
                   {/* End */}
 
@@ -3995,27 +4353,59 @@ export default function PlanList() {
 
             <div className="overflow-x-auto w-full">
               <div className="overflow-x-auto w-full">
-                <table className="min-w-full bg-white border border-black table-auto">
+                <table className="table-auto border-collapse border border-gray-300 w-full mt-4">
                   <thead>
                     <tr>
-                      {headers.map((header, index) => (
-                        <th
-                          key={index}
-                          className="px-4 py-2 text-base text-center font-bold text-gray-700 border border-black"
-                        >
-                          {header}
-                        </th>
-                      ))}
+                      <th className="border border-gray-300 px-4 py-2">
+                        Order_No
+                      </th>
+                      <th className="border border-gray-300 px-4 py-2">
+                        Product_Grp_CD
+                      </th>
+                      <th className="border border-gray-300 px-4 py-2">
+                        Customer_CD
+                      </th>
+                      <th className="border border-gray-300 px-4 py-2">
+                        NAV_Name
+                      </th>
                     </tr>
                   </thead>
-                  <tbody className="border border-black">{rows}</tbody>
+                  <tbody>
+                    {filteredOrderData.length > 0 ? (
+                      filteredOrderData.map((order, index) => (
+                        <tr key={index}>
+                          <td className="border border-gray-300 px-4 py-2">
+                            {order.Order_No}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2">
+                            {order.Product_Grp_CD}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2">
+                            {order.Customer_CD}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2">
+                            {order.NAV_Name}
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          className="border border-gray-300 px-4 py-2 text-center"
+                          colSpan="4"
+                        >
+                          No matching orders found.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
                 </table>
               </div>
             </div>
           </div>
         </div>
         <div className="bg-white p-3 mt-5">
-          <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-1 md:grid-cols-1 xl:grid-cols-3 gap-4">
             <div className="grid grid-cols-4 gap-2">
               <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
                 Search <br />
@@ -4025,30 +4415,37 @@ export default function PlanList() {
                 Setting <br />
                 設定 (F2)
               </button>
-              <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+              <button
+                onClick={handleF3Click}
+                className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white"
+              >
                 Show <br />
                 照会 (F3)
               </button>
-              <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                Target <br />
-                対象 (F4)
+              <button
+                className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+                disabled
+              >
+                (F4)
               </button>
             </div>
             <div className="grid grid-cols-4 gap-2">
-              <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                Product <br />
-                部門 (F5)
+              <button
+                className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+                disabled
+              >
+                (F5)
               </button>
               <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                Calc <br />
-                生産 (F6)
+                Target <br />
+                目標(F6)
               </button>
               <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
                 List <br />一 覽 (F7)
               </button>
               <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
                 Data <br />
-                データ (F8)
+                データ(F8)
               </button>
             </div>
             <div className="grid grid-cols-4 gap-2">
@@ -4059,10 +4456,16 @@ export default function PlanList() {
                 </label>
                 (F9)
               </button>
-              <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+              <button
+                className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+                disabled
+              >
                 (F10)
               </button>
-              <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-sm text-white">
+              <button
+                onClick={handleF11Click}
+                className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-sm text-white"
+              >
                 Clear <br />
                 クリア (F11)
               </button>

@@ -11,7 +11,7 @@ export default function PlanListContextProvider({ children }) {
 
   const fetchPlanListData = async (planListData) => {
     try {
-      const response = await axios.post(
+      const response = await axios.get(
         "/planlist/fetch-planlist",
         planListData
       );
