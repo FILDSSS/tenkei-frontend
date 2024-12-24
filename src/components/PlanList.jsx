@@ -9,8 +9,6 @@ export default function PlanList() {
   const [filteredOrderData, setFilteredOrderData] = useState([]);
 
   const {
-    orderData,
-    setOrderData,
     fetchOrders,
     setWorkgData,
     WorkgData,
@@ -953,6 +951,7 @@ export default function PlanList() {
         S_Order_No: "Order_No",
         S_St_Pd_Grp_CD: "Product_Grp_CD",
         S_Ed_Pd_Grp_CD: "Product_Grp_CD",
+        S_St_Product_Delivery: "Product_Delivery",
         // เพิ่ม Key อื่นๆ ตามที่ต้องการ
       };
 
@@ -4351,56 +4350,60 @@ export default function PlanList() {
 
             <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
 
-            <div className="overflow-x-auto w-full">
-              <div className="overflow-x-auto w-full">
-                <table className="table-auto border-collapse border border-gray-300 w-full mt-4">
-                  <thead>
-                    <tr>
-                      <th className="border border-gray-300 px-4 py-2">
-                        Order_No
-                      </th>
-                      <th className="border border-gray-300 px-4 py-2">
-                        Product_Grp_CD
-                      </th>
-                      <th className="border border-gray-300 px-4 py-2">
-                        Customer_CD
-                      </th>
-                      <th className="border border-gray-300 px-4 py-2">
-                        NAV_Name
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredOrderData.length > 0 ? (
-                      filteredOrderData.map((order, index) => (
-                        <tr key={index}>
-                          <td className="border border-gray-300 px-4 py-2">
-                            {order.Order_No}
-                          </td>
-                          <td className="border border-gray-300 px-4 py-2">
-                            {order.Product_Grp_CD}
-                          </td>
-                          <td className="border border-gray-300 px-4 py-2">
-                            {order.Customer_CD}
-                          </td>
-                          <td className="border border-gray-300 px-4 py-2">
-                            {order.NAV_Name}
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td
-                          className="border border-gray-300 px-4 py-2 text-center"
-                          colSpan="4"
-                        >
-                          No matching orders found.
+            <div className="overflow-x-auto w-full mt-4">
+              <table className="min-w-full table-auto border-collapse border border-gray-800 shadow-md rounded-lg">
+                <thead className="bg-gray-200 text-black">
+                  <tr>
+                    <th className="border border-gray-300 px-6 py-3 text-left text-sm font-medium">
+                      Order_No
+                    </th>
+                    <th className="border border-gray-300 px-6 py-3 text-left text-sm font-medium">
+                      Product_Grp_CD
+                    </th>
+                    <th className="border border-gray-300 px-6 py-3 text-left text-sm font-medium">
+                      Customer_CD
+                    </th>
+                    <th className="border border-gray-300 px-6 py-3 text-left text-sm font-medium">
+                      NAV_Name
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredOrderData.length > 0 ? (
+                    filteredOrderData.map((order, index) => (
+                      <tr
+                        key={index}
+                        className="bg-white transition-colors duration-300"
+                      >
+                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                          {order.Product_Delivery}
+                        </td>
+                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                          {order.Order_No}
+                        </td>
+                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                          {order.Product_Grp_CD}
+                        </td>
+                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                          {order.Customer_CD}
+                        </td>
+                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                          {order.NAV_Name}
                         </td>
                       </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        className="border border-gray-300 px-6 py-3 text-center text-gray-500"
+                        colSpan="4"
+                      >
+                        Data Not found.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
