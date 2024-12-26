@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { useOrder } from "../hooks/use-order";
 import { usePlanList } from "../hooks/use-planlist";
+import { usePlan } from "../hooks/use-plan";
 
 export default function PlanList() {
   const [filteredOrderData, setFilteredOrderData] = useState([]);
@@ -34,6 +35,13 @@ export default function PlanList() {
     DeliveryData,
     TargetData,
   } = useOrder();
+
+    const {
+      selectPartsData,
+      setPlanData,
+      planData,
+      fetchPlan,
+    } = usePlan();
 
   const [destinationName, setDestinationName] = useState("");
   const [destinationName2, setDestinationName2] = useState("");
@@ -143,7 +151,7 @@ export default function PlanList() {
     Item4_Input: false,
     Od_Pend: true,
     TempShip: false,
-    Unrecive: false,
+    Unreceived: false,
     Mate1: false,
     Mate2: false,
     Mate3: false,
@@ -340,7 +348,7 @@ export default function PlanList() {
         "Item4",
         "Item4_Input",
         "TempShip",
-        "Unrecive",
+        "Unreceived",
         "Mate1",
         "Mate2",
         "Mate3",
@@ -445,7 +453,7 @@ export default function PlanList() {
         "Item1_Inpit",
         "Od_Pend",
         "TempShip",
-        "Unrecive",
+        "Unreceived",
         "Od_CAT1",
         "Od_CAT2",
         "Od_CAT3",
@@ -593,7 +601,7 @@ export default function PlanList() {
         "Item1_Inpit",
         "Od_Pend",
         "TempShip",
-        "Unrecive",
+        "Unreceived",
         "Od_CAT1",
         "Od_CAT2",
         "Od_CAT3",
@@ -948,27 +956,106 @@ export default function PlanList() {
       }
 
       const keyMapping = {
+        S_St_Od_Progress_CD: "Od_Progress_CD",
+        S_Ed_Od_Progress_CD: "Od_Progress_CD",
         S_Order_No: "Order_No",
+        S_Od_Ctl_Person_CD: "Od_Ctl_Person_CD",
+        S_St_Delivery_CD: "Delivery_CD",
+        S_Ed_Delivery_CD: "Delivery_CD",
+        S_NAV_Name: "NAV_Name",
         S_St_Pd_Grp_CD: "Product_Grp_CD",
         S_Ed_Pd_Grp_CD: "Product_Grp_CD",
+        S_Sl_Grp_CD: "Sales_Grp_CD",
+        S_St_Schedule_CD: "Schedule_CD",
+        S_Ed_Schedule_CD: "Schedule_CD",
+        S_Product_Name: "Product_Name",
+        S_No_Pd_Grp_CD1: "Product_Grp_CD",
+        S_Price_CD: "Price_CD",
+        S_Sl_Person_CD: "Sales_Person_CD",
+        S_St_Target_CD: "Target_CD",
+        S_NAV_Size: "NAV_Size",
+        S_No_Pd_Grp_CD2: "Product_Grp_CD",
+        S_Request1_CD: "Request1_CD",
+        S_Request2_CD: "Request2_CD",
+        S_Request3_CD: "Request3_CD",
+        S_St_Request_Delivery: "Request_Delivery",
+        S_Ed_Request_Delivery: "Request_Delivery",
+        S_Product_Size: "Product_Size",
+        S_Customer_CD1: "Customer_CD",
+        S_Material1: "Material1",
+        S_St_NAV_Delivery: "NAV_Delivery",
+        S_Ed_NAV_Delivery: "NAV_Delivery",
+        S_Customer_Draw: "Customer_Draw",
+        S_Customer_CD2: "Customer_CD",
+        S_Item1_CD: "Item1_CD",
+        S_Material2: "Material2",
+        S_St_Confirm_Delivery: "Confirm_Delivery",
+        S_Ed_Confirm_Delivery: "Confirm_Delivery",
+        S_Company_Draw: "Company_Draw",
+        S_Customer_CD3: "Customer_CD",
+        S_Item2_CD: "Item2_CD",
+        S_Material3: "Material3",
         S_St_Product_Delivery: "Product_Delivery",
-        // เพิ่ม Key อื่นๆ ตามที่ต้องการ
+        S_Ed_Product_Delivery: "Product_Delivery",
+        S_Product_Draw: "Product_Draw",
+        S_No_Customer_CD: "Customer_CD",
+        S_Item3_CD: "Item3_CD",
+        S_Material4: "Material4",
+        S_St_Pd_Received_Date: "Pd_Received_Date",
+        S_Ed_Pd_Received_Date: "Pd_Received_Date",
+        S_Sl_instructions: "Sl_instructions",
+        S_Specific_CD1: "Specific_CD",
+        S_Coating_CD1: "Coating_CD",
+        S_Item4_CD: "S_Item4_CD",
+        S_Material5: "Material5",
+        S_St_Pd_Complete_Date: "Pd_Complete_Date",
+        S_Ed_Pd_Complete_Date: "Pd_Complete_Date",
+        S_Pd_instructions: "Pd_Instructions",
+        S_Specific_CD2: "Specific_CD",
+        S_Coating_CD2: "Coating_CD",
+        S_Od_Pending: "Od_Pending",
+        S_Od_CAT1: "Od_CAT1",
+        S_St_I_Complete_Date: "I_Completed_Date",
+        S_Ed_I_Complete_Date: "I_Completed_Date",
+        S_Pd_Remark: "Pd_Remark",
+        S_No_Specific_CD1: "Specific_CD",
+        S_Coating_CD3: "Coating_CD",
+        S_Temp_Shipment: "Temp_Shipment",
+        S_Od_CAT2: "Od_CAT2",
+        S_St_Shipment_Date: "Shipment_Date",
+        S_Ed_Shipment_Date: "Shipment_Date",
+        S_I_Remark: "I_Remark",
+        S_No_Specific_CD2: "Specific_CD",
+        S_No_Coating_CD: "Coating_CD",
+        S_Unreceived: "Unreceived",
+        S_Od_CAT3: "Od_CAT3",
+        S_St_Calc_Date: "Pd_Calc_Date",
+        S_Ed_Calc_Date: "Pd_Calc_Date",
       };
 
       const filters = Object.entries(planListData)
         .filter(([key, value]) => value)
         .map(([key, value]) => [keyMapping[key] || key, value]);
 
-      console.log("Filters after mapping:", filters);
+      // console.log("Filters after mapping:", filters);
 
       const filteredData = orders.filter((order) =>
         filters.every(([key, value]) => {
-          console.log(
-            `Checking order[${key}] (${order[key]}) against value (${value})`
-          );
+          // console.log(
+          //   `Checking order[${key}] (${order[key]}) against value (${JSON.stringify(value)})`
+          // );
+
+          // กรณี value เป็นออบเจกต์ และมี key "not"
+          if (typeof value === "object" && value.not) {
+            return order[key] !== value.not; // ตรวจสอบว่าไม่เท่ากับค่าใน "not"
+          }
+
+          // กรณี value เป็น string หรือค่าปกติ
           if (typeof order[key] === "string") {
             return order[key]?.toLowerCase().includes(value.toLowerCase());
           }
+
+          // ตรวจสอบแบบปกติ
           return order[key] === value;
         })
       );
@@ -1219,7 +1306,7 @@ export default function PlanList() {
                         onChange={(e) => handleInputChange(e)}
                         className="bg-[#ccffff] border-solid border-2 border-gray-500 rounded-md px-2 py-0.5 appearance-none w-40"
                       >
-                        <option value="4">PC</option>
+                        <option value=""></option>
                         {Array.isArray(OdProgressData) &&
                         OdProgressData.length > 0 ? (
                           OdProgressData.map((item, index) => (
@@ -1679,8 +1766,16 @@ export default function PlanList() {
                     <select
                       disabled={!formState.Not_Pd_Grp1}
                       id="S_No_Pd_Grp_CD1"
-                      value={planListData?.S_No_Pd_Grp_CD1 || ""}
-                      onChange={handleInputChange}
+                      value={planListData?.S_No_Pd_Grp_CD1?.not || ""}
+                      onChange={(e) => {
+                        const selectedValue = e.target.value;
+                        handleInputChange({
+                          target: {
+                            id: "S_No_Pd_Grp_CD1",
+                            value: { not: selectedValue },
+                          },
+                        });
+                      }}
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full h-8"
                     >
                       <option value=""></option>
@@ -1898,8 +1993,16 @@ export default function PlanList() {
                     <select
                       disabled={!formState.Not_Pd_Grp2}
                       id="S_No_Pd_Grp_CD2"
-                      value={planListData?.S_No_Pd_Grp_CD2 || ""}
-                      onChange={handleInputChange}
+                      value={planListData?.S_No_Pd_Grp_CD2?.not || ""}
+                      onChange={(e) => {
+                        const selectedValue = e.target.value;
+                        handleInputChange({
+                          target: {
+                            id: "S_No_Pd_Grp_CD2",
+                            value: { not: selectedValue },
+                          },
+                        });
+                      }}
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full h-8"
                     >
                       <option value=""></option>
@@ -2614,8 +2717,16 @@ export default function PlanList() {
                     <select
                       disabled={!formState.Not_Customer}
                       id="S_No_Customer_CD"
-                      value={planListData?.S_No_Customer_CD || ""}
-                      onChange={handleInputChange}
+                      value={planListData?.S_No_Customer_CD?.not || ""}
+                      onChange={(e) => {
+                        const selectedValue = e.target.value;
+                        handleInputChange({
+                          target: {
+                            id: "S_No_Customer_CD",
+                            value: { not: selectedValue },
+                          },
+                        });
+                      }}
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full h-8"
                     >
                       <option value=""></option>
@@ -3165,8 +3276,16 @@ export default function PlanList() {
                     <select
                       disabled={!formState.Not_Specific1}
                       id="S_No_Specific_CD1"
-                      value={planListData?.S_No_Specific_CD1 || ""}
-                      onChange={handleInputChange}
+                      value={planListData?.S_No_Specific_CD1?.not || ""}
+                      onChange={(e) => {
+                        const selectedValue = e.target.value;
+                        handleInputChange({
+                          target: {
+                            id: "S_No_Specific_CD1",
+                            value: { not: selectedValue },
+                          },
+                        });
+                      }}
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full h-8"
                     >
                       <option value=""></option>
@@ -3406,17 +3525,17 @@ export default function PlanList() {
                   />
                   {/* End */}
                   {/* Start */}
-                  <div className="px-2 w-auto text-center pl-[76px]">
-                    <label className="font-bold text-xs">Unrecive</label>
+                  <div className="px-2 w-auto text-center pl-[63px]">
+                    <label className="font-bold text-xs">Unreceived</label>
                   </div>
                   <div className="relative w-24 ml-0.5">
                     <select
-                      disabled={!formState.Unrecive}
+                      disabled={!formState.Unreceived}
                       id="S_Unreceived"
                       value={planListData?.S_Unreceived || ""}
                       onChange={handleInputChange}
                       className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${
-                        formState.Unrecive
+                        formState.Unreceived
                           ? "bg-[#ccffff] border-gray-500"
                           : "bg-gray-200 border-gray-400"
                       }`}
@@ -4360,7 +4479,7 @@ export default function PlanList() {
                     <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
                       Order_No
                     </th>
-                    <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                    <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium min-w-[150px]">
                       Parts_No
                     </th>
                     <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
@@ -4369,7 +4488,7 @@ export default function PlanList() {
                     <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
                       Customer_CD
                     </th>
-                    <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                    <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium min-w-[250px]">
                       Customer_Abb
                     </th>
                     <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium min-w-[400px]">
@@ -4601,292 +4720,305 @@ export default function PlanList() {
                 </thead>
                 <tbody>
                   {filteredOrderData.length > 0 &&
-                    filteredOrderData.map((order, index) => (
-                      <tr
-                        key={index}
-                        className="bg-white transition-colors duration-300"
-                      >
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Product_Delivery
-                            ? new Date(
-                                order.Product_Delivery
-                              ).toLocaleDateString("en-GB")
-                            : ""}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Order_No}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Parts_No */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Product_Grp_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Customer_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Customer_Abb */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Product_Name}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Product_Size}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Product_Draw}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Quantity}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Pd_Calc_Qty}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Unit_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Target_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Product_Docu}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Sales_Grp_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Sales_Person_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Request1_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Request2_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Request3_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Material1}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Material2}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Coating_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Item1_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Item2_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Item3_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Item4_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Price_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Unit_Price}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Pd_Received_Date
-                            ? new Date(
-                                order.Pd_Received_Date
-                              ).toLocaleDateString("en-GB")
-                            : ""}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Request_Delivery
-                            ? new Date(
-                                order.Request_Delivery
-                              ).toLocaleDateString("en-GB")
-                            : ""}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.NAV_Delivery
-                            ? new Date(
-                                order.NAV_Delivery
-                              ).toLocaleDateString("en-GB")
-                            : ""}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.I_Completed_Date
-                            ? new Date(
-                                order.I_Completed_Date
-                              ).toLocaleDateString("en-GB")
-                            : ""}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Pd_Calc_Date
-                            ? new Date(
-                                order.Pd_Calc_Date
-                              ).toLocaleDateString("en-GB")
-                            : ""}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Shipment_Date
-                            ? new Date(
-                                order.Shipment_Date
-                              ).toLocaleDateString("en-GB")
-                            : ""}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Specific_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Confirm_Delivery
-                            ? new Date(
-                                order.Confirm_Delivery
-                              ).toLocaleDateString("en-GB")
-                            : ""}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Delivery_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Schedule_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Od_Progress_CD}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Sl_Instructions}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Pd_Instructions}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Pd_Remark}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.I_Remark}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Pd_Complete_Date
-                            ? new Date(
-                                order.Pd_Complete_Date
-                              ).toLocaleDateString("en-GB")
-                            : ""}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {order.Supple_Docu}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process1 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process2 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process3 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process4 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process5 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process6 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process7 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process8 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process9 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process10 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process11 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process12 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process13 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process14 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process15 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process16 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process17 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process18 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process19 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process20 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process21 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process22 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process23 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process24 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process25 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process26 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process27 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process28 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process29 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process30 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process31 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process32 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process33 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process34 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process35 */}
-                        </td>
-                        <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
-                          {/* Process36 */}
-                        </td>
-                      </tr>
-                    ))}
+                    filteredOrderData.map((order, index) => {
+
+                      const customer = Array.isArray(CustomerData)
+                      ? CustomerData.find((customer) => customer.Customer_CD === order.Customer_CD)
+                      : null;
+
+                      const plan = Array.isArray(planData)
+                      ? planData.find((plan) => plan.Order_No === order.Order_No)
+                      : null;
+
+                      console.log("planData:", planData);
+
+                      return (
+                        <tr
+                          key={index}
+                          className="bg-white transition-colors duration-300"
+                        >
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Product_Delivery
+                              ? new Date(
+                                  order.Product_Delivery
+                                ).toLocaleDateString("en-GB")
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Order_No}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {plan ? plan.Parts_No : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Product_Grp_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Customer_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {customer ? customer.Customer_Abb : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Product_Name}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Product_Size}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Product_Draw}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Quantity}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Pd_Calc_Qty}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Unit_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Target_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Product_Docu}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Sales_Grp_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Sales_Person_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Request1_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Request2_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Request3_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Material1}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Material2}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Coating_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Item1_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Item2_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Item3_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Item4_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Price_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Unit_Price}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Pd_Received_Date
+                              ? new Date(
+                                  order.Pd_Received_Date
+                                ).toLocaleDateString("en-GB")
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Request_Delivery
+                              ? new Date(
+                                  order.Request_Delivery
+                                ).toLocaleDateString("en-GB")
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.NAV_Delivery
+                              ? new Date(order.NAV_Delivery).toLocaleDateString(
+                                  "en-GB"
+                                )
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.I_Completed_Date
+                              ? new Date(
+                                  order.I_Completed_Date
+                                ).toLocaleDateString("en-GB")
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Pd_Calc_Date
+                              ? new Date(order.Pd_Calc_Date).toLocaleDateString(
+                                  "en-GB"
+                                )
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Shipment_Date
+                              ? new Date(
+                                  order.Shipment_Date
+                                ).toLocaleDateString("en-GB")
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Specific_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Confirm_Delivery
+                              ? new Date(
+                                  order.Confirm_Delivery
+                                ).toLocaleDateString("en-GB")
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Delivery_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Schedule_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Od_Progress_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Sl_Instructions}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Pd_Instructions}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Pd_Remark}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.I_Remark}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Pd_Complete_Date
+                              ? new Date(
+                                  order.Pd_Complete_Date
+                                ).toLocaleDateString("en-GB")
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Supple_Docu}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process1 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process2 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process3 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process4 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process5 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process6 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process7 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process8 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process9 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process10 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process11 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process12 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process13 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process14 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process15 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process16 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process17 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process18 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process19 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process20 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process21 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process22 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process23 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process24 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process25 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process26 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process27 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process28 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process29 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process30 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process31 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process32 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process33 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process34 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process35 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process36 */}
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
@@ -4904,6 +5036,7 @@ export default function PlanList() {
                 設定 (F2)
               </button>
               <button
+                id="handleF3Click"
                 onClick={handleF3Click}
                 className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white"
               >
