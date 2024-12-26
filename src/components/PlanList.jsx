@@ -40,7 +40,7 @@ export default function PlanList() {
       selectPartsData,
       setPlanData,
       planData,
-      fetchPlan,
+      fetch_All_Plan,
     } = usePlan();
 
   const [destinationName, setDestinationName] = useState("");
@@ -4726,11 +4726,9 @@ export default function PlanList() {
                       ? CustomerData.find((customer) => customer.Customer_CD === order.Customer_CD)
                       : null;
 
-                      const plan = Array.isArray(planData)
-                      ? planData.find((plan) => plan.Order_No === order.Order_No)
+                      const plan = Array.isArray(planData.data)
+                      ? planData.data.find((plan) => plan.Order_No === order.Order_No)
                       : null;
-
-                      console.log("planData:", planData);
 
                       return (
                         <tr
