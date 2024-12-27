@@ -5,7 +5,32 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import { useCostList } from "../hooks/use-costlist";
 
 export default function CostList() {
-  const { initialFormState, costListData, setCostListData } = useCostList();
+  const {
+    initialFormState,
+    costListData,
+    setCostListData,
+    CustomerData,
+    WorkerData,
+    WorkergData,
+    Request1Data,
+    Request2Data,
+    Request3Data,
+    CoatingData,
+    Item1Data,
+    WorkgData,
+    PriceData,
+    SpecificData,
+    OdProgressData,
+    DeliveryData,
+    scheduleData,
+    PlProgressData,
+  } = useCostList();
+
+  const [destinationName, setDestinationName] = useState("");
+  const [destinationName2, setDestinationName2] = useState("");
+  const [destinationName3, setDestinationName3] = useState("");
+  const [destinationName4, setDestinationName4] = useState("");
+  const [destinationName5, setDestinationName5] = useState("");
 
   const [formState, setFormState] = useState(initialFormState);
 
@@ -14,6 +39,8 @@ export default function CostList() {
       setFormState(initialFormState);
     }
   };
+
+  const [filteredCostListData, setFilteredCostListData] = useState([]);
 
   const enableFields = (fieldNames) => {
     setFormState((prevState) => {
@@ -292,6 +319,15 @@ export default function CostList() {
       [id]: type === "checkbox" ? checked : value === "" ? null : value,
     }));
   };
+
+  useEffect(() => {
+    if (costListData) {
+      setFilteredCostListData(costListData);
+    }
+
+    console.log(costListData);
+  }, []);
+
   return (
     <div className="flex bg-[#E9EFEC] h-[100vh]">
       <Sidebar />
@@ -566,21 +602,28 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(WorkgData) &&
+                                WorkgData.length > 0 ? (
+                                  WorkgData.map((item, index) => (
+                                    <option key={index} value={item.WorkG_CD}>
+                                      {item.WorkG_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
-                            <div className="w-24 ">
-                              <input
-                                type="text"
-                                className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                              />
-                            </div>
-
-                            <label className="w-auto font-medium text-sm">
-                              ~
-                            </label>
+                            <input
+                              disabled={!formState.Product_Grp_Input}
+                              id="S_No_Pd_Grp_Abb"
+                              value={destinationName}
+                              onChange={(event) => setWorkgData(event)}
+                              type="text"
+                              className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                            />
+                            {/* End */}
+                            <span className="text-lg mx-3">~</span>
 
                             <div className="w-24 ">
                               <select
@@ -2666,15 +2709,562 @@ export default function CostList() {
                   Change_View
                 </button>
               </div>
+              <hr className="my-6 h-0.5 bg-gray-500 opacity-100 dark:opacity-50 border-y-[1px] border-gray-300" />
+              <div className="overflow-x-auto w-full mt-4">
+                <table className="min-w-full table-auto border-collapse border border-gray-800 shadow-md rounded-lg">
+                  <thead className="bg-gray-200 text-black">
+                    <tr>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Product_Delivery
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Order_No
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Parts_No
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Product_Grp
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Customer_CD
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Customer_Abb
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium min-w-[400px]">
+                        Product_Name
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium min-w-[400px]">
+                        Product_Size
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium min-w-[250px]">
+                        Product_Draw
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Quantity
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Pd_Calc_Qty
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium min-w-[200px]">
+                        Unit
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium min-w-[150px]">
+                        Target
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium min-w-[400px]">
+                        Product_Docu
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Sales_Grp
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Sales_Person
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Request1
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Request2
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Request3
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Material1
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Material2
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Coating_CD
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Item1
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Item2
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Item3
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Item4
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Price
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Unit_Price
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Pd_Received_Date
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Request_Delivery
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        NAV_Delivery
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        I_Completed_Date
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Pd_Calc_Date
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Shipment_Date
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Specific
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Confirm_Delivery
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Delivery
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Schedule
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Od_Progress
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Sl_Instructions
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Pd_Instructions
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Pd_Remark
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        I_Remark
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Pd_Complete_Date
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Supple_Docu
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process1
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process2
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process3
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process4
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process5
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process6
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process7
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process8
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process9
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process10
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process11
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process12
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process13
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process14
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process15
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process16
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process17
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process18
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process19
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process20
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process21
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process22
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process23
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process24
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process25
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process26
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process27
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process28
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process29
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process30
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process31
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process32
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process33
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process34
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process35
+                      </th>
+                      <th className="border border-gray-300 px-6 py-3 text-center text-sm font-medium">
+                        Process36
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredCostListData.length > 0 &&
+                      filteredCostListData.map((order, index) => (
+                        <tr
+                          key={index}
+                          className="bg-white transition-colors duration-300"
+                        >
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Product_Delivery
+                              ? new Date(
+                                  order.Product_Delivery
+                                ).toLocaleDateString("en-GB")
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Order_No}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Parts_No */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Product_Grp_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Customer_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Customer_Abb */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Product_Name}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Product_Size}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Product_Draw}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Quantity}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Pd_Calc_Qty}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Unit_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Target_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Product_Docu}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Sales_Grp_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Sales_Person_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Request1_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Request2_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Request3_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Material1}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Material2}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Coating_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Item1_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Item2_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Item3_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Item4_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Price_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Unit_Price}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Pd_Received_Date
+                              ? new Date(
+                                  order.Pd_Received_Date
+                                ).toLocaleDateString("en-GB")
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Request_Delivery
+                              ? new Date(
+                                  order.Request_Delivery
+                                ).toLocaleDateString("en-GB")
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.NAV_Delivery
+                              ? new Date(order.NAV_Delivery).toLocaleDateString(
+                                  "en-GB"
+                                )
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.I_Completed_Date
+                              ? new Date(
+                                  order.I_Completed_Date
+                                ).toLocaleDateString("en-GB")
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Pd_Calc_Date
+                              ? new Date(order.Pd_Calc_Date).toLocaleDateString(
+                                  "en-GB"
+                                )
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Shipment_Date
+                              ? new Date(
+                                  order.Shipment_Date
+                                ).toLocaleDateString("en-GB")
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Specific_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Confirm_Delivery
+                              ? new Date(
+                                  order.Confirm_Delivery
+                                ).toLocaleDateString("en-GB")
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Delivery_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Schedule_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Od_Progress_CD}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Sl_Instructions}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Pd_Instructions}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Pd_Remark}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.I_Remark}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Pd_Complete_Date
+                              ? new Date(
+                                  order.Pd_Complete_Date
+                                ).toLocaleDateString("en-GB")
+                              : ""}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {order.Supple_Docu}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process1 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process2 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process3 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process4 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process5 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process6 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process7 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process8 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process9 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process10 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process11 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process12 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process13 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process14 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process15 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process16 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process17 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process18 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process19 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process20 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process21 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process22 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process23 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process24 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process25 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process26 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process27 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process28 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process29 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process30 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process31 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process32 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process33 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process34 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process35 */}
+                          </td>
+                          <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
+                            {/* Process36 */}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
             <div className="bg-white p-3 mt-5">
               <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4">
                 <div className="grid grid-cols-4 gap-2">
-                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                  <button
+                    className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+                    disabled
+                  >
                     Search <br />
                     検索 (F1)
                   </button>
-                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                  <button
+                    className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+                    disabled
+                  >
                     Setting <br />
                     設定 (F2)
                   </button>
@@ -2682,13 +3272,19 @@ export default function CostList() {
                     Show <br />
                     照会 (F3)
                   </button>
-                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                  <button
+                    className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+                    disabled
+                  >
                     Target <br />
                     対象 (F4)
                   </button>
                 </div>
                 <div className="grid grid-cols-4 gap-2">
-                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                  <button
+                    className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+                    disabled
+                  >
                     Product <br />
                     部門 (F5)
                   </button>
@@ -2712,7 +3308,10 @@ export default function CostList() {
                     </label>
                     (F9)
                   </button>
-                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                  <button
+                    className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+                    disabled
+                  >
                     (F10)
                   </button>
                   <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-sm text-white">
