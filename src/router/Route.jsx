@@ -13,6 +13,7 @@ import PurchaseListPage from "../pages/PurchaseListPage";
 import ResultInfoPage from "../pages/ResultInfoPage";
 import ProcessG_PlanPage from "../pages/ProcessG_PlanPage";
 import RD_Process_SheetPage from "../pages/reports/RD_Process_SheetPage";
+import RD_Process_Sheet24Page from "../pages/reports/RD_Process_Sheet24Page";
 import DashboardPage from "../pages/DashboardPage";
 import SalesInfoPage from "../pages/SalesInfoPage";
 import SalesDashboradPage from "../pages/SalesDashboradPage";
@@ -177,6 +178,10 @@ const router = createBrowserRouter([
   {
     path: "/reports/RD_Process_SheetPage/:orderNo",
     element: <RD_Process_SheetPage />,
+  },
+  {
+    path: "/reports/RD_Process_Sheet24Page/:orderNo",
+    element: <RD_Process_Sheet24Page />,
   },
   {
     path: "/cost-info",
