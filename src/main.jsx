@@ -11,25 +11,28 @@ import CostContextProvider from "./contexts/CostContext.jsx";
 import CostListContextProvider from "./contexts/CostListContext.jsx";
 import SorderContextProvider from "./contexts/SorderContext.jsx";
 import "./index.css";
+import PlanListContextProvider from "./contexts/PlanListContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthContextProvider>
       <OrderContextProvider>
         <OrderListContextProvider>
-          <PurchaseContextProvider>
-            <PlanContextProvider>
-              <ResultContextProvider>
-                <CostContextProvider>
-                  <CostListContextProvider>
-                    <SorderContextProvider>
-                      <App />
-                    </SorderContextProvider>
-                  </CostListContextProvider>
-                </CostContextProvider>
-              </ResultContextProvider>
-            </PlanContextProvider>
-          </PurchaseContextProvider>
+          <PlanListContextProvider>
+            <PurchaseContextProvider>
+              <PlanContextProvider>
+                <ResultContextProvider>
+                  <CostContextProvider>
+                    <CostListContextProvider>
+                      <SorderContextProvider>
+                        <App />
+                      </SorderContextProvider>
+                    </CostListContextProvider>
+                  </CostContextProvider>
+                </ResultContextProvider>
+              </PlanContextProvider>
+            </PurchaseContextProvider>
+          </PlanListContextProvider>
         </OrderListContextProvider>
       </OrderContextProvider>
     </AuthContextProvider>

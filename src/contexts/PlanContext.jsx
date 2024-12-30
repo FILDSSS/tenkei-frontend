@@ -161,6 +161,20 @@ export default function PlanContextProvider({ children }) {
   const [ScheduleData, setScheduleData] = useState(null);
   const [PartsData, setPartsData] = useState(null);
   const [UnitsData, setUnitsData] = useState(null);
+
+
+  const fetch_All_Plan = async () => {
+    try {
+      const response = await axios.get("/plan/fetch-all-plan");
+      setPlanData(response.data); 
+
+      return response;
+    } catch (error) {
+      console.error("Error fetching Plans:", error);
+      throw error; 
+    }
+  };
+
   const searchPartsData = async (orderNo) => {
     try {
       const response = await axios.post("/plan/search-order-plan", {
@@ -370,6 +384,7 @@ export default function PlanContextProvider({ children }) {
     fetchSchedule();
     fetchParts();
     fetchUnits();
+    fetch_All_Plan();
   }, []);
 
   return (
@@ -382,6 +397,7 @@ export default function PlanContextProvider({ children }) {
         setSelectedPlanNo,
         searchPartsData,
         selectPartsData,
+        fetch_All_Plan,
         qmprocessData,
         processData,
         plprogressData,
