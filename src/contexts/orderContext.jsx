@@ -329,6 +329,26 @@ export default function OrderContextProvider({ children }) {
     }
   };
 
+  const CheckOrderData = async (orderNo) => {
+    try {
+      const response = await axios.post("/order/search-order", {
+        Order_No: orderNo,
+      });
+
+      if (response.data && response.data.data && response.data.data.order) {
+        
+        return true;
+      } else {
+        resetOrderData();
+        return false;
+      }
+    } catch (error) {
+      console.error("Error fetching order data:", error);
+      resetOrderData();
+      return false;
+    }
+  };
+
   const searchOrderData = async (orderNo) => {
     try {
       const response = await axios.post("/order/search-order", {
@@ -494,6 +514,7 @@ export default function OrderContextProvider({ children }) {
         setCalcData,
         searchCalcData,
         editCalc,
+        CheckOrderData,
       }}
     >
       {children}
