@@ -24,6 +24,24 @@ export default function CostList() {
     DeliveryData,
     scheduleData,
     PlProgressData,
+    TargetData,
+    setCustomerData,
+    setWorkerData,
+    setWorkergData,
+    setRequest1Data,
+    setRequest2Data,
+    setRequest3Data,
+    setCoatingData,
+    setItem1Data,
+    setWorkgData,
+    setPriceData,
+    setSpecificData,
+    setOdProgressData,
+    setDeliveryData,
+    setScheduleData,
+    setPlProgressData,
+    setTargetData,
+    fetchCostList
   } = useCostList();
 
   const [destinationName, setDestinationName] = useState("");
@@ -338,6 +356,7 @@ export default function CostList() {
       ...prevCostListData,
       [id]: type === "checkbox" ? checked : value === "" ? null : value,
     }));
+    // console.log(costListData)
   };
 
   useEffect(() => {
@@ -577,6 +596,140 @@ export default function CostList() {
     CoatingData,
   ]);
 
+  const handleF3Click = async () => {
+    try {
+      const response = await fetchCostList(costListData);
+      console.log(response)
+      const costList = response.data?.data?.orders;
+
+      // console.log("Orders fetched:", orders);
+      // console.log("Filters to apply:", costListData);
+
+      if (!Array.isArray(costList)) {
+        // console.error("Orders data is not an array:", orders);
+        setFilteredCostListData([]);
+        return;
+      }
+
+      const keyMapping = {
+        S_St_Od_Progress_CD: "Od_Progress_CD",
+        S_Ed_Od_Progress_CD: "Od_Progress_CD",
+        S_Order_No: "Order_No",
+        S_Od_Ctl_Person_CD: "Od_Ctl_Person_CD",
+        S_St_Delivery_CD: "Delivery_CD",
+        S_Ed_Delivery_CD: "Delivery_CD",
+        S_NAV_Name: "NAV_Name",
+        S_St_Pd_Grp_CD: "Product_Grp_CD",
+        S_Ed_Pd_Grp_CD: "Product_Grp_CD",
+        S_Sl_Grp_CD: "Sales_Grp_CD",
+        S_St_Schedule_CD: "Schedule_CD",
+        S_Ed_Schedule_CD: "Schedule_CD",
+        S_Product_Name: "Product_Name",
+        S_No_Pd_Grp_CD1: "Product_Grp_CD",
+        S_Price_CD: "Price_CD",
+        S_Sl_Person_CD: "Sales_Person_CD",
+        S_St_Target_CD: "Target_CD",
+        S_NAV_Size: "NAV_Size",
+        S_No_Pd_Grp_CD2: "Product_Grp_CD",
+        S_Request1_CD: "Request1_CD",
+        S_Request2_CD: "Request2_CD",
+        S_Request3_CD: "Request3_CD",
+        S_St_Request_Delivery: "Request_Delivery",
+        S_Ed_Request_Delivery: "Request_Delivery",
+        S_Product_Size: "Product_Size",
+        S_Customer_CD1: "Customer_CD",
+        S_Material1: "Material1",
+        S_St_NAV_Delivery: "NAV_Delivery",
+        S_Ed_NAV_Delivery: "NAV_Delivery",
+        S_Customer_Draw: "Customer_Draw",
+        S_Customer_CD2: "Customer_CD",
+        S_Item1_CD: "Item1_CD",
+        S_Material2: "Material2",
+        S_St_Confirm_Delivery: "Confirm_Delivery",
+        S_Ed_Confirm_Delivery: "Confirm_Delivery",
+        S_Company_Draw: "Company_Draw",
+        S_Customer_CD3: "Customer_CD",
+        S_Item2_CD: "Item2_CD",
+        S_Material3: "Material3",
+        S_St_Product_Delivery: "Product_Delivery",
+        S_Ed_Product_Delivery: "Product_Delivery",
+        S_Product_Draw: "Product_Draw",
+        S_No_Customer_CD: "Customer_CD",
+        S_Item3_CD: "Item3_CD",
+        S_Material4: "Material4",
+        S_St_Pd_Received_Date: "Pd_Received_Date",
+        S_Ed_Pd_Received_Date: "Pd_Received_Date",
+        S_Sl_instructions: "Sl_instructions",
+        S_Specific_CD1: "Specific_CD",
+        S_Coating_CD1: "Coating_CD",
+        S_Item4_CD: "S_Item4_CD",
+        S_Material5: "Material5",
+        S_St_Pd_Complete_Date: "Pd_Complete_Date",
+        S_Ed_Pd_Complete_Date: "Pd_Complete_Date",
+        S_Pd_instructions: "Pd_Instructions",
+        S_Specific_CD2: "Specific_CD",
+        S_Coating_CD2: "Coating_CD",
+        S_Od_Pending: "Od_Pending",
+        S_Od_CAT1: "Od_CAT1",
+        S_St_I_Complete_Date: "I_Completed_Date",
+        S_Ed_I_Complete_Date: "I_Completed_Date",
+        S_Pd_Remark: "Pd_Remark",
+        S_No_Specific_CD1: "Specific_CD",
+        S_Coating_CD3: "Coating_CD",
+        S_Temp_Shipment: "Temp_Shipment",
+        S_Od_CAT2: "Od_CAT2",
+        S_St_Shipment_Date: "Shipment_Date",
+        S_Ed_Shipment_Date: "Shipment_Date",
+        S_I_Remark: "I_Remark",
+        S_No_Specific_CD2: "Specific_CD",
+        S_No_Coating_CD: "Coating_CD",
+        S_Unreceived: "Unreceived",
+        S_Od_CAT3: "Od_CAT3",
+        S_St_Calc_Date: "Pd_Calc_Date",
+        S_Ed_Calc_Date: "Pd_Calc_Date",
+      };
+
+      const filters = Object.entries(costListData)
+        .filter(([key, value]) => value)
+        .map(([key, value]) => [keyMapping[key] || key, value]);
+
+      // console.log("Filters after mapping:", filters);
+
+      const filteredData = costList.filter((cost) =>
+        filters.every(([key, value]) => {
+          // console.log(
+          //   `Checking order[${key}] (${order[key]}) against value (${JSON.stringify(value)})`
+          // );
+
+          // กรณี value เป็นออบเจกต์ และมี key "not"
+          if (typeof value === "object" && value.not) {
+            return cost[key] !== value.not; // ตรวจสอบว่าไม่เท่ากับค่าใน "not"
+          }
+
+          // กรณี value เป็น string หรือค่าปกติ
+          if (typeof order[key] === "string") {
+            return cost[key]?.toLowerCase().includes(value.toLowerCase());
+          }
+
+          // ตรวจสอบแบบปกติ
+          return cost[key] === value;
+        })
+      );
+
+      // console.log("Filtered Data:", filteredData);
+
+      if (filteredData.length > 0) {
+        setFilteredCostListData(filteredData);
+      } else {
+        // console.log("No matching orders found.");
+        setFilteredCostListData([]);
+      }
+    } catch (error) {
+      console.error("Error handling F3 click:", error);
+      setFilteredCostListData([]);
+    }
+  };
+
   return (
     <div className="flex bg-[#E9EFEC] h-[100vh]">
       <Sidebar />
@@ -804,13 +957,23 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(WorkerData) && WorkerData.length > 0 ? (
+                                  WorkerData.map((item, index) => (
+                                    <option key={index} value={item.Worker_CD}>
+                                      {item.Worker_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-24">
                               <input
+                                disabled={!formState.Ctl_Person_Input}
+                                id="S_Od_Ctl_Person_Name"
+                                value={selectedSalesGrpAbb || ""}
+                                onChange={(event) => setWorkerData(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -894,6 +1057,10 @@ export default function CostList() {
                             </div>
                             <div className="w-24">
                               <input
+                                disabled={!formState.Product_Grp_Select2}
+                                id="S_Ed_Pd_Grp_Abb"
+                                value={destinationName2}
+                                onChange={(event) => setWorkgData(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -912,13 +1079,23 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(WorkgData) && WorkgData.length > 0 ? (
+                                  WorkgData.map((item, index) => (
+                                    <option key={index} value={item.WorkG_CD}>
+                                      {item.WorkG_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-24">
                               <input
+                                disabled={!formState.Sales_Grp_Input}
+                                id="S_Sl_Grp_Name"
+                                value={destinationName5}
+                                onChange={(event) => setWorkgData(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -987,14 +1164,23 @@ export default function CostList() {
                                   }`}
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(PriceData) && PriceData.length > 0 ? (
+                                  PriceData.map((item, index) => (
+                                    <option key={index} value={item.Price_CD}>
+                                      {item.Price_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-16 ">
                               <input
-                                disabled={!formState.S_Price_Name.enabled}
+                                disabled={!formState.Price_CAT_Input}
+                                id="S_Price_Name"
+                                value={PriceName || ""}
+                                onChange={(event) => setPriceData(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1012,13 +1198,23 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(WorkerData) && WorkerData.length > 0 ? (
+                                  WorkerData.map((item, index) => (
+                                    <option key={index} value={item.Worker_CD}>
+                                      {item.Worker_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-24">
                               <input
+                                disabled={!formState.Sales_Person_Input}
+                                id="S_Sl_Person_Name"
+                                value={selectedSalesGrpAbb2 || ""}
+                                onChange={(event) => setWorkerData(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1091,13 +1287,24 @@ export default function CostList() {
                                   }`}
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(Request1Data) &&
+                                  Request1Data.length > 0 ? (
+                                  Request1Data.map((item, index) => (
+                                    <option key={index} value={item.Request1_CD}>
+                                      {item.Request1_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-16">
                               <input
+                                disabled={!formState.Request_CAT_Input}
+                                id="S_Request1_Name"
+                                value={request1Name}
+                                onChange={(event) => setRequest1Data(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1114,13 +1321,24 @@ export default function CostList() {
                                   }`}
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(Request2Data) &&
+                                  Request2Data.length > 0 ? (
+                                  Request2Data.map((item, index) => (
+                                    <option key={index} value={item.Request2_CD}>
+                                      {item.Request2_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-16">
                               <input
+                                disabled={!formState.Request_CAT_Input2}
+                                id="S_Request2_Name"
+                                value={request2Name}
+                                onChange={(event) => setRequest2Data(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1137,13 +1355,24 @@ export default function CostList() {
                                   }`}
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(Request3Data) &&
+                                  Request3Data.length > 0 ? (
+                                  Request3Data.map((item, index) => (
+                                    <option key={index} value={item.Request3_CD}>
+                                      {item.Request3_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-16">
                               <input
+                                disabled={!formState.Request_CAT_Input3}
+                                id="S_Request3_Name"
+                                value={request3Name}
+                                onChange={(event) => setRequest3Data(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1181,7 +1410,7 @@ export default function CostList() {
                                     id="S_Customer_CD1"
                                     value={costListData?.S_Customer_CD1 || ""}
                                     onChange={handleCostListInputChange}
-                                    className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
+                                    className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8"
                                   >
                                     <option value=""></option>
                                     {Array.isArray(CustomerData) &&
@@ -1198,8 +1427,12 @@ export default function CostList() {
                                 </div>
                                 <div className="w-28">
                                   <input
+                                    disabled={!formState.Customer1_Input}
+                                    id="S_Customer_Abb1"
+                                    value={selectedCustomerAbb || ""}
+                                    onChange={(event) => setCustomerData(event)}
                                     type="text"
-                                    className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                                    className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
                                   />
                                 </div>
                               </div>
@@ -1290,15 +1523,26 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(CustomerData) &&
+                                  CustomerData.length > 0 ? (
+                                  CustomerData.map((item, index) => (
+                                    <option key={index} value={item.Customer_CD}>
+                                      {item.Customer_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-28">
                               <input
+                                disabled={!formState.Customer2_Input}
+                                id="S_Customer_Abb2"
+                                value={selectedCustomerAbb2 || ""}
+                                onChange={(event) => setCustomerData(event)}
                                 type="text"
-                                className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                                className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
                               />
                             </div>
                           </div>
@@ -1328,13 +1572,23 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(Item1Data) && Item1Data.length > 0 ? (
+                                  Item1Data.map((item, index) => (
+                                    <option key={index} value={item.Item1_CD}>
+                                      {item.Item1_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-28">
                               <input
+                                disabled={!formState.Item1_Input}
+                                id="S_Item1_Name"
+                                value={itemName || ""}
+                                onChange={(event) => setItem1Data(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1373,15 +1627,26 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(CustomerData) &&
+                                  CustomerData.length > 0 ? (
+                                  CustomerData.map((item, index) => (
+                                    <option key={index} value={item.Customer_CD}>
+                                      {item.Customer_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-28">
                               <input
+                                disabled={!formState.Customer3_Input}
+                                id="S_Customer_Abb3"
+                                value={selectedCustomerAbb3 || ""}
+                                onChange={(event) => setCustomerData(event)}
                                 type="text"
-                                className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                                className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
                               />
                             </div>
                           </div>
@@ -1457,13 +1722,24 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(CustomerData) &&
+                                  CustomerData.length > 0 ? (
+                                  CustomerData.map((item, index) => (
+                                    <option key={index} value={item.Customer_CD}>
+                                      {item.Customer_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-28">
                               <input
+                                disabled={!formState.Not_Customer_Input}
+                                id="S_No_Customer_Abb"
+                                value={selectedCustomerAbb4 || ""}
+                                onChange={(event) => setCustomerData(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1541,13 +1817,24 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(SpecificData) &&
+                                  SpecificData.length > 0 ? (
+                                  SpecificData.map((item, index) => (
+                                    <option key={index} value={item.Specific_CD}>
+                                      {item.Specific_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-28">
                               <input
+                                disabled={!formState.Specific1_Input}
+                                id="S_Specific_Name1"
+                                value={SpecificName || ""}
+                                onChange={(event) => setSpecificData(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1565,13 +1852,23 @@ export default function CostList() {
                                 className="h-6 border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(CoatingData) && CoatingData.length > 0 ? (
+                                  CoatingData.map((item, index) => (
+                                    <option key={index} value={item.Coating_CD}>
+                                      {item.Coating_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-28">
                               <input
+                                disabled={!formState.Coating1_Input}
+                                id="S_Coating_Name1"
+                                value={coatingName || ""}
+                                onChange={(event) => setCoatingData(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1638,13 +1935,24 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(SpecificData) &&
+                                  SpecificData.length > 0 ? (
+                                  SpecificData.map((item, index) => (
+                                    <option key={index} value={item.Specific_CD}>
+                                      {item.Specific_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-28">
                               <input
+                                disabled={!formState.Specific2_Input}
+                                id="S_Specific_Name2"
+                                value={SpecificName2 || ""}
+                                onChange={(event) => setSpecificData(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1662,13 +1970,23 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(CoatingData) && CoatingData.length > 0 ? (
+                                  CoatingData.map((item, index) => (
+                                    <option key={index} value={item.Coating_CD}>
+                                      {item.Coating_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-28">
                               <input
+                                disabled={!formState.Coating2_Input}
+                                id="S_Coating_Name1"
+                                value={coatingName2 || ""}
+                                onChange={(event) => setCoatingData(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1751,13 +2069,24 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(SpecificData) &&
+                                  SpecificData.length > 0 ? (
+                                  SpecificData.map((item, index) => (
+                                    <option key={index} value={item.Specific_CD}>
+                                      {item.Specific_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-28">
                               <input
+                                disabled={!formState.Not_Specific1_Input}
+                                id="S_No_Specific_Name1"
+                                value={SpecificName3 || ""}
+                                onChange={(event) => setSpecificData(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1775,13 +2104,23 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(CoatingData) && CoatingData.length > 0 ? (
+                                  CoatingData.map((item, index) => (
+                                    <option key={index} value={item.Coating_CD}>
+                                      {item.Coating_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-28">
                               <input
+                                disabled={!formState.Coating3_Input}
+                                id="S_Coating_Name3"
+                                value={coatingName3 || ""}
+                                onChange={(event) => setCoatingData(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1864,13 +2203,24 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(SpecificData) &&
+                                  SpecificData.length > 0 ? (
+                                  SpecificData.map((item, index) => (
+                                    <option key={index} value={item.Specific_CD}>
+                                      {item.Specific_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-28">
                               <input
+                                disabled={!formState.Not_Specific2_Input}
+                                id="S_No_Specific_Name2"
+                                value={SpecificName4 || ""}
+                                onChange={(event) => setSpecificData(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1888,13 +2238,23 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(CoatingData) && CoatingData.length > 0 ? (
+                                  CoatingData.map((item, index) => (
+                                    <option key={index} value={item.Coating_CD}>
+                                      {item.Coating_CD}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <div className="w-28">
                               <input
+                                disabled={!formState.Not_Coat_Input}
+                                id="S_No_Coating_Name"
+                                value={coatingName4 || ""}
+                                onChange={(event) => setCoatingData(event)}
                                 type="text"
                                 className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                               />
@@ -1961,9 +2321,16 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(OdProgressData) &&
+                                  OdProgressData.length > 0 ? (
+                                  OdProgressData.map((item, index) => (
+                                    <option key={index} value={item.Od_Progress_CD}>
+                                      {item.Od_Progress_Symbol}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <label className="w-auto font-medium text-sm">
@@ -1977,9 +2344,16 @@ export default function CostList() {
                                 className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(OdProgressData) &&
+                                  OdProgressData.length > 0 ? (
+                                  OdProgressData.map((item, index) => (
+                                    <option key={index} value={item.Od_Progress_CD}>
+                                      {item.Od_Progress_Symbol}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                           </div>
@@ -2002,9 +2376,16 @@ export default function CostList() {
                                   }`}
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(DeliveryData) &&
+                                  DeliveryData.length > 0 ? (
+                                  DeliveryData.map((item, index) => (
+                                    <option key={index} value={item.Delivery_CD}>
+                                      {item.Delivery_Symbol}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <label className="w-auto font-medium text-sm">
@@ -2022,9 +2403,16 @@ export default function CostList() {
                                   }`}
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(DeliveryData) &&
+                                  DeliveryData.length > 0 ? (
+                                  DeliveryData.map((item, index) => (
+                                    <option key={index} value={item.Delivery_CD}>
+                                      {item.Delivery_Symbol}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                           </div>
@@ -2047,9 +2435,16 @@ export default function CostList() {
                                   }`}
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(scheduleData) &&
+                                  scheduleData.length > 0 ? (
+                                  scheduleData.map((item, index) => (
+                                    <option key={index} value={item.Schedule_CD}>
+                                      {item.Schedule_Symbol}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <label className="w-auto font-medium text-sm">
@@ -2067,9 +2462,16 @@ export default function CostList() {
                                   }`}
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(scheduleData) &&
+                                  scheduleData.length > 0 ? (
+                                  scheduleData.map((item, index) => (
+                                    <option key={index} value={item.Schedule_CD}>
+                                      {item.Schedule_Symbol}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                           </div>
@@ -2092,9 +2494,15 @@ export default function CostList() {
                                   }`}
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(TargetData) && TargetData.length > 0 ? (
+                                  TargetData.map((item, index) => (
+                                    <option key={index} value={item.Target_CD}>
+                                      {item.Target_Symbol}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                             <label className="w-auto font-medium text-sm">
@@ -2112,9 +2520,15 @@ export default function CostList() {
                                   }`}
                               >
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                {Array.isArray(TargetData) && TargetData.length > 0 ? (
+                                  TargetData.map((item, index) => (
+                                    <option key={index} value={item.Target_CD}>
+                                      {item.Target_Symbol}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option value="">ไม่มีข้อมูล</option>
+                                )}
                               </select>
                             </div>
                           </div>
@@ -3485,7 +3899,8 @@ export default function CostList() {
                     Setting <br />
                     設定 (F2)
                   </button>
-                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                  <button id="handleF3Click"
+                    onClick={handleF3Click} className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
                     Show <br />
                     照会 (F3)
                   </button>

@@ -19,6 +19,7 @@ export default function CostListContextProvider({ children }) {
   const [Item1Data, setItem1Data] = useState(null);
   const [scheduleData, setScheduleData] = useState(null);
   const [PlProgressData, setPlProgressData] = useState(null);
+  const [TargetData, setTargetData] = useState(null);
 
   const initialFormState = {
     S_Order_No: { enabled: false },
@@ -144,14 +145,16 @@ export default function CostListContextProvider({ children }) {
 
   const [costListData, setCostListData] = useState(null);
 
-  const fetchCostList = async () => {
+  const fetchCostList = async (costListData) => {
     try {
-      const callApiCostList = await axios.post("/costlist/costlist-detail")
+      const callApiCostList = await axios.post("/costlist/costlist-detail",costListData)
       if (callApiCostList.data){
         setCostListData(callApiCostList);
-      }else{
-        setCostListData([])
       }
+      // else{
+      //   setCostListData([])
+      // }
+      return callApiCostList.data
     } catch (error) {
       console.error("Error fetching plan list data:", error);
       return false;
@@ -374,6 +377,19 @@ export default function CostListContextProvider({ children }) {
     }
   };
 
+  const fetchTarget = async () => {
+    try {
+      const response = await axios.get("/target/fetch-target");
+
+      setTargetData(response.data.data.target);
+      return response;
+    } catch (error) {
+      console.error("Error fetching target :", error);
+      throw error;
+    }
+  };
+
+
   useEffect(() => {
     fetchWorkerGroups();
     fetchWorker();
@@ -391,6 +407,7 @@ export default function CostListContextProvider({ children }) {
     fetchPlprogress();
     fetchSchedule();
     fetchCostList();
+    fetchTarget();
   }, []);
 
   return (
@@ -413,7 +430,25 @@ export default function CostListContextProvider({ children }) {
         OdProgressData,
         DeliveryData,
         scheduleData,
-        PlProgressData
+        PlProgressData,
+        TargetData,
+        setCustomerData,
+        setWorkerData,
+        setWorkergData,
+        setRequest1Data,
+        setRequest2Data,
+        setRequest3Data,
+        setCoatingData,
+        setItem1Data,
+        setWorkgData,
+        setPriceData,
+        setSpecificData,
+        setOdProgressData,
+        setDeliveryData,
+        setScheduleData,
+        setPlProgressData,
+        setTargetData,
+        fetchCostList
       }}
     >
       {children}
