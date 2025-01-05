@@ -9,10 +9,10 @@ import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
 export default function PlanInfo() {
-  const location = useLocation();
-  const [searchOrderNo, setSearchOrderNo] = useState(
-    location.state?.searchOrderNo || ""
-  );
+    const navigate = useNavigate();
+    const location = useLocation();
+  const { searchOrderNo: initialSearchOrderNo = "" } = location.state || {};
+  const [searchOrderNo, setSearchOrderNo] = useState(initialSearchOrderNo);
   const [autoYearChange, setAutoYearChange] = useState(false);
   const [searchPlanNo, setSearchPlanNo] = useState("");
   const {
@@ -60,6 +60,10 @@ export default function PlanInfo() {
     createResult,
     createWip,
     selectPartsData,
+    deleteResult,
+    deletePlan,
+    deleteSchedule,
+    deleteWip,
   } = usePlan();
   const { ProcessCData } = useCost();
   const { purchaseData, setPurchaseData } = usePurchase();
@@ -70,6 +74,7 @@ export default function PlanInfo() {
   const [OdProgressName, setOdProgressName] = useState("");
   const [DeliveryName, setDeliveryName] = useState("");
   const [PriceName, setPriceName] = useState("");
+  const [UnitName, setUnitName] = useState("");
   const [targetName, setTargetName] = useState("");
   const [ProgressName, setProgressName] = useState("");
   const [Person_Name, setPerson_Name] = useState("");
@@ -79,8 +84,6 @@ export default function PlanInfo() {
   const [ManHour_Scale, setManHour_Scale] = useState("");
   const [Search_Odpt_No, setSearch_Odpt_No] = useState("");
   const inputs = Array.from({ length: 36 }, (_, i) => i + 1);
-
-
 
   const handleInputChange = (event, isPurchase, isPlan = false) => {
     const { id, value, type, checked } = event.target;
@@ -115,10 +118,24 @@ export default function PlanInfo() {
 
   const handlePlanInputChange = async (event) => {
     const { id, value, type, checked } = event.target;
+    let formattedValue = value;
+
+    // แปลงวันที่และเวลาเป็น ISO8601
+    if (type === "datetime-local" && value) {
+      const dateWithCurrentTime = new Date(value);
+      formattedValue = dateWithCurrentTime.toISOString();
+    }
 
     setPlanData((prevPlanData) => ({
       ...prevPlanData,
-      [id]: type === "checkbox" ? checked : value === "" ? null : value,
+      [id]:
+        type === "checkbox"
+          ? checked
+          : type === "date" && value !== ""
+          ? new Date(`${value}T00:00:00.000Z`).toISOString()
+          : value === ""
+          ? null
+          : value,
     }));
 
     if (id === "Search_Parts_No") {
@@ -136,6 +153,41 @@ export default function PlanInfo() {
   useEffect(() => {
     handleSearch_Order_NoChange();
   }, [searchOrderNo]);
+
+  const handleF3Click = () => {
+    try {
+      setPlanData((prevData) => ({
+        ...prevData,
+        Order_No: orderData?.Order_No || "",
+      }));
+    } catch (error) {
+      console.error("Error in handleF3Click:", error);
+      Swal.fire({
+        title: "เกิดข้อผิดพลาด",
+        text: "กรุณาติดต่อผู้ดูแลระบบ",
+        icon: "error",
+        confirmButtonText: "ตกลง",
+      });
+    }
+  };
+
+  const handleF4Click = async () => {
+    try {
+      const orderExists = await searchOrderData(searchOrderNo);
+      if (orderExists) {
+        navigate("/purchase-info", { state: { searchOrderNo } });
+      } else {
+        await Swal.fire({
+          title: "ข้อมูลไม่ถูกต้อง",
+          text: "ไม่มีพบหมายเลข order",
+          icon: "warning",
+          confirmButtonText: "ตกลง",
+        });
+      }
+    } catch (error) {
+      alert("Error occurs when F4_Click\nPlease contact system administrator.");
+    }
+  };
 
   const handleF9Click = async () => {
     try {
@@ -187,6 +239,55 @@ export default function PlanInfo() {
     }
   };
 
+  const handleF10Click = async () => {
+    try {
+      // ตรวจสอบว่า planData มีข้อมูล Order_No และ Parts_No หรือไม่
+      if (!planData?.Order_No || !planData?.Parts_No) {
+        Swal.fire({
+          icon: "error",
+          title: "เกิดข้อผิดพลาด",
+          text: "ไม่พบข้อมูลที่ต้องการลบ โปรดตรวจสอบข้อมูลก่อนดำเนินการ.",
+        });
+        return;
+      }
+
+      // แสดงกล่องยืนยันการลบข้อมูล
+      const result = await Swal.fire({
+        title: "ยืนยันการลบ?",
+        text: "คุณต้องการลบข้อมูลนี้หรือไม่?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "ใช่, ลบเลย!",
+        cancelButtonText: "ยกเลิก",
+      });
+
+      if (result.isConfirmed) {
+        // ลบข้อมูล
+        await deleteWip(planData.Order_No, planData?.Parts_No);
+        await deleteSchedule(planData.Order_No, planData?.Parts_No);
+        await deletePlan(planData.Order_No, planData?.Parts_No);
+        await deleteResult(planData.Order_No, planData?.Parts_No);
+
+        // แสดงข้อความแจ้งเตือนความสำเร็จ
+        Swal.fire(
+          "ลบเรียบร้อย!",
+          "ข้อมูลของคุณได้ถูกลบเรียบร้อยแล้ว.",
+          "success"
+        );
+      }
+    } catch (error) {
+      // จัดการข้อผิดพลาดและแจ้งผู้ใช้
+      console.error("Error during F10_Click:", error);
+      Swal.fire({
+        icon: "error",
+        title: "เกิดข้อผิดพลาด",
+        text: "ไม่สามารถลบข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ.",
+      });
+    }
+  };
+
   const handleF12Click = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -229,10 +330,18 @@ export default function PlanInfo() {
       );
       setupdPerson_Name(selectedGroup ? selectedGroup.Worker_Abb : "");
     }
+    if (planData?.Pt_Unit_CD && UnitsData.length > 0) {
+      const selectedGroup = UnitsData.find(
+        (item) => item.Unit_CD === planData?.Pt_Unit_CD
+      );
+      setUnitName(selectedGroup ? selectedGroup.Unit_Abb : "");
+    }
   }, [
     orderData?.Od_Ctl_Person_CD,
     planData?.Pl_Reg_Person_CD,
     planData?.Pl_Upd_Person_CD,
+    planData?.Pt_Unit_CD,
+    UnitsData,
     WorkerData,
   ]);
 
@@ -472,7 +581,9 @@ export default function PlanInfo() {
             id={`PPD${id}`}
             type="date"
             value={
-              planData?.[`PPD${id}`] ? planData?.[`PPD${id}`].split("T")[0] : ""
+              planData?.[`PPD${id}`]
+                ? new Date(planData[`PPD${id}`]).toISOString().split("T")[0]
+                : ""
             }
             onChange={handlePlanInputChange}
             className="border rounded px-2 py-1 text-xs w-full"
@@ -496,7 +607,9 @@ export default function PlanInfo() {
             id={`RPD${id}`}
             type="date"
             value={
-              planData?.[`RPD${id}`] ? planData?.[`RPD${id}`].split("T")[0] : ""
+              planData?.[`RPD${id}`]
+                ? new Date(planData[`RPD${id}`]).toISOString().split("T")[0]
+                : ""
             }
             onChange={handlePlanInputChange}
             className="border rounded px-2 py-1 text-xs w-full"
@@ -568,20 +681,34 @@ export default function PlanInfo() {
         </p>
       ),
       pi_machine: (
-        <p className="mb-6 text-sm font-normal text-gray-500 sm:px-16 dark:text-gray-400">
-          {planData?.[`PML${id}`] !== undefined &&
-          planData?.[`PML${id}`] !== null
-            ? planData?.[`PML${id}`]
-            : ""}
-        </p>
+        <input
+          disabled
+          id={`PML${id}`}
+          type="text"
+          value={
+            planData?.[`PML${id}`] !== undefined &&
+            planData?.[`PML${id}`] !== null
+              ? planData?.[`PML${id}`]
+              : ""
+          }
+          onChange={handlePlanInputChange}
+          className="border-none text-center  text-gray-500 dark:text-gray-400 text-sm w-36"
+        />
       ),
       pi_person: (
-        <p className="mb-6 text-sm font-normal text-gray-500 sm:px-16 dark:text-gray-400">
-          {planData?.[`PPL${id}`] !== undefined &&
-          planData?.[`PPL${id}`] !== null
-            ? planData?.[`PPL${id}`]
-            : ""}
-        </p>
+        <input
+          disabled
+          id={`PPL${id}`}
+          type="text"
+          value={
+            planData?.[`PPL${id}`] !== undefined &&
+            planData?.[`PPL${id}`] !== null
+              ? planData?.[`PPL${id}`]
+              : ""
+          }
+          onChange={handlePlanInputChange}
+          className="border-none text-center  text-gray-500 dark:text-gray-400 text-sm w-36"
+        />
       ),
     };
   });
@@ -690,7 +817,7 @@ export default function PlanInfo() {
                       <select
                         id="Search_Parts_No"
                         value={searchPlanNo || ""}
-                        onChange={(e) => handlePlanInputChange(e)}
+                        onChange={handlePlanInputChange}
                         className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ccffff] w-18"
                       >
                         <option value="">เลือกข้อมูล</option>
@@ -1553,7 +1680,7 @@ export default function PlanInfo() {
                               value={planData?.Parts_No || ""}
                               onChange={handlePlanInputChange}
                               type="text"
-                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24 ml-1"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-[45px] ml-1"
                             />
                           </div>
                         </div>
@@ -1564,12 +1691,14 @@ export default function PlanInfo() {
                               id="Pt_Delivery"
                               value={
                                 planData?.Pt_Delivery
-                                  ? planData.Pt_Delivery.substring(0, 10)
+                                  ? new Date(planData.Pt_Delivery)
+                                      .toISOString()
+                                      .split("T")[0]
                                   : ""
                               }
-                              onChange={(event) => handlePlanInputChange(event)}
+                              onChange={handlePlanInputChange}
                               type="date"
-                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24 ml-1.5"
+                              className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w- ml-1.5"
                             />
                           </div>
                         </div>
@@ -1687,14 +1816,12 @@ export default function PlanInfo() {
                               id="Pl_Reg_Date"
                               value={
                                 planData?.Pl_Reg_Date
-                                  ? planData.Pl_Reg_Date.substring(0, 10)
+                                  ? planData.Pl_Reg_Date.substring(0, 16) // แสดงเป็น YYYY-MM-DDTHH:MM
                                   : ""
                               }
-                              onChange={(event) =>
-                                handlePlanInputChange(event)
-                              }
-                              type="date"
-                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
+                              onChange={handlePlanInputChange}
+                              type="datetime-local"
+                              className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[170px]"
                             />
                           </div>
                         </div>
@@ -1761,7 +1888,7 @@ export default function PlanInfo() {
                                 className="border-2 border-gray-500 rounded-md px-2 py-1 text-xs bg-[#ffff99] w-14 "
                               >
                                 <option value={planData?.Pt_Unit_CD || ""}>
-                                  {planData?.Pt_Unit_CD || ""}
+                                  {UnitName}
                                 </option>
                                 {Array.isArray(UnitsData) &&
                                 UnitsData.length > 0 ? (
@@ -2030,12 +2157,12 @@ export default function PlanInfo() {
                                 id="Pt_Complete_Date"
                                 value={
                                   planData?.Pt_Complete_Date
-                                    ? planData.Pt_Complete_Date.substring(0, 10)
+                                    ? new Date(planData.Pt_Complete_Date)
+                                        .toISOString()
+                                        .split("T")[0]
                                     : ""
                                 }
-                                onChange={(event) =>
-                                  handlePlanInputChange(event)
-                                }
+                                onChange={handlePlanInputChange}
                                 type="date"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
                               />
@@ -2049,12 +2176,12 @@ export default function PlanInfo() {
                                 id="Pt_I_Date"
                                 value={
                                   planData?.Pt_I_Date
-                                    ? planData.Pt_I_Date.substring(0, 10)
+                                    ? new Date(planData.Pt_I_Date)
+                                        .toISOString()
+                                        .split("T")[0]
                                     : ""
                                 }
-                                onChange={(event) =>
-                                  handlePlanInputChange(event)
-                                }
+                                onChange={handlePlanInputChange}
                                 type="date"
                                 className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
                               />
@@ -2068,14 +2195,12 @@ export default function PlanInfo() {
                                 id="Pl_Upd_Date"
                                 value={
                                   planData?.Pl_Upd_Date
-                                    ? planData.Pl_Upd_Date.substring(0, 10)
+                                    ? planData.Pl_Upd_Date.substring(0, 16)
                                     : ""
                                 }
-                                onChange={(event) =>
-                                  handlePlanInputChange(event)
-                                }
-                                type="date"
-                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[150px]"
+                                onChange={handlePlanInputChange}
+                                type="datetime-local"
+                                className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-[170px]"
                               />
                             </div>
                           </div>
@@ -2181,6 +2306,7 @@ export default function PlanInfo() {
                           </label>
                           <div className="w-auto">
                             <input
+                              disabled
                               id="Pl_Quote_OdPt_No"
                               value={planData?.Pl_Quote_OdPt_No || ""}
                               onChange={handlePlanInputChange}
@@ -2499,6 +2625,7 @@ export default function PlanInfo() {
                               : ""
                           }`}
                           disabled={!isSearchOrderNoFilled}
+                          onClick={handleF3Click}
                         >
                           New Add <br /> 追加 (F3)
                         </button>
@@ -2509,6 +2636,7 @@ export default function PlanInfo() {
                               : ""
                           }`}
                           disabled={!isSearchOrderNoFilled}
+                          onClick={handleF4Click}
                         >
                           Sub-Con <br /> 手配 (F4)
                         </button>
@@ -2565,6 +2693,7 @@ export default function PlanInfo() {
                               : ""
                           }`}
                           disabled={!isSearchOrderNoFilled}
+                          onClick={handleF10Click}
                         >
                           Delete <br /> 削除 (F10)
                         </button>
