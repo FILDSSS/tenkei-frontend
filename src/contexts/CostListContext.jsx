@@ -4,6 +4,30 @@ import axios from "../configs/axios";
 export const CostListContext = createContext();
 
 export default function CostListContextProvider({ children }) {
+  const [costListData, setCostListData] = useState(null);
+
+  // ฟังก์ชันสำหรับดึงข้อมูล cost list
+  const fetchCostList = async () => {
+    try {
+      const response = await axios.get("/costlist/fetch-costlist"); 
+
+      if (response.data) {
+        setCostListData(response.data);
+        console.log("Cost list data fetched successfully");
+      } else {
+        console.log("No data found");
+      }
+    } catch (error) {
+      console.error("Error fetching cost list data:", error);
+    }
+  };
+
+  // เรียก fetchCostList เมื่อ component ถูกโหลด
+  useEffect(() => {
+    if (!costListData) {
+      fetchCostList();
+    }
+  }, [costListData]);
 
     const initialFormState = {
         S_Order_No: { enabled: false },
@@ -127,7 +151,6 @@ export default function CostListContextProvider({ children }) {
         S_Ed_Pl_Progress_CD: { enabled: true }
       };
 
-      const [costListData, setCostListData] = useState(null);
 
     return (
         <CostListContext.Provider
@@ -135,6 +158,7 @@ export default function CostListContextProvider({ children }) {
             initialFormState,
             costListData,
             setCostListData,
+            fetchCostList
           }}
         >
           {children}

@@ -9,6 +9,12 @@ export default function CostList() {
 
   const [formState, setFormState] = useState(initialFormState);
 
+  useEffect(() => {
+    if (costListData) {
+      console.log("ข้อมูล Cost List:", costListData); // ใช้ข้อมูลจาก API ที่ได้รับ
+    }
+  }, [costListData]);
+  
   const Initial_Item = (flag) => {
     if (flag) {
       setFormState(initialFormState);
@@ -292,6 +298,7 @@ export default function CostList() {
       [id]: type === "checkbox" ? checked : value === "" ? null : value,
     }));
   };
+
   return (
     <div className="flex bg-[#E9EFEC] h-[100vh]">
       <Sidebar />
