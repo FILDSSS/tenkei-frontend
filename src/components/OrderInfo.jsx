@@ -1255,7 +1255,7 @@ export default function OrderInfo() {
                       id="Product_Grp_CD"
                       value={orderData?.Product_Grp_CD || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-full"
+                      className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-20"
                     >
                       <option value=""></option>
                       <option value={orderData?.Product_Grp_CD || ""}>
@@ -1264,7 +1264,7 @@ export default function OrderInfo() {
                       {Array.isArray(WorkergData) && WorkergData.length > 0 ? (
                         WorkergData.map((item, index) => (
                           <option key={index} value={item.WorkG_CD}>
-                            {item.WorkG_CD}
+                            {item.WorkG_CD}  {item.WorkG_Name}
                           </option>
                         ))
                       ) : (
@@ -1277,13 +1277,13 @@ export default function OrderInfo() {
                       value={selectedWorkGName || ""}
                       onChange={(event) => setWorkergData(event)}
                       type="text"
-                      className="bg-white border-2 border-gray-500 rounded-md px-2 w-full"
+                      className="bg-white border-2 border-gray-500 rounded-md px-2 w-40"
                       placeholder="Enter Group"
                     />
                   </div>
 
                   {/* Auto Year Change */}
-                  <div className="flex gap-2 items-center col-span-1 ">
+                  <div className="flex gap-2 items-center col-span-1 ml-[100px]">
                     <input
                       id="Auto_Year_Change"
                       checked={autoYearChange}
