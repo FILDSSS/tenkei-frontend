@@ -9,8 +9,8 @@ import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
 export default function PlanInfo() {
-    const navigate = useNavigate();
-    const location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { searchOrderNo: initialSearchOrderNo = "" } = location.state || {};
   const [searchOrderNo, setSearchOrderNo] = useState(initialSearchOrderNo);
   const [autoYearChange, setAutoYearChange] = useState(false);
@@ -83,6 +83,21 @@ export default function PlanInfo() {
   const [Stagnat_Scale, setStagnat_Scale] = useState("");
   const [ManHour_Scale, setManHour_Scale] = useState("");
   const [Search_Odpt_No, setSearch_Odpt_No] = useState("");
+  const [buttonState, setButtonState] = useState({
+    F1: true,
+    F2: true,
+    F3: true,
+    F4: true,
+    F5: true,
+    F6: true,
+    F7: true,
+    F8: true,
+    F9: true,
+    F10: true,
+    F11: true,
+    F12: false,
+  });
+
   const inputs = Array.from({ length: 36 }, (_, i) => i + 1);
 
   const handleInputChange = (event, isPurchase, isPlan = false) => {
@@ -141,6 +156,37 @@ export default function PlanInfo() {
     if (id === "Search_Parts_No") {
       setSearchPlanNo(value);
       setSearch_Odpt_No(`${searchOrderNo || ""}${value}`);
+      if (value) {
+        setButtonState({
+          F1: true,
+          F2: false,
+          F3: false,
+          F4: false,
+          F5: false,
+          F6: false,
+          F7: false,
+          F8: false,
+          F9: true,
+          F10: false,
+          F11: false,
+          F12: false,
+        });
+      } else {
+        setButtonState({
+          F1: false,
+          F2: true,
+          F3: false,
+          F4: false,
+          F5: false,
+          F6: false,
+          F7: true,
+          F8: false,
+          F9: true,
+          F10: true,
+          F11: false,
+          F12: false,
+        });
+      }
     }
   };
 
@@ -152,9 +198,72 @@ export default function PlanInfo() {
 
   useEffect(() => {
     handleSearch_Order_NoChange();
+    if (searchOrderNo && searchPlanNo){
+      setButtonState({
+        F1: false,
+        F2: true,
+        F3: false,
+        F4: false,
+        F5: false,
+        F6: false,
+        F7: true,
+        F8: false,
+        F9: true,
+        F10: true,
+        F11: false,
+        F12: false,
+      });
+    }else if (searchOrderNo && searchPlanNo === ""){
+      setButtonState({
+        F1: false,
+        F2: true,
+        F3: false,
+        F4: false,
+        F5: false,
+        F6: false,
+        F7: true,
+        F8: false,
+        F9: true,
+        F10: true,
+        F11: false,
+        F12: false,
+      });
+    }
+    else if (searchOrderNo === "" && searchPlanNo === "") {
+      setButtonState({
+        F1: true,
+        F2: true,
+        F3: true,
+        F4: true,
+        F5: true,
+        F6: true,
+        F7: true,
+        F8: true,
+        F9: true,
+        F10: true,
+        F11: true,
+        F12: false,
+      });
+    }
   }, [searchOrderNo]);
 
   const handleF3Click = () => {
+    searchPermission(false);
+    editPermission(true);
+    setButtonState({
+      F1: true,
+      F2: true,
+      F3: true,
+      F4: true,
+      F5: true,
+      F6: true,
+      F7: false,
+      F8: false,
+      F9: false,
+      F10: false,
+      F11: false,
+      F12: true,
+    });
     try {
       setPlanData((prevData) => ({
         ...prevData,
@@ -221,10 +330,29 @@ export default function PlanInfo() {
             cancelButtonText: "ไม่ใช่",
           });
           if (result.isConfirmed) {
+            searchPermission(true);
+            editPermission(false);
+            setButtonState({
+              F1: true,
+              F2: false,
+              F3: false,
+              F4: false,
+              F5: false,
+              F6: false,
+              F7: false,
+              F8: false,
+              F9: true,
+              F10: false,
+              F11: false,
+              F12: false,
+            });
+
             await createResult();
             await createPlan();
             await createSchedule();
             await createWip();
+            // await searchOrderData(searchOrderNo);
+            // await selectPartsData(searchOrderNo, searchPlanNo);
           }
         }
       }
@@ -1865,6 +1993,7 @@ export default function PlanInfo() {
                             <label className="w-10 text-xs ml-7">Pt_Mate</label>
                             <div className="w-auto">
                               <input
+                                id="Pt_Material"
                                 type="text"
                                 className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-24 h-7"
                               />
@@ -2600,115 +2729,125 @@ export default function PlanInfo() {
                       <div className="flex flex-wrap gap-4">
                         <button
                           className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
-                            !isSearchOrderNoFilled
+                            buttonState.F1
                               ? "opacity-50 cursor-not-allowed"
                               : ""
                           }`}
-                          disabled={!isSearchOrderNoFilled}
+                          disabled={buttonState.F1}
                         >
                           Plan Copy <br /> 引用 (F1)
                         </button>
                         <button
                           className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
-                            !isSearchOrderNoFilled
+                            buttonState.F2
                               ? "opacity-50 cursor-not-allowed"
                               : ""
                           }`}
-                          disabled={!isSearchOrderNoFilled}
+                          disabled={buttonState.F2}
                         >
                           Edit <br /> 編集 (F2)
                         </button>
                         <button
                           className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
-                            !isSearchOrderNoFilled
+                            buttonState.F3
                               ? "opacity-50 cursor-not-allowed"
                               : ""
                           }`}
-                          disabled={!isSearchOrderNoFilled}
+                          disabled={buttonState.F3}
                           onClick={handleF3Click}
                         >
                           New Add <br /> 追加 (F3)
                         </button>
                         <button
                           className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
-                            !isSearchOrderNoFilled
+                            buttonState.F4
                               ? "opacity-50 cursor-not-allowed"
                               : ""
                           }`}
-                          disabled={!isSearchOrderNoFilled}
+                          disabled={buttonState.F4}
                           onClick={handleF4Click}
                         >
                           Sub-Con <br /> 手配 (F4)
                         </button>
                         <button
                           className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
-                            !isSearchOrderNoFilled
+                            buttonState.F5
                               ? "opacity-50 cursor-not-allowed"
                               : ""
                           }`}
-                          disabled={!isSearchOrderNoFilled}
+                          disabled={buttonState.F5}
                         >
                           Plan <br /> 計画 (F5)
                         </button>
                         <button
                           className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
-                            !isSearchOrderNoFilled
+                            buttonState.F6
                               ? "opacity-50 cursor-not-allowed"
                               : ""
                           }`}
-                          disabled={!isSearchOrderNoFilled}
+                          disabled={buttonState.F6}
                         >
                           P Sheet All <br /> 全頁 (F6)
                         </button>
                         <button
                           className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
-                            !isSearchOrderNoFilled
+                            buttonState.F7
                               ? "opacity-50 cursor-not-allowed"
                               : ""
                           }`}
-                          disabled={!isSearchOrderNoFilled}
+                          disabled={buttonState.F7}
                         >
                           P Sheet 1P <br /> 1頁 (F7)
                         </button>
                         <button
                           className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
-                            !isSearchOrderNoFilled
+                            buttonState.F8
                               ? "opacity-50 cursor-not-allowed"
                               : ""
                           }`}
-                          disabled={!isSearchOrderNoFilled}
+                          disabled={buttonState.F8}
                         >
                           NextParts <br /> 別部 (F8)
                         </button>
                         <button
-                          className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center"
+                          className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
+                            buttonState.F9
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
                           onClick={handleF9Click}
+                          disable={buttonState.F9}
                         >
                           Save <br /> 登録 (F9)
                         </button>
                         <button
                           className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center ${
-                            !isSearchOrderNoFilled
+                            buttonState.F10
                               ? "opacity-50 cursor-not-allowed"
                               : ""
                           }`}
-                          disabled={!isSearchOrderNoFilled}
+                          disabled={buttonState.F10}
                           onClick={handleF10Click}
                         >
                           Delete <br /> 削除 (F10)
                         </button>
                         <button
                           className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-sm text-white w-auto text-center ${
-                            !isSearchOrderNoFilled
+                            buttonState.F11
                               ? "opacity-50 cursor-not-allowed"
                               : ""
                           }`}
-                          disabled={!isSearchOrderNoFilled}
+                          disabled={buttonState.F11}
                         >
                           NextInput <br /> 次へ (F11)
                         </button>
                         <button
-                          className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center"
+                          className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-sm text-white w-auto text-center ${
+                            buttonState.F12
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={buttonState.F12}
                           onClick={handleF12Click}
                         >
                           Exit <br /> 終了 (F12)
@@ -2887,4 +3026,69 @@ export default function PlanInfo() {
 
 const searchPermission = (status) => {
   document.getElementById("Search_Order_No").disabled = !status;
+  document.getElementById("Search_Parts_No").disabled = !status;
+  console.log(`Search Permission is ${!status}`)
+};
+
+const editPermission = (status) => {
+  document.getElementById("Parts_No").disabled = !status;
+  document.getElementById("Pt_Delivery").disabled = !status;
+  document.getElementById("Pl_Reg_Person_CD").disabled = !status;
+  document.getElementById("Parts_CD").disabled = !status;
+  document.getElementById("Pt_Material").disabled = !status;
+  document.getElementById("Pt_Qty").disabled = !status;
+  document.getElementById("Pt_Unit_CD").disabled = !status;
+  document.getElementById("Pt_Split").disabled = !status;
+  document.getElementById("Pt_Spare_Qty").disabled = !status;
+  document.getElementById("Pt_NG_Qty").disabled = !status;
+  document.getElementById("Connect_Od_No").disabled = !status;
+  document.getElementById("Connect_Pt_No").disabled = !status;
+  document.getElementById("Connect_Pr_No").disabled = !status;
+  document.getElementById("Pt_Pending").disabled = !status;
+  document.getElementById("Outside").disabled = !status;
+  document.getElementById("Money_Object").disabled = !status;
+  document.getElementById("Pl_St_Rev_Day").disabled = !status;
+  document.getElementById("Pl_Ed_Rev_Day").disabled = !status;
+  document.getElementById("Info1").disabled = !status;
+  document.getElementById("Info2").disabled = !status;
+  document.getElementById("Info3").disabled = !status;
+  document.getElementById("Info4").disabled = !status;
+  document.getElementById("Info5").disabled = !status;
+  document.getElementById("Info6").disabled = !status;
+  document.getElementById("Info_Chk1").disabled = !status;
+  document.getElementById("Info_Chk2").disabled = !status;
+  document.getElementById("Info_Chk3").disabled = !status;
+  document.getElementById("Info_Chk4").disabled = !status;
+  document.getElementById("Info_Chk5").disabled = !status;
+  document.getElementById("Info_Chk6").disabled = !status;
+  document.getElementById("Pt_CAT1").disabled = !status;
+  document.getElementById("Pt_CAT2").disabled = !status;
+  document.getElementById("Pt_CAT3").disabled = !status;
+  document.getElementById("Pl_Progress_CD").disabled = !status;
+  // document.getElementById("Pt_Instructions").disabled = !status;
+  // document.getElementById("Pt_Remark").disabled = !status;
+  // document.getElementById("Pt_Information").disabled = !status;
+  document.getElementById("Pl_Schedule_CD").disabled = !status;
+  document.getElementById("Pl_Reg_Date").disabled = !status;
+  document.getElementById("Pt_Complete_Date").disabled = !status;
+  document.getElementById("Pt_I_Date").disabled = !status;
+  // document.getElementById("Pt_Shipment_Date").disabled = !status;
+  // document.getElementById("Pt_Calc_Date").disabled = !status;
+  document.getElementById("Pl_Upd_Date").disabled = !status;
+
+  for (let i=1;i<37;i++){
+    document.getElementById(`PPC${i}`).disabled = !status
+    document.getElementById(`PMT${i}`).disabled = !status
+    document.getElementById(`PPT${i}`).disabled = !status
+    // document.getElementById(`INN${i}`).disabled = !status
+    document.getElementById(`T_Type${i}`).disabled = !status
+    document.getElementById(`P_Type${i}`).disabled = !status
+    document.getElementById(`S_Type${i}`).disabled = !status
+    document.getElementById(`PPD${i}`).disabled = !status
+    document.getElementById(`PPV${i}`).disabled = !status
+    document.getElementById(`RPD${i}`).disabled = !status
+    document.getElementById(`RMT${i}`).disabled = !status
+    document.getElementById(`RPT${i}`).disabled = !status
+    document.getElementById(`RPN${i}`).disabled = !status
+  }
 };
