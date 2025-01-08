@@ -72,10 +72,19 @@ export default function SalesInfo() {
       dateWithCurrentTime.setHours(dateWithCurrentTime.getHours() + 7);
 
       const localYear = dateWithCurrentTime.getFullYear();
-      const localMonth = String(dateWithCurrentTime.getMonth() + 1).padStart(2,"0");
+      const localMonth = String(dateWithCurrentTime.getMonth() + 1).padStart(
+        2,
+        "0"
+      );
       const localDay = String(dateWithCurrentTime.getDate()).padStart(2, "0");
-      const localHours = String(dateWithCurrentTime.getHours()).padStart(2,"0");
-      const localMinutes = String(dateWithCurrentTime.getMinutes()).padStart(2,"0");
+      const localHours = String(dateWithCurrentTime.getHours()).padStart(
+        2,
+        "0"
+      );
+      const localMinutes = String(dateWithCurrentTime.getMinutes()).padStart(
+        2,
+        "0"
+      );
 
       formattedValue = `${localYear}-${localMonth}-${localDay}T${localHours}:${localMinutes}`;
     }
@@ -418,7 +427,7 @@ export default function SalesInfo() {
   const handleF11Click = async () => {
     const sorderNoInput = document.getElementById("Search_SOrder_No");
     sorderNoInput.disabled = false;
-  
+
     try {
       const result = await Swal.fire({
         title: "Confirm",
@@ -428,7 +437,7 @@ export default function SalesInfo() {
         confirmButtonText: "Yes",
         cancelButtonText: "No",
       });
-  
+
       if (result.isConfirmed) {
         const confirmCancelEdit = await Swal.fire({
           title: "Reconfirm",
@@ -438,12 +447,12 @@ export default function SalesInfo() {
           confirmButtonText: "Yes",
           cancelButtonText: "No",
         });
-  
+
         if (confirmCancelEdit.isConfirmed) {
           setSorderData("");
-          setSearch_SOrder_No(""); 
-          toggleEditMode(); 
-  
+          setSearch_SOrder_No("");
+          toggleEditMode();
+
           setButtonState({
             F1: true,
             F2: false,
@@ -470,7 +479,7 @@ export default function SalesInfo() {
         confirmButtonText: "ตกลง",
       });
     }
-  };  
+  };
 
   const handleF12Click = async () => {
     try {
@@ -695,15 +704,17 @@ export default function SalesInfo() {
                           disabled={!isEditable}
                           className="border-gray-500 border-solid border-2 rounded-md bg-[#72aaf8] w-[50px] h-8"
                         >
-                          <option value=""></option>
+                          <option value={sorderData?.Quote_CD}>
+                            {sorderData?.Quote_CD}
+                          </option>
                           {Array.isArray(odquoteData) &&
                           odquoteData.length > 0 ? (
                             <>
-                              <option disabled>CD | Name &nbsp;| Remark</option>
+                              <option disabled>CD | Name | Remark</option>
                               {odquoteData.map((item, index) => (
                                 <option key={index} value={item.Od_Quote_CD}>
-                                  {item.Od_Quote_CD} {generateSpaces(2)} |{" "}
-                                  {item.Od_Quote_Abb} | {item.Od_Quote_Remark}
+                                  {item.Od_Quote_CD} | {item.Od_Quote_Abb} |{" "}
+                                  {item.Od_Quote_Remark}
                                 </option>
                               ))}
                             </>
@@ -800,15 +811,16 @@ export default function SalesInfo() {
                         disabled={!isEditable}
                         className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8"
                       >
-                        <option value=""></option>
+                        <option value={sorderData?.Currency_CD}>
+                          {sorderData?.Currency_CD}
+                        </option>
                         {Array.isArray(currencyData) &&
                         currencyData.length > 0 ? (
                           <>
                             <option disabled>Currency_CD | Currency_Abb</option>
                             {currencyData.map((item, index) => (
                               <option key={index} value={item.Currency_CD}>
-                                {item.Currency_CD} {generateSpaces(18)} |{" "}
-                                {item.Currency_Abb}
+                                {item.Currency_CD} | {item.Currency_Abb}
                               </option>
                             ))}
                           </>
@@ -855,14 +867,15 @@ export default function SalesInfo() {
                         disabled={!isEditable}
                         className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8"
                       >
-                        <option value=""></option>
+                        <option value={sorderData?.Sales_Grp_CD}>
+                          {sorderData?.Sales_Grp_CD}
+                        </option>
                         {Array.isArray(WorkgData) && WorkgData.length > 0 ? (
                           <>
                             <option disabled>WorkG_CD | WorkG_Abb</option>
                             {WorkgData.map((item, index) => (
                               <option key={index} value={item.WorkG_CD}>
-                                {item.WorkG_CD} {generateSpaces(5)} |{" "}
-                                {item.WorkG_Abb}
+                                {item.WorkG_CD} | {item.WorkG_Abb}
                               </option>
                             ))}
                           </>
@@ -948,15 +961,15 @@ export default function SalesInfo() {
                         disabled={!isEditable}
                         className="border-gray-500 border-solid border-2 rounded-md bg-[#72aaf8] w-full h-8"
                       >
-                        <option value=""></option>
+                        <option value={sorderData?.Unit_CD}>
+                          {sorderData?.Unit_CD}
+                        </option>
                         {Array.isArray(UnitsData) && UnitsData.length > 0 ? (
                           <>
                             <option disabled>Unit_CD | Unit_Name</option>
                             {UnitsData.map((item, index) => (
                               <option key={index} value={item.Unit_CD}>
-                                {item.Unit_CD} {generateSpaces(10)} |{" "}
-                                {generateSpaces(1)}
-                                {item.Unit_Name}
+                                {item.Unit_CD} | {item.Unit_Name}
                               </option>
                             ))}
                           </>
@@ -986,14 +999,15 @@ export default function SalesInfo() {
                         disabled={!isEditable}
                         className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8"
                       >
-                        <option value=""></option>
+                        <option value={sorderData?.Price_CD}>
+                          {sorderData?.Price_CD}
+                        </option>
                         {Array.isArray(PriceData) && PriceData.length > 0 ? (
                           <>
                             <option disabled>Price_CD | Price_Abb</option>
                             {PriceData.map((item, index) => (
                               <option key={index} value={item.Price_CD}>
-                                {item.Price_CD} {generateSpaces(11)} |{" "}
-                                {item.Price_Abb}
+                                {item.Price_CD} | {item.Price_Abb}
                               </option>
                             ))}
                           </>
@@ -1040,14 +1054,15 @@ export default function SalesInfo() {
                         disabled={!isEditable}
                         className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full h-8"
                       >
-                        <option value=""></option>
+                        <option value={sorderData?.Sales_Person_CD}>
+                          {sorderData?.Sales_Person_CD}
+                        </option>
                         {Array.isArray(WorkerData) && WorkerData.length > 0 ? (
                           <>
                             <option disabled>Worker_CD | Worker_Abb</option>
                             {WorkerData.map((item, index) => (
                               <option key={index} value={item.Worker_CD}>
-                                {item.Worker_CD} {generateSpaces(10)}|{" "}
-                                {item.Worker_Abb}
+                                {item.Worker_CD} | {item.Worker_Abb}
                               </option>
                             ))}
                           </>
@@ -1085,15 +1100,16 @@ export default function SalesInfo() {
                         disabled={!isEditable}
                         className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-28 h-8"
                       >
-                        <option value=""></option>
+                        <option value={sorderData?.Customer_CD}>
+                          {sorderData?.Customer_CD}
+                        </option>
                         {Array.isArray(CustomerData) &&
                         CustomerData.length > 0 ? (
                           <>
                             <option disabled>Customer_CD | Customer_Abb</option>
                             {CustomerData.map((item, index) => (
                               <option key={index} value={item.Customer_CD}>
-                                {item.Customer_CD} {generateSpaces(11)} |{" "}
-                                {item.Customer_Abb}
+                                {item.Customer_CD} | {item.Customer_Abb}
                               </option>
                             ))}
                           </>
@@ -1128,7 +1144,9 @@ export default function SalesInfo() {
                         disabled={!isEditable}
                         className="border-gray-500 border-solid border-2 rounded-md bg-white w-[87px] h-8"
                       >
-                        <option value=""></option>
+                        <option value={sorderData?.Contract_Docu_CD}>
+                          {sorderData?.Contract_Docu_CD}
+                        </option>
                         {Array.isArray(ContractDocuData) &&
                         ContractDocuData.length > 0 ? (
                           <>
@@ -1137,7 +1155,7 @@ export default function SalesInfo() {
                             </option>
                             {ContractDocuData.map((item, index) => (
                               <option key={index} value={item.Contract_Docu_CD}>
-                                {item.Contract_Docu_CD} {generateSpaces(16)} |{" "}
+                                {item.Contract_Docu_CD} |{" "}
                                 {item.Contract_Docu_Name}
                               </option>
                             ))}
@@ -1173,14 +1191,15 @@ export default function SalesInfo() {
                         disabled={!isEditable}
                         className="border-gray-500 border-solid border-2 rounded-md bg-white w-full h-8"
                       >
-                        <option value=""></option>
+                        <option value={sorderData?.Destination_CD}>
+                          {sorderData?.Destination_CD}
+                        </option>
                         {Array.isArray(WorkgData) && WorkgData.length > 0 ? (
                           <>
                             <option disabled>WorkG_CD | WorkG_Abb</option>
                             {WorkgData.map((item, index) => (
                               <option key={index} value={item.WorkG_CD}>
-                                {item.WorkG_CD} {generateSpaces(5)} |{" "}
-                                {item.WorkG_Abb}
+                                {item.WorkG_CD} | {item.WorkG_Abb}
                               </option>
                             ))}
                           </>
@@ -1235,14 +1254,15 @@ export default function SalesInfo() {
                         disabled={!isEditable}
                         className="border-gray-500 border-solid border-2 rounded-md bg-white w-[87px] h-8"
                       >
-                        <option value=""></option>
+                        <option value={sorderData?.Supply_CD}>
+                          {sorderData?.Supply_CD}
+                        </option>
                         {Array.isArray(SupplyData) && SupplyData.length > 0 ? (
                           <>
                             <option disabled>Supply_CD | Supply_Abb</option>
                             {SupplyData.map((item, index) => (
                               <option key={index} value={item.Supply_CD}>
-                                {item.Supply_CD} {generateSpaces(14)} |{" "}
-                                {item.Supply_Abb}
+                                {item.Supply_CD} | {item.Supply_Abb}
                               </option>
                             ))}
                           </>
@@ -1322,7 +1342,9 @@ export default function SalesInfo() {
                           disabled={!isEditable}
                           className="border-gray-500 border-solid border-2 rounded-md bg-white w-[87px] h-8"
                         >
-                          <option value=""></option>
+                          <option value={sorderData?.SO_Reg_Person_CD}>
+                            {sorderData?.SO_Reg_Person_CD}
+                          </option>
                           {Array.isArray(WorkerData) &&
                           WorkerData.length > 0 ? (
                             <>
@@ -1331,8 +1353,7 @@ export default function SalesInfo() {
                               </option>
                               {WorkerData.map((item, index) => (
                                 <option key={index} value={item.Worker_CD}>
-                                  {item.Worker_CD} {generateSpaces(9)} |{" "}
-                                  {item.Worker_Name} {generateSpaces(9)} |{" "}
+                                  {item.Worker_CD} | {item.Worker_Name} |{" "}
                                   {item.Worker_Remark}
                                 </option>
                               ))}
@@ -1363,7 +1384,9 @@ export default function SalesInfo() {
                           disabled={!isEditable}
                           className="border-gray-500 border-solid border-2 rounded-md bg-white w-[87px] h-8"
                         >
-                          <option value=""></option>
+                          <option value={sorderData?.SO_Upd_Person_CD}>
+                            {sorderData?.SO_Upd_Person_CD}
+                          </option>
                           {Array.isArray(WorkerData) &&
                           WorkerData.length > 0 ? (
                             <>
@@ -1372,8 +1395,7 @@ export default function SalesInfo() {
                               </option>
                               {WorkerData.map((item, index) => (
                                 <option key={index} value={item.Worker_CD}>
-                                  {item.Worker_CD} {generateSpaces(9)} |{" "}
-                                  {item.Worker_Name} {generateSpaces(9)} |{" "}
+                                  {item.Worker_CD} | {item.Worker_Name} |{" "}
                                   {item.Worker_Remark}
                                 </option>
                               ))}
@@ -1474,7 +1496,9 @@ export default function SalesInfo() {
                           disabled={!isEditable}
                           className="border-gray-500 border-solid border-2 rounded-md bg-white w-[87px] h-8"
                         >
-                          <option value=""></option>
+                          <option value={sorderData?.Specific_CD}>
+                            {sorderData?.Specific_CD}
+                          </option>
                           {Array.isArray(SpecificData) &&
                           SpecificData.length > 0 ? (
                             <>
@@ -1483,8 +1507,7 @@ export default function SalesInfo() {
                               </option>
                               {SpecificData.map((item, index) => (
                                 <option key={index} value={item.Specific_CD}>
-                                  {item.Specific_CD} {generateSpaces(14)} |{" "}
-                                  {item.Specific_Name} {generateSpaces(7)} |{" "}
+                                  {item.Specific_CD} | {item.Specific_Name} |{" "}
                                   {item.Specific_Remark}
                                 </option>
                               ))}
@@ -1515,7 +1538,9 @@ export default function SalesInfo() {
                           disabled={!isEditable}
                           className="border-gray-500 border-solid border-2 rounded-md bg-white w-[87px] h-8"
                         >
-                          <option value=""></option>
+                          <option value={sorderData?.SO_Progress_CD}>
+                            {sorderData?.SO_Progress_CD}
+                          </option>
                           {Array.isArray(OdProgressData) &&
                           OdProgressData.length > 0 ? (
                             <>
@@ -1525,8 +1550,8 @@ export default function SalesInfo() {
                               </option>
                               {OdProgressData.map((item, index) => (
                                 <option key={index} value={item.Od_Progress_CD}>
-                                  {item.Od_Progress_CD} {generateSpaces(18)} |{" "}
-                                  {item.Od_Progress_Name} {generateSpaces(7)} |{" "}
+                                  {item.Od_Progress_CD} |{" "}
+                                  {item.Od_Progress_Name} |{" "}
                                   {item.Od_Progress_Remark}
                                 </option>
                               ))}
@@ -1594,7 +1619,9 @@ export default function SalesInfo() {
                         disabled={!isEditable}
                         className="border-gray-500 border-solid border-2 rounded-md bg-white w-[87px] h-8"
                       >
-                        <option value=""></option>
+                        <option value={sorderData?.Delivery_CD}>
+                          {sorderData?.Delivery_CD}
+                        </option>
                         {Array.isArray(DeliveryData) &&
                         DeliveryData.length > 0 ? (
                           <>
@@ -1603,8 +1630,7 @@ export default function SalesInfo() {
                             </option>
                             {DeliveryData.map((item, index) => (
                               <option key={index} value={item.Delivery_CD}>
-                                {item.Delivery_CD} {generateSpaces(16)} |{" "}
-                                {item.Delivery_Name} {generateSpaces(7)} |{" "}
+                                {item.Delivery_CD} | {item.Delivery_Name} |{" "}
                                 {item.Delivery_Remark}
                               </option>
                             ))}
@@ -1851,14 +1877,15 @@ export default function SalesInfo() {
                       disabled={!isEditable}
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-20 h-8"
                     >
-                      <option value=""></option>
+                      <option value={sorderData?.Item1_CD}>
+                        {sorderData?.Item1_CD}
+                      </option>
                       {Array.isArray(Item1Data) && Item1Data.length > 0 ? (
                         <>
                           <option disabled>Item1_CD | Item1_Name</option>
                           {Item1Data.map((item, index) => (
                             <option key={index} value={item.Item1_CD}>
-                              {item.Item1_CD} {generateSpaces(11)} |{" "}
-                              {item.Item1_Name}
+                              {item.Item1_CD} | {item.Item1_Name}
                             </option>
                           ))}
                         </>
@@ -2114,16 +2141,17 @@ export default function SalesInfo() {
                       disabled={!isEditable}
                       className="border-gray-500 border-solid border-2 rounded-md bg-white w-16 h-8"
                     >
-                      <option value=""></option>
+                      <option value={sorderData?.Coating_CD}>
+                        {sorderData?.Coating_CD}
+                      </option>
                       {Array.isArray(CoatingData) && CoatingData.length > 0 ? (
                         <>
-                          <option disabled>Currency_CD | Currency_Abb</option>
+                          <option disabled>Coating_CD | Coating_Name</option>
                           {CoatingData.sort(
                             (a, b) => a.Coating_CD - b.Coating_CD
                           ).map((item, index) => (
                             <option key={index} value={item.Coating_CD}>
-                              {item.Coating_CD} {generateSpaces(18)} |{" "}
-                              {item.Coating_Name}
+                              {item.Coating_CD} | {item.Coating_Name}
                             </option>
                           ))}
                         </>
@@ -2217,15 +2245,16 @@ export default function SalesInfo() {
                       disabled={!isEditable}
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-16 h-8"
                     >
-                      <option value=""></option>
+                      <option value={sorderData?.Request1_CD}>
+                        {sorderData?.Request1_CD}
+                      </option>
                       {Array.isArray(Request1Data) &&
                       Request1Data.length > 0 ? (
                         <>
                           <option disabled>Request1_CD | Request1_Name</option>
                           {Request1Data.map((item, index) => (
                             <option key={index} value={item.Request1_CD}>
-                              {item.Request1_CD} {generateSpaces(18)} |{" "}
-                              {item.Request1_Name}
+                              {item.Request1_CD} | {item.Request1_Name}
                             </option>
                           ))}
                         </>
@@ -2251,15 +2280,16 @@ export default function SalesInfo() {
                       disabled={!isEditable}
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-16 h-8 ml-2"
                     >
-                      <option value=""></option>
+                      <option value={sorderData?.Request2_CD}>
+                        {sorderData?.Request2_CD}
+                      </option>
                       {Array.isArray(Request2Data) &&
                       Request2Data.length > 0 ? (
                         <>
                           <option disabled>Request2_CD | Request2_Name</option>
                           {Request2Data.map((item, index) => (
                             <option key={index} value={item.Request2_CD}>
-                              {item.Request2_CD} {generateSpaces(18)} |{" "}
-                              {item.Request2_Name}
+                              {item.Request2_CD} | {item.Request2_Name}
                             </option>
                           ))}
                         </>
@@ -2285,7 +2315,9 @@ export default function SalesInfo() {
                       disabled={!isEditable}
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-16 h-8 ml-2"
                     >
-                      <option value=""></option>
+                      <option value={sorderData?.Request3_CD}>
+                        {sorderData?.Request3_CD}
+                      </option>
                       {Array.isArray(Request3Data) &&
                       Request3Data.length > 0 ? (
                         <>
@@ -2294,8 +2326,7 @@ export default function SalesInfo() {
                           </option>
                           {Request3Data.map((item, index) => (
                             <option key={index} value={item.Request3_CD}>
-                              {item.Request3_CD} {generateSpaces(18)} |{" "}
-                              {item.Request3_Abb} {generateSpaces(20)} |{" "}
+                              {item.Request3_CD} | {item.Request3_Abb} |{" "}
                               {item.Request3_Name}
                             </option>
                           ))}
@@ -2375,14 +2406,15 @@ export default function SalesInfo() {
                       disabled={!isEditable}
                       className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-32 h-8"
                     >
-                      <option value=""></option>
+                      <option value={sorderData?.Pro_Req_Dep_CD}>
+                        {sorderData?.Pro_Req_Dep_CD}
+                      </option>
                       {Array.isArray(WorkgData) && WorkgData.length > 0 ? (
                         <>
                           <option disabled>WorkG_CD | WorkG_Name</option>
                           {WorkgData.map((item, index) => (
                             <option key={index} value={item.WorkG_CD}>
-                              {item.WorkG_CD} {generateSpaces(5)} |{" "}
-                              {item.WorkG_Name}
+                              {item.WorkG_CD} | {item.WorkG_Name}
                             </option>
                           ))}
                         </>
