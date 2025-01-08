@@ -902,11 +902,10 @@ export default function CostList() {
                             value={costListData?.S_Order_No || ""}
                             onChange={handleCostListInputChange}
                             type="text"
-                            className={`border-solid border-2 rounded-md py-0.5 w-full ${
-                              formState.Order_No
-                                ? "bg-[#ccffff] border-gray-500"
-                                : "bg-gray-200 border-gray-400"
-                            }`}
+                            className={`border-solid border-2 rounded-md py-0.5 w-full ${formState.Order_No
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-gray-200 border-gray-400"
+                              }`}
                           />
                         </div>
 
@@ -967,7 +966,7 @@ export default function CostList() {
                           >
                             <option value=""></option>
                             {Array.isArray(WorkerData) &&
-                            WorkerData.length > 0 ? (
+                              WorkerData.length > 0 ? (
                               WorkerData.map((item, index) => (
                                 <option key={index} value={item.Worker_CD}>
                                   {item.Worker_CD}
@@ -999,11 +998,10 @@ export default function CostList() {
                             value={costListData?.S_NAV_Name || ""}
                             onChange={handleCostListInputChange}
                             type="text"
-                            className={`border-solid border-2 rounded-md py-0.5 w-full ${
-                              formState.S_NAV_Name.enabled
-                                ? "bg-[#ccffff] border-gray-500"
-                                : "bg-white border-gray-500"
-                            }`}
+                            className={`border-solid border-2 rounded-md py-0.5 w-full ${formState.S_NAV_Name.enabled
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-white border-gray-500"
+                              }`}
                           />
                         </div>
 
@@ -1021,7 +1019,7 @@ export default function CostList() {
                           >
                             <option value=""></option>
                             {Array.isArray(WorkgData) &&
-                            WorkgData.length > 0 ? (
+                              WorkgData.length > 0 ? (
                               WorkgData.map((item, index) => (
                                 <option key={index} value={item.WorkG_CD}>
                                   {item.WorkG_CD}
@@ -1052,7 +1050,7 @@ export default function CostList() {
                           >
                             <option value=""></option>
                             {Array.isArray(WorkgData) &&
-                            WorkgData.length > 0 ? (
+                              WorkgData.length > 0 ? (
                               WorkgData.map((item, index) => (
                                 <option key={index} value={item.WorkG_CD}>
                                   {item.WorkG_CD}
@@ -1084,7 +1082,7 @@ export default function CostList() {
                           >
                             <option value=""></option>
                             {Array.isArray(WorkgData) &&
-                            WorkgData.length > 0 ? (
+                              WorkgData.length > 0 ? (
                               WorkgData.map((item, index) => (
                                 <option key={index} value={item.WorkG_CD}>
                                   {item.WorkG_CD}
@@ -1136,7 +1134,7 @@ export default function CostList() {
                           >
                             <option value=""></option>
                             {Array.isArray(WorkgData) &&
-                            WorkgData.length > 0 ? (
+                              WorkgData.length > 0 ? (
                               WorkgData.map((item, index) => (
                                 <option key={index} value={item.WorkG_CD}>
                                   {item.WorkG_CD}
@@ -1150,83 +1148,90 @@ export default function CostList() {
                         <input
                           type="text"
                           className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                          value={destinationName3}
+                          disabled={!formState.Not_Pd_Grp1_Input}
                         />
 
-                        <div className="flex justify-between w-48 gap-2">
-                          <label className=" font-bold text-xs mr-5">
+                        <div className="px-2 w-auto text-center pl-7">
+                          <label className="font-bold text-xs">
                             Price_CAT
                           </label>
-                          <div className=" w-16">
-                            <select
-                              disabled={!formState.S_Price_CD.enabled}
-                              id="S_Price_CD"
-                              value={costListData?.S_Price_CD || ""}
-                              onChange={handleCostListInputChange}
-                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                formState.S_Price_CD.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
-                            >
-                              <option value=""></option>
-                              {Array.isArray(PriceData) &&
-                              PriceData.length > 0 ? (
-                                PriceData.map((item, index) => (
-                                  <option key={index} value={item.Price_CD}>
-                                    {item.Price_CD}
-                                  </option>
-                                ))
-                              ) : (
-                                <option value="">ไม่มีข้อมูล</option>
-                              )}
-                            </select>
-                          </div>
-                          <div className="w-16 ">
-                            <input
-                              disabled={!formState.Price_CAT_Input}
-                              id="S_Price_Name"
-                              value={PriceName || ""}
-                              onChange={(event) => setPriceData(event)}
-                              type="text"
-                              className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                            />
-                          </div>
                         </div>
-                        <div className="flex justify-between w-auto gap-2 ms-5">
-                          <label className="w-20 font-bold text-xs">
+                        <div className="relative w-24">
+                          <select
+                            disabled={!formState.S_Price_CD.enabled}
+                            id="S_Price_CD"
+                            value={costListData?.S_Price_CD || ""}
+                            onChange={handleCostListInputChange}
+                            className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${formState.S_Price_CD.enabled
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-white border-gray-500"
+                              }`}
+                          >
+                            <option value=""></option>
+                            {Array.isArray(PriceData) &&
+                              PriceData.length > 0 ? (
+                              PriceData.map((item, index) => (
+                                <option key={index} value={item.Price_CD}>
+                                  {item.Price_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
+                        </div>
+
+                        <input
+                          disabled={!formState.Price_CAT_Input}
+                          id="S_Price_Name"
+                          value={PriceName || ""}
+                          onChange={(event) => setPriceData(event)}
+                          type="text"
+                          className={`border-solid border-2 rounded-md py-0.5 w-32 ml-1 ${formState.Price_CAT_Input
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                            }`}
+                        />
+
+
+                        <div className="px-2 w-auto text-center pl-[54px]">
+                          <label className="font-bold text-xs">
                             Sales_Person
                           </label>
-                          <div className="relative w-40 lg:w-44">
-                            <select
-                              id="S_Sl_Person_CD"
-                              value={costListData?.S_Sl_Person_CD || ""}
-                              onChange={handleCostListInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
-                            >
-                              <option value=""></option>
-                              {Array.isArray(WorkerData) &&
-                              WorkerData.length > 0 ? (
-                                WorkerData.map((item, index) => (
-                                  <option key={index} value={item.Worker_CD}>
-                                    {item.Worker_CD}
-                                  </option>
-                                ))
-                              ) : (
-                                <option value="">ไม่มีข้อมูล</option>
-                              )}
-                            </select>
-                          </div>
-                          <div className="relative w-40 lg:w-44">
-                            <input
-                              disabled={!formState.Sales_Person_Input}
-                              id="S_Sl_Person_Name"
-                              value={selectedSalesGrpAbb2 || ""}
-                              onChange={(event) => setWorkerData(event)}
-                              type="text"
-                              className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                            />
-                          </div>
                         </div>
+                        <div className="relative w-40 lg:w-44">
+                          <select
+                            id="S_Sl_Person_CD"
+                            value={costListData?.S_Sl_Person_CD || ""}
+                            onChange={handleCostListInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8"
+                            disabled={!formState.Sales_Person}
+                          >
+                            <option value=""></option>
+                            {Array.isArray(WorkerData) &&
+                              WorkerData.length > 0 ? (
+                              WorkerData.map((item, index) => (
+                                <option key={index} value={item.Worker_CD}>
+                                  {item.Worker_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
+                        </div>
+
+                        <input
+                          disabled={!formState.Sales_Person_Input}
+                          id="S_Sl_Person_Name"
+                          value={selectedSalesGrpAbb2 || ""}
+                          onChange={(event) => setWorkerData(event)}
+                          type="text"
+                          className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                        />
+
+
                       </div>
                       {/* Group 5 */}
                       <div className="flex pl-5 mt-5">
@@ -1240,155 +1245,162 @@ export default function CostList() {
                             value={costListData?.S_NAV_Size || ""}
                             onChange={handleCostListInputChange}
                             type="text"
-                            className={`border-solid border-2 rounded-md py-0.5 w-full ${
-                              formState.S_NAV_Size.enabled
-                                ? "bg-[#ccffff] border-gray-500"
-                                : "bg-white border-gray-500"
-                            }`}
+                            className={`border-solid border-2 rounded-md py-0.5 w-full ${formState.S_NAV_Size.enabled
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-white border-gray-500"
+                              }`}
                           />
                         </div>
 
-                        <div className="flex justify-between w-48 gap-2 mr-5">
-                          <label className="w-auto font-bold text-xs">
+                        <div className="px-2 w-auto text-center pl-7">
+                          <label className="font-bold text-xs">
                             Not_Pd_Grp2
                           </label>
-                          <div className="relative w-40 lg:w-44">
-                            <select
-                              id="S_No_Pd_Grp_CD2"
-                              value={costListData?.S_No_Pd_Grp_CD2 || ""}
-                              onChange={handleCostListInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
-                            >
-                              <option value=""></option>
-                              {Array.isArray(WorkgData) &&
-                              WorkgData.length > 0 ? (
-                                WorkgData.map((item, index) => (
-                                  <option key={index} value={item.WorkG_CD}>
-                                    {item.WorkG_CD}
-                                  </option>
-                                ))
-                              ) : (
-                                <option value="">ไม่มีข้อมูล</option>
-                              )}
-                            </select>
-                          </div>
-                          <div className="w-20">
-                            <input
-                              type="text"
-                              className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                            />
-                          </div>
                         </div>
-                        <div className="flex justify-between w-auto gap-2 mr-3">
+                        <div className="relative w-24">
+                          <select
+                            id="S_No_Pd_Grp_CD2"
+                            value={costListData?.S_No_Pd_Grp_CD2 || ""}
+                            onChange={handleCostListInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full h-8"
+                          >
+                            <option value=""></option>
+                            {Array.isArray(WorkgData) &&
+                              WorkgData.length > 0 ? (
+                              WorkgData.map((item, index) => (
+                                <option key={index} value={item.WorkG_CD}>
+                                  {item.WorkG_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
+                        </div>
+
+                        <input
+                          type="text"
+                          className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                        />
+
+
+                        <div className="px-2 w-auto text-center pl-7">
                           <label className="w-auto font-bold text-xs">
                             Request_CAT
                           </label>
-                          <div className="w-16">
-                            <select
-                              disabled={!formState.S_Request1_CD.enabled}
-                              id="S_Request1_CD"
-                              value={costListData?.S_Request1_CD || ""}
-                              onChange={handleCostListInputChange}
-                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                formState.S_Request1_CD.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
-                            >
-                              <option value=""></option>
-                              {Array.isArray(Request1Data) &&
-                              Request1Data.length > 0 ? (
-                                Request1Data.map((item, index) => (
-                                  <option key={index} value={item.Request1_CD}>
-                                    {item.Request1_CD}
-                                  </option>
-                                ))
-                              ) : (
-                                <option value="">ไม่มีข้อมูล</option>
-                              )}
-                            </select>
-                          </div>
-                          <div className="w-16">
-                            <input
-                              disabled={!formState.Request_CAT_Input}
-                              id="S_Request1_Name"
-                              value={request1Name}
-                              onChange={(event) => setRequest1Data(event)}
-                              type="text"
-                              className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                            />
-                          </div>
-                          <div className="w-16">
-                            <select
-                              disabled={!formState.S_Request2_CD.enabled}
-                              id="S_Request2_CD"
-                              value={costListData?.S_Request2_CD || ""}
-                              onChange={handleCostListInputChange}
-                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                formState.S_Request2_CD.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
-                            >
-                              <option value=""></option>
-                              {Array.isArray(Request2Data) &&
-                              Request2Data.length > 0 ? (
-                                Request2Data.map((item, index) => (
-                                  <option key={index} value={item.Request2_CD}>
-                                    {item.Request2_CD}
-                                  </option>
-                                ))
-                              ) : (
-                                <option value="">ไม่มีข้อมูล</option>
-                              )}
-                            </select>
-                          </div>
-                          <div className="w-16">
-                            <input
-                              disabled={!formState.Request_CAT_Input2}
-                              id="S_Request2_Name"
-                              value={request2Name}
-                              onChange={(event) => setRequest2Data(event)}
-                              type="text"
-                              className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                            />
-                          </div>
-                          <div className="w-16">
-                            <select
-                              disabled={!formState.S_Request3_CD.enabled}
-                              id="S_Request3_CD"
-                              value={costListData?.S_Request3_CD || ""}
-                              onChange={handleCostListInputChange}
-                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                formState.S_Request3_CD.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
-                            >
-                              <option value=""></option>
-                              {Array.isArray(Request3Data) &&
-                              Request3Data.length > 0 ? (
-                                Request3Data.map((item, index) => (
-                                  <option key={index} value={item.Request3_CD}>
-                                    {item.Request3_CD}
-                                  </option>
-                                ))
-                              ) : (
-                                <option value="">ไม่มีข้อมูล</option>
-                              )}
-                            </select>
-                          </div>
-                          <div className="w-16">
-                            <input
-                              disabled={!formState.Request_CAT_Input3}
-                              id="S_Request3_Name"
-                              value={request3Name}
-                              onChange={(event) => setRequest3Data(event)}
-                              type="text"
-                              className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                            />
-                          </div>
                         </div>
+                        <div className="relative w-24">
+                          <select
+                            disabled={!formState.S_Request1_CD.enabled}
+                            id="S_Request1_CD"
+                            value={costListData?.S_Request1_CD || ""}
+                            onChange={handleCostListInputChange}
+                            className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${formState.S_Request1_CD.enabled
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-white border-gray-500"
+                              }`}
+                          >
+                            <option value=""></option>
+                            {Array.isArray(Request1Data) &&
+                              Request1Data.length > 0 ? (
+                              Request1Data.map((item, index) => (
+                                <option key={index} value={item.Request1_CD}>
+                                  {item.Request1_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
+                        </div>
+
+                        <input
+                          disabled={!formState.Request_CAT_Input}
+                          id="S_Request1_Name"
+                          value={request1Name}
+                          onChange={(event) => setRequest1Data(event)}
+                          type="text"
+                          className={`border-solid border-2 rounded-md py-0.5 w-32 ml-1 ${formState.Request_CAT_Input
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                            }`}
+                        />
+
+                        <div className="relative w-24 ml-1">
+                          <select
+                            disabled={!formState.S_Request2_CD.enabled}
+                            id="S_Request2_CD"
+                            value={costListData?.S_Request2_CD || ""}
+                            onChange={handleCostListInputChange}
+                            className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${formState.Request_CAT_Select2
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-gray-200 border-gray-400"
+                              }`}
+                          >
+                            <option value=""></option>
+                            {Array.isArray(Request2Data) &&
+                              Request2Data.length > 0 ? (
+                              Request2Data.map((item, index) => (
+                                <option key={index} value={item.Request2_CD}>
+                                  {item.Request2_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
+                        </div>
+
+                        <input
+                          disabled={!formState.Request_CAT_Input2}
+                          id="S_Request2_Name"
+                          value={request2Name}
+                          onChange={(event) => setRequest2Data(event)}
+                          type="text"
+                          className={`border-solid border-2 rounded-md py-0.5 w-32 ml-1 ${formState.Request_CAT_Input2
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                            }`}
+                        />
+
+                        <div className="relative w-24 ml-1">
+                          <select
+                            disabled={!formState.S_Request3_CD.enabled}
+                            id="S_Request3_CD"
+                            value={costListData?.S_Request3_CD || ""}
+                            onChange={handleCostListInputChange}
+                            className={`border-solid border-2 rounded-md py-0.5 w-full h-8 ${formState.Request_CAT_Select3
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-gray-200 border-gray-400"
+                              }`}
+                          >
+                            <option value=""></option>
+                            {Array.isArray(Request3Data) &&
+                              Request3Data.length > 0 ? (
+                              Request3Data.map((item, index) => (
+                                <option key={index} value={item.Request3_CD}>
+                                  {item.Request3_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
+                        </div>
+
+                        <input
+                          disabled={!formState.Request_CAT_Input3}
+                          id="S_Request3_Name"
+                          value={request3Name}
+                          onChange={(event) => setRequest3Data(event)}
+                          type="text"
+                          className={`border-solid border-2 rounded-md py-0.5 w-32 ml-1 ${formState.Request_CAT_Input3
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-gray-200 border-gray-400"
+                            }`}
+                        />
+
+
                       </div>
                       {/* Group 6 */}
                       <div className="flex pl-5 mt-5">
@@ -1404,54 +1416,54 @@ export default function CostList() {
                             value={costListData?.S_Product_Size || ""}
                             onChange={handleCostListInputChange}
                             type="text"
-                            className={`border-solid border-2 rounded-md py-0.5 w-full ${
-                              formState.S_Product_Size.enabled
-                                ? "bg-[#ccffff] border-gray-500"
-                                : "bg-white border-gray-500"
-                            }`}
+                            className={`border-solid border-2 rounded-md py-0.5 w-full ${formState.S_Product_Size.enabled
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-white border-gray-500"
+                              }`}
                           />
                         </div>
-                        
-                        <div className="flex justify-between gap-2 ms-3 flex-wrap">
-                          <div className="flex gap-2 w-full sm:w-52">
-                            <label className="w-auto font-bold text-xs">
-                              Customer1
-                            </label>
-                            <div className="w-28">
-                              <select
-                                id="S_Customer_CD1"
-                                value={costListData?.S_Customer_CD1 || ""}
-                                onChange={handleCostListInputChange}
-                                className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8"
-                              >
-                                <option value=""></option>
-                                {Array.isArray(CustomerData) &&
-                                CustomerData.length > 0 ? (
-                                  CustomerData.map((item, index) => (
-                                    <option
-                                      key={index}
-                                      value={item.Customer_CD}
-                                    >
-                                      {item.Customer_CD}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option value="">ไม่มีข้อมูล</option>
-                                )}
-                              </select>
-                            </div>
-                            <div className="w-28">
-                              <input
-                                disabled={!formState.Customer1_Input}
-                                id="S_Customer_Abb1"
-                                value={selectedCustomerAbb || ""}
-                                onChange={(event) => setCustomerData(event)}
-                                type="text"
-                                className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
-                              />
-                            </div>
-                          </div>
+
+
+                        <div className="px-2 w-auto text-center pl-10">
+                          <label className="font-bold text-xs">
+                            Customer1
+                          </label>
                         </div>
+                        <div className="relative w-24">
+                          <select
+                            id="S_Customer_CD1"
+                            value={costListData?.S_Customer_CD1 || ""}
+                            onChange={handleCostListInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full h-8"
+                          >
+                            <option value=""></option>
+                            {Array.isArray(CustomerData) &&
+                              CustomerData.length > 0 ? (
+                              CustomerData.map((item, index) => (
+                                <option
+                                  key={index}
+                                  value={item.Customer_CD}
+                                >
+                                  {item.Customer_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
+                        </div>
+
+                        <input
+                          disabled={!formState.Customer1_Input}
+                          id="S_Customer_Abb1"
+                          value={selectedCustomerAbb || ""}
+                          onChange={(event) => setCustomerData(event)}
+                          type="text"
+                          className="bg-white border-2 border-gray-500 rounded-md w-32 ml-1"
+                        />
+
+
+
 
                         <div className="flex justify-between gap-2 ">
                           <div className="flex gap-2 w-full ml-4">
@@ -1477,11 +1489,10 @@ export default function CostList() {
                                 value={costListData?.S_Material1 || ""}
                                 onChange={handleCostListInputChange}
                                 type="text"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_Material1.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_Material1.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                           </div>
@@ -1497,11 +1508,10 @@ export default function CostList() {
                                 value={costListData?.S_Material2 || ""}
                                 onChange={handleCostListInputChange}
                                 type="text"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_Material2.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_Material2.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                           </div>
@@ -1513,21 +1523,20 @@ export default function CostList() {
                           <label className="w-24 font-bold text-xs">
                             Cus_Draw_No
                           </label></div>
-                          <div className="relative w-40 lg:w-44">
-                            <input
-                              disabled={!formState.S_Customer_Draw.enabled}
-                              id="S_Customer_Draw"
-                              value={costListData?.S_Customer_Draw || ""}
-                              onChange={handleCostListInputChange}
-                              type="text"
-                              className={`border-solid border-2 rounded-md py-0.5 w-full ${
-                                formState.S_Customer_Draw.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
+                        <div className="relative w-40 lg:w-44">
+                          <input
+                            disabled={!formState.S_Customer_Draw.enabled}
+                            id="S_Customer_Draw"
+                            value={costListData?.S_Customer_Draw || ""}
+                            onChange={handleCostListInputChange}
+                            type="text"
+                            className={`border-solid border-2 rounded-md py-0.5 w-full ${formState.S_Customer_Draw.enabled
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-white border-gray-500"
                               }`}
-                            />
-                          </div>
-                        
+                          />
+                        </div>
+
                         <div className="flex gap-2 w-52">
                           <label className="w-auto font-bold text-xs">
                             Customer2
@@ -1541,7 +1550,7 @@ export default function CostList() {
                             >
                               <option value=""></option>
                               {Array.isArray(CustomerData) &&
-                              CustomerData.length > 0 ? (
+                                CustomerData.length > 0 ? (
                                 CustomerData.map((item, index) => (
                                   <option key={index} value={item.Customer_CD}>
                                     {item.Customer_CD}
@@ -1590,7 +1599,7 @@ export default function CostList() {
                             >
                               <option value=""></option>
                               {Array.isArray(Item1Data) &&
-                              Item1Data.length > 0 ? (
+                                Item1Data.length > 0 ? (
                                 Item1Data.map((item, index) => (
                                   <option key={index} value={item.Item1_CD}>
                                     {item.Item1_CD}
@@ -1627,14 +1636,13 @@ export default function CostList() {
                             value={costListData?.S_Company_Draw || ""}
                             onChange={handleCostListInputChange}
                             type="text"
-                            className={`border-solid border-2 rounded-md py-0.5 w-full ${
-                              formState.S_Company_Draw.enabled
-                                ? "bg-[#ccffff] border-gray-500"
-                                : "bg-white border-gray-500"
-                            }`}
+                            className={`border-solid border-2 rounded-md py-0.5 w-full ${formState.S_Company_Draw.enabled
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-white border-gray-500"
+                              }`}
                           />
                         </div>
-                        
+
                         <div className="flex gap-2 w-52">
                           <label className="w-auto font-bold text-xs">
                             Customer3
@@ -1648,7 +1656,7 @@ export default function CostList() {
                             >
                               <option value=""></option>
                               {Array.isArray(CustomerData) &&
-                              CustomerData.length > 0 ? (
+                                CustomerData.length > 0 ? (
                                 CustomerData.map((item, index) => (
                                   <option key={index} value={item.Customer_CD}>
                                     {item.Customer_CD}
@@ -1691,11 +1699,10 @@ export default function CostList() {
                               id="S_Item2_CD"
                               value={costListData?.S_Item2_CD || ""}
                               onChange={handleCostListInputChange}
-                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                formState.S_Item2_CD.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
+                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_Item2_CD.enabled
+                                ? "bg-[#ccffff] border-gray-500"
+                                : "bg-white border-gray-500"
+                                }`}
                             >
                               <option value=""></option>
                               <option value="1">1</option>
@@ -1725,14 +1732,13 @@ export default function CostList() {
                             value={costListData?.S_Product_Draw || ""}
                             onChange={handleCostListInputChange}
                             type="text"
-                            className={`border-solid border-2 rounded-md py-0.5 w-full ${
-                              formState.S_Product_Draw.enabled
-                                ? "bg-[#ccffff] border-gray-500"
-                                : "bg-white border-gray-500"
-                            }`}
+                            className={`border-solid border-2 rounded-md py-0.5 w-full ${formState.S_Product_Draw.enabled
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-white border-gray-500"
+                              }`}
                           />
                         </div>
-                        
+
                         <div className="flex gap-2 w-52">
                           <label className="w-auto font-bold text-xs">
                             Not_Customer
@@ -1746,7 +1752,7 @@ export default function CostList() {
                             >
                               <option value=""></option>
                               {Array.isArray(CustomerData) &&
-                              CustomerData.length > 0 ? (
+                                CustomerData.length > 0 ? (
                                 CustomerData.map((item, index) => (
                                   <option key={index} value={item.Customer_CD}>
                                     {item.Customer_CD}
@@ -1789,11 +1795,10 @@ export default function CostList() {
                               id="S_Item3_CD"
                               value={costListData?.S_Item3_CD || ""}
                               onChange={handleCostListInputChange}
-                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                formState.S_Item3_CD.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
+                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_Item3_CD.enabled
+                                ? "bg-[#ccffff] border-gray-500"
+                                : "bg-white border-gray-500"
+                                }`}
                             >
                               <option value=""></option>
                               <option value="1">1</option>
@@ -1811,60 +1816,61 @@ export default function CostList() {
                       </div>
                       {/* Group 10 */}
                       <div className="flex pl-5 mt-5">
-                        <div className="px-2 w-auto text-center pr-[38px]">
-                          <label className="w-24 font-bold text-xs">
+                        <div className="px-2 w-auto text-center pr-8">
+                          <label className="font-bold text-xs">
                             Sales_Note
                           </label>
-                          <div className="relative w-40 lg:w-44">
-                            <input
-                              disabled={!formState.S_Sl_Instructions.enabled}
-                              id="S_Sl_Instructions"
-                              value={costListData?.S_Sl_Instructions || ""}
-                              onChange={handleCostListInputChange}
-                              type="text"
-                              className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                formState.S_Sl_Instructions.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
-                            />
-                          </div>
                         </div>
+                        <div className="relative w-40 lg:w-44">
+                          <input
+                            disabled={!formState.S_Sl_Instructions.enabled}
+                            id="S_Sl_Instructions"
+                            value={costListData?.S_Sl_Instructions || ""}
+                            onChange={handleCostListInputChange}
+                            type="text"
+                            className={`border-solid border-2 rounded-md py-0.5 w-full ${formState.S_Sl_Instructions.enabled
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-white border-gray-500"
+                              }`}
+                          />
+                        </div>
+
                         <div className="flex gap-2 w-52">
-                          <label className="w-auto font-bold text-xs">
+                          <label className="font-bold text-xs">
                             Specific1
                           </label>
-                          <div className="w-28">
-                            <select
-                              id="S_Specific_CD1"
-                              value={costListData?.S_Specific_CD1 || ""}
-                              onChange={handleCostListInputChange}
-                              className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
-                            >
-                              <option value=""></option>
-                              {Array.isArray(SpecificData) &&
-                              SpecificData.length > 0 ? (
-                                SpecificData.map((item, index) => (
-                                  <option key={index} value={item.Specific_CD}>
-                                    {item.Specific_CD}
-                                  </option>
-                                ))
-                              ) : (
-                                <option value="">ไม่มีข้อมูล</option>
-                              )}
-                            </select>
-                          </div>
-                          <div className="w-28">
-                            <input
-                              disabled={!formState.Specific1_Input}
-                              id="S_Specific_Name1"
-                              value={SpecificName || ""}
-                              onChange={(event) => setSpecificData(event)}
-                              type="text"
-                              className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
-                            />
-                          </div>
                         </div>
+                        <div className="w-28">
+                          <select
+                            id="S_Specific_CD1"
+                            value={costListData?.S_Specific_CD1 || ""}
+                            onChange={handleCostListInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-full"
+                          >
+                            <option value=""></option>
+                            {Array.isArray(SpecificData) &&
+                              SpecificData.length > 0 ? (
+                              SpecificData.map((item, index) => (
+                                <option key={index} value={item.Specific_CD}>
+                                  {item.Specific_CD}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
+                          </select>
+                        </div>
+                        <div className="w-28">
+                          <input
+                            disabled={!formState.Specific1_Input}
+                            id="S_Specific_Name1"
+                            value={SpecificName || ""}
+                            onChange={(event) => setSpecificData(event)}
+                            type="text"
+                            className="h-6 bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                          />
+                        </div>
+
                         <div className="flex gap-2 w-40">
                           <label className="w-auto font-bold text-xs">
                             Coating1
@@ -1878,7 +1884,7 @@ export default function CostList() {
                             >
                               <option value=""></option>
                               {Array.isArray(CoatingData) &&
-                              CoatingData.length > 0 ? (
+                                CoatingData.length > 0 ? (
                                 CoatingData.map((item, index) => (
                                   <option key={index} value={item.Coating_CD}>
                                     {item.Coating_CD}
@@ -1910,11 +1916,10 @@ export default function CostList() {
                               id="S_Item4_CD"
                               value={costListData?.S_Item4_CD || ""}
                               onChange={handleCostListInputChange}
-                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                formState.S_Item4_CD.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
+                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_Item4_CD.enabled
+                                ? "bg-[#ccffff] border-gray-500"
+                                : "bg-white border-gray-500"
+                                }`}
                             >
                               <option value=""></option>
                               <option value="1">1</option>
@@ -1932,25 +1937,25 @@ export default function CostList() {
                       </div>
                       {/* Group 11 */}
                       <div className="flex pl-5 mt-5">
-                        <div className="px-2 w-auto text-center pr-[38px]">
-                          <label className="w-24 font-bold text-xs">
+                        <div className="px-2 w-auto text-center pr-[45px]">
+                          <label className="font-bold text-xs">
                             Pd_Note
                           </label>
-                          <div className="relative w-40 lg:w-44">
-                            <input
-                              disabled={!formState.S_Pd_Instructions.enabled}
-                              id="S_Pd_Instructions"
-                              value={costListData?.S_Pd_Instructions || ""}
-                              onChange={handleCostListInputChange}
-                              type="text"
-                              className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                formState.S_Pd_Instructions.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
-                            />
-                          </div>
                         </div>
+                        <div className="relative w-40 lg:w-44">
+                          <input
+                            disabled={!formState.S_Pd_Instructions.enabled}
+                            id="S_Pd_Instructions"
+                            value={costListData?.S_Pd_Instructions || ""}
+                            onChange={handleCostListInputChange}
+                            type="text"
+                            className={`border-solid border-2 rounded-md py-0.5 w-full ${formState.S_Pd_Instructions.enabled
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-white border-gray-500"
+                              }`}
+                          />
+                        </div>
+
                         <div className="flex gap-2 w-52">
                           <label className="w-auto font-bold text-xs">
                             Specific2
@@ -1964,7 +1969,7 @@ export default function CostList() {
                             >
                               <option value=""></option>
                               {Array.isArray(SpecificData) &&
-                              SpecificData.length > 0 ? (
+                                SpecificData.length > 0 ? (
                                 SpecificData.map((item, index) => (
                                   <option key={index} value={item.Specific_CD}>
                                     {item.Specific_CD}
@@ -1999,7 +2004,7 @@ export default function CostList() {
                             >
                               <option value=""></option>
                               {Array.isArray(CoatingData) &&
-                              CoatingData.length > 0 ? (
+                                CoatingData.length > 0 ? (
                                 CoatingData.map((item, index) => (
                                   <option key={index} value={item.Coating_CD}>
                                     {item.Coating_CD}
@@ -2031,11 +2036,10 @@ export default function CostList() {
                               id="S_Od_Pending"
                               value={costListData?.S_Od_Pending || ""}
                               onChange={handleCostListInputChange}
-                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                formState.S_Od_Pending.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
+                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_Od_Pending.enabled
+                                ? "bg-[#ccffff] border-gray-500"
+                                : "bg-white border-gray-500"
+                                }`}
                             >
                               <option value=""></option>
                               <option value="1">1</option>
@@ -2054,11 +2058,10 @@ export default function CostList() {
                               id="S_Od_CAT1"
                               value={costListData?.S_Od_CAT1 || ""}
                               onChange={handleCostListInputChange}
-                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                formState.S_Od_CAT1.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
+                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_Od_CAT1.enabled
+                                ? "bg-[#ccffff] border-gray-500"
+                                : "bg-white border-gray-500"
+                                }`}
                             >
                               <option value=""></option>
                               <option value="1">1</option>
@@ -2070,25 +2073,25 @@ export default function CostList() {
                       </div>
                       {/* Group 12 */}
                       <div className="flex pl-5 mt-5">
-                        <div className="px-2 w-auto text-center pr-[38px]">
+                        <div className="px-2 w-auto text-center pr-[30px]">
                           <label className="w-24 font-bold text-xs">
                             Pd_Remark
                           </label>
-                          <div className="relative w-40 lg:w-44">
-                            <input
-                              disabled={!formState.S_Pd_Remark.enabled}
-                              id="S_Pd_Remark"
-                              value={costListData?.S_Pd_Remark || ""}
-                              onChange={handleCostListInputChange}
-                              type="text"
-                              className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                formState.S_Pd_Remark.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
-                            />
-                          </div>
                         </div>
+                        <div className="relative w-40 lg:w-44">
+                          <input
+                            disabled={!formState.S_Pd_Remark.enabled}
+                            id="S_Pd_Remark"
+                            value={costListData?.S_Pd_Remark || ""}
+                            onChange={handleCostListInputChange}
+                            type="text"
+                            className={`border-solid border-2 rounded-md py-0.5 w-full ${formState.S_Pd_Remark.enabled
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-white border-gray-500"
+                              }`}
+                          />
+                        </div>
+
                         <div className="flex gap-2 w-52">
                           <label className="w-auto font-bold text-xs">
                             Not_Specific1
@@ -2102,7 +2105,7 @@ export default function CostList() {
                             >
                               <option value=""></option>
                               {Array.isArray(SpecificData) &&
-                              SpecificData.length > 0 ? (
+                                SpecificData.length > 0 ? (
                                 SpecificData.map((item, index) => (
                                   <option key={index} value={item.Specific_CD}>
                                     {item.Specific_CD}
@@ -2137,7 +2140,7 @@ export default function CostList() {
                             >
                               <option value=""></option>
                               {Array.isArray(CoatingData) &&
-                              CoatingData.length > 0 ? (
+                                CoatingData.length > 0 ? (
                                 CoatingData.map((item, index) => (
                                   <option key={index} value={item.Coating_CD}>
                                     {item.Coating_CD}
@@ -2169,11 +2172,10 @@ export default function CostList() {
                               id="S_Temp_Shipment"
                               value={costListData?.S_Temp_Shipment || ""}
                               onChange={handleCostListInputChange}
-                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                formState.S_Temp_Shipment.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
+                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_Temp_Shipment.enabled
+                                ? "bg-[#ccffff] border-gray-500"
+                                : "bg-white border-gray-500"
+                                }`}
                             >
                               <option value=""></option>
                               <option value="1">1</option>
@@ -2192,11 +2194,10 @@ export default function CostList() {
                               id="S_Od_CAT2"
                               value={costListData?.S_Od_CAT2 || ""}
                               onChange={handleCostListInputChange}
-                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                formState.S_Od_CAT2.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
+                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_Od_CAT2.enabled
+                                ? "bg-[#ccffff] border-gray-500"
+                                : "bg-white border-gray-500"
+                                }`}
                             >
                               <option value=""></option>
                               <option value="1">1</option>
@@ -2208,25 +2209,25 @@ export default function CostList() {
                       </div>
                       {/* Group 13 */}
                       <div className="flex pl-5 mt-5">
-                        <div className="px-2 w-auto text-center pr-[38px]">
-                          <label className="w-24 font-bold text-xs">
+                        <div className="px-2 w-auto text-center pr-7">
+                          <label className="font-bold text-xs">
                             QC_Remark
                           </label>
-                          <div className="relative w-40 lg:w-44">
-                            <input
-                              disabled={!formState.S_I_Remark.enabled}
-                              id="S_I_Remark"
-                              value={costListData?.S_I_Remark || ""}
-                              onChange={handleCostListInputChange}
-                              type="text"
-                              className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                formState.S_I_Remark.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
-                            />
-                          </div>
                         </div>
+                        <div className="relative w-40 lg:w-44">
+                          <input
+                            disabled={!formState.S_I_Remark.enabled}
+                            id="S_I_Remark"
+                            value={costListData?.S_I_Remark || ""}
+                            onChange={handleCostListInputChange}
+                            type="text"
+                            className={`border-solid border-2 rounded-md py-0.5 w-full ${formState.S_I_Remark.enabled
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-white border-gray-500"
+                              }`}
+                          />
+                        </div>
+
                         <div className="flex gap-2 w-52">
                           <label className="w-auto font-bold text-xs">
                             Not_Specitic2
@@ -2240,7 +2241,7 @@ export default function CostList() {
                             >
                               <option value=""></option>
                               {Array.isArray(SpecificData) &&
-                              SpecificData.length > 0 ? (
+                                SpecificData.length > 0 ? (
                                 SpecificData.map((item, index) => (
                                   <option key={index} value={item.Specific_CD}>
                                     {item.Specific_CD}
@@ -2275,7 +2276,7 @@ export default function CostList() {
                             >
                               <option value=""></option>
                               {Array.isArray(CoatingData) &&
-                              CoatingData.length > 0 ? (
+                                CoatingData.length > 0 ? (
                                 CoatingData.map((item, index) => (
                                   <option key={index} value={item.Coating_CD}>
                                     {item.Coating_CD}
@@ -2307,11 +2308,10 @@ export default function CostList() {
                               id="S_Unreceived"
                               value={costListData?.S_Unreceived || ""}
                               onChange={handleCostListInputChange}
-                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                formState.S_Unreceived.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
+                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_Unreceived.enabled
+                                ? "bg-[#ccffff] border-gray-500"
+                                : "bg-white border-gray-500"
+                                }`}
                             >
                               <option value=""></option>
                               <option value="1">1</option>
@@ -2330,11 +2330,10 @@ export default function CostList() {
                               id="S_Od_CAT3"
                               value={costListData?.S_Od_CAT3 || ""}
                               onChange={handleCostListInputChange}
-                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                formState.S_Od_CAT3.enabled
-                                  ? "bg-[#ccffff] border-gray-500"
-                                  : "bg-white border-gray-500"
-                              }`}
+                              className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_Od_CAT3.enabled
+                                ? "bg-[#ccffff] border-gray-500"
+                                : "bg-white border-gray-500"
+                                }`}
                             >
                               <option value=""></option>
                               <option value="1">1</option>
@@ -2361,7 +2360,7 @@ export default function CostList() {
                               >
                                 <option value=""></option>
                                 {Array.isArray(OdProgressData) &&
-                                OdProgressData.length > 0 ? (
+                                  OdProgressData.length > 0 ? (
                                   OdProgressData.map((item, index) => (
                                     <option
                                       key={index}
@@ -2387,7 +2386,7 @@ export default function CostList() {
                               >
                                 <option value=""></option>
                                 {Array.isArray(OdProgressData) &&
-                                OdProgressData.length > 0 ? (
+                                  OdProgressData.length > 0 ? (
                                   OdProgressData.map((item, index) => (
                                     <option
                                       key={index}
@@ -2415,15 +2414,14 @@ export default function CostList() {
                                 id="S_St_Delivery_CD"
                                 value={costListData?.S_St_Delivery_CD || ""}
                                 onChange={handleCostListInputChange}
-                                className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                  formState.S_St_Delivery_CD.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_St_Delivery_CD.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               >
                                 <option value=""></option>
                                 {Array.isArray(DeliveryData) &&
-                                DeliveryData.length > 0 ? (
+                                  DeliveryData.length > 0 ? (
                                   DeliveryData.map((item, index) => (
                                     <option
                                       key={index}
@@ -2446,15 +2444,14 @@ export default function CostList() {
                                 id="S_Ed_Delivery_CD"
                                 value={costListData?.S_Ed_Delivery_CD || ""}
                                 onChange={handleCostListInputChange}
-                                className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                  formState.S_Ed_Delivery_CD.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_Ed_Delivery_CD.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               >
                                 <option value=""></option>
                                 {Array.isArray(DeliveryData) &&
-                                DeliveryData.length > 0 ? (
+                                  DeliveryData.length > 0 ? (
                                   DeliveryData.map((item, index) => (
                                     <option
                                       key={index}
@@ -2482,15 +2479,14 @@ export default function CostList() {
                                 id="S_St_Schedule_CD"
                                 value={costListData?.S_St_Schedule_CD || ""}
                                 onChange={handleCostListInputChange}
-                                className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                  formState.S_St_Schedule_CD.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_St_Schedule_CD.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               >
                                 <option value=""></option>
                                 {Array.isArray(scheduleData) &&
-                                scheduleData.length > 0 ? (
+                                  scheduleData.length > 0 ? (
                                   scheduleData.map((item, index) => (
                                     <option
                                       key={index}
@@ -2513,15 +2509,14 @@ export default function CostList() {
                                 id="S_Ed_Schedule_CD"
                                 value={costListData?.S_Ed_Schedule_CD || ""}
                                 onChange={handleCostListInputChange}
-                                className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                  formState.S_Ed_Schedule_CD.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_Ed_Schedule_CD.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               >
                                 <option value=""></option>
                                 {Array.isArray(scheduleData) &&
-                                scheduleData.length > 0 ? (
+                                  scheduleData.length > 0 ? (
                                   scheduleData.map((item, index) => (
                                     <option
                                       key={index}
@@ -2549,15 +2544,14 @@ export default function CostList() {
                                 id="S_St_Target_CD"
                                 value={costListData?.S_St_Target_CD || ""}
                                 onChange={handleCostListInputChange}
-                                className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                  formState.S_St_Target_CD.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_St_Target_CD.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               >
                                 <option value=""></option>
                                 {Array.isArray(TargetData) &&
-                                TargetData.length > 0 ? (
+                                  TargetData.length > 0 ? (
                                   TargetData.map((item, index) => (
                                     <option key={index} value={item.Target_CD}>
                                       {item.Target_Symbol}
@@ -2577,15 +2571,14 @@ export default function CostList() {
                                 id="S_Ed_Target_CD"
                                 value={costListData?.S_Ed_Target_CD || ""}
                                 onChange={handleCostListInputChange}
-                                className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                                  formState.S_Ed_Target_CD.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_Ed_Target_CD.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               >
                                 <option value=""></option>
                                 {Array.isArray(TargetData) &&
-                                TargetData.length > 0 ? (
+                                  TargetData.length > 0 ? (
                                   TargetData.map((item, index) => (
                                     <option key={index} value={item.Target_CD}>
                                       {item.Target_Symbol}
@@ -2615,11 +2608,10 @@ export default function CostList() {
                                 }
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_St_Request_Delivery.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_St_Request_Delivery.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                             <label className="w-auto font-bold text-xs">
@@ -2636,11 +2628,10 @@ export default function CostList() {
                                 }
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_Ed_Request_Delivery.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_Ed_Request_Delivery.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                           </div>
@@ -2658,11 +2649,10 @@ export default function CostList() {
                                 value={costListData?.S_St_NAV_Delivery || ""}
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_St_NAV_Delivery.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_St_NAV_Delivery.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                             <label className="w-auto font-bold text-xs">
@@ -2675,11 +2665,10 @@ export default function CostList() {
                                 value={costListData?.S_Ed_NAV_Delivery || ""}
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_Ed_NAV_Delivery.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_Ed_NAV_Delivery.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                           </div>
@@ -2701,11 +2690,10 @@ export default function CostList() {
                                 }
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_St_Confirm_Delivery.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_St_Confirm_Delivery.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                             <label className="w-auto font-bold text-xs">
@@ -2722,11 +2710,10 @@ export default function CostList() {
                                 }
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_Ed_Confirm_Delivery.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_Ed_Confirm_Delivery.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                           </div>
@@ -2781,11 +2768,10 @@ export default function CostList() {
                                 }
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_St_Pd_Received_Date.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_St_Pd_Received_Date.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                             <label className="w-auto font-bold text-xs">
@@ -2802,11 +2788,10 @@ export default function CostList() {
                                 }
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_Ed_Pd_Received_Date.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_Ed_Pd_Received_Date.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                           </div>
@@ -2828,11 +2813,10 @@ export default function CostList() {
                                 }
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_St_Pd_Complete_Date.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_St_Pd_Complete_Date.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                             <label className="w-auto font-bold text-xs">
@@ -2849,11 +2833,10 @@ export default function CostList() {
                                 }
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_Ed_Pd_Complete_Date.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_Ed_Pd_Complete_Date.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                           </div>
@@ -2873,11 +2856,10 @@ export default function CostList() {
                                 value={costListData?.S_St_I_Complete_Date || ""}
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_St_I_Complete_Date.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_St_I_Complete_Date.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                             <label className="w-auto font-bold text-xs">
@@ -2892,11 +2874,10 @@ export default function CostList() {
                                 value={costListData?.S_Ed_I_Complete_Date || ""}
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_Ed_I_Complete_Date.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_Ed_I_Complete_Date.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                           </div>
@@ -2914,11 +2895,10 @@ export default function CostList() {
                                 value={costListData?.S_St_Shipment_Date || ""}
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_St_Shipment_Date.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_St_Shipment_Date.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                             <label className="w-auto font-bold text-xs">
@@ -2931,11 +2911,10 @@ export default function CostList() {
                                 value={costListData?.S_Ed_Shipment_Date || ""}
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_Ed_Shipment_Date.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_Ed_Shipment_Date.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                           </div>
@@ -2953,11 +2932,10 @@ export default function CostList() {
                                 value={costListData?.S_St_Calc_Date || ""}
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_St_Calc_Date.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_St_Calc_Date.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                             <label className="w-auto font-bold text-xs">
@@ -2970,11 +2948,10 @@ export default function CostList() {
                                 value={costListData?.S_Ed_Calc_Date || ""}
                                 onChange={handleCostListInputChange}
                                 type="date"
-                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                                  formState.S_Ed_Calc_Date.enabled
-                                    ? "bg-[#ccffff] border-gray-500"
-                                    : "bg-white border-gray-500"
-                                }`}
+                                className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_Ed_Calc_Date.enabled
+                                  ? "bg-[#ccffff] border-gray-500"
+                                  : "bg-white border-gray-500"
+                                  }`}
                               />
                             </div>
                           </div>
@@ -3006,11 +2983,10 @@ export default function CostList() {
                           value={costListData?.S_Parts_No || ""}
                           onChange={handleCostListInputChange}
                           type="date"
-                          className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                            formState.S_Parts_No.enabled
-                              ? "bg-[#ccffff] border-gray-500"
-                              : "bg-white border-gray-500"
-                          }`}
+                          className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_Parts_No.enabled
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-white border-gray-500"
+                            }`}
                         />
                       </div>
                     </div>
@@ -3024,11 +3000,10 @@ export default function CostList() {
                           id="S_Parts_Pending"
                           value={costListData?.S_Parts_Pending || ""}
                           onChange={handleCostListInputChange}
-                          className={`border-gray-500 border-solid border-2 rounded-md  w-full ${
-                            formState.S_Parts_Pending.enabled
-                              ? "bg-[#ccffff] border-gray-500"
-                              : "bg-white border-gray-500"
-                          }`}
+                          className={`border-gray-500 border-solid border-2 rounded-md  w-full ${formState.S_Parts_Pending.enabled
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-white border-gray-500"
+                            }`}
                         >
                           <option value=""></option>
                           <option value="1">1</option>
@@ -3046,11 +3021,10 @@ export default function CostList() {
                             id="S_Parts_CAT1"
                             value={costListData?.S_Parts_CAT1 || ""}
                             onChange={handleCostListInputChange}
-                            className={`border-gray-500 border-solid border-2 rounded-md  w-24 h-6 ${
-                              formState.S_Parts_CAT1.enabled
-                                ? "bg-[#ccffff] border-gray-500"
-                                : "bg-white border-gray-500"
-                            }`}
+                            className={`border-gray-500 border-solid border-2 rounded-md  w-24 h-6 ${formState.S_Parts_CAT1.enabled
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-white border-gray-500"
+                              }`}
                           >
                             <option value=""></option>
                             <option value="1">1</option>
@@ -3073,11 +3047,10 @@ export default function CostList() {
                           id="S_Parts_CAT1"
                           value={costListData?.S_Parts_CAT1 || ""}
                           onChange={handleCostListInputChange}
-                          className={`border-gray-500 border-solid border-2 rounded-md  w-24 h-6 ${
-                            formState.S_Parts_CAT1.enabled
-                              ? "bg-[#ccffff] border-gray-500"
-                              : "bg-white border-gray-500"
-                          }`}
+                          className={`border-gray-500 border-solid border-2 rounded-md  w-24 h-6 ${formState.S_Parts_CAT1.enabled
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-white border-gray-500"
+                            }`}
                         >
                           <option value=""></option>
                           <option value="1">1</option>
@@ -3096,11 +3069,10 @@ export default function CostList() {
                           id="S_Parts_CAT3"
                           value={costListData?.S_Parts_CAT3 || ""}
                           onChange={handleCostListInputChange}
-                          className={`border-gray-500 border-solid border-2 rounded-md  w-24 h-6 ${
-                            formState.S_Parts_CAT3.enabled
-                              ? "bg-[#ccffff] border-gray-500"
-                              : "bg-white border-gray-500"
-                          }`}
+                          className={`border-gray-500 border-solid border-2 rounded-md  w-24 h-6 ${formState.S_Parts_CAT3.enabled
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-white border-gray-500"
+                            }`}
                         >
                           <option value=""></option>
                           <option value="1">1</option>
@@ -3140,11 +3112,10 @@ export default function CostList() {
                           id="S_Parts_Material"
                           value={costListData?.S_Parts_Material || ""}
                           onChange={handleCostListInputChange}
-                          className={`border-gray-500 border-solid border-2 rounded-md  w-24 h-6 ${
-                            formState.S_Parts_Material.enabled
-                              ? "bg-[#ccffff] border-gray-500"
-                              : "bg-white border-gray-500"
-                          }`}
+                          className={`border-gray-500 border-solid border-2 rounded-md  w-24 h-6 ${formState.S_Parts_Material.enabled
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-white border-gray-500"
+                            }`}
                         >
                           <option value=""></option>
                           <option value="1">1</option>
@@ -3162,11 +3133,10 @@ export default function CostList() {
                             id="S_Parts_Instructions"
                             value={costListData?.S_Parts_Instructions || ""}
                             onChange={handleCostListInputChange}
-                            className={`border-gray-500 border-solid border-2 rounded-md  w-24 h-6 ${
-                              formState.S_Parts_Instructions.enabled
-                                ? "bg-[#ccffff] border-gray-500"
-                                : "bg-white border-gray-500"
-                            }`}
+                            className={`border-gray-500 border-solid border-2 rounded-md  w-24 h-6 ${formState.S_Parts_Instructions.enabled
+                              ? "bg-[#ccffff] border-gray-500"
+                              : "bg-white border-gray-500"
+                              }`}
                           >
                             <option value=""></option>
                             <option value="1">1</option>
@@ -3189,11 +3159,10 @@ export default function CostList() {
                           id="S_Parts_Remark"
                           value={costListData?.S_Parts_Remark || ""}
                           onChange={handleCostListInputChange}
-                          className={`border-gray-500 border-solid border-2 rounded-md  w-24 h-6 ${
-                            formState.S_Parts_Remark.enabled
-                              ? "bg-[#ccffff] border-gray-500"
-                              : "bg-white border-gray-500"
-                          }`}
+                          className={`border-gray-500 border-solid border-2 rounded-md  w-24 h-6 ${formState.S_Parts_Remark.enabled
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-white border-gray-500"
+                            }`}
                         >
                           <option value=""></option>
                           <option value="1">1</option>
@@ -3230,11 +3199,10 @@ export default function CostList() {
                           value={costListData?.S_St_Parts_Delivery || ""}
                           onChange={handleCostListInputChange}
                           type="date"
-                          className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                            formState.S_St_Parts_Delivery.enabled
-                              ? "bg-[#ccffff] border-gray-500"
-                              : "bg-white border-gray-500"
-                          }`}
+                          className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_St_Parts_Delivery.enabled
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-white border-gray-500"
+                            }`}
                         />
                       </div>
                       <label className="font-bold text-xs">~</label>
@@ -3245,11 +3213,10 @@ export default function CostList() {
                           value={costListData?.S_Ed_Parts_Delivery || ""}
                           onChange={handleCostListInputChange}
                           type="date"
-                          className={`h-6 border-solid border-2 rounded-md px-1 w-full ${
-                            formState.S_Ed_Parts_Delivery.enabled
-                              ? "bg-[#ccffff] border-gray-500"
-                              : "bg-white border-gray-500"
-                          }`}
+                          className={`h-6 border-solid border-2 rounded-md px-1 w-full ${formState.S_Ed_Parts_Delivery.enabled
+                            ? "bg-[#ccffff] border-gray-500"
+                            : "bg-white border-gray-500"
+                            }`}
                         />
                       </div>
                     </div>
@@ -3691,8 +3658,8 @@ export default function CostList() {
                           <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
                             {order.Product_Delivery
                               ? new Date(
-                                  order.Product_Delivery
-                                ).toLocaleDateString("en-GB")
+                                order.Product_Delivery
+                              ).toLocaleDateString("en-GB")
                               : ""}
                           </td>
                           <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
@@ -3779,43 +3746,43 @@ export default function CostList() {
                           <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
                             {order.Pd_Received_Date
                               ? new Date(
-                                  order.Pd_Received_Date
-                                ).toLocaleDateString("en-GB")
+                                order.Pd_Received_Date
+                              ).toLocaleDateString("en-GB")
                               : ""}
                           </td>
                           <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
                             {order.Request_Delivery
                               ? new Date(
-                                  order.Request_Delivery
-                                ).toLocaleDateString("en-GB")
+                                order.Request_Delivery
+                              ).toLocaleDateString("en-GB")
                               : ""}
                           </td>
                           <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
                             {order.NAV_Delivery
                               ? new Date(order.NAV_Delivery).toLocaleDateString(
-                                  "en-GB"
-                                )
+                                "en-GB"
+                              )
                               : ""}
                           </td>
                           <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
                             {order.I_Completed_Date
                               ? new Date(
-                                  order.I_Completed_Date
-                                ).toLocaleDateString("en-GB")
+                                order.I_Completed_Date
+                              ).toLocaleDateString("en-GB")
                               : ""}
                           </td>
                           <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
                             {order.Pd_Calc_Date
                               ? new Date(order.Pd_Calc_Date).toLocaleDateString(
-                                  "en-GB"
-                                )
+                                "en-GB"
+                              )
                               : ""}
                           </td>
                           <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
                             {order.Shipment_Date
                               ? new Date(
-                                  order.Shipment_Date
-                                ).toLocaleDateString("en-GB")
+                                order.Shipment_Date
+                              ).toLocaleDateString("en-GB")
                               : ""}
                           </td>
                           <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
@@ -3824,8 +3791,8 @@ export default function CostList() {
                           <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
                             {order.Confirm_Delivery
                               ? new Date(
-                                  order.Confirm_Delivery
-                                ).toLocaleDateString("en-GB")
+                                order.Confirm_Delivery
+                              ).toLocaleDateString("en-GB")
                               : ""}
                           </td>
                           <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
@@ -3852,8 +3819,8 @@ export default function CostList() {
                           <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
                             {order.Pd_Complete_Date
                               ? new Date(
-                                  order.Pd_Complete_Date
-                                ).toLocaleDateString("en-GB")
+                                order.Pd_Complete_Date
+                              ).toLocaleDateString("en-GB")
                               : ""}
                           </td>
                           <td className="border border-gray-300 px-6 py-3 text-sm text-gray-800">
