@@ -3,18 +3,31 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
+import { useNavigate } from 'react-router-dom';
 
-const Button = ({ label, subLabel, textColor = "text-white", onClick }) => (
-    <button 
-        onClick={onClick} 
-        className="bg-[#6A9C89] hover:bg-[#45695C] font-medium h-24 w-full py-4 px-4 rounded-lg shadow-md flex justify-center items-center text-center transition-all duration-300 ease-in-out transform hover:scale-105"
-    >
-        <div className={`text-sm md:text-base lg:text-lg ${textColor}`}>
-            {label} <br />
-            {subLabel && <span className="text-xs md:text-sm lg:text-base">{subLabel}</span>}
-        </div>
-    </button>
-);
+const Button = ({ label, subLabel, textColor = "text-white", onClick, to }) => {
+    const navigate = useNavigate();
+
+    const handleNavigation = () => {
+        if (to) {
+            navigate(to);
+        } else if (onClick) {
+            onClick();
+        }
+    };
+
+    return (
+        <button 
+            onClick={handleNavigation} 
+            className="bg-[#6A9C89] hover:bg-[#45695C] font-medium h-24 w-full py-4 px-4 rounded-lg shadow-md flex justify-center items-center text-center transition-all duration-300 ease-in-out transform hover:scale-105"
+        >
+            <div className={`text-sm md:text-base lg:text-lg ${textColor}`}>
+                {label} <br />
+                {subLabel && <span className="text-xs md:text-sm lg:text-base">{subLabel}</span>}
+            </div>
+        </button>
+    );
+};
 
 export default function DashboardPage() {
     const handleNavPurchaseClick = async () => {
@@ -74,6 +87,7 @@ export default function DashboardPage() {
                             subLabel={btn.subLabel} 
                             textColor={btn.textColor} 
                             onClick={btn.onClick}
+                            to={btn.to}
                         />
                     ))}
                 </div>
