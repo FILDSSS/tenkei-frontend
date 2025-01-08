@@ -3,7 +3,6 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
-import Swal from 'sweetalert2';
 
 const Button = ({ label, subLabel, textColor = "text-white", onClick }) => (
     <button 
@@ -18,7 +17,6 @@ const Button = ({ label, subLabel, textColor = "text-white", onClick }) => (
 );
 
 export default function DashboardPage() {
-    // ฟังก์ชันสำหรับการแจ้งเตือนและเรียก API
     const handleNavPurchaseClick = async () => {
         const result = await Swal.fire({
             title: 'Are you sure?',
@@ -32,7 +30,6 @@ export default function DashboardPage() {
 
         if (result.isConfirmed) {
             try {
-                // เรียก API ที่ต้องการ
                 const response = await axios.post('http://localhost:4000/navCSV/purchase-import');
                 if (response.status === 200) {
                     Swal.fire('Success!', 'CSV files imported successfully.', 'success');
@@ -47,7 +44,7 @@ export default function DashboardPage() {
         { label: 'Order Info', subLabel: '(依頼書別受注処理)', to: '/order-info' },
         { label: 'Order List', subLabel: '(受注一覧)', to: '/order-list' },
         { label: 'NAV Order', subLabel: 'CSV Import', textColor: "text-red-600", to: '/nav-order-csv-import' },
-        { label: 'NAV Purchase', subLabel: 'CSV Import', textColor: "text-red-600", onClick: handleNavPurchaseClick }, // ใช้ onClick แทน to
+        { label: 'NAV Purchase', subLabel: 'CSV Import', textColor: "text-red-600", onClick: handleNavPurchaseClick },
         { label: 'Purchase Info', subLabel: '(依頼書別手配処理)', to: '/purchase-info' },
         { label: 'Purchase List', subLabel: '(手配一覧)', to: '/purchase-list' },
         { label: 'Go to', subLabel: 'Admin Menu', to: '/admin-menu' },
@@ -76,7 +73,7 @@ export default function DashboardPage() {
                             label={btn.label} 
                             subLabel={btn.subLabel} 
                             textColor={btn.textColor} 
-                            onClick={btn.onClick} // ส่งฟังก์ชัน onClick ไปที่ปุ่ม
+                            onClick={btn.onClick}
                         />
                     ))}
                 </div>
