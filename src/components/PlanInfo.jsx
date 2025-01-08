@@ -219,26 +219,42 @@ export default function PlanInfo() {
       setSearchPlanNo(value);
       if (value) {
         setSearch_Odpt_No(`${searchOrderNo || ""}${value}`);
-        setButtonState((prevState) => ({
-          ...prevState,
-          F1: false,
-          F2: true,
-          F7: true,
-          F10: true,
-          F11: true,
-        }));
+        setButtonState((prevState) => {
+          const updatedState = {
+            F1: false,
+            F2: true,
+            F7: true,
+            F10: true,
+            F11: true,
+          };
+          Object.keys(prevState).forEach((key) => {
+            if (!(key in updatedState)) {
+              updatedState[key] = false;
+            }
+          });
+    
+          return updatedState;
+        });
       } else {
-        setButtonState((prevState) => ({
-          ...prevState,
-          F1: false,
-          F2: false,
-          F7: false,
-          F10: false,
-          F11: false,
-        }));
+        setButtonState((prevState) => {
+          const updatedState = {
+            F1: false,
+            F2: false,
+            F7: false,
+            F10: false,
+            F11: false,
+          };
+    
+        
+          Object.keys(prevState).forEach((key) => {
+            if (!(key in updatedState)) {
+              updatedState[key] = false;
+            }
+          });
+    
+          return updatedState;
+        });
       }
-    } else {
-      setPlanData("");
     }
   };
 
