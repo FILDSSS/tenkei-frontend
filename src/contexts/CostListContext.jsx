@@ -5,15 +5,19 @@ export const CostListContext = createContext();
 
 export default function CostListContextProvider({ children }) {
   const [costListData, setCostListData] = useState(null);
-
+  const [WorkerData, setWorkerData] = useState([]);
+  const [scheduleData, setScheduleData] = useState(null);
+  const [plprogressData, setPlProgressData] = useState(null);
+  //const [formState, setFormState] = useState(initialFormState);
   // ฟังก์ชันสำหรับดึงข้อมูล cost list
-  const fetchCostList = async () => {
+  const fetchCostList = async (costListData) => {
     try {
-      const response = await axios.get("/costlist/fetch-costlist"); 
+      const response = await axios.post("/orderlist/fecth-orderlist",costListData); 
 
       if (response.data) {
         setCostListData(response.data);
-        console.log("Cost list data fetched successfully");
+        // console.log("Cost list data fetched successfully",costListData);
+        // console.log("Response Data:", response.data);
       } else {
         console.log("No data found");
       }
@@ -22,12 +26,51 @@ export default function CostListContextProvider({ children }) {
     }
   };
 
+  const fetchWorker = async () => {
+    try {
+      const response = await axios.get("/order/worker");
+
+      setWorkerData(response.data.data.worker);
+      return response;
+    } catch (error) {
+      console.error("Error fetching worker groups:", error);
+      throw error;
+    }
+  };
+
+  const fetchSchedule = async () => { 
+    try {
+        const response = await axios.get("/schedule/fetch-schedule"); 
+      
+        setScheduleData(response.data.data.schedule);
+        return response; 
+    } catch (error) {
+        console.error("Error fetching schedule :", error);
+        throw error; 
+    }
+};
+
+const fetchPlprogress = async () => {
+  try {
+    const response = await axios.get("/plprogress/fetch-plprogress");
+
+    setPlProgressData(response.data.data.plprogress);
+    return response;
+  } catch (error) {
+    console.error("Error fetching PL Progress :", error);
+    throw error;
+  }
+};
+
   // เรียก fetchCostList เมื่อ component ถูกโหลด
   useEffect(() => {
-    if (!costListData) {
-      fetchCostList();
-    }
-  }, [costListData]);
+    fetchCostList(); 
+    fetchWorker(); 
+    fetchSchedule();
+    fetchPlprogress();
+    
+
+}, []);
 
     const initialFormState = {
         S_Order_No: { enabled: false },
@@ -158,7 +201,14 @@ export default function CostListContextProvider({ children }) {
             initialFormState,
             costListData,
             setCostListData,
-            fetchCostList
+            fetchCostList,
+            fetchWorker,
+            WorkerData,
+            setScheduleData,
+            scheduleData,
+            plprogressData,
+            fetchPlprogress,
+            setPlProgressData,
           }}
         >
           {children}
