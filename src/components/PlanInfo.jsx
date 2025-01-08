@@ -255,8 +255,6 @@ export default function PlanInfo() {
           return updatedState;
         });
       }
-    } else {
-      setPlanData("");
     }
   };
 
