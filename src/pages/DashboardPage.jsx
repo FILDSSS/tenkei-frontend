@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
+import Swal from 'sweetalert2';
 
-const Button = ({ label, subLabel, to, textColor = "text-white" }) => (
+const Button = ({ label, subLabel, to, textColor = "text-white", onClick }) => (
     <Link 
+    onClick={onClick} 
         to={to} 
         className="bg-[#6A9C89] hover:bg-[#45695C] font-medium h-24 w-full py-4 px-4 rounded-lg shadow-md flex justify-center items-center text-center transition-all duration-300 ease-in-out transform hover:scale-105"
     >
@@ -16,10 +18,19 @@ const Button = ({ label, subLabel, to, textColor = "text-white" }) => (
 );
 
 export default function DashboardPage() {
+    const handleNavOrderClick = () => {
+        Swal.fire({
+            title: 'NAV Order CSV Import',
+            text: 'This feature is under construction!',
+            icon: 'info',
+            confirmButtonText: 'OK',
+        });
+    };
+    
     const buttonsData = [
         { label: 'Order Info', subLabel: '(依頼書別受注処理)', to: '/order-info' },
         { label: 'Order List', subLabel: '(受注一覧)', to: '/order-list' },
-        { label: 'NAV Order', subLabel: 'CSV Import', textColor: "text-red-600", to: '/nav-order-csv-import' },
+        { label: 'NAV Order', subLabel: 'CSV Import', textColor: "text-red-600", to: '/nav-order-csv-import',onClick: handleNavOrderClick  },
         { label: 'NAV Purchase', subLabel: 'CSV Import', textColor: "text-red-600", to: '/nav-purchase-csv-import' },
         { label: 'Purchase Info', subLabel: '(依頼書別手配処理)', to: '/purchase-info' },
         { label: 'Purchase List', subLabel: '(手配一覧)', to: '/purchase-list' },
@@ -44,7 +55,7 @@ export default function DashboardPage() {
                 <p className="font-bold text-2xl md:text-3xl mt-5 ml-10">TENKEI Client Menu</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-5 p-6 flex-1 overflow-y-auto">
                     {buttonsData.map((btn, index) => (
-                        <Button key={index} label={btn.label} subLabel={btn.subLabel} to={btn.to} textColor={btn.textColor} />
+                        <Button key={index} label={btn.label} subLabel={btn.subLabel} to={btn.to} textColor={btn.textColor}  onClick={btn.onClick}  />
                     ))}
                 </div>
             </div>
