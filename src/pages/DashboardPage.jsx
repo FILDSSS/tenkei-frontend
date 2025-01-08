@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
+import Swal from 'sweetalert2';
 
 const Button = ({ label, subLabel, textColor = "text-white", onClick }) => (
     <button 
