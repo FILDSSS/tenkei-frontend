@@ -1,13 +1,31 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { useCostList } from "../hooks/use-costlist";
 import { useCost } from "../hooks/use-cost";
 import { useOrder } from "../hooks/use-order";
 import Select from 'react-select';
+import Swal from "sweetalert2";
 
 export default function CostList() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [buttonState, setButtonState] = useState({
+      F1: false,
+      F2: false,
+      F3: true,
+      F4: false,
+      F5: false,
+      F6: true,
+      F7: true,
+      F8: true,
+      F9: true,
+      F10: false,
+      F11: true,
+      F12: true,
+    });
   const { initialFormState, 
           WorkerData, 
           setWorkerData,
@@ -15,12 +33,11 @@ export default function CostList() {
           setCostListData,
           scheduleData,
           plprogressData,
+          fetchCostList,
         } = useCostList();
 
     const {
       OdProgressData,
-      orderData,
-      setOrderData,
       setWorkgData,
       WorkgData,
       CustomerData,
@@ -43,6 +60,7 @@ export default function CostList() {
       TargetData,
     } = useOrder();
   // const [costListData, setCostListData] = useCostList();
+  const { searchOrderNo: initialSearchOrderNo = "" } = location.state || {};
   const [formState, setFormState] = useState(initialFormState);
   const [selectedSalesGrpAbb, setSelectedSalesGrpAbb] = useState("");
   const [selectedSalesGrpAbb2, setSelectedSalesGrpAbb2] = useState("");
@@ -69,7 +87,8 @@ export default function CostList() {
   const [coatingName3, setCoatingName3] = useState("");
   const [coatingName4, setCoatingName4] = useState("");
   const [selectedWorker, setSelectedWorker] = useState("");
-  const [workerDetails, setWorkerDetails] = useState(null);
+  const [selectedWorkerDisplay, setSelectedWorkerDisplay] = useState("");
+  const [isTableVisible, setIsTableVisible] = useState(false);
 
   useEffect(() => {
       if (costListData?.S_Od_Ctl_Person_CD && WorkerData.length > 0) {
@@ -87,9 +106,17 @@ export default function CostList() {
   
         setSelectedSalesGrpAbb2(selectedGroup ? selectedGroup.Worker_Abb : "");
       }
+      if (costListData?.S_Pl_Reg_Person_CD && WorkerData.length > 0) {
+        const selectedGroup = WorkerData.find(
+          (item) => item.Worker_CD === costListData?.S_Pl_Reg_Person_CD
+        );
+  
+        setSelectedWorker(selectedGroup ? selectedGroup.Worker_Abb : "");
+      }
     }, [
       costListData?.S_Od_Ctl_Person_CD,
       costListData?.S_Sl_Person_CD,
+      costListData?.S_Pl_Reg_Person_CD,
       WorkerData,
     ]);
   useEffect(() => {
@@ -578,11 +605,12 @@ export default function CostList() {
 
   const handleCostListInputChange = async (event) => {
     const { id, value, type, checked } = event.target;
-  
+
     setCostListData((prevCostListData) => {
       let updatedData = {
         ...prevCostListData,
         [id]: type === "checkbox" ? checked : value === "" ? null : value,
+        [id]: value === "" ? null : value,
       };
   
       // ถ้าเลือก S_St_Pd_Grp_CD ให้ตั้ง S_Ed_Pd_Grp_CD เท่ากับค่าเดียวกัน
@@ -601,21 +629,68 @@ export default function CostList() {
         }
   
       // ถ้าเลือก S_Od_Ctl_Person_CD ให้ตั้งค่า selectedSalesGrpAbb
-      if (id === "S_Od_Ctl_Person_CD") {
-        if (value === "" || value === null) {
-          setSelectedSalesGrpAbb(null);
-        } else {
-          const selectedGroup = WorkerData.find((item) => item.Worker_CD === value);
-          setSelectedSalesGrpAbb(selectedGroup ? selectedGroup.Worker_Abb : "");
-        }
+      if (id === "S_Pl_Reg_Person_CD") {
+        const selectedWorker = WorkerData.find((item) => item.Worker_CD === value);
+  
+        // กำหนดข้อความที่จะแสดงใน select (แค่ Worker_CD ที่เลือก)
+        setSelectedWorkerDisplay(selectedWorker ? selectedWorker.Worker_CD : "");
+  
+        // อัปเดต Worker_Remark ใน costListData
+        updatedData.Worker_Remark = selectedWorker ? selectedWorker.Worker_Remark : null;
       }
       
       return updatedData;
     });
   };
   
+  const handleF3Click = async () => {
+    setIsTableVisible((prevIsTableVisible) => {
+      // Toggle การแสดงตาราง
+      const newTableVisibility = !prevIsTableVisible;
   
+      // Toggle ปุ่ม F2
+      setButtonState((prevState) => ({
+        ...prevState,
+        F2: newTableVisibility, // เปิด/ปิด F2 ตามสถานะของตาราง
+      }));
   
+      return newTableVisibility;
+    });
+  
+    // ดึงข้อมูลจาก API
+    const costListData = { Order_No :"id",Customer_CD : 'value'}; // ถ้าคุณมีข้อมูลที่ต้องการส่งไปใน API ให้ระบุที่นี่
+    await fetchCostList(costListData);  // เรียกฟังก์ชัน fetchCostList
+  
+    console.log("F3 clicked, data fetched",costListData);
+  };
+  
+  const handleF11Click = () => {
+    window.location.reload();
+  };
+
+  const handleF12Click = async () => {
+      try {
+        const confirmResult = await Swal.fire({
+          title: "Confirm",
+          html: "Do you want to close this window?<br>คุณต้องการปิดหน้าต่างนี้หรือไม่?<br>このウィンドウを閉じますか？",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          cancelButtonText: "No",
+        });
+        if (confirmResult.isConfirmed) { 
+           navigate("/dashboard")
+        }
+      } catch (error) {
+        console.error("Error in handleF12Click:", error);
+        Swal.fire({
+          title: "เกิดข้อผิดพลาด",
+          text: "กรุณาลองอีกครั้ง",
+          icon: "error",
+          confirmButtonText: "ตกลง",
+        }); // แจ้งเตือนผู้ใช้เกี่ยวกับข้อผิดพลาด
+      }
+    };
   
   
 
@@ -627,6 +702,29 @@ export default function CostList() {
 
         <div className="flex-1 flex-col overflow-x-auto flex-grow p-2">
           <div className="bg-stone-300 grid grid-cols-1">
+          {isTableVisible && costListData.length > 0 && (
+            <table className="border-collapse border border-gray-400 w-full">
+              <thead>
+                <tr>
+                  <th className="border border-gray-400 px-4 py-2">Order No</th>
+                  <th className="border border-gray-400 px-4 py-2">Product Name</th>
+                  <th className="border border-gray-400 px-4 py-2">Quantity</th>
+                  <th className="border border-gray-400 px-4 py-2">Customer</th>
+                </tr>
+              </thead>
+              <tbody>
+                {costListData.map((item, index) => (
+                  <tr key={index}>
+                    <td className="border border-gray-400 px-4 py-2">{item.Order_No}</td>
+                    <td className="border border-gray-400 px-4 py-2">{item.Product_Name}</td>
+                    <td className="border border-gray-400 px-4 py-2">{item.Quantity}</td>
+                    <td className="border border-gray-400 px-4 py-2">{item.TM_Customer.Customer_Name}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+
             <div className="bg-white w-11/12 mt-5 rounded-2xl mx-auto shadow-xl">
               <div className="flex justify-center py-4">
                 <label className="text-xl font-bold">Cost List</label>
@@ -3092,21 +3190,25 @@ export default function CostList() {
                       </label>
                       <div className="items-center w-full mr-5">
                         <select
-                          id="S_Pl_Reg_Person_CD"
-                          value={costListData?.S_Pl_Reg_Person_CD || ""}
-                          onChange={handleCostListInputChange}
-                          className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-24 h-6"
-                        >
-                          <option value=""></option>
-                          {Array.isArray(WorkerData) && WorkerData.length > 0 ? (
-                                WorkerData.map((item, index) => (
-                                  <option key={index} value={item.Worker_CD}>
-                                    {`${item.Worker_CD} - ${item.Worker_Abb} - ${item.Worker_Remark}`}
-                                  </option>
-                                ))
-                              ) : (
-                                <option value="">ไม่มีข้อมูล</option>
-                              )}
+                            id="S_Pl_Reg_Person_CD"
+                            value={costListData?.S_Pl_Reg_Person_CD || ""}
+                            onChange={handleCostListInputChange}
+                            className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffff] w-24 h-6"
+                          >
+                            <option value="">
+                              {/* ถ้าค่าที่เลือกไม่มีการกำหนดจะแสดงข้อความนี้ */}
+                              
+                            </option>
+                            {Array.isArray(WorkerData) && WorkerData.length > 0 ? (
+                              WorkerData.map((item, index) => (
+                                <option key={index} value={item.Worker_CD}>
+                                  {/* แสดงข้อมูลทั้งหมด (Worker_CD - Worker_Abb - Worker_Remark) */}
+                                  {`${item.Worker_CD} - ${item.Worker_Abb} - ${item.Worker_Remark}`}
+                                </option>
+                              ))
+                            ) : (
+                              <option value="">ไม่มีข้อมูล</option>
+                            )}
                         </select>
                       </div>
                     </div>
@@ -3426,25 +3528,34 @@ export default function CostList() {
             <div className="bg-white p-3 mt-5">
               <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4">
                 <div className="grid grid-cols-4 gap-2">
-                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                    Search <br />
+                  <button 
+                    className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+                    disabled
+                  >
+                    Search 
                     検索 (F1)
                   </button>
-                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+                  disabled={!buttonState.F2}>
                     Setting <br />
                     設定 (F2)
                   </button>
-                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white"
+                  onClick={handleF3Click}>
                     Show <br />
                     照会 (F3)
                   </button>
-                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+               
+                  <button 
+                  className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+                  disabled>
                     Target <br />
                     対象 (F4)
                   </button>
                 </div>
                 <div className="grid grid-cols-4 gap-2">
-                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+                  disabled>
                     Product <br />
                     部門 (F5)
                   </button>
@@ -3468,14 +3579,21 @@ export default function CostList() {
                     </label>
                     (F9)
                   </button>
-                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+                  disabled>
                     (F10)
                   </button>
-                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-sm text-white">
+                  <button 
+                    onClick={handleF11Click}
+                    className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-sm text-white">
                     Clear <br />
                     クリア (F11)
                   </button>
-                  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
+                  <button 
+                    disabled={!buttonState.F12}
+                    id="F12"
+                    onClick={handleF12Click}
+                    className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500">
                     Exit <br />
                     終了 (F12)
                   </button>
