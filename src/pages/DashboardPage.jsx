@@ -30,6 +30,23 @@ const Button = ({ label, subLabel, textColor = "text-white", onClick, to }) => {
 };
 
 export default function DashboardPage() {
+    const handlePurchaseListClick = async () => {
+        const result = await Swal.fire({
+            title: 'System Check',
+            text: 'Error occurs when Button7 Click Please contact system administrator.',
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+            showCancelButton: false, 
+        });
+    
+        if (result.isConfirmed) {
+            // Navigate to Purchase List
+            window.location.href = '/dashboard';
+        }
+    };
+    
+
     const handleNavPurchaseClick = async () => {
         const result = await Swal.fire({
             title: 'Are you sure?',
@@ -38,7 +55,7 @@ export default function DashboardPage() {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, import it!'
+            confirmButtonText: 'Yes, import it!',
         });
 
         if (result.isConfirmed) {
@@ -59,7 +76,7 @@ export default function DashboardPage() {
         { label: 'NAV Order', subLabel: 'CSV Import', textColor: "text-red-600", to: '/nav-order-csv-import' },
         { label: 'NAV Purchase', subLabel: 'CSV Import', textColor: "text-red-600", onClick: handleNavPurchaseClick },
         { label: 'Purchase Info', subLabel: '(依頼書別手配処理)', to: '/purchase-info' },
-        { label: 'Purchase List', subLabel: '(手配一覧)', to: '/purchase-list' },
+        { label: 'Purchase List', subLabel: '(手配一覧)', onClick: handlePurchaseListClick },
         { label: 'Go to', subLabel: 'Admin Menu', to: '/admin-menu' },
         { label: 'Plan Info', subLabel: '(依頼書別計画処理)', to: '/plan-info' },
         { label: 'Plan List', subLabel: '(計画一覧)', to: '/plan-list' },
