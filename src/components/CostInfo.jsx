@@ -37,6 +37,7 @@ const CostInfo = () => {
     F12: true,
   });
 
+  const generateSpaces = (count) => "\u00A0".repeat(count);
   const {
     planData,
     setPlanData,
@@ -850,6 +851,7 @@ const CostInfo = () => {
                         disabled={true}
                         className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffcc] w-full h-8"
                       >
+                        <option disabled>Resource_CD | Resource_Symbol </option>
                         <option value={CostData?.CMC || ""}>
                           {CostData?.CMC || ""}
                         </option>
@@ -857,7 +859,7 @@ const CostInfo = () => {
                         ResourceData?.length > 0 ? (
                           ResourceData?.map((item, index) => (
                             <option key={index} value={item.Resource_CD}>
-                              {item.Resource_CD}
+                              {item.Resource_CD}{generateSpaces(2)} |{" "}{item.Resource_Symbol}
                             </option>
                           ))
                         ) : (
@@ -906,13 +908,14 @@ const CostInfo = () => {
                         onChange={handleCostInputChange}
                         className="border-gray-500 border-solid border-2 rounded-md bg-[#ccffcc] w-full h-8"
                       >
+                        <option disabled>Worker_CD | Worker_Abb </option>
                         <option value={CostData?.CPC || ""}>
                           {CostData?.CPC || ""}
                         </option>
                         {Array.isArray(WorkerData) && WorkerData.length > 0 ? (
                           WorkerData.map((item, index) => (
                             <option key={index} value={item.Worker_CD}>
-                              {item.Worker_CD}
+                              {item.Worker_CD}{generateSpaces(2)} |{" "}{item.Worker_Abb}
                             </option>
                           ))
                         ) : (
