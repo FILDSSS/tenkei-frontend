@@ -190,6 +190,12 @@ const navigate = useNavigate();
    
     navigate("/report-csv-purchase", { state: data });
 };
+const handleNavigateOder= (data) => {
+   
+  navigate("/report-csv-order", { state: data });
+};
+
+
     const [apiResults, setApiResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -197,6 +203,8 @@ const navigate = useNavigate();
     const handleApiResponse = (responses, isOrder = true) => {
         const data = responses.map((response) => response.data);
         const stages = responses.map((response) => response.data.stage);
+        const mode = responses.map((response) => response.data.mode);
+
  
         setApiResults(data);
  
@@ -216,13 +224,19 @@ const navigate = useNavigate();
                 popup: 'text-left',
             },
         }).then((result) => {
-            if (result.isConfirmed&&isUpdated) {
+            if (result.isConfirmed&&isUpdated&&mode.includes('Purchase')) {
                 console.log("Yes button clicked");
                
                 handleNavigate(data) // Call the function with the fetched data for order
                 // Call the function with the fetched data for purchase
+                
                
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
+            } 
+            else if(result.isConfirmed&&isUpdated&&mode.includes('Order')){
+                handleNavigateOder(data) 
+            }
+            
+            else if (result.dismiss === Swal.DismissReason.cancel) {
                 console.log("No button clicked");
             }
         });

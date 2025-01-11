@@ -86,7 +86,7 @@ const RdNavPcUpd = () => {
 //       "stage": "update"
 //   }
 // ]       
-const navigate=useNavigate();
+  const navigate=useNavigate();
   const location = useLocation();
   const data = location.state;
   const isUpdated = (oldString, newString) => oldString !== newString;
