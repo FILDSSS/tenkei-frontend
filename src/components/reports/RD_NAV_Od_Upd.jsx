@@ -3,49 +3,27 @@ import React from "react";
 // import Sidebar from "../Sidebar";
 import { useLocation, useNavigate } from "react-router-dom";
 
+const HighlightedInput = ({ oldValue, newValue, className = "", ...props }) => {
+  const isChanged = oldValue !== newValue;
+  return (
+    <input
+      {...props}
+      value={props.value}
+      className={`${className} ${isChanged ? 'bg-yellow-400' : 'bg-transparent'}`}
+      disabled
+    />
+  );
+};
 
 export default function RD_NAV_Od_Upd() {
-  // const data1 = [
-  //   {
-  //     orderDateInput: "22/11/2023",
-  //     customerCDInput: "P0012",
-  //     NAV_Item_NameInput: "D4-4009 (E-301) BT BM PUNCH + CVD TRIPLE",
-  //     material1Input: "D40",
-  //     H_Treatment1Input: "YES",
-  //     orderNoInpurt: "MOR2319320",
-  //     UpdInput: "22/11/2023",
-  //     Reg_CATInput: "Request_CAT",
-  //     Reg_DevileryInput: "25/08/2024",
-  //     Sales_Person_CDInput: "F266",
-  //     NAV_Item_SizeInput: "",
-  //     material2Input: "D40",
-  //     H_Treatment2Input: "",
-  //     Unit_PriceInput: "11940",
-  //     Item_CAT: "Item_CAT",
-  //   },
-  //   {
-  //     orderDateInput: "22/11/2023",
-  //     customerCDInput: "P0012",
-  //     NAV_Item_NameInput: "D4-4009 (E-301) BT BM PUNCH + CVD TRIPLE",
-  //     material1Input: "D40",
-  //     H_Treatment1Input: "YES",
-  //     orderNoInpurt: "MOR2319320",
-  //     UpdInput: "22/11/2023",
-  //     Reg_CATInput: "Request_CAT",
-  //     Reg_DevileryInput: "25/08/2024",
-  //     Sales_Person_CDInput: "F266",
-  //     NAV_Item_SizeInput: "",
-  //     material2Input: "D40",
-  //     H_Treatment2Input: "",
-  //     Unit_PriceInput: "11940",
-  //     Item_CAT: "Item_CAT",
-  //   },
-  // ];
 
-  //const navigate=useNavigate();
     const location = useLocation();
     const data = location.state;
     console.log(data);
+
+    const isValueChanged = (oldValue, newValue) => {
+      return oldValue !== newValue;
+    };
 
   return (
     <div className="flex bg-[#E9EFEC] h-[100vh]">
@@ -108,12 +86,12 @@ export default function RD_NAV_Od_Upd() {
           </div>
           <div className="container mx-auto min-w-full">
             <div className="overflow-x-auto max-h-[70vh]">
-              <table className="min-w-full bg-white border border-solid border-[#000080]">
+              <table className="min-w-full bg-white border border-solid border-[#000080] ">
                 <tbody>
                   {data.map(({updated,old}=row, index) => (
                     <React.Fragment key={index}>
                      
-                      <tr className="text-center text-[12px] bg-white">
+                      <tr className="text-center text-[12px] bg-white ">
                         <td
                           className="py-1 px-10 text-center text-blue-800 font-bold"
                           align="left"
@@ -211,7 +189,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Order_Date}
-                            className="ml-1 bg-transparent text-center w-[80px] border border-black rounded-sm"
+                            className={`ml-1 bg-transparent text-center w-[80px] border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Order_Date,
+                                updated[0].updatedOrder.Order_Date
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -225,7 +210,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Customer_CD}
-                            className="ml-1 bg-transparent text-center w-[70px] border border-black rounded-sm"
+                            className={`bg-transparent text-center text-black font-bold w-[70px] border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Customer_CD,
+                                updated[0].updatedOrder.Customer_CD
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -239,7 +231,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.NAV_Name}
-                            className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[300px] text-black font-bold border border-black rounded-sm"  ${
+                              isValueChanged(
+                                old[0].existingOrder.NAV_Name,
+                                updated[0].updatedOrder.NAV_Name
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -253,7 +252,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Material1}
-                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[100px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Material1,
+                                updated[0].updatedOrder.Material1
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -267,7 +273,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.H_Treatment1}
-                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[100px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.H_Treatment1,
+                                updated[0].updatedOrder.H_Treatment1
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -355,7 +368,7 @@ export default function RD_NAV_Od_Upd() {
                       </tr>
 
                       <tr className="text-center text-[12px] bg-white">
-                        <td className="flex pl-[9.3px]">
+                        <td className="flex pl-[18px]">
                           <input
                             type="text"
                             value="1"
@@ -386,7 +399,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Request_Delivery}
-                            className="ml-1 bg-transparent text-center w-[80px] border border-black rounded-sm"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[80px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Request_Delivery,
+                                updated[0].updatedOrder.Request_Delivery
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -400,7 +420,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Sales_Person_CD}
-                            className="ml-1 bg-transparent text-center w-[70px] border border-black rounded-sm"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[70px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Sales_Person_CD,
+                                updated[0].updatedOrder.Sales_Person_CD
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -414,7 +441,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.NAV_Size}
-                            className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[300px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.NAV_Size,
+                                updated[0].updatedOrder.NAV_Size
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -428,7 +462,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Material2}
-                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[100px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Material2,
+                                updated[0].updatedOrder.Material2
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -442,14 +483,21 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.H_Treatment2}
-                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[100px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.H_Treatment2,
+                                updated[0].updatedOrder.H_Treatment2
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
                       </tr>
 
                       <tr className="text-center text-[12px] bg-white">
-                        <td className="flex pl-[9.3px]">
+                        <td className="flex pl-[18px]">
                           <input
                             type="text"
                             value={old[0].existingOrder.Request1_CD}
@@ -543,27 +591,47 @@ export default function RD_NAV_Od_Upd() {
                       </tr>
 
                       <tr className="text-center text-[12px] bg-white">
-                        <td className="flex pl-[9.3px]">
+                        <td className="flex pl-[18px]">
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Request1_CD}
-                            className="bg-transparent text-center text-black font-bold w-[40px] border border-black rounded-sm"
+                            className={`bg-transparent text-center text-black font-bold w-[40px] border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Request1_CD,
+                                updated[0].updatedOrder.Request1_CD
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Request2_CD}
-                            className="bg-transparent text-center text-black font-bold w-[40px] border border-black rounded-sm"
+                            className={`bg-transparent text-center text-black font-bold w-[40px] border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Request2_CD,
+                                updated[0].updatedOrder.Request2_CD
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Request3_CD}
-                            className="bg-transparent text-center text-black font-bold w-[40px] border border-black rounded-sm"
+                            className={`bg-transparent text-center text-black font-bold w-[40px] border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Request3_CD,
+                                updated[0].updatedOrder.Request3_CD
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
-
                         <td
                           className="pl-10 text-blue-800 font-bold"
                           align="right"
@@ -574,7 +642,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Od_NAV_Upd_Date}
-                            className="ml-1 pl-2 bg-transparent text-left w-[150px] border border-black rounded-sm bg-yellow-400"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[80px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Od_NAV_Upd_Date,
+                                updated[0].updatedOrder.Od_NAV_Upd_Date
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -585,12 +660,19 @@ export default function RD_NAV_Od_Upd() {
                           <span>Upd</span>
                         </td>
                         <td align="right">
-                          <input
-                            type="text"
-                            value={updated[0].updatedOrder.Unit_Price}
-                            className="ml-1 pr-1 bg-transparent text-right w-[70px] border border-black rounded-sm"
-                            disabled
-                          />
+                        <input
+                          type="text"
+                          value={updated[0].updatedOrder.Unit_Price}
+                          className={`ml-1 pl-1 bg-transparent text-left w-[70px] text-black font-bold border border-black rounded-sm ${
+                            isValueChanged(
+                              old[0].existingOrder.Unit_Price,
+                              updated[0].updatedOrder.Unit_Price
+                            )
+                              ? 'bg-yellow-400'
+                              : 'bg-transparent'
+                          }`}
+                          disabled
+                        />
                         </td>
                         <td
                           className="pl-10 text-blue-800 font-bold"
@@ -602,7 +684,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Customer_Draw}
-                            className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[300px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Customer_Draw,
+                                updated[0].updatedOrder.Customer_Draw
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -616,7 +705,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Material3}
-                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[100px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Material3,
+                                updated[0].updatedOrder.Material3
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -630,14 +726,21 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.H_Treatment3}
-                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[100px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.H_Treatment3,
+                                updated[0].updatedOrder.H_Treatment3
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
                       </tr>
 
                       <tr className="text-center text-[12px] bg-white">
-                        <td>
+                        <td >
                           <input
                             type="text"
                             value="Item_CAT"
@@ -721,7 +824,7 @@ export default function RD_NAV_Od_Upd() {
                       </tr>
 
                       <tr className="text-center text-[12px] bg-white">
-                        <td className="flex pl-[9.3px]">
+                        <td className="flex pl-[18px]">
                           <input
                             type="text"
                             value="1"
@@ -761,7 +864,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Quantity}
-                            className="ml-1 bg-transparent text-center w-[80px] border border-black rounded-sm"
+                            className={`ml-1 pr-1 bg-transparent text-right w-[80px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Quantity,
+                                updated[0].updatedOrder.Quantity
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -775,7 +885,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Unit_CD}
-                            className="ml-1 bg-transparent text-center w-[30px] border border-black rounded-sm"
+                            className={`ml-1  bg-transparent text-center w-[30px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Unit_CD,
+                                updated[0].updatedOrder.Unit_CD
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -789,7 +906,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Company_Draw}
-                            className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
+                            className={`ml-1  bg-transparent text-center w-[300px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Company_Draw,
+                                updated[0].updatedOrder.Company_Draw
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -803,7 +927,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Material4}
-                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            className={`ml-1  bg-transparent text-center w-[100px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Material4,
+                                updated[0].updatedOrder.Material4
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -814,23 +945,32 @@ export default function RD_NAV_Od_Upd() {
                           <span>Upd</span>
                         </td>
                         <td>
+                          
                           <input
                             type="text"
                             value={updated[0].updatedOrder.H_Treatment4}
-                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            className={`ml-1  bg-transparent text-center w-[100px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.H_Treatment4,
+                                updated[0].updatedOrder.H_Treatment4
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
                       </tr>
 
                       <tr className="text-center text-[12px] bg-white">
-                        <td className="flex pl-[9.3px]">
+                        <td className="flex pl-[18px]">
                           <input
                             type="text"
                             value={old[0].existingOrder.Item1_CD}
                             className="bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm"
                             disabled
                           />
+                         
                           <input
                             type="text"
                             value={old[0].existingOrder.Item2_CD}
@@ -910,29 +1050,58 @@ export default function RD_NAV_Od_Upd() {
                       </tr>
 
                       <tr className="text-center text-[12px] bg-white border-b-4 border-blue-800">
-                        <td className="flex pl-[9.3px]">
+                        <td className="flex pl-[18px]">
+                         
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Item1_CD}
-                            className="bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm"
+                            className={`bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Item1_CD,
+                                updated[0].updatedOrder.Item1_CD
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Item2_CD}
-                            className="bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm"
+                            className={`bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Item2_CD,
+                                updated[0].updatedOrder.Item2_CD
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Item3_CD}
-                            className="bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm"
+                            className={`bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Item3_CD,
+                                updated[0].updatedOrder.Item3_CD
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Item4_CD}
-                            className="bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm"
+                            className={`bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Item4_CD,
+                                updated[0].updatedOrder.Item4_CD
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -947,10 +1116,18 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Tolerance}
-                            className="ml-1 pl-1 bg-transparent text-left w-[130px] border border-black rounded-sm"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[130px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Tolerance,
+                                updated[0].updatedOrder.Tolerance
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
+                        
                         <td
                           className="pl-10 text-blue-800 font-bold"
                           align="right"
@@ -961,7 +1138,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Coating}
-                            className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[300px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Coating,
+                                updated[0].updatedOrder.Coating
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -975,7 +1159,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.Material5}
-                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[100px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.Material5,
+                                updated[0].updatedOrder.Material5
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
@@ -989,7 +1180,14 @@ export default function RD_NAV_Od_Upd() {
                           <input
                             type="text"
                             value={updated[0].updatedOrder.H_Treatment5}
-                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            className={`ml-1 pl-1 bg-transparent text-left w-[100px] text-black font-bold border border-black rounded-sm ${
+                              isValueChanged(
+                                old[0].existingOrder.H_Treatment5,
+                                updated[0].updatedOrder.H_Treatment5
+                              )
+                                ? 'bg-yellow-400'
+                                : 'bg-transparent'
+                            }`}
                             disabled
                           />
                         </td>
