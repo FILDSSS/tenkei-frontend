@@ -355,7 +355,7 @@ const router = createBrowserRouter([
     element: <RdNavPcUpd />,
   },
   {
-    path:"/report-csv-oder",
+    path:"/report-csv-order",
     element: <RdNavOdUpd/>
   }
 ]);
