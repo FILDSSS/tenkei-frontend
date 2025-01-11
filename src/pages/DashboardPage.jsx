@@ -227,7 +227,7 @@ const handleNavigateOder= (data) => {
             if (result.isConfirmed&&isUpdated&&mode.includes('Purchase')) {
                 console.log("Yes button clicked");
                
-                handleNavigatePurchase(data) // Call the function with the fetched data for order
+                handleNavigate(data) // Call the function with the fetched data for order
                 // Call the function with the fetched data for purchase
                 
                

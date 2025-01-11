@@ -92,7 +92,7 @@ const RdNavPcUpd = () => {
   const isUpdated = (oldString, newString) => oldString !== newString;
 
   // Now you can log or display the data
-  console.log("Data received in RdNavPcUpd:", data.data);
+  console.log("Data received in RdNavPcUpd:", data);
  
   return (
     <div className="flex bg-[#E9EFEC] h-[100vh]">
