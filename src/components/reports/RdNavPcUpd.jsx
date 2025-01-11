@@ -1,464 +1,697 @@
-
-
 import React from "react";
 import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
+import { useLocation, useNavigate } from "react-router-dom";
 
-export default function RdNavPcUpd() {
-  // กำหนดข้อมูลในรูปแบบ Array
-  const rows = [
-    {
-      pds: "PDS",
-      planDate: <div className="bg-yellow-400">16/07</div>,
-      pdsDeli: "19/08",
-      orderPartsNo: "MOR2406307",
-      no: "-07",
-      jood: "●",
-      customerProductionName1: "NSPT (RAYONG)",
-      customerProductionName2: "3 GROOVE DIE (OY",
-      cat1: "Bird",
-      cat2: "C",
-      cat3: "N",
-      ptNameMaterial: "TIP3",
-      ptNameMaterial2: "D40",
-      planQty: "1/6",
-      thisPlan: "No12",
-      ship: "SHIP(v)",
-      mSetPSet: { main: "0", sub: "0" },
-      processData: [
-        {
-          process1: "EW",
-          process2: <div className="bg-black text-white">10/7</div>,
-          process3: "LP",
-          process4: "14/8",
-        },
-        {
-          process1: "MT",
-          process2: <div className="bg-black text-white">10/7</div>,
-          process3: "QC-WI",
-          process4: "14/8",
-        },
-        {
-          process1: "L",
-          process2: <div className="bg-black text-white">10/7</div>,
-          process3: "=>GF",
-          process4: "14/8",
-        },
-        {
-          process1: "GF",
-          process2: <div className="bg-black text-white">10/7</div>,
-        },
-        {
-          process1: "EW",
-          process2: <div className="bg-black text-white">10/7</div>,
-        },
-        {
-          process1: "EDM",
-          process2: <div className="bg-black text-white">10/7</div>,
-        },
-        { process1: "LP", process2: <div className="bg-yellow-300">10/7</div> },
-        {
-          process1: "QC-WI",
-          process2: <div className="bg-yellow-300">10/7</div>,
-        },
-        { process1: "MT", process2: <div className="bg-yellow-300">10/7</div> },
-        {
-          process1: "QLP",
-          process2: <div className="bg-yellow-300">10/7</div>,
-        },
-        {
-          process1: "QC-WI",
-          process2: <div className="bg-yellow-300">10/7</div>,
-        },
-        {
-          process1: <div className="bg-yellow-300">SHIP(V)</div>,
-          process2: <div className="bg-yellow-300">10/7</div>,
-        },
-        { process1: "COA_J", process2: "1/7" },
-        { process1: "LP_ARP", process2: "10/7" },
-        { process1: "QC-WIP", process2: "10/7" },
-        { process1: "M-1", process2: "11/7" },
-        { process1: "MT", process2: "11/7" },
-        { process1: "QC-WI", process2: "11/7" },
-        { process1: "L", process2: "11/7" },
-        { process1: "GF", process2: "11/7" },
-        { process1: "GI", process2: "11/7" },
-        { process1: "GO", process2: "11/7" },
-        { process1: "EW", process2: "11/7" },
-        { process1: "GF", process2: "11/7" },
-      ],
-      ptNoteInfo: [
-        <div className="flex justify-end items-end h-full text-right">
-          LP(7) 150
-        </div>,
-        <div className="flex justify-end items-end h-full text-right">
-          TIP#3, 19/8(86200) 2/8
-        </div>,
-      ],
-    },
-    {
-      pds: "PDS",
-      planDate: <div className="bg-yellow-400">16/07</div>,
-      pdsDeli: "19/08",
-      orderPartsNo: "MOR2406307",
-      no: "-07",
-      jood: "●",
-      customerProductionName1: "NSPT (RAYONG)",
-      customerProductionName2: "3 GROOVE DIE (OY",
-      cat1: "Bird",
-      cat2: "C",
-      cat3: "N",
-      ptNameMaterial: "TIP3",
-      ptNameMaterial2: "D40",
-      planQty: "1/6",
-      thisPlan: "No12",
-      ship: "SHIP(v)",
-      mSetPSet: { main: "0", sub: "0" },
-      processData: [
-        {
-          process1: "EW",
-          process2: <div className="bg-black text-white">10/7</div>,
-          process3: "LP",
-          process4: "14/8",
-        },
-        {
-          process1: "MT",
-          process2: <div className="bg-black text-white">10/7</div>,
-          process3: "QC-WI",
-          process4: "14/8",
-        },
-        {
-          process1: "L",
-          process2: <div className="bg-black text-white">10/7</div>,
-          process3: "=>GF",
-          process4: "14/8",
-        },
-        {
-          process1: "GF",
-          process2: <div className="bg-black text-white">10/7</div>,
-        },
-        {
-          process1: "EW",
-          process2: <div className="bg-black text-white">10/7</div>,
-        },
-        {
-          process1: "EDM",
-          process2: <div className="bg-black text-white">10/7</div>,
-        },
-        { process1: "LP", process2: <div className="bg-yellow-300">10/7</div> },
-        {
-          process1: "QC-WI",
-          process2: <div className="bg-yellow-300">10/7</div>,
-        },
-        { process1: "MT", process2: <div className="bg-yellow-300">10/7</div> },
-        {
-          process1: "QLP",
-          process2: <div className="bg-yellow-300">10/7</div>,
-        },
-        {
-          process1: "QC-WI",
-          process2: <div className="bg-yellow-300">10/7</div>,
-        },
-        {
-          process1: <div className="bg-yellow-300">SHIP(V)</div>,
-          process2: <div className="bg-yellow-300">10/7</div>,
-        },
-        { process1: "COA_J", process2: "1/7" },
-        { process1: "LP_ARP", process2: "10/7" },
-        { process1: "QC-WIP", process2: "10/7" },
-        { process1: "M-1", process2: "11/7" },
-        { process1: "MT", process2: "11/7" },
-        { process1: "QC-WI", process2: "11/7" },
-        { process1: "L", process2: "11/7" },
-        { process1: "GF", process2: "11/7" },
-        { process1: "GI", process2: "11/7" },
-        { process1: "GO", process2: "11/7" },
-        { process1: "EW", process2: "11/7" },
-        { process1: "GF", process2: "11/7" },
-      ],
-      ptNoteInfo: [
-        <div className="flex justify-end items-end h-full text-right">
-          LP(7) 150
-        </div>,
-        <div className="flex justify-end items-end h-full text-right">
-          TIP#3, 19/8(86200) 2/8
-        </div>,
-      ],
-    },
-  ];
+ 
+const RdNavPcUpd = () => {
+//  const data =[
+//   {
+//       "updated": [
+//           {
+//               "Order_No": "APRC",
+//               "Procure_No": "APRC",
+//               "OdPc_No": "APRCAPRC",
+//               "OdPcLn_No": "APRCAPRC1250055",
+//               "Vendor_CAT": null,
+//               "Vendor_CD": "F0001",
+//               "Pc_Name": "VD45 CEMENTED CARBIDE 444",
+//               "Pc_Material": "PUNCH DIA.27.6x51.4L [OY 3297]",
+//               "Pc_Mate_Docu": null,
+//               "Temp_Price": null,
+//               "Price_CD": null,
+//               "Unit_Price": 6500,
+//               "Pc_Qty": 2,
+//               "Pc_Unit_CD": "2",
+//               "Pc_Person_CD": "F021",
+//               "Pc_Date": "2024-01-03T17:00:00.000Z",
+//               "Pc_Req_Delivery": "2024-01-03T17:00:00.000Z",
+//               "Pc_Req_Delivery_CD": null,
+//               "Pc_Ans_Delivery": null,
+//               "Pc_Ans_Delivery_CD": null,
+//               "Pc_Delivery_Judge": null,
+//               "Pc_Progress_CD": "2",
+//               "Pc_Send_Date": null,
+//               "Pc_Arrival_Date": null,
+//               "Pc_Arrival_Qty": 0,
+//               "Pc_Cancel_Date": null,
+//               "Procure_Docu": null,
+//               "Pc_Remark": null,
+//               "Print": null,
+//               "Pc_Reg_Date": null,
+//               "Pc_Upd_Date": "2025-01-10T14:35:56.000Z",
+//               "Pc_NAV_Reg_Date": "2022-12-01T00:55:00.000Z",
+//               "Pc_NAV_Upd_Date": "2022-12-01T07:56:00.000Z",
+//               "Pc_Line_No": 1250055
+//           }
+//       ],
+//       "old": [
+//           {
+//               "Order_No": "APRC",
+//               "Procure_No": "APRC",
+//               "OdPc_No": "APRCAPRC",
+//               "OdPcLn_No": "APRCAPRC1250055",
+//               "Vendor_CAT": null,
+//               "Vendor_CD": "F0001",
+//               "Pc_Name": "VD45 CEMENTED CARBIDE ERR",
+//               "Pc_Material": "PUNCH DIA.27.6x51.4L [OY 3297]",
+//               "Pc_Mate_Docu": null,
+//               "Temp_Price": null,
+//               "Price_CD": null,
+//               "Unit_Price": 6500,
+//               "Pc_Qty": 2,
+//               "Pc_Unit_CD": "2",
+//               "Pc_Person_CD": "F021",
+//               "Pc_Date": "2024-01-03T17:00:00.000Z",
+//               "Pc_Req_Delivery": "2024-01-03T17:00:00.000Z",
+//               "Pc_Req_Delivery_CD": null,
+//               "Pc_Ans_Delivery": null,
+//               "Pc_Ans_Delivery_CD": null,
+//               "Pc_Delivery_Judge": null,
+//               "Pc_Progress_CD": "2",
+//               "Pc_Send_Date": null,
+//               "Pc_Arrival_Date": null,
+//               "Pc_Arrival_Qty": 0,
+//               "Pc_Cancel_Date": null,
+//               "Procure_Docu": null,
+//               "Pc_Remark": null,
+//               "Print": null,
+//               "Pc_Reg_Date": null,
+//               "Pc_Upd_Date": "2025-01-10T14:31:10.000Z",
+//               "Pc_NAV_Reg_Date": "2022-12-01T00:55:00.000Z",
+//               "Pc_NAV_Upd_Date": "2022-12-01T07:56:00.000Z",
+//               "Pc_Line_No": 1250055
+//           }
+//       ],
+//       "stage": "update"
+//   }
+// ]       
+const navigate=useNavigate();
+  const location = useLocation();
+  const data = location.state;
+  const isUpdated = (oldString, newString) => oldString !== newString;
 
+  // Now you can log or display the data
+  console.log("Data received in RdNavPcUpd:", data);
+ 
   return (
     <div className="flex bg-[#E9EFEC] h-[100vh]">
-      <Sidebar />
+      
       <div className="flex flex-col w-screen mr-2 ml-2">
-        <Navbar />
-        <div className="overflow-x-auto max-h-[100vh] max-w-full">
-          <table className="min-w-full bg-white">
-            <thead>
-              <tr>
-                <td className="text-[12px]" colSpan="3">
-                  <div className="bg-white p-2 rounded shadow-lg text-xs">
-                    <div className="flex justify-between text-blue-800 font-bold mb-0 whitespace-nowrap">
-                      {/* Target_Plan_Process_Date section */}
-                      <div className="flex items-center space-x-1">
-                        <span className="text-xs">
-                          Target_Plan_Process_Date:
-                        </span>
-                        <span className="font-normal text-black">
-                          16/04/2024
-                        </span>
-                        <span> ~ </span>
-                        <span className="font-normal text-black">
-                          31/10/2024
-                        </span>
-                      </div>
-
-                      {/* Create_Date and Page section */}
-                      <div className="relative w-full">
-                        <div className="absolute right-0 flex items-center space-x-2">
-                          <span>Create_Date:</span>
-                          <span className="font-normal">24/07/24 15:38:30</span>
-                          <span className="px-6">Page: 1/4</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Process Group Section */}
-                    <div className="flex items-center space-x-2 mt-4">
-                      <div className="font-bold text-blue-800 text-lg">
-                        Process_Grp:
-                      </div>
-
-                      {/* T40190 Section */}
-                      <div className="flex items-center border border-black px-4 py-2 text-base">
-                        <span className="font-bold">T40190</span>
-                      </div>
-
-                      {/* QC Shipping Vendor */}
-                      <div className="flex items-center border border-black px-4 py-2 text-base">
-                        <span className="font-bold text-center whitespace-nowrap">
-                          QC Shipping Vendor
-                        </span>
-                      </div>
-
-                      {/* Process Group Plan List */}
-                      <div className="flex flex-col items-center -mt-5 space-x-10">
-                        <span className="font-bold text-lg text-blue-800 text-center">
-                          Process_Grp_Plan_List
-                        </span>
-                        <div className="flex justify-center space-x-8 mt-2">
-                          <button className="bg-red-500 text-white font-bold px-8 py-1 text-sm">
-                            Self
-                          </button>
-                          <button className="bg-orange-500 text-white font-bold px-8 py-1 text-sm">
-                            1Before
-                          </button>
-                          <button className="bg-orange-500 text-white font-bold px-8 py-1 text-sm">
-                            2Before
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </thead>
-          </table>
-        </div>
-
-        <div className="container mx-auto min-w-full">
-          <div className="overflow-x-auto max-h-[70vh]">
-            <table className="table-auto bg-white border-2 border-blue-800 text-xs">
-              <thead className="sticky top-0 z-10 bg-white">
-                <tr className="text-blue-800 font-bold text-xs border border-blue-800">
-                  <th
-                    className="py-5 px-2 border border-blue-800 border-dashed text-xs w-auto"
-                    rowSpan="2"
-                  >
-                    Plan_Date
-                  </th>
-                  <th
-                    className="py-0.25 px-2 border border-blue-800 border-dashed text-xs w-auto"
-                    rowSpan="2"
-                  >
-                    PDS_Deli
-                  </th>
-                  <th
-                    className="py-0.25 px-2 border border-blue-800 border-dashed text-xs w-auto"
-                    rowSpan="2"
-                  >
-                    Order_Parts_No
-                  </th>
-                  <th
-                    className="py-0.25 px-2 border border-blue-800 border-dashed relative w-auto"
-                    rowSpan="2"
-                  >
-                    <span className="absolute top-0 right-0 text-right border border-dashed border-blue-800 px-1">
-                      CAT
-                    </span>
-                    Customer/Production_Name
-                  </th>
-                  <th
-                    className="py-0.25 px-2 border border-blue-800 border-dashed w-auto"
-                    rowSpan="2"
-                  >
-                    PT_Name Material
-                  </th>
-                  <th
-                    className="py-0.25 px-2 border border-blue-800 border-dashed w-auto"
-                    rowSpan="2"
-                  >
-                    Plan Qty
-                  </th>
-                  <th
-                    className="py-0.25 px-2 border border-blue-800 border-dashed w-auto"
-                    rowSpan="2"
-                  >
-                    This Plan
-                  </th>
-                  <th
-                    className="py-0.25 px-2 border border-blue-800 border-dashed w-auto"
-                    rowSpan="2"
-                  >
-                    M_Set P_Set
-                  </th>
-                  <th className="py-0.25 px-2 border-blue-800" colSpan="24">
-                    Process
-                  </th>
-                  <th
-                    className="py-0.25 px-2 min-w-40 border border-dashed border-blue-800 w-auto"
-                    rowSpan="2"
-                  >
-                    PT_Note/Info
-                  </th>
-                </tr>
-                <tr className="text-blue-800 font-bold border-b border-blue-800 text-xs">
-                  {[...Array(24)].map((_, index) => (
-                    <th
-                      key={index}
-                      className="py-0.25 px-2 w-auto border border-dashed border-blue-800"
-                    >
-                      {index + 1}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-
-              <tbody>
-                {rows.map((row, rowIndex) => {
-                  const processData = [
-                    ...row.processData,
-                    ...Array.from(
-                      { length: 24 - row.processData.length },
-                      () => ({ process1: "", process2: "" })
-                    ),
-                  ].slice(0, 24);
-
-                  // ใช้ bg-blue-100 สำหรับแถวที่เป็นคู่
-                  const rowColor =
-                    rowIndex % 2 === 0 ? "bg-[#cffff9]" : "bg-white";
-
-                  return (
-                    <tr
-                      key={rowIndex}
-                      className={`border border-blue-800 border-dashed ${rowColor} `}
-                    >
-                      <td className="py-0.25 border border-blue-800 border-dashed text-center w-auto">
-                        <div className="text-top">{row.planDate}</div>
-                        <div>{row.pds}</div>
-                      </td>
-                      <td className="py-0.25 px-2 border border-blue-800 border-dashed text-center w-auto align-top">
-                        <div className="text-top">{row.pdsDeli}</div>
-                      </td>
-
-                      <td className="py-0.25 px-2 border border-blue-800 border-dashed align-top w-auto">
-                        <div className="flex justify-between items-start">
-                          <div className="flex flex-col items-start">
-                            <p>{row.orderPartsNo}</p>
-                            <span className="text-black text-lg mt-1">
-                              {row.jood}
-                            </span>
-                          </div>
-                          <p className="top-0 right-0 text-right">{row.no}</p>
-                        </div>
-                      </td>
-                      <td className="py-0.25 px-2 border border-blue-800 border-dashed relative w-auto">
-                        <div className="absolute top-0 left-0 text-left">
-                          <p>{row.customerProductionName1}</p>
-                        </div>
-                        <div className="absolute top-4 left-3 text-left">
-                          <p>{row.customerProductionName2}</p>
-                        </div>
-
-                        <div className="absolute top-0 right-0 flex flex-col items-end">
-                          <span className="border border-dashed border-blue-800 text-xs">
-                            {row.cat1}
-                          </span>
-                          <div className="flex">
-                            <span className="border border-dashed border-blue-800 px-1 text-xs">
-                              {row.cat2}
-                            </span>
-                            <span className="border border-dashed border-blue-800 px-1 text-xs">
-                              {row.cat3}
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-
-                      <td className="py-0.25 px-2 border border-blue-800 border-dashed text-center w-auto">
-                        <p>{row.ptNameMaterial}</p>
-                        <span className="text-xs mt-1">
-                          {row.ptNameMaterial2}
-                        </span>
-                      </td>
-                      <td className="py-0.25 px-2 border border-blue-800 border-dashed w-auto">
-                        {row.planQty}
-                      </td>
-                      <td className="py-0.25 px-2 border border-blue-800 border-dashed text-center w-auto">
-                        <p>{row.thisPlan}</p>
-                        <span className="text-xs mt-1">{row.ship}</span>
-                      </td>
-                      <td className="py-0.25 px-2 border border-blue-800 border-dashed align-top text-right w-auto">
-                        <div className="flex flex-col items-end">
-                          <p>{row.mSetPSet.main}</p>
-                          <span className="text-xs mt-1">
-                            {row.mSetPSet.sub}
-                          </span>
-                        </div>
-                      </td>
-                      {processData.map((process, procIndex) => (
-                        <td
-                          key={`${rowIndex}-${procIndex}`}
-                          className="border border-blue-800 border-dashed text-center min-w-[60px] align-top leading-none"
-                        >
-                          <div>{process.process1}</div>
-                          <div>{process.process2}</div>
-                          <div>{process.process3}</div>
-                          <div>{process.process4}</div>
-                        </td>
+        
+        <div className="flex flex-col overflow-x-auto flex-grow p-2">
+          {/* Header Section */}
+          {/* <div className="bg-white py-2">
+            <div className="w-full overflow-x-auto">
+              <div className="flex items-center justify-between p-1 w-full">
+                <div className="flex flex-col">
+                  {data.length > 0 ? (
+                    <ul className="list-disc pl-6 mb-4">
+                      {data.map((result, index) => (
+                        <li key={index}>
+                          <pre className="bg-gray-100 p-2 rounded">
+                            {JSON.stringify(result, null, 2)}
+                          </pre>
+                        </li>
                       ))}
-
-                      <td className="py-0.25 px-2 border border-blue-800 border-dashed w-auto">
-                        {row.ptNoteInfo.map((info, infoIndex) => (
-                          <div
-                            key={`ptNote-${rowIndex}-${infoIndex}`}
-                            className="flex justify-end items-end h-full text-right"
-                          >
-                            {info}
-                          </div>
-                        ))}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                    </ul>
+                  ) : (
+                    <div className="text-gray-500 mb-4">No results to display.</div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div> */}
+          <div className="bg-white py-2">
+            <div className="w-full overflow-x-auto">
+              <div className="flex items-center justify-between p-1 w-full">
+                <div className="flex items-start">
+                  <span className="font-bold text-blue-900 w-28 text-[14px] pl-5 pt-1">
+                    Product_Grp:
+                  </span>
+                  <div className="flex border border-black divide-x divide-black min-w-[20px] min-h-[30px] items-center">
+                    <input
+                      type="text"
+                      className="px-[10px] py-[2px] border-black overflow-hidden text-xs w-[100px] text-center"
+                      value="FTC-P1"
+                      disabled
+                    />
+                    <input
+                      type="text"
+                      className="px-[10px] py-[2px] border-black overflow-hidden text-xs w-[100px] text-center"
+                      value="FTC-PDS"
+                      disabled
+                    />
+                  </div>
+                </div>
+ 
+                <div className="flex items-center space-x-2 mx-auto flex-shrink-0">
+                  <span className="font-bold text-blue-900 text-[20px]">
+                    Purchase Info Update List
+                  </span>
+                </div>
+ 
+                <div className="flex items-center space-x-2 mr-5 flex-shrink-0">
+                  <span className="font-bold text-blue-900 text-[14px]">
+                    Make_Ti:
+                  </span>
+                  <span className="text-[12px]">25/07/24 00:00:00</span>
+                  <span className="font-bold text-blue-900 text-[14px]">
+                    Page:
+                  </span>
+                  <span className="text-[12px]">1/1</span>
+                </div>
+              </div>
+ 
+              <div className="flex items-start ml-20">
+                <span className="font-bold text-blue-900 w-auto text-xs pl-8 pt-1">
+                  Top : Before_Data
+                </span>
+              </div>
+              <div className="flex items-start ml-20">
+                <span className="font-bold text-blue-900 w-auto text-xs pl-8 pt-1">
+                  Under : After_Data
+                </span>
+              </div>
+            </div>
           </div>
+          <div className="container mx-auto min-w-full">
+            <div className="overflow-x-auto max-h-[70vh]">
+              <table className="min-w-full bg-white border border-solid border-[#000080]">
+                <tbody>
+                {data.map(({updated,old}=row, index) => (
+                    <React.Fragment key={index}>
+                      <tr className="text-center text-[12px] bg-white">
+                        <td
+                          className="py-1 px-10 text-center text-blue-800 font-bold"
+                          align="left"
+                        >
+                          <span>Order_No</span>
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                        <span>PC_Date</span>
+                        </td>
+                        <td align="left">
+                          <input
+                            type="text"
+                            value={old[0].Pc_Date}
+                            className="ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm"
+                            disabled
+                          />
+                          
+                        </td>
+                        <td className="text-blue-800 font-bold text-right relative">
+                          <span>PC_Req_Delivery</span>
+                        </td>
+                        <td align="right">
+                          <input
+                            type="text"
+                            value={old[0].Pc_Req_Delivery}
+                            className="ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold "
+                          align="right"
+                        >
+                          <span>Unit_Price</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={old[0].Unit_Price}
+                            className="ml-1 pl-1 bg-transparent text-left w-[80px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>PC_Person_CD</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={old[0].PO_Person_CD}
+                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Vendor_CD</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={old[0].Vendor_CD}
+                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-5 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>OdPcLn_No</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={old[0].OdPcLn_No}
+                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+                      </tr>
+ 
+                      <tr className="text-center text-[12px] bg-white">
+                        <td>
+                          <input
+                            type="text"
+                            value={old[0].Order_No}
+                            className="ml-1 bg-transparent text-center text-xs font-bold w-[120px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Upd</span>
+                        </td>
+                        <td align="left">
+                          <input
+                            type="text"
+                            value={updated[0].Pc_Date}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(old[0].Pc_Date, updated[0].Pc_Date) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                        <td className="text-blue-800 font-bold text-right relative">
+                          <span>Upd</span>
+                        </td>
+                        <td align="right">
+                          <input
+                            type="text"
+                            value={updated[0].Pc_Req_Delivery}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(old[0].Pc_Req_Delivery, updated[0].Pc_Req_Delivery) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Upd</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={updated[0].Unit_Price}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(old[0].Unit_Price, updated[0].Unit_Price) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Upd</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={updated[0].Pc_Person_CD}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(old[0].Pc_Person_CD, updated[0].Pc_Person_CD) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Upd</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={updated[0].Vendor_CD	}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(old[0].Vendor_CD	, updated[0].Vendor_CD	) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Upd</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={updated[0].OdPcLn_No}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(old[0].OdPcLn_No, updated[0].OdPcLn_No) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                      </tr>
+ 
+                      <tr className="text-center text-[12px] bg-white">
+                        <td
+                          className="py-1 px-10 text-center text-blue-800 font-bold"
+                          align="left"
+                        >
+                          <span>PC_No</span>
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>NAV_Reg_Date</span>
+                        </td>
+                        <td align="left">
+                          <input
+                            type="text"
+                            value={old[0].Pc_NAV_Reg_Date}
+                            className="ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+                        <td className="text-blue-800 font-bold text-right relative">
+                          <span>PC_Ans_Delivery</span>
+                        </td>
+                        <td align="right">
+                          <input
+                            type="text"
+                            value={old[0].Pc_Ans_Delivery}
+                            className="ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>PC_Quantity</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={old[0].Pc_Qty}
+                            className="ml-1 pl-1 bg-transparent text-left w-[80px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Unit_CD</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={old[0].Pc_Unit_CD}
+                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>PC_Item_Name</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={old[0].Pc_Name}
+                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>PC_Progress_CD</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={old[0].Pc_Progress_CD}
+                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+                      </tr>
+ 
+                      <tr className="text-center text-[12px] bg-white">
+                        <td>
+                          <input
+                            type="text"
+                            value={old[0].Procure_No}
+                            className="ml-1 bg-transparent text-center text-xs font-bold w-[120px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+ 
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Upd</span>
+                        </td>
+                        <td align="left">
+                          <input
+                            type="text"
+                            value={updated[0].Pc_NAV_Reg_Date}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(old[0].Reg_DeliveryInput, updated[0].Reg_DeliveryInput) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                        <td className="text-blue-800 font-bold text-right relative">
+                          <span>Upd</span>
+                        </td>
+                        <td align="right">
+                          <input
+                            type="text"
+                            value={updated[0].Pc_Ans_Delivery}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(old[0].Pc_Ans_Delivery, updated[0].Pc_Ans_Delivery) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Upd</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={updated[0].Pc_Qty}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(old[0].Pc_Qty, updated[0].Pc_Qty) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Upd</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={updated[0].Pc_Unit_CD}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(old[0].Pc_Unit_CD, updated[0].Pc_Unit_CD) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Upd</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={updated[0].Pc_Name}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(old[0].Pc_Name, updated[0].Pc_Name) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Upd</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={updated[0].Pc_Progress_CD}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(old[0].Pc_Progress_CD, updated[0].Pc_Progress_CD) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                      </tr>
+ 
+                      <tr className="text-center text-[12px] bg-white">
+                        <td
+                          className="py-1 px-10 text-center text-blue-800 font-bold"
+                          align="left"
+                        >
+                          <span>PC_Line_No</span>
+                        </td>
+ 
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>NAV_Upd_Date</span>
+                        </td>
+                        <td align="left">
+                          <input
+                            type="text"
+                            value={old[0].Pc_NAV_Upd_Date}
+                            className="ml-1 pl-2 bg-transparent  w-[150px] border border-black rounded-sm text-center"
+                            disabled
+                          />
+                        </td>
+                        <td className="text-blue-800 font-bold text-right relative">
+                          <span>PC_Arrival_Date</span>
+                        </td>
+                        <td align="right">
+                          <input
+                            type="text"
+                            value={old[0].Pc_Arrival_Date}
+                            className="ml-1 pr-1 bg-transparent text-center w-[150px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Arrival_Qty</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={old[0].Pc_Arrival_Qty}
+                            className="ml-1 pl-1 bg-transparent text-left w-[80px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>PC_Material</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={old[0].Pc_Material}
+                            className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+                      </tr>
+ 
+                      <tr className="text-center text-[12px] bg-white">
+                        <td>
+                          <input
+                            type="text"
+                            value={old[0].OdPcLn_No}
+                            className="ml-1 bg-transparent text-center text-xs font-bold w-[120px] border border-black rounded-sm"
+                            disabled
+                          />
+                        </td>
+ 
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Upd</span>
+                        </td>
+                        <td align="left">
+                          <input
+                            type="text"
+                            value={updated[0].Pc_NAV_Upd_Date}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(updated[0].Pc_NAV_Upd_Date, old[0].Pc_NAV_Upd_Date) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                        <td className="text-blue-800 font-bold text-right relative">
+                          <span>Upd</span>
+                        </td>
+                        <td align="right">
+                          <input
+                            type="text"
+                            value={updated[0].Pc_Arrival_Date}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(updated[0].Pc_Arrival_Date, old[0].Pc_Arrival_Date) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Upd</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={updated[0].Pc_Arrival_Qty}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(updated[0].Pc_Arrival_Qty, old[0].Pc_Arrival_Qty) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                        <td
+                          className="pl-10 text-blue-800 font-bold"
+                          align="right"
+                        >
+                          <span>Upd</span>
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            value={updated[0].Pc_Material}
+                            className={`ml-1 bg-transparent text-center w-[150px] border border-black rounded-sm ${isUpdated(updated[0].Pc_Material, old[0].Pc_Material) ? 'bg-orange-500' : ''}`}
+                            disabled
+                          />
+                        </td>
+                      </tr>
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="flex items-center justify-center  mt-5 ">
+  <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-[150px] flex justify-center" onClick={()=>navigate(-1)}>
+    Back
+  </button>
+</div>
         </div>
+        
       </div>
+      
     </div>
+    
+
   );
 }
-
-
-
+export default RdNavPcUpd;

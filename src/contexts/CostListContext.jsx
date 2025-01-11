@@ -4,22 +4,73 @@ import axios from "../configs/axios";
 export const CostListContext = createContext();
 
 export default function CostListContextProvider({ children }) {
-  const [WorkergData, setWorkergData] = useState(null);
-  const [WorkgData, setWorkgData] = useState(null);
-  const [WorkerData, setWorkerData] = useState(null);
-  const [CustomerData, setCustomerData] = useState(null);
-  const [Request1Data, setRequest1Data] = useState(null);
-  const [Request2Data, setRequest2Data] = useState(null);
-  const [Request3Data, setRequest3Data] = useState(null);
-  const [CoatingData, setCoatingData] = useState(null);
-  const [SpecificData, setSpecificData] = useState(null);
-  const [OdProgressData, setOdProgressData] = useState(null);
-  const [DeliveryData, setDeliveryData] = useState(null);
-  const [PriceData, setPriceData] = useState(null);
-  const [Item1Data, setItem1Data] = useState(null);
+  const [costListData, setCostListData] = useState(null);
+  const [WorkerData, setWorkerData] = useState([]);
   const [scheduleData, setScheduleData] = useState(null);
-  const [PlProgressData, setPlProgressData] = useState(null);
-  const [TargetData, setTargetData] = useState(null);
+  const [plprogressData, setPlProgressData] = useState(null);
+  //const [formState, setFormState] = useState(initialFormState);
+  // ฟังก์ชันสำหรับดึงข้อมูล cost list
+  const fetchCostList = async (costListData) => {
+    try {
+      const response = await axios.post("/orderlist/fecth-orderlist",costListData); 
+
+      if (response.data) {
+        setCostListData(response.data);
+        // console.log("Cost list data fetched successfully",costListData);
+        // console.log("Response Data:", response.data);
+      } else {
+        console.log("No data found");
+      }
+    } catch (error) {
+      console.error("Error fetching cost list data:", error);
+    }
+  };
+
+  const fetchWorker = async () => {
+    try {
+      const response = await axios.get("/order/worker");
+
+      setWorkerData(response.data.data.worker);
+      return response;
+    } catch (error) {
+      console.error("Error fetching worker groups:", error);
+      throw error;
+    }
+  };
+
+  const fetchSchedule = async () => { 
+    try {
+        const response = await axios.get("/schedule/fetch-schedule"); 
+      
+        setScheduleData(response.data.data.schedule);
+        return response; 
+    } catch (error) {
+        console.error("Error fetching schedule :", error);
+        throw error; 
+    }
+};
+
+const fetchPlprogress = async () => {
+  try {
+    const response = await axios.get("/plprogress/fetch-plprogress");
+
+    setPlProgressData(response.data.data.plprogress);
+    return response;
+  } catch (error) {
+    console.error("Error fetching PL Progress :", error);
+    throw error;
+  }
+};
+
+  // เรียก fetchCostList เมื่อ component ถูกโหลด
+  useEffect(() => {
+    fetchCostList(); 
+    fetchWorker(); 
+    fetchSchedule();
+    fetchPlprogress();
+    
+
+}, []);
 
   const initialFormState = {
     S_Order_No: { enabled: false },
@@ -143,315 +194,24 @@ export default function CostListContextProvider({ children }) {
     S_Ed_Pl_Progress_CD: { enabled: true },
   };
 
-  const [costListData, setCostListData] = useState(null);
 
-  const fetchCostList = async (costListData) => {
-    try {
-      const callApiCostList = await axios.post("/costlist/costlist-detail",costListData)
-      if (callApiCostList.data){
-        setCostListData(callApiCostList);
-      }
-      // else{
-      //   setCostListData([])
-      // }
-      return callApiCostList.data
-    } catch (error) {
-      console.error("Error fetching plan list data:", error);
-      return false;
+    return (
+        <CostListContext.Provider
+          value={{
+            initialFormState,
+            costListData,
+            setCostListData,
+            fetchCostList,
+            fetchWorker,
+            WorkerData,
+            setScheduleData,
+            scheduleData,
+            plprogressData,
+            fetchPlprogress,
+            setPlProgressData,
+          }}
+        >
+          {children}
+        </CostListContext.Provider>
+      );
     }
-  }
-
-  const fetchWorkerGroups = async () => {
-    try {
-      const response = await axios.get("/order/workerG");
-      console.log(response.data.data.workerg)
-      setWorkergData(response.data.data.workerg); // เข้าถึงข้อมูล workerg อย่างถูกต้อง
-      return response;
-    } catch (error) {
-      console.error("Error fetching worker groups:", error);
-      throw error;
-    }
-  };
-
-  const fetchWorker = async () => {
-    try {
-      const response = await axios.get("/order/worker");
-
-      setWorkerData(response.data.data.worker);
-      return response;
-    } catch (error) {
-      console.error("Error fetching worker groups:", error);
-      throw error;
-    }
-  };
-
-  const fetchWorkg = async () => {
-    try {
-      const response = await axios.get("/workg/fetch-workg");
-
-      setWorkgData(response.data.data.workg);
-      return response;
-    } catch (error) {
-      console.error("Error fetching worker workg:", error);
-      throw error;
-    }
-  };
-
-  const fetchCoating = async () => {
-    try {
-      const response = await axios.get("/coating/fetch-coating");
-
-      setCoatingData(response.data.data.coating);
-      return response;
-    } catch (error) {
-      console.error("Error fetching coating :", error);
-      throw error;
-    }
-  };
-
-  const fetchPrice = async () => {
-    try {
-      const response = await axios.get("/price/fetch-price");
-
-      setPriceData(response.data.data.price);
-      return response;
-    } catch (error) {
-      console.error("Error fetching coating :", error);
-      throw error;
-    }
-  };
-
-  const fetchSpecific = async () => {
-    try {
-      const response = await axios.get("/specific/fetch-specific");
-
-      setSpecificData(response.data.data.specific);
-      return response;
-    } catch (error) {
-      console.error("Error fetching Unit :", error);
-      throw error;
-    }
-  };
-
-  const fetchDelivery = async () => {
-    try {
-      const response = await axios.get("/delivery/fetch-delivery");
-
-      setDeliveryData(response.data.data.delivery);
-      return response;
-    } catch (error) {
-      console.error("Error fetching Unit :", error);
-      throw error;
-    }
-  };
-
-  const fetchCustomer = async () => {
-    try {
-      const response = await axios.get("/order/customer");
-      setCustomerData(response.data.data.customer);
-
-      return response;
-    } catch (error) {
-      console.error("Error fetching worker groups:", error);
-      throw error;
-    }
-  };
-
-  const fetchRequest1 = async () => {
-    try {
-      const response = await axios.get("/order/request1");
-      setRequest1Data(response.data.data.request1);
-
-      return response;
-    } catch (error) {
-      console.error("Error fetching request1 data:", error); // เปลี่ยนข้อความแสดงข้อผิดพลาดให้ชัดเจนขึ้น
-      throw error;
-    }
-  };
-
-  const fetchRequest2 = async () => {
-    try {
-      const response = await axios.get("/order/request2");
-      setRequest2Data(response.data.data.request2);
-
-      return response;
-    } catch (error) {
-      console.error("Error fetching request2 data:", error); // เปลี่ยนข้อความแสดงข้อผิดพลาดให้ชัดเจนขึ้น
-      throw error;
-    }
-  };
-
-  const fetchRequest3 = async () => {
-    try {
-      const response = await axios.get("/order/request3");
-      setRequest3Data(response.data.data.request3);
-
-      return response;
-    } catch (error) {
-      console.error("Error fetching request3 data:", error); // เปลี่ยนข้อความแสดงข้อผิดพลาดให้ชัดเจนขึ้น
-      throw error;
-    }
-  };
-
-  const fetchItem1 = async () => {
-    try {
-      const response = await axios.get("/item1/fetch-item1");
-
-      setItem1Data(response.data.data.item1);
-      return response;
-    } catch (error) {
-      console.error("Error fetching item1 :", error);
-      throw error;
-    }
-  };
-
-  // const fetchItem2 = async () => {
-  //   try {
-  //     const response = await axios.get("/item1/fetch-item1");
-
-  //     setItem1Data(response.data.data.item2);
-  //     return response;
-  //   } catch (error) {
-  //     console.error("Error fetching item2 :", error);
-  //     throw error;
-  //   }
-  // };
-
-  // const fetchItem3 = async () => {
-  //   try {
-  //     const response = await axios.get("/item1/fetch-item1");
-
-  //     setItem3Data(response.data.data.item3);
-  //     return response;
-  //   } catch (error) {
-  //     console.error("Error fetching item3 :", error);
-  //     throw error;
-  //   }
-  // };
-
-  // const fetchItem4 = async () => {
-  //   try {
-  //     const response = await axios.get("/item1/fetch-item1");
-
-  //     setItem4Data(response.data.data.item4);
-  //     return response;
-  //   } catch (error) {
-  //     console.error("Error fetching item4 :", error);
-  //     throw error;
-  //   }
-  // };
-
-  const fetchOdprogress = async () => {
-    try {
-      const response = await axios.get("/odprogress/fetch-odprogress");
-
-      setOdProgressData(response.data.data.progress);
-      return response;
-    } catch (error) {
-      console.error("Error fetching Unit :", error);
-      throw error;
-    }
-  };
-
-  const fetchPlprogress = async () => {
-    try {
-      const response = await axios.get("/plprogress/fetch-plprogress");
-
-      setPlProgressData(response.data.data.plprogress);
-      return response;
-    } catch (error) {
-      console.error("Error fetching PL Progress :", error);
-      throw error;
-    }
-  };
-
-  const fetchSchedule = async () => {
-    try {
-      const response = await axios.get("/schedule/fetch-schedule");
-
-      setScheduleData(response.data.data.schedule);
-      return response;
-    } catch (error) {
-      console.error("Error fetching schedule :", error);
-      throw error;
-    }
-  };
-
-  const fetchTarget = async () => {
-    try {
-      const response = await axios.get("/target/fetch-target");
-
-      setTargetData(response.data.data.target);
-      return response;
-    } catch (error) {
-      console.error("Error fetching target :", error);
-      throw error;
-    }
-  };
-
-
-  useEffect(() => {
-    fetchWorkerGroups();
-    fetchWorker();
-    fetchWorkg();
-    fetchCoating();
-    fetchPrice();
-    fetchSpecific();
-    fetchDelivery();
-    fetchCustomer();
-    fetchRequest1();
-    fetchRequest2();
-    fetchRequest3();
-    fetchItem1();
-    fetchOdprogress();
-    fetchPlprogress();
-    fetchSchedule();
-    fetchCostList();
-    fetchTarget();
-  }, []);
-
-  return (
-    <CostListContext.Provider
-      value={{
-        initialFormState,
-        costListData,
-        setCostListData,
-        CustomerData,
-        WorkerData,
-        WorkergData,
-        Request1Data,
-        Request2Data,
-        Request3Data,
-        CoatingData,
-        Item1Data,
-        WorkgData,
-        PriceData,
-        SpecificData,
-        OdProgressData,
-        DeliveryData,
-        scheduleData,
-        PlProgressData,
-        TargetData,
-        setCustomerData,
-        setWorkerData,
-        setWorkergData,
-        setRequest1Data,
-        setRequest2Data,
-        setRequest3Data,
-        setCoatingData,
-        setItem1Data,
-        setWorkgData,
-        setPriceData,
-        setSpecificData,
-        setOdProgressData,
-        setDeliveryData,
-        setScheduleData,
-        setPlProgressData,
-        setTargetData,
-        fetchCostList
-      }}
-    >
-      {children}
-    </CostListContext.Provider>
-  );
-}
