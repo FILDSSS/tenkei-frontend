@@ -1,50 +1,57 @@
 import React from "react";
-import Navbar from "../Navbar";
-import Sidebar from "../Sidebar";
+// import Navbar from "../Navbar";
+// import Sidebar from "../Sidebar";
+import { useLocation, useNavigate } from "react-router-dom";
+
 
 export default function RD_NAV_Od_Upd() {
-  const data1 = [
-    {
-      orderDateInput: "22/11/2023",
-      customerCDInput: "P0012",
-      NAV_Item_NameInput: "D4-4009 (E-301) BT BM PUNCH + CVD TRIPLE",
-      material1Input: "D40",
-      H_Treatment1Input: "YES",
-      orderNoInpurt: "MOR2319320",
-      UpdInput: "22/11/2023",
-      Reg_CATInput: "Request_CAT",
-      Reg_DevileryInput: "25/08/2024",
-      Sales_Person_CDInput: "F266",
-      NAV_Item_SizeInput: "",
-      material2Input: "D40",
-      H_Treatment2Input: "",
-      Unit_PriceInput: "11940",
-      Item_CAT: "Item_CAT",
-    },
-    {
-      orderDateInput: "22/11/2023",
-      customerCDInput: "P0012",
-      NAV_Item_NameInput: "D4-4009 (E-301) BT BM PUNCH + CVD TRIPLE",
-      material1Input: "D40",
-      H_Treatment1Input: "YES",
-      orderNoInpurt: "MOR2319320",
-      UpdInput: "22/11/2023",
-      Reg_CATInput: "Request_CAT",
-      Reg_DevileryInput: "25/08/2024",
-      Sales_Person_CDInput: "F266",
-      NAV_Item_SizeInput: "",
-      material2Input: "D40",
-      H_Treatment2Input: "",
-      Unit_PriceInput: "11940",
-      Item_CAT: "Item_CAT",
-    },
-  ];
+  // const data1 = [
+  //   {
+  //     orderDateInput: "22/11/2023",
+  //     customerCDInput: "P0012",
+  //     NAV_Item_NameInput: "D4-4009 (E-301) BT BM PUNCH + CVD TRIPLE",
+  //     material1Input: "D40",
+  //     H_Treatment1Input: "YES",
+  //     orderNoInpurt: "MOR2319320",
+  //     UpdInput: "22/11/2023",
+  //     Reg_CATInput: "Request_CAT",
+  //     Reg_DevileryInput: "25/08/2024",
+  //     Sales_Person_CDInput: "F266",
+  //     NAV_Item_SizeInput: "",
+  //     material2Input: "D40",
+  //     H_Treatment2Input: "",
+  //     Unit_PriceInput: "11940",
+  //     Item_CAT: "Item_CAT",
+  //   },
+  //   {
+  //     orderDateInput: "22/11/2023",
+  //     customerCDInput: "P0012",
+  //     NAV_Item_NameInput: "D4-4009 (E-301) BT BM PUNCH + CVD TRIPLE",
+  //     material1Input: "D40",
+  //     H_Treatment1Input: "YES",
+  //     orderNoInpurt: "MOR2319320",
+  //     UpdInput: "22/11/2023",
+  //     Reg_CATInput: "Request_CAT",
+  //     Reg_DevileryInput: "25/08/2024",
+  //     Sales_Person_CDInput: "F266",
+  //     NAV_Item_SizeInput: "",
+  //     material2Input: "D40",
+  //     H_Treatment2Input: "",
+  //     Unit_PriceInput: "11940",
+  //     Item_CAT: "Item_CAT",
+  //   },
+  // ];
+
+  const navigate=useNavigate();
+    const location = useLocation();
+    const data = location.state;
+    const isUpdated = (oldString, newString) => oldString !== newString;
 
   return (
     <div className="flex bg-[#E9EFEC] h-[100vh]">
-      <Sidebar />
+      
       <div className="flex flex-col w-screen mr-2 ml-2">
-        <Navbar />
+       
         <div className="flex flex-col overflow-x-auto flex-grow p-2">
           <div className="bg-white py-2">
             <div className="w-full overflow-x-auto">
@@ -103,7 +110,7 @@ export default function RD_NAV_Od_Upd() {
             <div className="overflow-x-auto max-h-[70vh]">
               <table className="min-w-full bg-white border border-solid border-[#000080]">
                 <tbody>
-                  {data1.map((row, index) => (
+                  {data.map(({updated,old}=row, index) => (
                     <React.Fragment key={index}>
                       <tr className="text-center text-[12px] bg-white">
                         <td
@@ -121,7 +128,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="left">
                           <input
                             type="text"
-                            value={row.orderDateInput}
+                            value={old[0].Order_Date}
                             className="ml-1 bg-transparent text-center w-[80px] border border-black rounded-sm"
                             disabled
                           />
@@ -135,7 +142,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="right">
                           <input
                             type="text"
-                            value={row.customerCDInput}
+                            value={old[0].Customer_CD}
                             className="ml-1 bg-transparent text-center w-[70px] border border-black rounded-sm"
                             disabled
                           />
@@ -149,7 +156,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value={row.NAV_Item_NameInput}
+                            value={old[0].NAV_Name}
                             className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
                             disabled
                           />
@@ -163,7 +170,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value={row.material1Input}
+                            value={old[0].Material1}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -177,18 +184,18 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value={row.H_Treatment1Input}
+                            value={old[0].H_Treatment1}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
                         </td>
                       </tr>
-
+                    
                       <tr className="text-center text-[12px] bg-white">
                         <td>
                           <input
                             type="text"
-                            value={row.orderNoInpurt}
+                            value={old[0].Order_No}
                             className="ml-1 bg-transparent text-center text-xs font-bold w-[120px] border border-black rounded-sm"
                             disabled
                           />
@@ -202,7 +209,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="left">
                           <input
                             type="text"
-                            value={row.UpdInput}
+                            value={updated[0].Order_Date}
                             className="ml-1 bg-transparent text-center w-[80px] border border-black rounded-sm"
                             disabled
                           />
@@ -216,7 +223,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="right">
                           <input
                             type="text"
-                            value={row.customerCDInput}
+                            value={updated[0].Customer_CD}
                             className="ml-1 bg-transparent text-center w-[70px] border border-black rounded-sm"
                             disabled
                           />
@@ -230,7 +237,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value={row.NAV_Item_NameInput}
+                            value={updated[0].NAV_Name}
                             className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
                             disabled
                           />
@@ -244,7 +251,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value={row.material1Input}
+                            value={updated[0].Material1}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -258,7 +265,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value={row.H_Treatment1Input}
+                            value={updated[0].H_Treatment1}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -269,7 +276,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value={row.Reg_CATInput}
+                            value="Request_CAT"
                             className="ml-1 bg-transparent text-center text-blue-800 font-bold w-[120px] border border-black rounded-sm"
                             disabled
                           />
@@ -283,7 +290,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="left">
                           <input
                             type="text"
-                            value={row.Reg_DevileryInput}
+                            value={old[0].Request_Delivery}
                             className="ml-1 bg-transparent text-center w-[80px] border border-black rounded-sm"
                             disabled
                           />
@@ -297,7 +304,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="right">
                           <input
                             type="text"
-                            value="F266"
+                            value={old[0].Sales_Person_CD}
                             className="ml-1 bg-transparent text-center w-[70px] border border-black rounded-sm"
                             disabled
                           />
@@ -311,7 +318,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={old[0].NAV_Size}
                             className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
                             disabled
                           />
@@ -325,7 +332,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={old[0].Material2}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -339,7 +346,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={old[0].H_Treatment2}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -377,7 +384,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="left">
                           <input
                             type="text"
-                            value={row.Reg_DevileryInput}
+                            value={updated[0].Request_Delivery}
                             className="ml-1 bg-transparent text-center w-[80px] border border-black rounded-sm"
                             disabled
                           />
@@ -391,7 +398,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="right">
                           <input
                             type="text"
-                            value="F266"
+                            value={updated[0].Sales_Person_CD}
                             className="ml-1 bg-transparent text-center w-[70px] border border-black rounded-sm"
                             disabled
                           />
@@ -405,7 +412,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].NAV_Size}
                             className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
                             disabled
                           />
@@ -419,7 +426,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].Material2}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -433,7 +440,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].H_Treatment2}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -444,19 +451,19 @@ export default function RD_NAV_Od_Upd() {
                         <td className="flex pl-[9.3px]">
                           <input
                             type="text"
-                            value="1"
+                            value={old[0].Request1_CD}
                             className="bg-transparent text-center text-black font-bold w-[40px] border border-black rounded-sm"
                             disabled
                           />
                           <input
                             type="text"
-                            value=""
+                            value={old[0].Request2_CD}
                             className="bg-transparent text-center text-black font-bold w-[40px] border border-black rounded-sm"
                             disabled
                           />
                           <input
                             type="text"
-                            value=""
+                            value={old[0].Request3_CD}
                             className="bg-transparent text-center text-black font-bold w-[40px] border border-black rounded-sm"
                             disabled
                           />
@@ -471,7 +478,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="left">
                           <input
                             type="text"
-                            value="25/11/2024 10:10:10"
+                            value={old[0].Od_NAV_Upd_Date}
                             className="ml-1 pl-2 bg-transparent text-left w-[150px] border border-black rounded-sm"
                             disabled
                           />
@@ -485,7 +492,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="right">
                           <input
                             type="text"
-                            value="11940"
+                            value={old[0].Unit_Price}
                             className="ml-1 pr-1 bg-transparent text-right w-[70px] border border-black rounded-sm"
                             disabled
                           />
@@ -499,7 +506,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value="DI-4009-B"
+                            value={old[0].Customer_Draw}
                             className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
                             disabled
                           />
@@ -513,7 +520,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={old[0].Material3}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -527,7 +534,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={old[0].H_Treatment2}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -538,19 +545,19 @@ export default function RD_NAV_Od_Upd() {
                         <td className="flex pl-[9.3px]">
                           <input
                             type="text"
-                            value="1"
+                            value={updated[0].Request1_CD}
                             className="bg-transparent text-center text-black font-bold w-[40px] border border-black rounded-sm"
                             disabled
                           />
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].Request2_CD}
                             className="bg-transparent text-center text-black font-bold w-[40px] border border-black rounded-sm"
                             disabled
                           />
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].Request3_CD}
                             className="bg-transparent text-center text-black font-bold w-[40px] border border-black rounded-sm"
                             disabled
                           />
@@ -565,7 +572,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="left">
                           <input
                             type="text"
-                            value="25/11/2024 10:10:10 A"
+                            value={updated[0].Od_NAV_Upd_Date}
                             className="ml-1 pl-2 bg-transparent text-left w-[150px] border border-black rounded-sm bg-yellow-400"
                             disabled
                           />
@@ -579,7 +586,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="right">
                           <input
                             type="text"
-                            value="11940"
+                            value={updated[0].Unit_Price}
                             className="ml-1 pr-1 bg-transparent text-right w-[70px] border border-black rounded-sm"
                             disabled
                           />
@@ -593,7 +600,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value="DI-4009-B"
+                            value={updated[0].Customer_Draw}
                             className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
                             disabled
                           />
@@ -607,7 +614,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].Material3}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -621,7 +628,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].H_Treatment3}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -649,7 +656,7 @@ export default function RD_NAV_Od_Upd() {
                         >
                           <input
                             type="text"
-                            value="20"
+                            value={old[0].Quantity}
                             className="ml-1 pr-1 bg-transparent text-right w-[80px] border border-black rounded-sm"
                             disabled
                           />
@@ -663,7 +670,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="right">
                           <input
                             type="text"
-                            value="2"
+                            value={old[0].Unit_CD}
                             className="ml-1 bg-transparent text-center w-[30px] border border-black rounded-sm"
                             disabled
                           />
@@ -672,12 +679,12 @@ export default function RD_NAV_Od_Upd() {
                           className="pl-10 text-blue-800 font-bold"
                           align="right"
                         >
-                          <span>NAV_Item_Size</span>
+                          <span>Company_Draw</span>
                         </td>
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={old[0].Company_Draw}
                             className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
                             disabled
                           />
@@ -686,12 +693,12 @@ export default function RD_NAV_Od_Upd() {
                           className="pl-10 text-blue-800 font-bold"
                           align="right"
                         >
-                          <span>Material2</span>
+                          <span>Material4</span>
                         </td>
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={old[0].Material4}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -700,12 +707,12 @@ export default function RD_NAV_Od_Upd() {
                           className="pl-10 text-blue-800 font-bold"
                           align="right"
                         >
-                          <span>H_Treatment2</span>
+                          <span>H_Treatment4</span>
                         </td>
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={old[0].H_Treatment4}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -752,7 +759,7 @@ export default function RD_NAV_Od_Upd() {
                         >
                           <input
                             type="text"
-                            value={row.Reg_DevileryInput}
+                            value={updated[0].Quantity}
                             className="ml-1 bg-transparent text-center w-[80px] border border-black rounded-sm"
                             disabled
                           />
@@ -766,7 +773,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="right">
                           <input
                             type="text"
-                            value="2"
+                            value={updated[0].Unit_CD}
                             className="ml-1 bg-transparent text-center w-[30px] border border-black rounded-sm"
                             disabled
                           />
@@ -780,7 +787,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].Company_Draw}
                             className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
                             disabled
                           />
@@ -794,7 +801,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].Material4}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -808,7 +815,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].H_Treatment4}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -819,25 +826,25 @@ export default function RD_NAV_Od_Upd() {
                         <td className="flex pl-[9.3px]">
                           <input
                             type="text"
-                            value=""
+                            value={old[0].Item1_CD}
                             className="bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm"
                             disabled
                           />
                           <input
                             type="text"
-                            value=""
+                            value={old[0].Item2_CD}
                             className="bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm"
                             disabled
                           />
                           <input
                             type="text"
-                            value=""
+                            value={old[0].Item3_CD}
                             className="bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm"
                             disabled
                           />
                           <input
                             type="text"
-                            value=""
+                            value={old[0].Item4_CD}
                             className="bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm"
                             disabled
                           />
@@ -852,7 +859,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="left">
                           <input
                             type="text"
-                            value="DRAWING"
+                            value={old[0].Tolerance}
                             className="ml-1 pl-1 bg-transparent text-left w-[130px] border border-black rounded-sm"
                             disabled
                           />
@@ -866,7 +873,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value="CVD TRIPLE"
+                            value={old[0].Coating}
                             className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
                             disabled
                           />
@@ -880,7 +887,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={old[0].Material5}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -894,7 +901,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={old[0].H_Treatment5}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -905,25 +912,25 @@ export default function RD_NAV_Od_Upd() {
                         <td className="flex pl-[9.3px]">
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].Item1_CD}
                             className="bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm"
                             disabled
                           />
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].Item2_CD}
                             className="bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm"
                             disabled
                           />
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].Item3_CD}
                             className="bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm"
                             disabled
                           />
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].Item4_CD}
                             className="bg-transparent text-center text-black font-bold w-[30px] border border-black rounded-sm"
                             disabled
                           />
@@ -938,7 +945,7 @@ export default function RD_NAV_Od_Upd() {
                         <td align="left">
                           <input
                             type="text"
-                            value="DRAWING"
+                            value={updated[0].Tolerance}
                             className="ml-1 pl-1 bg-transparent text-left w-[130px] border border-black rounded-sm"
                             disabled
                           />
@@ -952,7 +959,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value="CVD TRIPLE"
+                            value={updated[0].Coating}
                             className="ml-1 pl-1 bg-transparent text-left w-[300px] border border-black rounded-sm"
                             disabled
                           />
@@ -966,7 +973,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].Material5}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
@@ -980,7 +987,7 @@ export default function RD_NAV_Od_Upd() {
                         <td>
                           <input
                             type="text"
-                            value=""
+                            value={updated[0].H_Treatment5}
                             className="ml-1 pl-1 bg-transparent text-left w-[100px] border border-black rounded-sm"
                             disabled
                           />
