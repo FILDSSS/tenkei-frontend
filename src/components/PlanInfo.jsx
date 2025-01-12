@@ -66,6 +66,7 @@ export default function PlanInfo() {
     deleteSchedule,
     deleteWip,
     fetch_All_Plan,
+    Schedule_Calc,
   } = usePlan();
   const { ProcessCData } = useCost();
   const { purchaseData, setPurchaseData } = usePurchase();
@@ -255,9 +256,7 @@ export default function PlanInfo() {
           return updatedState;
         });
       }
-    } else {
-      setPlanData("");
-    }
+    } 
   };
 
   const handleSearch_Order_NoChange = async (newOrder_No) => {
@@ -797,6 +796,82 @@ export default function PlanInfo() {
       }
     });
   };
+
+  const Schedule_Calc_Click = async () => { 
+    try {
+      const result = await Swal.fire({
+        title: "Confirm",
+        html: "?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+      });
+      if (result.isConfirmed) {
+       const response = await Schedule_Calc();
+       
+       const PPDValues = response.PPDValues;  
+
+       inputs.forEach((id) => {
+         const dateValue = PPDValues[`PPD${id}`]; 
+       
+         const formattedDate = dateValue ? new Date(dateValue) : null;
+       
+         setPlanData((prevData) => ({
+           ...prevData,
+           [`PPD${id}`]: formattedDate,  
+         }));
+       });
+
+       if (response && response.confirm) {
+        const result = await Swal.fire({
+          title: "Confirm",
+          text: response.message, 
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          cancelButtonText: "No",
+        });
+  
+        if (result.isConfirmed) {
+       
+          const newDate = await Swal.fire({
+            title: 'Change process plan date',
+            input: 'text',
+            inputLabel: 'Please enter the new date:',
+            inputAttributes: {
+              id: `PPD${response.No}`, 
+            },
+            inputValue: response.data,
+            inputPlaceholder: 'Enter date (dd/mm/yyyy)',
+            showCancelButton: true,
+          });
+
+          if (newDate.isConfirmed) {
+            const newDateValue = newDate.value;
+            setPlanData((prevData) => ({
+              ...prevData,
+              [`PPD${response.No}`]:newDateValue,  
+            }));
+            await new Promise((resolve) => setTimeout(resolve, 100));
+          }
+          
+        }else{
+    
+        }
+       }
+        
+      }
+    } catch (error) {
+      console.error("Error in Schedule_Calc_Click:", error);
+      Swal.fire({
+        title: "เกิดข้อผิดพลาด",
+        text: "กรุณาลองอีกครั้ง",
+        icon: "error",
+        confirmButtonText: "ตกลง",
+      });
+    }
+  }
 
   useEffect(() => {
     if (orderData?.Od_Ctl_Person_CD && WorkerData.length > 0) {
@@ -2976,7 +3051,7 @@ export default function PlanInfo() {
                             In_Inst(TooPcNo)
                           </label>
                           <div className="w-auto flex gap-1">
-                            <button className="bg-gray-300 py-1 px-2 rounded text-xs">
+                            <button onClick={Schedule_Calc_Click} className="bg-gray-300 py-1 px-2 rounded text-xs">
                               ScheduleCalc
                             </button>
                           </div>
@@ -2985,7 +3060,7 @@ export default function PlanInfo() {
                           <label className="w-10 text-xs">Type</label>
                           <div className="w-auto flex gap-1">
                             <select
-                              disabled
+                          
                               id="Sc_Make_Type"
                               value={planData?.Sc_Make_Type || ""}
                               onChange={handlePlanInputChange}
