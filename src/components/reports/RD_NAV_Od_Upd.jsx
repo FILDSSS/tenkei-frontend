@@ -16,7 +16,7 @@ const HighlightedInput = ({ oldValue, newValue, className = "", ...props }) => {
 };
 
 export default function RD_NAV_Od_Upd() {
-
+  const navigate=useNavigate();
     const location = useLocation();
     const data = location.state;
     console.log(data);
@@ -96,11 +96,15 @@ export default function RD_NAV_Od_Upd() {
           </div>
           <div className="container mx-auto min-w-full">
             <div className="overflow-x-auto max-h-[70vh]">
+              
               <table className="min-w-full bg-white border border-solid border-[#000080] ">
                 <tbody>
-                  {data.map(({updated,old}=row, index) => (
+                {data.map(({updated,old}=row, index) => (
+                  
                     <React.Fragment key={index}>
-                     
+                        <span>Order_No {index + 1}</span>
+                 
+                     <div>
                       <tr className="text-center text-[12px] bg-white ">
                         <td
                           className="py-1 px-10 text-center text-blue-800 font-bold"
@@ -1202,6 +1206,7 @@ export default function RD_NAV_Od_Upd() {
                           />
                         </td>
                       </tr>
+                      </div>
                     </React.Fragment>
                   ))}
                 </tbody>
