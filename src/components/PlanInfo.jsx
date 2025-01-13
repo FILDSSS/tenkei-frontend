@@ -256,9 +256,7 @@ export default function PlanInfo() {
           return updatedState;
         });
       }
-    } else {
-      setPlanData("");
-    }
+    } 
   };
 
   const handleSearch_Order_NoChange = async (newOrder_No) => {
