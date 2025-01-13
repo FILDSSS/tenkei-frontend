@@ -256,7 +256,9 @@ export default function PlanInfo() {
           return updatedState;
         });
       }
-    } 
+    } else {
+      setPlanData("");
+    }
   };
 
   const handleSearch_Order_NoChange = async (newOrder_No) => {
@@ -284,6 +286,53 @@ export default function PlanInfo() {
 
   useEffect(() => {
     handleSearch_Order_NoChange();
+    if (searchOrderNo && searchPlanNo){
+      setButtonState({
+        F1: false,
+        F2: true,
+        F3: false,
+        F4: false,
+        F5: false,
+        F6: false,
+        F7: true,
+        F8: false,
+        F9: true,
+        F10: true,
+        F11: false,
+        F12: false,
+      });
+    }else if (searchOrderNo && searchPlanNo === ""){
+      setButtonState({
+        F1: false,
+        F2: true,
+        F3: false,
+        F4: false,
+        F5: false,
+        F6: false,
+        F7: true,
+        F8: false,
+        F9: true,
+        F10: true,
+        F11: false,
+        F12: false,
+      });
+    }
+    else if (searchOrderNo === "" && searchPlanNo === "") {
+      setButtonState({
+        F1: true,
+        F2: true,
+        F3: true,
+        F4: true,
+        F5: true,
+        F6: true,
+        F7: true,
+        F8: true,
+        F9: true,
+        F10: true,
+        F11: true,
+        F12: false,
+      });
+    }
   }, [searchOrderNo]);
 
   const handleF2Click = () => {
@@ -314,6 +363,22 @@ export default function PlanInfo() {
   };
 
   const handleF3Click = () => {
+    searchPermission(false);
+    editPermission(true);
+    setButtonState({
+      F1: true,
+      F2: true,
+      F3: true,
+      F4: true,
+      F5: true,
+      F6: true,
+      F7: false,
+      F8: false,
+      F9: false,
+      F10: false,
+      F11: false,
+      F12: true,
+    });
     try {
       setPlanData((prevData) => ({
         ...Object.keys(prevData).reduce((acc, key) => {
@@ -416,19 +481,19 @@ export default function PlanInfo() {
       });
     }
   };
-  const confirmWhenSaveNull = async (value, fieldName, defaultValue) => {
-    if (value === null || value === "" || value === undefined) {
-      const displayValue = defaultValue !== undefined ? defaultValue : "N/A"; // ค่าดีฟอลต์ที่แสดงในกรณีที่ไม่มีค่า
-      await Swal.fire({
-        title: `${fieldName} is required!`,
-        text: `Please provide a valid value for ${fieldName}. Default value: ${displayValue}`,
-        icon: "warning",
-        confirmButtonText: "OK",
-      });
-      return false;
-    }
-    return true;
-  };
+  // const confirmWhenSaveNull = async (value, fieldName, defaultValue) => {
+  //   if (value === null || value === "" || value === undefined) {
+  //     const displayValue = defaultValue !== undefined ? defaultValue : "N/A"; // ค่าดีฟอลต์ที่แสดงในกรณีที่ไม่มีค่า
+  //     await Swal.fire({
+  //       title: `${fieldName} is required!`,
+  //       text: `Please provide a valid value for ${fieldName}. Default value: ${displayValue}`,
+  //       icon: "warning",
+  //       confirmButtonText: "OK",
+  //     });
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   const handleF9Click = async () => {
     try {
@@ -3359,9 +3424,13 @@ export default function PlanInfo() {
                           NextInput <br /> 次へ (F11)
                         </button>
                         <button
-                          className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white w-auto text-center"
+                          className={`bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-sm text-white w-auto text-center ${
+                            buttonState.F12
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={buttonState.F12}
                           onClick={handleF12Click}
-                          disabled={!buttonState.F12}
                         >
                           Exit <br /> 終了 (F12)
                         </button>
