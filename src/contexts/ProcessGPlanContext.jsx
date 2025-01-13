@@ -31,9 +31,7 @@ export default function ProcessGPlanContextProvider({ children }) {
 
   const fetchProcessg = async () => {
     try {
-      const response = await axios.get(
-        "/processg/fetch-processg"
-      );
+      const response = await axios.get("/processg/fetch-processg");
       // console.log("Fetched data:", response.data);
       setProcessGData(response.data.data.processg || []);
     } catch (error) {
@@ -43,9 +41,7 @@ export default function ProcessGPlanContextProvider({ children }) {
 
   const fetchTTProcessg = async () => {
     try {
-      const response = await axios.get(
-        "/processg/fetch-ttprocessg"
-      );
+      const response = await axios.get("/processg/fetch-ttprocessg");
       // console.log("Fetched data:", response.data);
       setTTProcessGData(response.data.data.processg || []);
     } catch (error) {
