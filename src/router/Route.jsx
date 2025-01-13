@@ -71,6 +71,7 @@ import { Reserve1DashboardPage } from "../pages/Reserve1DashboardPage";
 import { SearchDashboardPage } from "../pages/SearchDashboardPage";
 import RdNavPcUpd  from "../components/reports/RdNavPcUpd";
 import RdNavOdUpd  from "../components/reports/RD_NAV_Od_Upd";
+import RdProGPlanPage from "../pages/reports/RdProGPlanPage";
 
 
 const router = createBrowserRouter([
@@ -357,7 +358,11 @@ const router = createBrowserRouter([
   {
     path:"/report-csv-order",
     element: <RdNavOdUpd/>
-  }
+  },
+  {
+    path: "/reports/RD_ProG_Plan",
+    element: <RdProGPlanPage />,
+  },
 ]);
 
 export default function Route() {
