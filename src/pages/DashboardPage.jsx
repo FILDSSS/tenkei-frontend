@@ -5,9 +5,13 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router-dom';
 
+
+
+
+ 
 const Button = ({ label, subLabel, textColor = "text-white", onClick, to }) => {
     const navigate = useNavigate();
-
+ 
     const handleNavigation = () => {
         if (to) {
             navigate(to);
@@ -15,10 +19,10 @@ const Button = ({ label, subLabel, textColor = "text-white", onClick, to }) => {
             onClick();
         }
     };
-
+ 
     return (
-        <button 
-            onClick={handleNavigation} 
+        <button
+            onClick={handleNavigation}
             className="bg-[#6A9C89] hover:bg-[#45695C] font-medium h-24 w-full py-4 px-4 rounded-lg shadow-md flex justify-center items-center text-center transition-all duration-300 ease-in-out transform hover:scale-105"
         >
             <div className={`text-sm md:text-base lg:text-lg ${textColor}`}>
