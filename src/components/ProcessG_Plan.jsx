@@ -104,6 +104,32 @@ export default function ProcessG_Plan() {
     }
   };
 
+  const handleF12Click = async () => {
+    try {
+      const confirmResult = await Swal.fire({
+        title: "Confirm",
+        html: "Do you want to close this window?<br>คุณต้องการปิดหน้าต่างนี้หรือไม่?<br>このウィンドウを閉じますか？",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+      });
+
+      if (confirmResult.isConfirmed) {
+        setProcessGPlanData("");
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      console.error("Error in handleF12Click:", error);
+      Swal.fire({
+        title: "เกิดข้อผิดพลาด",
+        text: "กรุณาลองอีกครั้ง",
+        icon: "error",
+        confirmButtonText: "ตกลง",
+      });
+    }
+  };
+
   const customerAbbKey1 = processGPlanData?.S_Customer_CD1;
   const customerAbbForRow1 = (CustomerData || [])
     .filter((customer) => customer.Customer_CD === customerAbbKey1)
@@ -1087,6 +1113,7 @@ export default function ProcessG_Plan() {
               <button
                 id="F12"
                 disabled={!buttonState.F12}
+                onClick={handleF12Click}
                 className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
               >
                 Exit <br />
