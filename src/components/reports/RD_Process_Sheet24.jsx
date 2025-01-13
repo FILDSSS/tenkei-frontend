@@ -1,1156 +1,291 @@
-import React from 'react';
-import Navbar from '../Navbar';
-import Sidebar from '../Sidebar';
+import React, { useRef } from "react";
+import { useParams } from "react-router-dom";
+import html2pdf from "html2pdf.js";
+import "../fonts/CODE39.ttf";
 
 export default function RD_Process_Sheet24() {
-    return (
-        <div className="flex bg-[#E9EFEC] h-screen">
-            <Sidebar />
-            <div className="flex flex-col w-screen mr-2 ml-2 ">
-                <Navbar />
+  const { orderNo } = useParams();
+  const reportRef = useRef();
 
+  const styles = {
+    fontFamily: "CODE39",
+  };
 
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, "0");
+    const month = String(now.getMonth() + 1).padStart(2, "0"); // เดือนเริ่มจาก 0
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
 
-                <hr />
-                {/* ส่วนที่ 1 */}
-                <div className="flex-1  overflow-y-auto py-2 w-full" >
+    // สร้างวันที่และเวลาในรูปแบบที่ต้องการ
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  };
 
-                    <div classname="flex ">
-                        <div className="grid grid-cols-3 grid-rows-1 gap-3">
-                            <div ></div>
-                            <div className="justify-self-center">
-                                <label className='text-2xl'>** Process Sheet **</label>
-                            </div>
-                            <div className="mx-4">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            Make_Time
-                                        </td>
-                                        <td id="make_time_dd/mm/yy">
-                                            dd/mm/yy
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Reg_Person
-                                        </td>
-                                        <td>
-                                            <input type="text" className="border border-blue-700 px-4 h-5 m-2" />
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                        {/* ส่วนที่ 1 */}
+  const handleViewPDF = () => {
+    const element = reportRef.current;
 
+    const options = {
+      filename: `Process_Sheet_${orderNo}.pdf`,
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    };
 
-                        <div>
-                            <label classname="m-4">Product Group:</label>
-                            <input type="text" class="border border-blue-700 px-4  m-2" />
-                            <label classname="m-4">Product Name:</label>
-                            <input type="text" class="border border-blue-700 px-4  m-2" />
-                            <label>Bar-code</label>
-                        </div>
+    html2pdf()
+      .from(element)
+      .set(options)
+      .outputPdf("blob") // ส่งออกเป็น Blob
+      .then((blob) => {
+        const url = URL.createObjectURL(blob); // สร้าง Blob URL
+        window.open(url, "_blank"); // เปิดในแท็บใหม่
+      });
+  };
 
-                        <div className="flex">
-                            <div className="grid grid-cols-3 grid-rows-3 gap-x-10">
-                                <div className='font-medium text-xs'>Order_Name</div>
-                                <div className='font-medium text-xs'>Parts_No</div>
-                                <div className='font-medium text-xs'>Pt_Qty</div>
-                                <div>
-                                    <input className='h-5 border border-blue-700' />
-                                </div>
-                                <div>
-                                    <input className='h-5 border border-blue-700' />
-                                </div>
-                                <div>
-                                    <input className='h-5 border border-blue-700' />
-                                </div>
-                                <div>
-                                </div>
-                                <div></div>
-                                <div></div>
-                            </div>
+  return (
+    <div className="bg-slate-200" style={styles}>
+      <div
+        ref={reportRef}
+        className="
+      p-5 
+      border 
+      border-gray-300 
+      w-[794px] 
+      h-[1123px] 
+      mx-auto 
+      bg-white 
+      overflow-hidden
+    "
+      >
+        <div className="relative">
+          {/* ทำให้ <h1> อยู่ตรงกลาง โดยไม่ขยับ */}
+          <h1 className="font-bold text-[20pt] text-[#000080] text-center">
+            ＊＊ Process Sheet ＊＊
+          </h1>
 
-                            <div className="ml-4">
-                                <table>
-                                    <tr>
-                                        <td className='font-medium text-xs'>
-                                            Request
-                                        </td>
-                                        <td>
-                                            <input className='h-5 border border-blue-700' />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className='font-medium text-xs'>
-                                            Confirm
-                                        </td>
-                                        <td>
-                                            <input className='h-5 border border-blue-700' />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className='font-medium text-xs'>
-                                            Parts
-                                        </td>
-                                        <td>
-                                            <input className='h-5 border border-blue-700'></input>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                            <div className="ml-4">
-                                <table className='border-2 border-blue-700 p-3'>
-                                    <tr>
-                                        <td className='font-bold text-xs text-center'>
-                                            Product
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className='font-large text-2xl'>
-                                            01/07
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-
-
-                        </div>
-                        {/* ส่วนที่ 2 */}
-                        <div className='flex'>
-                            <table className='p-2'>
-                                <tr>
-                                    <td className='font-medium text-xs text-right'>
-                                        Customer:
-                                    </td>
-                                    <td>
-                                        <input className='h-5 border border-blue-700' />
-                                    </td>
-                                    <td className='font-medium text-xs text-center'>
-                                        Specific
-                                    </td>
-                                </tr>
-                                <tr classname="px-2 ">
-                                    <td className='font-medium text-xs text-right'>
-                                        Name:
-                                    </td>
-                                    <td>
-                                        <input className='h-5 border border-blue-700' />
-                                    </td>
-                                    <td>
-                                        <td>
-                                            <input className='h-5 border border-blue-700' />
-                                        </td>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className='font-medium text-xs text-right'>
-                                        Size:
-                                    </td>
-                                    <td>
-                                        <input className='h-5 border border-blue-700' />
-                                    </td>
-                                    <td className='font-medium text-xs text-center'>
-                                        Pt.Material
-                                    </td>
-                                </tr>
-                                <tr classname="px-2">
-                                    <td className='font-medium text-xs text-right'>
-                                        Draw:
-                                    </td>
-                                    <td>
-                                        <input className='h-5 border border-blue-700' />
-                                    </td>
-                                    <td>
-                                        <input className='h-5 border border-blue-700' />
-                                    </td>
-                                </tr>
-
-                            </table>
-                            <div className='flex flex-col px-2'>
-                                <label className='font-medium text-xs text-left px-2'>Pt_Remark:</label>
-                                <input className='min-w-full h-full px-4 border border-blue-700'></input>
-                            </div>
-                        </div>
-
-
-
-                        {/*ส่วนที่ 2 แถวที่ 1 คอลัมน์ 1 */}
-
-                        <table className="">
-                            <tr>
-                                <td class=" text-center text-blue-700 ">
-                                    {/*ส่วนที่ 2 แถว*/}
-                                    <div >
-                                        <label class="text-blue-700 px-2 font-medium text-xs">Info</label>
-                                    </div>
-                                    {/*ส่วนที่ 2 แถวที่ 1 คอลัมน์ 1 */}
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 px-2 font-medium text-xs text-center">
-                                            1
-                                        </td>
-                                        <td class="border border-blue-700 font-medium text-xs text-center">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 px-2 font-medium text-xs text-center">
-                                            2
-                                        </td>
-                                        <td class="border border-blue-700 font-medium text-xs text-center">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 px-2 font-medium text-xs text-center">
-                                            3
-                                        </td>
-                                        <td class="border border-blue-700 font-medium text-xs text-center">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 px-2 font-medium text-xs text-center">
-                                            4
-                                        </td>
-                                        <td class="border border-blue-700 font-medium text-xs text-center">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 px-2 font-medium text-xs text-center">
-                                            5
-                                        </td>
-                                        <td class="border border-blue-700 font-medium text-xs text-center">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 px-2 font-medium text-xs text-center">
-                                            6
-                                        </td>
-                                        <td class="border border-blue-700  min-w-full font-medium text-xs text-center">
-                                        </td>
-                                    </tr>
-
-                                    {/* แถวที่ 2 คอลัมน์ 1 */}
-                                    <lebel class="p-2 font-medium text-xs text-center ">Connect Pt. Info</lebel>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 py-2 font-medium text-xs text-center">
-                                            OdNo.
-                                        </td>
-                                        <td colspan="2" class="font-medium text-xs text-center border border-blue-700 py-2 min-w-full ">
-                                        </td>
-                                        <td className='font-medium text-xs text-center'>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan="2" class="text-blue-700 border border-blue-700 py-2 font-medium text-xs text-center">
-                                            PtNo.
-                                        </td>
-                                        <td colspan="2" class=" border border-blue-700 py-2 font-medium text-xs text-center">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" class=" border border-blue-700 py-2 font-medium text-xs text-center">
-                                        </td>
-                                    </tr>
-                                    <tr >
-                                        <td rowspan="2" class="text-blue-700 border border-blue-700 py-2 font-medium text-xs text-center">
-                                            PrNo.
-                                        </td>
-                                        <td colspan="2" class=" border border-blue-700 py-2 font-medium text-xs text-center">
-                                        </td>
-                                    </tr>
-                                    <tr >
-                                        <td colspan="2" class="font-medium text-xs text-center border border-blue-700 py-2 ">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            No
-                                        </td>
-                                        <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            Process
-                                        </td>
-                                        <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            Pl_Date
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            1
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            2
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            3
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            4
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            5
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            6
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            7
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            8
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            9
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            10
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            11
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            12
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            13
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            14
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            15
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            16
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            17
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            18
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            19
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            20
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            21
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            22
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            23
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            24
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            25
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            26
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            27
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            28
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            29
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            30
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            31
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            32
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            33
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            34
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                        <td class="font-medium text-xs text-center border border-blue-700 ">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            35
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-blue-700 border border-blue-700 font-medium text-xs text-center">
-                                            36
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                        <th class="font-medium text-xs text-center border border-blue-700 ">
-                                        </th>
-                                    </tr>
-                                </td>
-
-
-                                {/* แถวที่ 1 คอลัมน์ 2 */}
-
-                                <div >
-                                    <label class="text-blue-700 px-2 font-medium text-xs text-center">Pl_Quote_OdPt_No:</label>
-                                    <input className='h-5 border border-blue-700' />
-                                </div>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        No
-                                    </td>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        Process
-                                    </td>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        Plan Date
-                                    </td>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        Plan Time
-                                    </td>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        Instructions
-                                    </td>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        Rs Time
-                                    </td>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        Rs Date
-                                    </td>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        Rs Qty
-                                    </td>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        Person Sign
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        1
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        2
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        3
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        4
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        5
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        6
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        7
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        8
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        9
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        10
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        11
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        12
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        13
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        14
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        15
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        16
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        17
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        18
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        19
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        20
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        21
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        22
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        23
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-blue-700 border border-blue-700 font-medium text-xs text-center px-4">
-                                        24
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4 ">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                    <td class=" border border-blue-700 font-medium text-xs text-center px-4">
-                                    </td>
-                                </tr>
-                            </tr>
-                        </table>
-                        <div className='flex justify-end'>
-                            <label className="font-bold text-blue-700 font-medium text-xs text-center">FTC-FR-PDS-03-10(dd-mm-yyyy)</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          {/* ทำให้ <p> อยู่ขวาสุด */}
+          <p className="text-[10pt]  font-bold absolute right-0 bottom-0">
+            <span className="text-[#000080]">Make_Time:</span>
+            <span className="text-[#000000]"> {getCurrentDateTime()}</span>
+          </p>
         </div>
+        <p className="text-[10pt]  font-bold text-right ">
+          <span className="text-[#000080] ">Reg_Person:</span>
+          <span className="text-[12pt] text-[#000000] font-normal "></span>
+        </p>
+        <div className="grid grid-cols-3 gap-4">
+          <p className="text-[12pt]  font-bold ">
+            <span className="text-[#000080] ">Product Group:</span>
+            <span className="text-[16pt] text-[#000000] font-normal "></span>
+          </p>
+          <p className="text-[12pt] font-bold text-center">
+            <span className="text-[#000080] ">Parts Name:</span>
+            <span className="text-[16pt] text-[#000000] font-normal "></span>
+          </p>
+          <p className="text-[18pt]  font-normal text-right">
+            <span className="text-[#000000] ">*{orderNo}*</span>
+          </p>
+        </div>
+        <div className="grid grid-cols-3 pr-96 gap-5 ">
+          <p className="text-[12pt] font-bold">
+            <span className="text-[#000080]">Order_No</span>
+          </p>
+          <p className="text-[12pt] font-bold">
+            <span className="text-[#000080]">Parts_No</span>
+          </p>
+          <p className="text-[12pt] font-bold">
+            <span className="text-[#000080]">Pt_Qty</span>
+          </p>
+        </div>
+        <div className="grid grid-cols-6 pr-20">
+          <p className="text-[20pt] font-bold w-80">
+            <span className="text-[#000000]">
+              BOI2101029<br></br>
+            </span>
+            <span className="text-[12pt] text-[#000080]">Customer:</span>
+            <span className="text-[16pt] text-[#000000] font-normal">
+              {" "}
+              CERRIER MEXICO (E-B)
+            </span>
+          </p>
+          <p className="text-[20pt] font-bold pl-8 ">
+            <span className="text-[#000000]"> - 00</span>
+          </p>
+          <p className="text-[20pt] font-bold pl-10">
+            <span className="text-[#000000]">10</span>
+          </p>
+          <p className="text-[18pt] font-bold pl-8">
+            <span className="text-[#000000]">PCS</span>
+          </p>
+          <p className="text-[12pt] font-bold w-48">
+            <span className="text-[#000000] block">Request 16/03/24</span>
+            <span className="text-[#000000] block">Confirm 16/03/24</span>
+            <span className="text-[#000000] pl-6 block">Parts 16/03/24</span>
+          </p>
+          <p className="font-bold pl-24 w-24">
+            <span className="text-[16pt] text-[#000000] block">Product</span>
+            <span className="text-[#000000] text-[26pt] block">17/02</span>
+            <span className="text-[#000000] text-[18pt] pl-4 block">TOP</span>
+          </p>
+        </div>
+        <div className="grid grid-cols-3 ">
+          <div className="font-bold w-80">
+            <div className="flex items-baseline">
+              <span className="text-[#000080] pl-6">Name:</span>
+              <span className="text-[14pt] text-[#000000] font-normal ml-1">
+                GROOVING PLUG
+              </span>
+            </div>
+            <div className="flex items-baseline mt-2 mb-4">
+              <span className="text-[#000080] pl-9">Size:</span>
+              <span className="text-[14pt] text-[#000000] font-normal ml-1">
+                LOB MO 008 (VTN-001)
+              </span>
+            </div>
+            <div>
+              <p className="text-[10pt] font-normal text-[#000000]">
+                Draw: Cus:LOB MO 008 (VTN-001)
+              </p>
+            </div>
+          </div>
+          <div className="text-[12pt] font-bold pl-20">
+            <div>
+              <span className="text-[#000080]">Specific</span>
+            </div>
+            <div className="">
+              <span className="text-[#000000] font-normal"></span>
+            </div>
+            <div>
+              <span className="text-[#000080]">Pt_Material</span>
+            </div>
+            <div>
+              <span className="text-[#000000] font-normal"></span>
+            </div>
+          </div>
+          <div className="text-[12pt] font-bold ">
+            <div>
+              <span className="text-[#000080]">Pt_Remark</span>
+            </div>
+            <div>
+              <textarea className=" text-[10pt] font-normal text-[#000000] w-full h-16 p-2 border border-black  focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+          </div>
+        </div>
+        <div className="flex space-x-24">
+          <div>
+            <span className="text-[#000080] text-[10pt] font-bold">Info</span>
+          </div>
+          <div>
+            <span className="text-[#000080] text-[10pt] font-bold mr-1">
+              Pl_Quote_OdPt_No:
+            </span>
+            <span className="text-[#000000] text-[12pt] font-bold">
+              BOI221100600
+            </span>
+          </div>
+        </div>
+        <div className="grid grid-cols-[110px_auto] gap-2 h-[90vh]">
+  {/* Left Section */}
+  <div className="flex flex-col justify-between h-full overflow-hidden">
+    <div className="flex-grow flex flex-col justify-between">
+      <table className="border-collapse border-[2px] border-[#000080] text-[10pt] w-full">
+        <tbody>
+          {Array.from({ length: 6 }).map((_, index) => (
+            <tr key={index}>
+              <td className="border-[1px] border-[#000080] p-1 w-[20px]">
+                {index + 1}
+              </td>
+              <td className="border-[1px] border-[#000080] p-1 w-full"></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <span className="text-[#000080] text-[10pt] font-bold mt-2">
+        Connect_Pt_Info
+      </span>
+      <table className="border-collapse border-[2px] border-[#000080] text-[10pt] w-full mt-2">
+        <tbody>
+          <tr>
+            <td className="border-[1px] border-[#000080] w-[20px]">Od No</td>
+            <td className="border-[1px] border-[#000080] w-full"></td>
+          </tr>
+          <tr>
+            <td className="border-[1px] border-[#000080] w-[20px]">Pt No</td>
+            <td className="border-[1px] border-[#000080] w-full"></td>
+          </tr>
+          <tr>
+            <td className="border-[1px] border-[#000080] w-[20px]">Pr No</td>
+            <td className="border-[1px] border-[#000080] w-full"></td>
+          </tr>
+        </tbody>
+      </table>
+      <div className="flex-grow overflow-y-auto">
+        <table className="border-collapse border-[2px] border-[#000080] text-[8pt] w-full">
+          <thead>
+            <tr>
+              <th className="border-[1px] border-[#000080]">No</th>
+              <th className="border-[1px] border-[#000080]">Process</th>
+              <th className="border-[1px] border-[#000080]">Pl_Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array.from({ length: 36 }).map((_, index) => (
+              <tr key={index}>
+                <td className="border-[1px] border-[#000080] text-center">
+                  {index + 1}
+                </td>
+                <td className="border-[1px] border-[#000080]"></td>
+                <td className="border-[1px] border-[#000080]"></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
+  {/* Right Section */}
+  <div className="flex flex-col h-full">
+    <div className="flex-grow overflow-y-auto">
+      <table className="border-collapse border-[3px] border-[#000080] text-[9pt] w-full">
+        <thead className="text-[#000080]">
+          <tr>
+            <th className="border-[2px] border-[#000080] p-1">No</th>
+            <th className="border-[2px] border-[#000080] p-1">Process</th>
+            <th className="border-[2px] border-[#000080] p-1">Pl_Date</th>
+            <th className="border-[2px] border-[#000080] w-60 p-1">
+              Instructions
+            </th>
+            <th className="border-[2px] border-[#000080] p-1">Rs Time</th>
+            <th className="border-[2px] border-[#000080] p-1">Rs Date</th>
+            <th className="border-[2px] border-[#000080] p-1">Rs Qty</th>
+            <th className="border-[2px] border-[#000080] p-1">Person Sign</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Array.from({ length: 24 }).map((_, index) => (
+            <tr key={index}>
+              <td className="border-[1px] text-[#000080] border-[#000080] p-1 text-center font-bold">
+                {index + 1}
+              </td>
+              <td className="border-[1px] border-[#000080] p-1"></td>
+              <td className="border-[1px] border-[#000080] p-1"></td>
+              <td className="border-[1px] border-[#000080] p-1"></td>
+              <td className="border-[1px] border-[#000080] p-1"></td>
+              <td className="border-[1px] border-[#000080] p-1"></td>
+              <td className="border-[1px] border-[#000080] p-1"></td>
+              <td className="border-[1px] border-[#000080] p-1"></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+      </div>
 
-    )
+      <button onClick={handleViewPDF}>View as PDF</button>
+    </div>
+  );
 }

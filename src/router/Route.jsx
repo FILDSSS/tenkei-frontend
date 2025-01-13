@@ -13,6 +13,7 @@ import PurchaseListPage from "../pages/PurchaseListPage";
 import ResultInfoPage from "../pages/ResultInfoPage";
 import ProcessG_PlanPage from "../pages/ProcessG_PlanPage";
 import RD_Process_SheetPage from "../pages/reports/RD_Process_SheetPage";
+import RD_Process_Sheet24Page from "../pages/reports/RD_Process_Sheet24Page";
 import DashboardPage from "../pages/DashboardPage";
 import SalesInfoPage from "../pages/SalesInfoPage";
 import SalesDashboradPage from "../pages/SalesDashboradPage";
@@ -68,6 +69,9 @@ import { AdminMenuDashboardPage } from "../pages/AdminMenuDashboardPage";
 import { ConvertDashboardPage } from "../pages/ConvertDashboardPage";
 import { Reserve1DashboardPage } from "../pages/Reserve1DashboardPage";
 import { SearchDashboardPage } from "../pages/SearchDashboardPage";
+import RdNavPcUpd  from "../components/reports/RdNavPcUpd";
+import RdNavOdUpd  from "../components/reports/RD_NAV_Od_Upd";
+
 
 const router = createBrowserRouter([
   {
@@ -177,6 +181,10 @@ const router = createBrowserRouter([
   {
     path: "/reports/RD_Process_SheetPage/:orderNo",
     element: <RD_Process_SheetPage />,
+  },
+  {
+    path: "/reports/RD_Process_Sheet24Page/:orderNo",
+    element: <RD_Process_Sheet24Page />,
   },
   {
     path: "/cost-info",
@@ -342,6 +350,14 @@ const router = createBrowserRouter([
     path: "/process-dashboard",
     element: <ProcessDashboardPage />,
   },
+  {
+    path: "/report-csv-purchase",
+    element: <RdNavPcUpd />,
+  },
+  {
+    path:"/report-csv-order",
+    element: <RdNavOdUpd/>
+  }
 ]);
 
 export default function Route() {

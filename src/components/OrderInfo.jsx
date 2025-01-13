@@ -1,14 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useOrder } from "../hooks/use-order";
+import { usePlan } from "../hooks/use-plan";
 import { FaArrowDownLong, FaArrowRightLong } from "react-icons/fa6";
 import Swal from "sweetalert2";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 
 export default function OrderInfo() {
+  const generateSpaces = (count) => "\u00A0".repeat(count);
   const navigate = useNavigate();
   const location = useLocation();
+  const [buttonState, setButtonState] = useState({
+    F1: false,
+    F2: false,
+    newAddButton: true,
+    F3: false,
+    F4: false,
+    F5: false,
+    F6: false,
+    F7: false,
+    F8: true,
+    F9: false,
+    F10: false,
+    F11: false,
+    F12: true,
+  });
   const [filteredWorkgData, setFilteredWorkgData] = useState([]);
   const [selectedWorkGName, setSelectedWorkGName] = useState("");
   const { searchOrderNo: initialSearchOrderNo = "" } = location.state || {};
@@ -33,18 +50,20 @@ export default function OrderInfo() {
   const [updPersonName, setupdPersonName] = useState("");
   const [destinationName, setDestinationName] = useState("");
   const [OrderNo, setOrderNo] = useState("");
-  const [autoYearChange, setAutoYearChange] = useState(false);
+  const [autoYearChange, setAutoYearChange] = useState(true);
   const [customerDraw, setCustomerDraw] = useState("");
   const [companyDraw, setCompanyDraw] = useState("");
   const [DocuName, setDocuName] = useState("");
   const [SpecificName, setSpecificName] = useState("");
   const [OdProgressName, setOdProgressName] = useState("");
   const [DeliveryName, setDeliveryName] = useState("");
-
+  const [Schedule_Name, setSchedule_Name] = useState("");
+  const orderNoRef = useRef(null);
+  const SearchorderNoRef = useRef(null);
   const handleAutoYearChange = (event) => {
     setAutoYearChange(event.target.checked);
   };
-
+  const { ScheduleData } = usePlan();
   const {
     CustomerData,
     WorkerData,
@@ -89,9 +108,9 @@ export default function OrderInfo() {
     setOdProgressData,
     DeliveryData,
     setDeliveryData,
+    CheckOrderData,
   } = useOrder();
 
-  // ฟังก์ชันสำหรับตรวจสอบว่าฟิลด์ว่างหรือไม่
   const confirmWhenSaveNull = (fieldName, defaultValue) => {
     const value = document.getElementById(fieldName).value;
     return value !== defaultValue && value.trim() !== "";
@@ -113,16 +132,27 @@ export default function OrderInfo() {
   };
 
   const handleF2Click = () => {
+    console.log("F2 Clicked");
     try {
-      // เรียกใช้ฟังก์ชัน Search_Permission
       searchPermission(false);
-
-      // เรียกใช้ฟังก์ชัน Edit_Permission
       editPermission(true);
 
       const orderNoInput = document.getElementById("Order_No");
 
       orderNoInput.disabled = true;
+      setButtonState((prevState) => ({
+        ...prevState,
+        F2: false,
+        F3: false,
+        newAddButton: false,
+        F4: false,
+        F5: false,
+        F6: false,
+        F9: true,
+        F10: false,
+        F11: true,
+        F12: false,
+      }));
     } catch (error) {
       // จัดการข้อผิดพลาด
       alert("Error occurs when F2_Click\nPlease contact system administrator.");
@@ -132,9 +162,47 @@ export default function OrderInfo() {
   const handleF3Click = () => {
     try {
       searchPermission(false);
-      editPermission(true);
-
-      toggleButtons(false, true, true, false);
+      editPermission(false);
+      document.getElementById("Order_No").disabled = false;
+      setSearchOrderNo("");
+      setOrderData("");
+      setRemainningQuantity("");
+      setSelectedSalesGrpAbb("");
+      setSelectedSalesPerson("");
+      setSelectedCustomerAbb("");
+      setSelectedCustomerName("");
+      setRequest1Name("");
+      setRequest2Name("");
+      setRequest3Name("");
+      setQuoteName("");
+      setUnitName("");
+      setItemName("");
+      setSupplyName("");
+      setCoatingName("");
+      setTargetName("");
+      setPersonName("");
+      setPriceName("");
+      setregPersonName("");
+      setupdPersonName("");
+      setDestinationName("");
+      setOrderNo("");
+      setCustomerDraw("");
+      setCompanyDraw("");
+      setDocuName("");
+      setSpecificName("");
+      setOdProgressName("");
+      setDeliveryName("");
+      setSchedule_Name("");
+      if (orderNoRef.current) {
+        orderNoRef.current.focus();
+      }
+      setButtonState((prevState) => ({
+        F3: false,
+        F8: true,
+        F9: true,
+        F11: true,
+        F12: false,
+      }));
     } catch (error) {
       // จัดการข้อผิดพลาด
       Swal.fire({
@@ -177,22 +245,32 @@ export default function OrderInfo() {
   const handleF6Click = async () => {
     try {
       // ตรวจสอบว่า OrderNo เป็นค่าว่างหรือไม่
-      if (!OrderNo) {
-        await Swal.fire({
-          title: "ข้อมูลไม่ถูกต้อง",
-          text: "(Order_No) เป็นค่าว่าง",
-          icon: "warning",
-          confirmButtonText: "ตกลง",
-        }); // แสดงข้อความเตือนถ้า OrderNo ว่าง
-        return; // ออกจากฟังก์ชัน
-      }
+   
       // ส่ง OrderNo เป็นพารามิเตอร์ใน URL
-      navigate(`/reports/RD_Process_SheetPage/${orderData.Order_No}`, {
+      navigate(`/reports/RD_Process_Sheet24Page/${orderData.Order_No}`, {
         state: { OrderNo },
       });
     } catch (error) {
       // จัดการข้อผิดพลาด
       alert("Error occurs when F6_Click\nPlease contact system administrator.");
+    }
+  };
+  const handleF8Click = async () => {
+    try {
+      Swal.fire({
+        title: "Limit",
+        html: "This feature is currently unavialable!<br>ปัจจุบันไม่สามารถใข้งานฟังก์ชั่นนี้ได้ !<br>現在この機能は使用出来7",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    } catch (error) {
+      console.error("Error in handleF9Click:", error);
+      Swal.fire({
+        title: "เกิดข้อผิดพลาด",
+        text: "กรุณาติดต่อผู้ดูแลระบบ",
+        icon: "error",
+        confirmButtonText: "ตกลง",
+      });
     }
   };
 
@@ -245,12 +323,21 @@ export default function OrderInfo() {
           orderData.Od_Upd_Date = formattedDate;
 
           await editOrders(orderNo);
-
+          await searchOrderData(searchOrderNo);
           // ปิดการแก้ไขสิทธิ์
           editPermission(false);
-
-          // ปิดปุ่ม F9
-          document.getElementById("saveButton").disabled = true;
+          setButtonState((prevState) => ({
+            F2: true,
+            newAddButton: true,
+            F3: true,
+            F4: true,
+            F5: true,
+            F6: true,
+            F8: true,
+            F10: true,
+            F11: true,
+            F9: false,
+          }));
         }
       } else {
         const result = await Swal.fire({
@@ -271,12 +358,21 @@ export default function OrderInfo() {
           orderData.Od_Upd_Date = formattedDate;
 
           await createOrder();
-
+          await searchOrderData(searchOrderNo);
           // ปิดการแก้ไขสิทธิ์
           editPermission(false);
-
-          // ปิดปุ่ม F9
-          document.getElementById("saveButton").disabled = true;
+          setButtonState((prevState) => ({
+            F2: true,
+            newAddButton: true,
+            F3: true,
+            F4: true,
+            F5: true,
+            F6: true,
+            F8: true,
+            F10: true,
+            F11: true,
+            F9: false,
+          }));
         }
       }
     } catch (error) {
@@ -325,22 +421,137 @@ export default function OrderInfo() {
   };
   const handleF11Click = async () => {
     try {
-      // ปิดการค้นหาและการแก้ไข
-      searchPermission(false);
+     
+      const result = await Swal.fire({
+        title: "Confirm",
+        html: "Would you like to make the next input?<br>ป้อนข้อมูลต่อไปหรือไม่ ?<br>次入力しますか?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+      });
+     
+      if (result.isConfirmed) {
+        if (searchOrderNo) {
+      setSearchOrderNo("")
+      setRemainningQuantity("");
+      setSelectedSalesGrpAbb("");
+      setSelectedSalesPerson("");
+      setSelectedCustomerAbb("");
+      setSelectedCustomerName("");
+      setRequest1Name("");
+      setRequest2Name("");
+      setRequest3Name("");
+      setQuoteName("");
+      setUnitName("");
+      setItemName("");
+      setSupplyName("");
+      setCoatingName("");
+      setTargetName("");
+      setPersonName("");
+      setPriceName("");
+      setregPersonName("");
+      setupdPersonName("");
+      setDestinationName("");
+      setOrderNo("");
+      setCustomerDraw("");
+      setCompanyDraw("");
+      setDocuName("");
+      setSpecificName("");
+      setOdProgressName("");
+      setDeliveryName("");
+      setSchedule_Name("");
+      const response = await fetchOrders(); 
+      setButtonState((prevState) => ({
+        ...prevState,
+        F2: false,
+        F3: false,
+        F4: false,
+        F5: false,
+        F9: false,
+        F10: false,
+        F11: false,
+      }));  
       editPermission(false);
-
-      // ดึงข้อมูลคำสั่งซื้อจาก API
-      const response = await fetchOrders(); // เรียกใช้ fetchOrders เพื่อดึงข้อมูลการสั่งซื้อ
-
-      // ตรวจสอบว่ามีข้อมูลใน response หรือไม่
       if (!response || !response.data || response.data.length === 0) {
         Swal.fire({
           title: "ไม่มีข้อมูลคำสั่งซื้อ",
           icon: "warning",
           confirmButtonText: "ตกลง",
-        }); // แจ้งเตือนผู้ใช้ว่าข้อมูลไม่มี
+        });
       } else {
         searchPermission(true);
+        if (SearchorderNoRef.current) {
+          SearchorderNoRef.current.focus();
+        }
+      }
+        }else{
+          
+          const confirmResult = await Swal.fire({
+            title: "Reconfirm",
+            html: "Editing contents will be cancelled!<br>Really, are you sure?<br>เนื้อหาที่ทําการแก้ไขจะถูกยกเลิก! แน่ใจจริงๆแล้ว หรือไม่?<br>編集中の内容が取消されます!<br>本当に宜しいで",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+          });
+          if (confirmResult.isConfirmed) { 
+            setSearchOrderNo("")
+            setRemainningQuantity("");
+            setSelectedSalesGrpAbb("");
+            setSelectedSalesPerson("");
+            setSelectedCustomerAbb("");
+            setSelectedCustomerName("");
+            setRequest1Name("");
+            setRequest2Name("");
+            setRequest3Name("");
+            setQuoteName("");
+            setUnitName("");
+            setItemName("");
+            setSupplyName("");
+            setCoatingName("");
+            setTargetName("");
+            setPersonName("");
+            setPriceName("");
+            setregPersonName("");
+            setupdPersonName("");
+            setDestinationName("");
+            setOrderNo("");
+            setCustomerDraw("");
+            setCompanyDraw("");
+            setDocuName("");
+            setSpecificName("");
+            setOdProgressName("");
+            setDeliveryName("");
+            setSchedule_Name("");
+            const response = await fetchOrders(); 
+            setButtonState((prevState) => ({
+              ...prevState,
+              F2: false,
+              newAddButton: true,
+              F3: false,
+              F4: false,
+              F5: false,
+              F9: false,
+              F10: false,
+              F11: false,
+              F12: true,
+            }));  
+            editPermission(false);
+            if (!response || !response.data || response.data.length === 0) {
+              Swal.fire({
+                title: "ไม่มีข้อมูลคำสั่งซื้อ",
+                icon: "warning",
+                confirmButtonText: "ตกลง",
+              });
+            } else {
+              searchPermission(true);
+              if (SearchorderNoRef.current) {
+                SearchorderNoRef.current.focus();
+              }
+          }
+        }
+        }
       }
     } catch (error) {
       console.error("Error in handleF11Click:", error);
@@ -353,21 +564,103 @@ export default function OrderInfo() {
     }
   };
 
-  const handleInputChange = (event) => {
+  const handleF12Click = async () => {
+    try {
+      const confirmResult = await Swal.fire({
+        title: "Confirm",
+        html: "Do you want to close this window?<br>คุณต้องการปิดหน้าต่างนี้หรือไม่?<br>このウィンドウを閉じますか？",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+      });
+      if (confirmResult.isConfirmed) { 
+         navigate("/dashboard")
+      }
+    } catch (error) {
+      console.error("Error in handleF12Click:", error);
+      Swal.fire({
+        title: "เกิดข้อผิดพลาด",
+        text: "กรุณาลองอีกครั้ง",
+        icon: "error",
+        confirmButtonText: "ตกลง",
+      }); // แจ้งเตือนผู้ใช้เกี่ยวกับข้อผิดพลาด
+    }
+  };
+
+  const handleInputChange = async (event) => {
     const { id, value, type, checked } = event.target;
     const supplyCD = orderData?.Supply_CD;
+    let formattedValue = value;
+
+    // ตรวจสอบว่าเป็น datetime-local และฟอร์แมตค่า
+    if (type === "datetime-local" && value) {
+      const dateWithCurrentTime = new Date(value);
+      const year = dateWithCurrentTime.getFullYear();
+      const month = String(dateWithCurrentTime.getMonth() + 1).padStart(2, "0");
+      const day = String(dateWithCurrentTime.getDate()).padStart(2, "0");
+      const hours = String(dateWithCurrentTime.getHours()).padStart(2, "0");
+      const minutes = String(dateWithCurrentTime.getMinutes()).padStart(2, "0");
+      const seconds = String(dateWithCurrentTime.getSeconds()).padStart(2, "0");
+
+      formattedValue = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+
+    // อัปเดตค่าของ orderData
     setOrderData((prevOrderData) => ({
       ...prevOrderData,
-      [id]: type === "checkbox" ? checked : value === "" ? null : value,
+      [id]:
+        type === "checkbox"
+          ? checked
+          : type === "datetime-local" && value
+          ? formattedValue // ใช้ formattedValue
+          : type === "date" && value !== ""
+          ? new Date(`${value}T00:00:00.000Z`).toISOString()
+          : value === ""
+          ? null
+          : value,
     }));
 
     switch (id) {
-      case "Order_No":
-        searchOrderData(value);
-        break;
       case "Search_Order_No":
-        searchOrderData(value);
         setSearchOrderNo(value);
+        if (value) {
+          setSearchOrderNo(value);
+
+          const result = await searchOrderData(value);
+
+          if (result) {
+            setButtonState((prevState) => ({
+              ...prevState,
+              F2: true,
+              F3: true,
+              F4: true,
+              F5: true,
+              F10: true,
+              F11: true,
+            }));
+          } else {
+            setButtonState((prevState) => ({
+              ...prevState,
+              F2: false,
+              F3: false,
+              F4: false,
+              F5: false,
+              F10: false,
+              F11: false,
+            }));
+          }
+        } else {
+          setButtonState((prevState) => ({
+            ...prevState,
+            F2: false,
+            F3: false,
+            F4: false,
+            F5: false,
+            F10: false,
+            F11: false,
+          }));
+        }
         break;
       case "Product_Grp_CD":
         setOrderData((prevOrderData) => ({
@@ -378,6 +671,8 @@ export default function OrderInfo() {
       default:
         break;
     }
+
+    // กรองข้อมูล WorkgData ตาม Supply_CD
     if (supplyCD === "0") {
       if (Array.isArray(WorkgData) && WorkgData.length > 0) {
         setFilteredWorkgData(WorkgData);
@@ -557,28 +852,34 @@ export default function OrderInfo() {
     });
   };
 
-  const handleQuantityChange = async (newQuantity) => {
-    const result = await Swal.fire({
-      title: "ยืนยันการเปลี่ยนแปลง",
-      text: "คุณต้องการอัปเดตจำนวนหรือไม่?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "ใช่",
-      cancelButtonText: "ไม่",
-    });
+  const confirmProductionTargetChange = async (value) => {
+    try {
+      const result = await Swal.fire({
+        title: "Confirm",
+        html: "Would you like to also change [Production_Target_Qty]?<br>ต้องการเปลี่ยนแปลง [Production_Target_Qty] ด้วยหรือไม่ ?<br>「Production_Target_Qty」 も変更しますか?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+      });
 
-    if (result.isConfirmed) {
-      handPdTargetQty(orderData.Quantity); // ตั้งค่าจำนวนเป้าหมายเป็นค่าที่ใหม่
-    } else {
-      handPdTargetQty(orderData.Pd_Target_Qty); // ตั้งค่าจำนวนเป้าหมายกลับเป็นค่าเดิม
+      if (result.isConfirmed) {
+        // ถ้าผู้ใช้กดยืนยัน จะเปลี่ยนค่าใหม่
+        handPdTargetQty(orderData.Quantity);
+      } else {
+        // ถ้าผู้ใช้กดไม่ คืนค่าเดิม
+        handPdTargetQty(orderData.Pd_Target_Qty);
+      }
+    } catch (error) {
+      console.error("Error during confirmation:", error);
+      Swal.fire({
+        title: "เกิดข้อผิดพลาด",
+        text: "ไม่สามารถเปลี่ยนค่า Production_Target_Qty ได้",
+        icon: "error",
+        confirmButtonText: "ตกลง",
+      });
     }
   };
-
-  useEffect(() => {
-    if (orderData?.Quantity) {
-      handleQuantityChange();
-    }
-  }, [orderData?.Quantity]);
 
   useEffect(() => {
     if (orderData?.Product_Grp_CD && WorkergData.length > 0) {
@@ -607,6 +908,16 @@ export default function OrderInfo() {
     orderData?.Destination_CD,
     WorkergData,
   ]);
+
+  useEffect(() => {
+    if (orderData?.Schedule_CD && ScheduleData.length > 0) {
+      const selectedGroup = ScheduleData.find(
+        (item) => item.Schedule_CD === orderData.Schedule_CD
+      );
+
+      setSchedule_Name(selectedGroup ? selectedGroup.Schedule_Symbol : "");
+    }
+  }, [orderData?.Schedule_CD, ScheduleData]);
 
   useEffect(() => {
     if (orderData?.Sales_Person_CD && WorkerData.length > 0) {
@@ -812,6 +1123,7 @@ export default function OrderInfo() {
       <Sidebar />
       <div className="flex flex-col w-screen mr-2 ml-2">
         <Navbar />
+
         <div className="flex-1 flex-col overflow-x-auto flex-grow p-2">
           <div className="bg-white grid grid-cols-1">
             <div className="overflow-x-auto">
@@ -828,12 +1140,43 @@ export default function OrderInfo() {
                       Search Order No
                     </label>
                     <input
+                       ref={SearchorderNoRef}
                       id="Search_Order_No"
                       value={searchOrderNo || ""}
                       onChange={handleInputChange}
                       type="text"
                       className="bg-[#ccffff] border-2 border-gray-500 rounded-md px-2 w-full"
                       placeholder="Search Order Number"
+                      onBlur={async (e) => {
+                        const value = e.target.value;
+                        if (value) {
+                          const result = await searchOrderData(value);
+                          if (!result) {
+                            Swal.fire({
+                              title: "ไม่พบข้อมูล",
+                              html: `${value} is not yet registered !<br>${value} ที่ป้อนไปยังไม่ได้ถูกลงทะเบียน !<br>${value} は登録されていません!`,
+                              icon: "warning",
+                              confirmButtonText: "ตกลง",
+                            });
+                          }
+                        }
+                      }}
+                      onKeyDown={async (e) => {
+                        if (e.key === "Enter") {
+                          const value = e.target.value;
+                          if (value) {
+                            const result = await searchOrderData(value);
+                            if (!result) {
+                              Swal.fire({
+                                title: "ไม่พบข้อมูล",
+                                html: `${value} is not yet registered !<br>${value} ที่ป้อนไปยังไม่ได้ถูกลงทะเบียน !<br>${value} は登録されていません!`,
+                                icon: "warning",
+                                confirmButtonText: "ตกลง",
+                              });
+                            }
+                          }
+                        }
+                      }}
                     />
                   </div>
 
@@ -842,25 +1185,62 @@ export default function OrderInfo() {
                     <label htmlFor="Order_No" className="whitespace-nowrap">
                       Order No.
                     </label>
-                    {orderData ? (
-                      <input
-                        disabled
-                        id="Order_No"
-                        value={orderData.Order_No || ""}
-                        onChange={handleInputChange}
-                        type="text"
-                        className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1"
-                      />
-                    ) : (
-                      <input
-                        disabled
-                        id="Order_No"
-                        value={orderData?.Order_No || ""}
-                        onChange={handleInputChange}
-                        type="text"
-                        className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1"
-                      />
-                    )}
+
+                    <input
+                      ref={orderNoRef}
+                      disabled
+                      id="Order_No"
+                      value={orderData?.Order_No || ""}
+                      onChange={handleInputChange}
+                      type="text"
+                      className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1"
+                      onBlur={async (e) => {
+                        const value = e.target.value;
+
+                        if (value) {
+                          if (!orderData?.Order_No || searchOrderNo) return;
+                          const result = await CheckOrderData(value);
+
+                          if (result) {
+                            Swal.fire({
+                              title: "Confirm",
+                              html: `${orderData.Order_No} is already registered!<br>${orderData.Order_No} ได้ถูกป้อนข้อมูลการลงทะเบียนแล้ว !<br>${orderData.Order_No} はすでに登録されています!`,
+                              icon: "error",
+                              confirmButtonText: "Ok",
+                            }).then(() => {
+                              editPermission(false);
+                              document.getElementById("Order_No").disabled = false;
+                            });
+                          }else{
+                            editPermission(true);
+                            
+                          }
+                        }
+                      }}
+                      onKeyDown={async (e) => {
+                        if (e.key === "Enter") {
+                          const value = e.target.value;
+                          if (value) {
+                            if (!orderData?.Order_No || searchOrderNo) return;
+                            const result = await CheckOrderData(value);
+                            if (result) {
+                              Swal.fire({
+                                title: "Confirm",
+                                html: `${orderData.Order_No} is already registered!<br>${orderData.Order_No} ได้ถูกป้อนข้อมูลการลงทะเบียนแล้ว !<br>${orderData.Order_No} はすでに登録されています!`,
+                                icon: "error",
+                                confirmButtonText: "Ok",
+                              }).then(() => {
+                                editPermission(false);
+                                document.getElementById("Order_No").disabled = false;
+                              });
+                            }
+                          }else{
+                            editPermission(true);
+                            
+                          }
+                        }
+                      }}
+                    />
                   </div>
 
                   {/* Production Group */}
@@ -872,18 +1252,20 @@ export default function OrderInfo() {
                       Production Group
                     </label>
                     <select
+                      disabled
                       id="Product_Grp_CD"
                       value={orderData?.Product_Grp_CD || ""}
                       onChange={handleInputChange}
-                      className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-full"
+                      className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-20"
                     >
+                      <option disabled>WorkG_CD | WorkG_Name</option>
                       <option value={orderData?.Product_Grp_CD || ""}>
                         {orderData?.Product_Grp_CD || ""}
                       </option>
                       {Array.isArray(WorkergData) && WorkergData.length > 0 ? (
                         WorkergData.map((item, index) => (
                           <option key={index} value={item.WorkG_CD}>
-                            {item.WorkG_CD}
+                            {item.WorkG_CD}{generateSpaces(2)} |{" "}{item.WorkG_Name}
                           </option>
                         ))
                       ) : (
@@ -896,13 +1278,13 @@ export default function OrderInfo() {
                       value={selectedWorkGName || ""}
                       onChange={(event) => setWorkergData(event)}
                       type="text"
-                      className="bg-white border-2 border-gray-500 rounded-md px-2 w-full"
+                      className="bg-white border-2 border-gray-500 rounded-md px-2 w-40"
                       placeholder="Enter Group"
                     />
                   </div>
 
                   {/* Auto Year Change */}
-                  <div className="flex gap-2 items-center col-span-1 ">
+                  <div className="flex gap-2 items-center col-span-1 ml-[100px]">
                     <input
                       id="Auto_Year_Change"
                       checked={autoYearChange}
@@ -1088,7 +1470,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Od_Pending"
-                              value={!!orderData.Od_Pending || ""}
+                              checked={orderData?.Od_Pending === true}
                               onChange={handleInputChange}
                               type="checkbox"
                               className="w-6 h-6"
@@ -1097,7 +1479,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Od_Pending"
-                              value={!!orderData?.Od_Pending || ""}
+                              checked={orderData?.Od_Pending === true}
                               onChange={handleInputChange}
                               type="checkbox"
                               className="w-6 h-6"
@@ -1112,7 +1494,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Temp_Shipment"
-                              value={!!orderData.Temp_Shipment || ""}
+                              checked={orderData?.Temp_Shipment === true}
                               onChange={handleInputChange}
                               type="checkbox"
                               className="w-6 h-6"
@@ -1121,7 +1503,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Temp_Shipment"
-                              value={!!orderData?.Temp_Shipment || ""}
+                              checked={orderData?.Temp_Shipment === true}
                               onChange={handleInputChange}
                               type="checkbox"
                               className="w-6 h-6"
@@ -1136,7 +1518,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Unreceived"
-                              value={!!orderData.Unreceived || ""}
+                              checked={orderData?.Unreceived === true}
                               onChange={handleInputChange}
                               type="checkbox"
                               className="w-6 h-6"
@@ -1145,7 +1527,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Unreceived"
-                              value={!!orderData?.Unreceived || ""}
+                              checked={orderData?.Unreceived === true}
                               onChange={handleInputChange}
                               type="checkbox"
                               className="w-6 h-6"
@@ -1160,7 +1542,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Od_CAT1"
-                              value={!!orderData.Od_CAT1 || ""}
+                              checked={orderData?.Od_CAT1 === true}
                               onChange={handleInputChange}
                               type="checkbox"
                               className="w-6 h-6"
@@ -1169,7 +1551,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Od_CAT1"
-                              value={!!orderData?.Od_CAT1 || ""}
+                              checked={orderData?.Od_CAT1 === true}
                               onChange={handleInputChange}
                               type="checkbox"
                               className="w-6 h-6"
@@ -1184,7 +1566,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Od_CAT2"
-                              value={!!orderData.Od_CAT2 || ""}
+                              checked={orderData?.Od_CAT2 === true}
                               onChange={handleInputChange}
                               type="checkbox"
                               className="w-6 h-6"
@@ -1193,7 +1575,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Od_CAT2"
-                              value={!!orderData?.Od_CAT2 || ""}
+                              checked={orderData?.Od_CAT2 === true}
                               onChange={handleInputChange}
                               type="checkbox"
                               className="w-6 h-6"
@@ -1208,7 +1590,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Od_CAT3"
-                              value={!!orderData.Od_CAT3 || ""}
+                              checked={orderData?.Od_CAT3 === true}
                               onChange={handleInputChange}
                               type="checkbox"
                               className="w-6 h-6"
@@ -1217,7 +1599,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Od_CAT3"
-                              value={!!orderData?.Od_CAT3 || ""}
+                              checked={orderData?.Od_CAT3 === true}
                               onChange={handleInputChange}
                               type="checkbox"
                               className="w-6 h-6"
@@ -1453,6 +1835,20 @@ export default function OrderInfo() {
                               onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
+                              onBlur={async (e) => {
+                                const value = e.target.value;
+                                if (value) {
+                                  await confirmProductionTargetChange(value);
+                                }
+                              }}
+                              onKeyDown={async (e) => {
+                                if (e.key === "Enter") {
+                                  const value = e.target.value;
+                                  if (value) {
+                                    await confirmProductionTargetChange(value);
+                                  }
+                                }
+                              }}
                             />
                           </div>
                           <div className="w-2/12">
@@ -1462,6 +1858,7 @@ export default function OrderInfo() {
                               onChange={handleInputChange}
                               className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-full"
                             >
+                              <option disabled>Unit_CD | Unit_Name</option>
                               <option value={orderData?.Unit_CD || ""}>
                                 {orderData?.Unit_CD || ""}
                               </option>
@@ -1469,7 +1866,7 @@ export default function OrderInfo() {
                               UnitData.length > 0 ? (
                                 UnitData.map((item, index) => (
                                   <option key={index} value={item.Unit_CD}>
-                                    {item.Unit_CD}
+                                    {item.Unit_CD}{generateSpaces(2)} |{" "}{item.Unit_Name}
                                   </option>
                                 ))
                               ) : (
@@ -1618,11 +2015,13 @@ export default function OrderInfo() {
                         </label>
                         <div className="w-2/5">
                           <select
+                            disabled
                             id="Sales_Grp_CD"
                             value={orderData?.Sales_Grp_CD || ""}
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-full"
                           >
+                            <option disabled>WorkG_CD | WorkG_Abb</option>
                             <option value={orderData?.Sales_Grp_CD || ""}>
                               {orderData?.Sales_Grp_CD || ""}
                             </option>
@@ -1630,7 +2029,7 @@ export default function OrderInfo() {
                             WorkergData.length > 0 ? (
                               WorkergData.map((item, index) => (
                                 <option key={index} value={item.WorkG_CD}>
-                                  {item.WorkG_CD}
+                                  {item.WorkG_CD}{generateSpaces(2)} |{" "} {item.WorkG_Abb}
                                 </option>
                               ))
                             ) : (
@@ -1661,6 +2060,7 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-full"
                           >
+                            <option disabled>Worker_CD | Worker_Abb</option>
                             <option value={orderData?.Sales_Person_CD || ""}>
                               {orderData?.Sales_Person_CD || ""}
                             </option>
@@ -1668,7 +2068,7 @@ export default function OrderInfo() {
                             WorkerData.length > 0 ? (
                               WorkerData.map((item, index) => (
                                 <option key={index} value={item.Worker_CD}>
-                                  {item.Worker_CD}
+                                  {item.Worker_CD}{generateSpaces(2)} |{" "}{item.Worker_Abb}
                                 </option>
                               ))
                             ) : (
@@ -1699,6 +2099,7 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
                           >
+                            <option disabled>Request1_CD | Request1_Name</option>
                             <option value={orderData?.Request1_CD || ""}>
                               {orderData?.Request1_CD || ""}
                             </option>
@@ -1706,7 +2107,7 @@ export default function OrderInfo() {
                             Request1Data.length > 0 ? (
                               Request1Data.map((item, index) => (
                                 <option key={index} value={item.Request1_CD}>
-                                  {item.Request1_CD}
+                                  {item.Request1_CD}{generateSpaces(2)} |{" "}{item.Request1_Name}
                                 </option>
                               ))
                             ) : (
@@ -1733,6 +2134,7 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
                           >
+                            <option disabled>Request2_CD | Request2_Name</option>
                             <option value={orderData?.Request2_CD || ""}>
                               {orderData?.Request2_CD || ""}
                             </option>
@@ -1740,7 +2142,7 @@ export default function OrderInfo() {
                             Request2Data.length > 0 ? (
                               Request2Data.map((item, index) => (
                                 <option key={index} value={item.Request2_CD}>
-                                  {item.Request2_CD}
+                                  {item.Request2_CD}{generateSpaces(2)} |{" "}{item.Request2_Name}
                                 </option>
                               ))
                             ) : (
@@ -1766,6 +2168,7 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
                           >
+                            <option disabled>CD | Abb | Request3_Name</option>
                             <option value={orderData?.Request3_CD || ""}>
                               {orderData?.Request3_CD || ""}
                             </option>
@@ -1773,7 +2176,7 @@ export default function OrderInfo() {
                             Request3Data.length > 0 ? (
                               Request3Data.map((item, index) => (
                                 <option key={index} value={item.Request3_CD}>
-                                  {item.Request3_CD}
+                                  {item.Request3_CD}{generateSpaces(2)} |{" "}{item.Request3_Abb}{generateSpaces(2)} |{" "}{item.Request3_Name}
                                 </option>
                               ))
                             ) : (
@@ -2075,6 +2478,7 @@ export default function OrderInfo() {
                               onChange={handleInputChange}
                               className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-full"
                             >
+                              <option disabled>Coating_CD | Coating_Name</option>
                               <option value={orderData?.Coating_CD || ""}>
                                 {orderData?.Coating_CD || ""}
                               </option>
@@ -2082,7 +2486,7 @@ export default function OrderInfo() {
                               CoatingData.length > 0 ? (
                                 CoatingData.map((item, index) => (
                                   <option key={index} value={item.Coating_CD}>
-                                    {item.Coating_CD}
+                                    {item.Coating_CD}{generateSpaces(2)} |{" "}{item.Coating_Name}
                                   </option>
                                 ))
                               ) : (
@@ -2193,6 +2597,7 @@ export default function OrderInfo() {
                               onChange={handleInputChange}
                               className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
                             >
+                              <option disabled>Od_Quote_CD | Od_Quote_Name</option>
                               <option value={orderData?.Quote_CD || ""}>
                                 {orderData?.Quote_CD || ""}
                               </option>
@@ -2200,7 +2605,7 @@ export default function OrderInfo() {
                               QuoteData.length > 0 ? (
                                 QuoteData.map((item, index) => (
                                   <option key={index} value={item.Od_Quote_CD}>
-                                    {item.Od_Quote_CD}
+                                    {item.Od_Quote_CD}{generateSpaces(2)} |{" "}{item.Od_Quote_Name}
                                   </option>
                                 ))
                               ) : (
@@ -2232,6 +2637,7 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#cbfefe] w-full"
                           >
+                            <option disabled>Item1_CD | Item1_Name</option>
                             <option value={orderData?.Item1_CD || ""}>
                               {orderData?.Item1_CD || ""}
                             </option>
@@ -2239,7 +2645,7 @@ export default function OrderInfo() {
                             Item1Data.length > 0 ? (
                               Item1Data.map((item, index) => (
                                 <option key={index} value={item.Item1_CD}>
-                                  {item.Item1_CD}
+                                  {item.Item1_CD}{generateSpaces(2)} |{" "}{item.Item1_Name}
                                 </option>
                               ))
                             ) : (
@@ -2356,18 +2762,30 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Pd_Received_Date"
-                              value={orderData.Pd_Received_Date || ""}
+                              value={
+                                orderData?.Pd_Received_Date
+                                  ? new Date(orderData.Pd_Received_Date)
+                                      .toISOString()
+                                      .substring(0, 16)
+                                  : ""
+                              }
                               onChange={handleInputChange}
-                              type="text"
+                              type="datetime-local"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           ) : (
                             <input
                               disabled
                               id="Pd_Received_Date"
-                              value={orderData?.Pd_Received_Date || ""}
+                              value={
+                                orderData?.Pd_Received_Date
+                                  ? new Date(orderData.Pd_Received_Date)
+                                      .toISOString()
+                                      .substring(0, 16)
+                                  : ""
+                              }
                               onChange={handleInputChange}
-                              type="text"
+                              type="datetime-local"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           )}
@@ -2382,18 +2800,30 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Pd_Complete_Date"
-                              value={orderData.Pd_Complete_Date || ""}
+                              value={
+                                orderData?.Pd_Complete_Date
+                                  ? new Date(orderData.Pd_Complete_Date)
+                                      .toISOString()
+                                      .split("T")[0]
+                                  : ""
+                              }
                               onChange={handleInputChange}
-                              type="text"
+                              type="date"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           ) : (
                             <input
                               disabled
                               id="Pd_Complete_Date"
-                              value={orderData?.Pd_Complete_Date || ""}
+                              value={
+                                orderData?.Pd_Complete_Date
+                                  ? new Date(orderData.Pd_Complete_Date)
+                                      .toISOString()
+                                      .split("T")[0]
+                                  : ""
+                              }
                               onChange={handleInputChange}
-                              type="text"
+                              type="date"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           )}
@@ -2408,18 +2838,30 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="I_Completed_Date"
-                              value={orderData.I_Completed_Date || ""}
+                              value={
+                                orderData?.I_Completed_Date
+                                  ? new Date(orderData.I_Completed_Date)
+                                      .toISOString()
+                                      .substring(0, 16)
+                                  : ""
+                              }
                               onChange={handleInputChange}
-                              type="text"
+                              type="datetime-local"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           ) : (
                             <input
                               disabled
                               id="I_Completed_Date"
-                              value={orderData?.I_Completed_Date || ""}
+                              value={
+                                orderData?.I_Completed_Date
+                                  ? new Date(orderData.I_Completed_Date)
+                                      .toISOString()
+                                      .substring(0, 16)
+                                  : ""
+                              }
                               onChange={handleInputChange}
-                              type="text"
+                              type="datetime-local"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           )}
@@ -2434,18 +2876,30 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Shipment_Date"
-                              value={orderData.Shipment_Date || ""}
+                              value={
+                                orderData?.Shipment_Date
+                                  ? new Date(orderData.Shipment_Date)
+                                      .toISOString()
+                                      .split("T")[0]
+                                  : ""
+                              }
                               onChange={handleInputChange}
-                              type="text"
+                              type="date"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           ) : (
                             <input
                               disabled
                               id="Shipment_Date"
-                              value={orderData?.Shipment_Date || ""}
+                              value={
+                                orderData?.Shipment_Date
+                                  ? new Date(orderData.Shipment_Date)
+                                      .toISOString()
+                                      .split("T")[0]
+                                  : ""
+                              }
                               onChange={handleInputChange}
-                              type="text"
+                              type="date"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           )}
@@ -2460,18 +2914,30 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Pd_Calc_Date"
-                              value={orderData.Pd_Calc_Date || ""}
+                              value={
+                                orderData?.Pd_Calc_Date
+                                  ? new Date(orderData.Pd_Calc_Date)
+                                      .toISOString()
+                                      .split("T")[0]
+                                  : ""
+                              }
                               onChange={handleInputChange}
-                              type="text"
+                              type="date"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           ) : (
                             <input
                               disabled
                               id="Pd_Calc_Date"
-                              value={orderData?.Pd_Calc_Date || ""}
+                              value={
+                                orderData?.Pd_Calc_Date
+                                  ? new Date(orderData.Pd_Calc_Date)
+                                      .toISOString()
+                                      .split("T")[0]
+                                  : ""
+                              }
                               onChange={handleInputChange}
-                              type="text"
+                              type="date"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           )}
@@ -2486,18 +2952,30 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Calc_Process_Date"
-                              value={orderData.Calc_Process_Date || ""}
+                              value={
+                                orderData?.Calc_Process_Date
+                                  ? new Date(orderData.Calc_Process_Date)
+                                      .toISOString()
+                                      .substring(0, 16)
+                                  : ""
+                              }
                               onChange={handleInputChange}
-                              type="text"
+                              type="datetime-local"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           ) : (
                             <input
                               disabled
                               id="Calc_Process_Date"
-                              value={orderData?.Calc_Process_Date || ""}
+                              value={
+                                orderData?.Calc_Process_Date
+                                  ? new Date(orderData.Calc_Process_Date)
+                                      .toISOString()
+                                      .substring(0, 16)
+                                  : ""
+                              }
                               onChange={handleInputChange}
-                              type="text"
+                              type="datetime-local"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           )}
@@ -2512,18 +2990,30 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Od_Upd_Date"
-                              value={orderData.Od_Upd_Date || ""}
+                              value={
+                                orderData?.Od_Upd_Date
+                                  ? new Date(orderData.Od_Upd_Date)
+                                      .toISOString()
+                                      .substring(0, 16)
+                                  : ""
+                              }
                               onChange={handleInputChange}
-                              type="text"
+                              type="datetime-local"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           ) : (
                             <input
                               disabled
                               id="Od_Upd_Date"
-                              value={orderData?.Od_Upd_Date || ""}
+                              value={
+                                orderData?.Od_Upd_Date
+                                  ? new Date(orderData.Od_Upd_Date)
+                                      .toISOString()
+                                      .substring(0, 16)
+                                  : ""
+                              }
                               onChange={handleInputChange}
-                              type="text"
+                              type="datetime-local"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
                           )}
@@ -2545,6 +3035,7 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-white w-full"
                           >
+                            <option disabled>Customer_CD | Customer_Abb</option>
                             <option value={orderData?.Customer_CD || ""}>
                               {orderData?.Customer_CD || ""}
                             </option>
@@ -2552,7 +3043,7 @@ export default function OrderInfo() {
                             CustomerData.length > 0 ? (
                               CustomerData.map((item, index) => (
                                 <option key={index} value={item.Customer_CD}>
-                                  {item.Customer_CD}
+                                  {item.Customer_CD}{generateSpaces(2)} |{" "} {item.Customer_Abb}
                                 </option>
                               ))
                             ) : (
@@ -2599,6 +3090,7 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
                           >
+                            <option disabled>Supply_CD | Supply_Name</option>
                             <option value={orderData?.Supply_CD || ""}>
                               {orderData?.Supply_CD || ""}
                             </option>
@@ -2606,7 +3098,7 @@ export default function OrderInfo() {
                             SupplyData.length > 0 ? (
                               SupplyData.map((item, index) => (
                                 <option key={index} value={item.Supply_CD}>
-                                  {item.Supply_CD}
+                                  {item.Supply_CD}{generateSpaces(2)} |{" "}{item.Supply_Name}
                                 </option>
                               ))
                             ) : (
@@ -2638,7 +3130,8 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
                           >
-                            <option value="">
+                            <option disabled>WorkG_CD | Supply_Name</option>
+                            <option value={orderData?.Destination_CD || ""}>
                               {orderData?.Destination_CD || ""}
                             </option>
                             {filteredWorkgData.length > 0 ? (
@@ -2675,6 +3168,7 @@ export default function OrderInfo() {
                             className="bg-[#ff99cc] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
                         </div>
+                        
                       </div>
                       <div className="flex gap-2 items-center mb-2">
                         <label className="text-xs font-semibold w-2/6">
@@ -2688,6 +3182,7 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
                           >
+                            <option disabled>Contract_Docu_CD | Item1_Name</option>
                             <option value={orderData?.Contract_Docu_CD || ""}>
                               {orderData?.Contract_Docu_CD || ""}
                             </option>
@@ -2698,7 +3193,7 @@ export default function OrderInfo() {
                                   key={index}
                                   value={item.Contract_Docu_CD}
                                 >
-                                  {item.Contract_Docu_CD}
+                                  {item.Contract_Docu_CD}{generateSpaces(2)} |{" "}{item.Contract_Docu_Name}
                                 </option>
                               ))
                             ) : (
@@ -2725,13 +3220,14 @@ export default function OrderInfo() {
                         <div className="w-2/6">
                           <select
                             disabled
-                            id="Unit_Price"
-                            value={orderData?.Unit_Price || ""}
+                            id="Price_CD"
+                            value={orderData?.Price_CD || ""}
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#ff99cc] w-full"
                           >
-                            <option value={orderData?.Unit_Price || ""}>
-                              {orderData?.Unit_Price || ""}
+                            <option value=""></option>
+                            <option value={orderData?.Price_CD || ""}>
+                              {orderData?.Price_CD || ""}
                             </option>
                             {Array.isArray(PriceData) &&
                             PriceData.length > 0 ? (
@@ -2760,7 +3256,9 @@ export default function OrderInfo() {
                           <div className="w-3/5">
                             <input
                               disabled
-                              id="Unit_Price_Input2"
+                              id="Unit_Price"
+                              value={orderData?.Unit_Price || ""}
+                              onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                             />
@@ -2810,6 +3308,7 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
                           >
+                            <option disabled>Worker_CD | Worker_Name | Worker_Remark</option>
                             <option value={orderData?.Od_Ctl_Person_CD || ""}>
                               {orderData?.Od_Ctl_Person_CD || ""}
                             </option>
@@ -2817,7 +3316,7 @@ export default function OrderInfo() {
                             WorkerData.length > 0 ? (
                               WorkerData.map((item, index) => (
                                 <option key={index} value={item.Worker_CD}>
-                                  {item.Worker_CD}
+                                  {item.Worker_CD}{generateSpaces(2)} |{" "}{item.Worker_Name}{generateSpaces(2)} |{" "}{item.Worker_Remark}
                                 </option>
                               ))
                             ) : (
@@ -2849,6 +3348,7 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
                           >
+                            <option disabled>Worker_CD | Worker_Name | Worker_Remark</option>
                             <option value={orderData?.Od_Reg_Person_CD || ""}>
                               {orderData?.Od_Reg_Person_CD || ""}
                             </option>
@@ -2856,7 +3356,7 @@ export default function OrderInfo() {
                             WorkerData.length > 0 ? (
                               WorkerData.map((item, index) => (
                                 <option key={index} value={item.Worker_CD}>
-                                  {item.Worker_CD}
+                                  {item.Worker_CD}{generateSpaces(2)} |{" "}{item.Worker_Name}{generateSpaces(2)} |{" "}{item.Worker_Remark}
                                 </option>
                               ))
                             ) : (
@@ -2888,6 +3388,7 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
                           >
+                            <option disabled>Worker_CD | Worker_Name | Worker_Remark</option>
                             <option value={orderData?.Od_Upd_Person_CD || ""}>
                               {orderData?.Od_Upd_Person_CD || ""}
                             </option>
@@ -2895,7 +3396,7 @@ export default function OrderInfo() {
                             WorkerData.length > 0 ? (
                               WorkerData.map((item, index) => (
                                 <option key={index} value={item.Worker_CD}>
-                                  {item.Worker_CD}
+                                  {item.Worker_CD}{generateSpaces(2)} |{" "}{item.Worker_Name}{generateSpaces(2)} |{" "}{item.Worker_Remark}
                                 </option>
                               ))
                             ) : (
@@ -2927,6 +3428,7 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
                           >
+                            <option disabled>Specific_CD | Specific_Name | Specific_Remark</option>
                             <option value={orderData?.Specific_CD || ""}>
                               {orderData?.Specific_CD || ""}
                             </option>
@@ -2934,7 +3436,7 @@ export default function OrderInfo() {
                             SpecificData.length > 0 ? (
                               SpecificData.map((item, index) => (
                                 <option key={index} value={item.Specific_CD}>
-                                  {item.Specific_CD}
+                                  {item.Specific_CD}{generateSpaces(2)} |{" "}{item.Specific_Name}{generateSpaces(2)} |{" "}{item.Specific_Remark}
                                 </option>
                               ))
                             ) : (
@@ -2966,6 +3468,7 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
                           >
+                            <option disabled>Od_Progress_CD | Od_Progress_Name | Od_Progress_Remark</option>
                             <option value={orderData?.Od_Progress_CD || ""}>
                               {orderData?.Od_Progress_CD || ""}
                             </option>
@@ -2973,7 +3476,7 @@ export default function OrderInfo() {
                             OdProgressData.length > 0 ? (
                               OdProgressData.map((item, index) => (
                                 <option key={index} value={item.Od_Progress_CD}>
-                                  {item.Od_Progress_CD}
+                                  {item.Od_Progress_CD}{generateSpaces(2)} |{" "}{item.Od_Progress_Name}{generateSpaces(2)} |{" "}{item.Od_Progress_Remark}
                                 </option>
                               ))
                             ) : (
@@ -3005,6 +3508,7 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
                           >
+                            <option disabled>Delivery_CD | Delivery_Name | Delivery_Remark</option>
                             <option value={orderData?.Delivery_CD || ""}>
                               {orderData?.Delivery_CD || ""}
                             </option>
@@ -3012,7 +3516,7 @@ export default function OrderInfo() {
                             DeliveryData.length > 0 ? (
                               DeliveryData.map((item, index) => (
                                 <option key={index} value={item.Delivery_CD}>
-                                  {item.Delivery_CD}
+                                  {item.Delivery_CD}{generateSpaces(2)} |{" "}{item.Delivery_Name}{generateSpaces(2)} |{" "}{item.Delivery_Remark}
                                 </option>
                               ))
                             ) : (
@@ -3045,12 +3549,20 @@ export default function OrderInfo() {
                               onChange={handleInputChange}
                               className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
                             >
+                              <option disabled>Schedule_CD | Schedule_Name | Schedule_Remark</option>
                               <option value={orderData.Schedule_CD || ""}>
                                 {orderData.Schedule_CD || ""}
                               </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
+                              {Array.isArray(ScheduleData) &&
+                              ScheduleData.length > 0 ? (
+                                ScheduleData.map((item, index) => (
+                                  <option key={index} value={item.Schedule_CD}>
+                                    {item.Schedule_CD}{generateSpaces(2)} |{" "}{item.Schedule_Name}{generateSpaces(2)} |{" "}{item.Schedule_Remark}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
                             </select>
                           ) : (
                             <select
@@ -3060,17 +3572,28 @@ export default function OrderInfo() {
                               onChange={handleInputChange}
                               className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
                             >
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
+                              <option value={orderData?.Schedule_CD || ""}>
+                                {orderData?.Schedule_CD || ""}
+                              </option>
+                              {Array.isArray(ScheduleData) &&
+                              ScheduleData.length > 0 ? (
+                                ScheduleData.map((item, index) => (
+                                  <option key={index} value={item.Schedule_CD}>
+                                    {item.Schedule_CD}
+                                  </option>
+                                ))
+                              ) : (
+                                <option value="">ไม่มีข้อมูล</option>
+                              )}
                             </select>
                           )}
                         </div>
                         <div className="w-2/6">
                           <input
                             disabled
-                            id=""
-                            type="text"
+                            id="Pl_Schedule_Name"
+                            value={Schedule_Name || ""}
+                            onChange={(event) => setScheduleData(event)}
                             className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
                           />
                         </div>
@@ -3087,6 +3610,7 @@ export default function OrderInfo() {
                             onChange={handleInputChange}
                             className="border-gray-500 border-solid border-2 rounded-md bg-[#ffff99] w-full"
                           >
+                            <option disabled>Target_CD | Target_Name | Target_Remark</option>
                             <option value={orderData?.Target_CD || ""}>
                               {orderData?.Target_CD || ""}
                             </option>
@@ -3094,7 +3618,7 @@ export default function OrderInfo() {
                             TargetData.length > 0 ? (
                               TargetData.map((item, index) => (
                                 <option key={index} value={item.Target_CD}>
-                                  {item.Target_CD}
+                                  {item.Target_CD}{generateSpaces(2)} |{" "}{item.Target_Name}{generateSpaces(2)} |{" "}{item.Target_Remark}
                                 </option>
                               ))
                             ) : (
@@ -3123,7 +3647,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Pd_Target_Qty"
-                              value={orderData.Pd_Target_Qty || ""}
+                              value={orderData?.Pd_Target_Qty ?? 0}
                               onChange={(event) => handleInputChange(event)}
                               type="text"
                               className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -3132,7 +3656,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Pd_Target_Qty"
-                              value={orderData?.Pd_Target_Qty || ""}
+                              value={orderData?.Pd_Target_Qty ?? 0}
                               onChange={(event) => handleInputChange(event)}
                               type="text"
                               className="bg-[#ffff99] border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -3149,7 +3673,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Pd_Complete_Qty"
-                              value={orderData.Pd_Complete_Qty || ""}
+                              value={orderData?.Pd_Complete_Qty ?? 0}
                               onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -3158,7 +3682,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Pd_Complete_Qty"
-                              value={orderData?.Pd_Complete_Qty || ""}
+                              value={orderData?.Pd_Complete_Qty ?? 0}
                               onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -3175,7 +3699,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="I_Complete_Qty"
-                              value={orderData.I_Complete_Qty || ""}
+                              value={orderData?.I_Complete_Qty ?? 0}
                               onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -3184,7 +3708,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="I_Complete_Qty"
-                              value={orderData?.I_Complete_Qty || ""}
+                              value={orderData?.I_Complete_Qty ?? 0}
                               onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -3201,7 +3725,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Shipment_Qty"
-                              value={orderData.Shipment_Qty || ""}
+                              value={orderData?.Shipment_Qty ?? 0}
                               onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -3210,7 +3734,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Shipment_Qty"
-                              value={orderData?.Shipment_Qty || ""}
+                              value={orderData?.Shipment_Qty ?? 0}
                               onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -3227,7 +3751,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Pd_Split_Qty"
-                              value={orderData.Pd_Split_Qty || ""}
+                              value={orderData?.Pd_Split_Qty ?? 0}
                               onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -3236,7 +3760,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Pd_Split_Qty"
-                              value={orderData?.Pd_Split_Qty || ""}
+                              value={orderData?.Pd_Split_Qty ?? 0}
                               onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -3253,7 +3777,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Pd_Calc_Qty"
-                              value={orderData.Pd_Calc_Qty || ""}
+                              value={orderData?.Pd_Calc_Qty ?? 0}
                               onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -3262,7 +3786,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="Pd_Calc_Qty"
-                              value={orderData?.Pd_Calc_Qty || ""}
+                              value={orderData?.Pd_Calc_Qty ?? 0}
                               onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -3279,7 +3803,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="NG_Qty"
-                              value={orderData.NG_Qty || ""}
+                              value={orderData?.NG_Qty ?? 0}
                               onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -3288,7 +3812,7 @@ export default function OrderInfo() {
                             <input
                               disabled
                               id="NG_Qty"
-                              value={orderData?.NG_Qty || ""}
+                              value={orderData?.NG_Qty ?? 0}
                               onChange={handleInputChange}
                               type="text"
                               className="bg-white border-solid border-2 border-gray-500 rounded-md px-1 w-full"
@@ -3304,85 +3828,109 @@ export default function OrderInfo() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-4">
                     {/* Column of Buttons */}
                     <button
-                      id="searchButton"
+                      disabled={!buttonState.F1}
+                      id="F1"
                       onClick={handleF1Click}
-                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white"
+                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
                     >
                       Search <br />
                       検索 (F1)
                     </button>
                     <button
-                      id="editButton"
+                      disabled={!buttonState.F2}
+                      id="F2"
                       onClick={handleF2Click}
-                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white"
+                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
                     >
                       Edit <br />
                       編集 (F2)
                     </button>
                     <button
+                      disabled={!buttonState.newAddButton}
                       id="newAddButton"
                       onClick={handleF3Click}
-                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white"
+                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
                     >
                       New Add <br />
                       追加 (F3)
                     </button>
                     <button
+                      id="F3"
+                      disabled={!buttonState.F3}
                       onClick={handleF4Click}
-                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white"
+                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
                     >
-                      Order <br />
-                      受注 (F4)
+                      Sub-Con <br />
+                      手配(F3)
                     </button>
 
                     <button
+                      id="F4"
+                      disabled={!buttonState.F4}
                       onClick={handleF5Click}
-                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white"
+                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
                     >
                       Plan <br />
-                      計画 (F5)
+                      計画 (F4)
                     </button>
                     <button
+                      id="F5"
+                      disabled={!buttonState.F5}
                       onClick={handleF6Click}
-                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white"
+                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
                     >
-                      PS All <br />
-                      全頁 (F6)
+                      All P-Sheet <br />
+                      全指示書(F5)
                     </button>
-                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                      List <br />一 覽 (F7)
+                    <button
+                      id="F7"
+                      disabled={!buttonState.F7}
+                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
+                    >
+                      (F7)
                     </button>
-                    <button className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white">
-                      NextParts <br />
-                      別部 (F8)
+                    <button
+                      id="F8"
+                      disabled={!buttonState.F8}
+                      onClick={handleF8Click}
+                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
+                    >
+                      Master <br />
+                      マスタ (F8)
                     </button>
 
                     <button
-                      id="saveButton"
+                      disabled={!buttonState.F9}
+                      id="F9"
                       onClick={handleF9Click}
-                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white"
+                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
                     >
                       Save <br />
                       登録 (F9)
                     </button>
                     <button
+                      id="F10"
+                      disabled={!buttonState.F10}
                       onClick={handleF10Click}
-                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white"
+                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
                     >
                       Delete <br />
                       削除 (F10)
                     </button>
                     <button
-                      id="nextInputButton"
+                      disabled={!buttonState.F11}
+                      id="F11"
                       onClick={handleF11Click}
-                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-sm text-white"
+                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
                     >
                       NextInput <br />
                       次へ (F11)
                     </button>
                     <button
-                      id="exitButton"
-                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white"
+                      disabled={!buttonState.F12}
+                      id="F12"
+                      onClick={handleF12Click}
+                      className="bg-blue-500 p-3 rounded-lg hover:bg-blue-700 font-medium text-white disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500"
                     >
                       Exit <br />
                       終了 (F12)
@@ -3461,7 +4009,7 @@ const editPermission = (status) => {
   document.getElementById("Supply_CD").disabled = !status;
   document.getElementById("Destination_CD").disabled = !status;
   document.getElementById("Contract_Docu_CD").disabled = !status;
-  document.getElementById("Unit_Price").disabled = !status;
+  document.getElementById("Price_CD").disabled = !status;
   document.getElementById("Od_No_of_Pd_Split").disabled = !status;
   document.getElementById("Od_Ctl_Person_CD").disabled = !status;
   document.getElementById("Od_Reg_Person_CD").disabled = !status;
@@ -3478,11 +4026,4 @@ const editPermission = (status) => {
   document.getElementById("Pd_Split_Qty").disabled = !status;
   document.getElementById("Pd_Calc_Qty").disabled = !status;
   document.getElementById("NG_Qty").disabled = !status;
-};
-
-const toggleButtons = (f3, f9, f11, f12) => {
-  document.getElementById("newAddButton").disabled = !f3;
-  document.getElementById("saveButton").disabled = !f9;
-  document.getElementById("nextInputButton").disabled = !f11;
-  document.getElementById("exitButton").disabled = !f12;
 };
