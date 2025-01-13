@@ -30,7 +30,7 @@ export default function RdProGPlan() {
       handleViewPDF();
       hasNavigated.current = true;
     }
-    // navigate("/processg-plan-list");
+    navigate("/processg-plan-list");
   }, [navigate]);
 
   const getCurrentDateTime = () => {
