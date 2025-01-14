@@ -180,7 +180,7 @@ export default function PlanInfo() {
     }
     return 0;
   };
-
+//fix
   const handleMoneyObjectChange = async (event) => {
     const value = event.target.checked;
     const amount = await calculateAmount();
