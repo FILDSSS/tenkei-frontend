@@ -69,9 +69,10 @@ import { AdminMenuDashboardPage } from "../pages/AdminMenuDashboardPage";
 import { ConvertDashboardPage } from "../pages/ConvertDashboardPage";
 import { Reserve1DashboardPage } from "../pages/Reserve1DashboardPage";
 import { SearchDashboardPage } from "../pages/SearchDashboardPage";
-import RdNavPcUpd  from "../components/reports/RdNavPcUpd";
-import RdNavOdUpd  from "../components/reports/RD_NAV_Od_Upd";
-
+import RdNavPcUpd from "../components/reports/RdNavPcUpd";
+import RdNavOdUpd from "../components/reports/RD_NAV_Od_Upd";
+import RdProGPlanPage from "../pages/reports/RdProGPlanPage";
+import RdOdBacklog from "../components/reports/RdOdBacklog";
 
 const router = createBrowserRouter([
   {
@@ -355,9 +356,17 @@ const router = createBrowserRouter([
     element: <RdNavPcUpd />,
   },
   {
-    path:"/report-csv-order",
-    element: <RdNavOdUpd/>
-  }
+    path: "/report-csv-order",
+    element: <RdNavOdUpd />,
+  },
+  {
+    path: "/reports/RD_ProG_Plan",
+    element: <RdProGPlanPage />,
+  },
+  {
+    path: "/reports/RD_Od_Backlog",
+    element: <RdOdBacklog />,
+  },
 ]);
 
 export default function Route() {
