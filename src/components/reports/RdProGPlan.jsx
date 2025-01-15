@@ -25,13 +25,18 @@ export default function RdProGPlan() {
 
   const selectedProcess = TTprocessGData.find((item) => item.ProcessG_CD);
 
-  useEffect(() => {
-    if (!hasNavigated.current) {
-      handleViewPDF();
-      hasNavigated.current = true;
-    }
-    navigate("/processg-plan-list");
-  }, [navigate]);
+    useEffect(() => {
+      const processPDFAndNavigate = async () => {
+        try {
+          await handleViewPDF(); 
+          navigate("/processg-plan-list", { replace: true });
+        } catch (error) {
+          console.error("Error processing PDF or navigating:", error);
+        }
+      };
+  
+      processPDFAndNavigate();
+    }, []);
 
   const getCurrentDateTime = () => {
     const now = new Date();
